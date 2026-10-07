@@ -2,9 +2,7 @@
   "use strict";
 
   var API = {
-    session: "/api/thoughts/session",
-    unlock: "/api/thoughts/unlock",
-    lock: "/api/thoughts/lock",
+    auth: "/api/thoughts/auth",
     content: "/api/thoughts/content",
     media: "/api/thoughts/media",
   };
@@ -1790,9 +1788,9 @@
     button.disabled = true;
     $("gateStatus").textContent = "Checking…";
 
-    apiJson(API.unlock, {
+    apiJson(API.auth, {
       method: "POST",
-      body: JSON.stringify({ code: code }),
+      body: JSON.stringify({ action: "unlock", code: code }),
     })
       .then(function () {
         $("accessCodeInput").value = "";
@@ -1807,9 +1805,9 @@
   }
 
   function lock() {
-    apiJson(API.lock, {
+    apiJson(API.auth, {
       method: "POST",
-      body: "{}",
+      body: JSON.stringify({ action: "lock" }),
     })
       .catch(function () {
         return null;
@@ -1831,7 +1829,7 @@
   function checkSession() {
     $("gateStatus").textContent = "";
 
-    apiJson(API.session)
+    apiJson(API.auth)
       .then(function (result) {
         if (!result.configured) {
           showGate("Reader access is not configured yet.");
