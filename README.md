@@ -53,11 +53,12 @@ The Vercel project uses:
 - `THOUGHTS_ACCESS_CODE` — reader access code (minimum 16 characters)
 - `THOUGHTS_ADMIN_USERNAME` — archive admin username
 - `THOUGHTS_ADMIN_PASSWORD` — archive admin password
-- `THOUGHTS_GITHUB_TOKEN` — GitHub token used only for archive writes and temporary legacy-audio fallback
+- `THOUGHTS_GITHUB_TOKEN` — GitHub token with Contents read/write permission on `raihanavis0-nav/webgw`; used for archive admin writes
+- `THOUGHTS_LEGACY_GITHUB_TOKEN` — temporary read-only token for legacy audio chunks in `alfathxxxxyz/websiteguaa`
 - `THOUGHTS_SESSION_SECRET` — recommended independent admin session signing secret
 - `THOUGHTS_READER_SESSION_SECRET` — optional independent reader session signing secret
 
-For archive editing, `THOUGHTS_GITHUB_TOKEN` needs Contents read/write permission on `raihanavis0-nav/webgw`. Until legacy audio chunks are migrated, it also needs read access to `alfathxxxxyz/websiteguaa`.
+For archive editing, `THOUGHTS_GITHUB_TOKEN` needs Contents read/write permission on `raihanavis0-nav/webgw`. Until legacy audio chunks are migrated, keep the old repo token in `THOUGHTS_LEGACY_GITHUB_TOKEN`. For backward compatibility, the code falls back to `THOUGHTS_GITHUB_TOKEN` when the legacy variable is absent.
 
 ## JavaScript structure
 
