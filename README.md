@@ -9,13 +9,14 @@ Multi-page personal portfolio built with plain HTML, CSS, and JavaScript and dep
 - `work.html` — portfolio albums + lightbox
 - `films.html` — searchable/sortable film list
 - `contact.html` — contact and social links
-- `admin.html` — legacy browser-based portfolio admin
+- `/read` — password-gated fiction/archive reader
+- `/storyadm` — server-side archive admin
 
-The private `/thoughts` area is isolated from the main portfolio and has its own API/runtime.
+The old browser-based `/admin` that stored a GitHub PAT in localStorage has been removed. Requests to `/admin` are redirected to `/storyadm`.
 
 ## Content
 
-Main-site content remains centralized in `js/data.js` so the existing admin panel keeps working.
+Main-site content is centralized in `js/data.js`.
 
 ```text
 siteData
@@ -31,32 +32,51 @@ Portfolio images live under `assets/img/`. Album metadata is stored in `siteData
 
 Loose images uploaded directly into `assets/img/` are indexed by `assets/img/manifest.json`. The GitHub Action in `.github/workflows/build-gallery.yml` rebuilds that manifest when image files change.
 
+## Archive storage
+
+Archive data is stored in this repository on the public `thoughts-data` branch:
+
+```text
+thoughts-data
+├─ content/thoughts.json
+└─ assets/thoughts/
+```
+
+The `/read` access code still gates the deployed reader UI and API, but the underlying `thoughts-data` branch is intentionally public. Do not store secrets in archive content.
+
+Large legacy audio chunks that predate this migration are temporarily read from `alfathxxxxyz/websiteguaa@thoughts-data` when they are not present in this repository. New archive uploads are written to `raihanavis0-nav/webgw@thoughts-data`.
+
+## Environment variables
+
+The Vercel project uses:
+
+- `THOUGHTS_ACCESS_CODE` — reader access code (minimum 16 characters)
+- `THOUGHTS_ADMIN_USERNAME` — archive admin username
+- `THOUGHTS_ADMIN_PASSWORD` — archive admin password
+- `THOUGHTS_GITHUB_TOKEN` — GitHub token used only for archive writes and temporary legacy-audio fallback
+- `THOUGHTS_SESSION_SECRET` — recommended independent admin session signing secret
+- `THOUGHTS_READER_SESSION_SECRET` — optional independent reader session signing secret
+
+For archive editing, `THOUGHTS_GITHUB_TOKEN` needs Contents read/write permission on `raihanavis0-nav/webgw`. Until legacy audio chunks are migrated, it also needs read access to `alfathxxxxyz/websiteguaa`.
+
 ## JavaScript structure
 
-Shared behavior is kept small and page-specific behavior only loads where it is needed.
+Shared behavior is kept small and page-specific behavior only loads where needed.
 
 ```text
 js/
-├─ data.js          # main-site content
-├─ core.js          # profile, socials, nav, dark theme, reveal observer
-├─ home.js          # homepage page transition
-├─ about.js         # skills + stats
-├─ work.js          # albums, collection overlay, lightbox
-├─ films.js         # film parsing, search, sorting
-├─ typer.js         # homepage title animation
-├─ menu.js          # homepage fullscreen menu
-├─ glass.js         # optional glass effect
-├─ reveal-text.js   # About text reveal
-└─ admin.js         # legacy portfolio admin
+├─ data.js
+├─ core.js
+├─ home.js
+├─ about.js
+├─ work.js
+├─ films.js
+├─ typer.js
+├─ menu.js
+├─ glass.js
+├─ reveal-text.js
+└─ thoughts-*.js
 ```
-
-## CSS
-
-- `css/styles.css` — shared portfolio layout/components
-- `css/typer.css` — homepage hero
-- `css/menu.css` — homepage fullscreen menu
-- `css/glass.css` — optional glass enhancement
-- `css/reveal-text.css` — About text animation
 
 ## Local development
 
@@ -66,8 +86,8 @@ A static server is recommended:
 python3 -m http.server 8000
 ```
 
-Then open `http://localhost:8000`.
+Then open `http://localhost:8000`. Serverless archive APIs require the Vercel runtime/environment variables.
 
 ## Deployment
 
-Vercel deploys the repository as a static site with the serverless functions under `api/` used by the private Thoughts area.
+Vercel deploys `main`. Deployments are explicitly disabled for the `thoughts-data` branch.
