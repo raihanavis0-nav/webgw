@@ -177,7 +177,7 @@ function uniqueImagePath(folder, baseName, index, extension, originalName) {
 
 function findArrayProperty(source, propertyName, fromIndex) {
   const startAt = Math.max(0, Number(fromIndex) || 0);
-  const pattern = new RegExp("\\b" + propertyName + "\\s*:\\s*\\[", "g");
+  const pattern = new RegExp("\\"?" + propertyName + "\\"?\\s*:\\s*\\[", "g");
   pattern.lastIndex = startAt;
   const match = pattern.exec(source);
   if (!match) return null;
@@ -293,7 +293,12 @@ function addImagesToAlbum(source, albumName, paths) {
 
   const projectText = source.slice(projects.open + 1, projects.close);
   const quoted = JSON.stringify(String(albumName || ""));
-  const candidates = ["album: " + quoted, "title: " + quoted];
+  const candidates = [
+    "album: " + quoted,
+    "\"album\": " + quoted,
+    "title: " + quoted,
+    "\"title\": " + quoted,
+  ];
 
   let localIndex = -1;
   for (const candidate of candidates) {
