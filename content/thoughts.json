@@ -1,0 +1,1319 @@
+{
+  "schemaVersion": 3,
+  "series": [
+    {
+      "id": "series-1790072885901",
+      "name": "Mankind",
+      "slug": "land-of-the-mankind",
+      "order": 1,
+      "description": ""
+    },
+    {
+      "id": "series-1790083460918",
+      "name": "WHAT! (What Happened At Twenty!)",
+      "slug": "2020",
+      "order": 2,
+      "description": ""
+    }
+  ],
+  "subseries": [
+    {
+      "id": "subseries-1790083728371",
+      "seriesId": "series-1790083460918",
+      "name": "SEASON1",
+      "slug": "awsd",
+      "order": 1,
+      "description": "",
+      "banner": "assets/thoughts/1790948791777-d73f99-wanita-berambut-merah-di-mal-mall.webp",
+      "cover": ""
+    },
+    {
+      "id": "subseries-1790083796402",
+      "seriesId": "series-1790083460918",
+      "name": "SEASON 3",
+      "slug": "season-3",
+      "order": 3,
+      "description": "",
+      "banner": "assets/thoughts/1790947480005-37ab4b-c0ca7117-3587-4e21-97d1-6b6a82185052.webp",
+      "cover": ""
+    },
+    {
+      "id": "subseries-1790083812939",
+      "seriesId": "series-1790083460918",
+      "name": "SEASON 2",
+      "slug": "season-2",
+      "order": 2,
+      "description": "",
+      "banner": "assets/thoughts/1790947954164-05247d-contemplative-young-man-in-sunlit-woods.webp",
+      "cover": ""
+    },
+    {
+      "id": "subseries-1790083819601",
+      "seriesId": "series-1790083460918",
+      "name": "SEASON 4",
+      "slug": "season-4",
+      "order": 4,
+      "description": "",
+      "banner": "assets/thoughts/1790932148801-52ce9a-melancholic-over-the-shoulder-in-mist.webp",
+      "cover": ""
+    },
+    {
+      "id": "subseries-1790510502303",
+      "seriesId": "series-1790083460918",
+      "name": "SCENARIO",
+      "slug": "lights-douglas-after-story",
+      "order": 5,
+      "description": ""
+    },
+    {
+      "id": "subseries-1790510739521",
+      "seriesId": "series-1790083460918",
+      "name": "TWO OF US",
+      "slug": "life-william-sub",
+      "order": 6,
+      "description": ""
+    }
+  ],
+  "characters": [
+    {
+      "id": "character-1790084064584",
+      "name": "William Garfield Stone",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "",
+      "bio": "Name : William Garfield Stone\nAge : 28\nBorn : Oxford, England\nHeight : 186\nRace : British\n\nPotrayed by Lorne MacFayden",
+      "portrait": "assets/thoughts/1790084998761-f35686-william-wi.webp",
+      "order": 2
+    },
+    {
+      "id": "character-1790085260085",
+      "name": "Jakovic Ivanovna Vittor",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "",
+      "bio": "Name : Jakovic Ivanovna Vittor\nAge : 26\nBorn : Yorkshire, England\nHeight : 180\nRace : British-Croatian\n\nPotrayed by Jagor Katičić",
+      "portrait": "assets/thoughts/1790085266351-3bba4a-jakovic-we.webp",
+      "order": 6
+    },
+    {
+      "id": "character-1790085288331",
+      "name": "Cherline Abrahams Buckley",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "",
+      "bio": "Name : Cherline Abrahams Buckley\nAge : 26\nBorn : Oxford, England\nHeight : 180\nRace : British-American\n\nPotrayed by Sophie Turner",
+      "portrait": "assets/thoughts/1790085195460-625a5a-cherine-na.webp",
+      "order": 3
+    },
+    {
+      "id": "character-1790085319949",
+      "name": "Douglas Tower ( Hugo de La Torre)",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "",
+      "bio": "Name : Douglas Tower (de La Torre)\nAge : 24\nBorn : Norwich, England\nHeight : 176\nRace : British-Spanish\n\nPotrayed by Milo Quifes",
+      "portrait": "assets/thoughts/1790085227267-a58e83-douglas-me.webp",
+      "order": 5
+    },
+    {
+      "id": "character-1790085348104",
+      "name": "Steffani Afina",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "",
+      "bio": "Name : Steffani Afina\nAge : 25\nBorn : Bristol, England\nHeight : 176\nRace : British-Lebanese\n\nPotrayed by Severina Lajtman",
+      "portrait": "assets/thoughts/1790085257334-dd0ac0-steffani-de.webp",
+      "order": 7
+    },
+    {
+      "id": "character-1790085472461",
+      "name": "Sebastian Rojo Calves",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "",
+      "bio": "Name : Sebastian Rojo Calves\nAge : 24 (2016)\nBorn : Cantabria, Spain\nHeight : 182\nRace : Spanish\n\nPotrayed by Guitarricadelafuente",
+      "portrait": "assets/thoughts/1790945358145-5632ea-htfkacvxuaac6vp.webp",
+      "order": 11
+    },
+    {
+      "id": "character-1790085522215",
+      "name": "Amelie Bueller Miles",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "",
+      "bio": "Name : Amelie Bueller Miles\nAge : 24\nBorn : London, England\nHeight : 168\nRace : British\n\nPotrayed by Mikey Maddison",
+      "portrait": "assets/thoughts/1790085427101-6244cd-amily-wa.webp",
+      "order": 1
+    },
+    {
+      "id": "character-1790085616885",
+      "name": "Taylor Johannson",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "",
+      "bio": "Name : Taylor Johannson\nAge : 27\nBorn : Canterbury, England\nHeight : 185\nRace : British-French\n\nPotrayed by Emmanuel Macchia",
+      "portrait": "assets/thoughts/1790085522100-75449f-taylor-dvn.webp",
+      "order": 8
+    },
+    {
+      "id": "character-1790087597571",
+      "name": "Andrea Marinelli-Scoch",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "",
+      "order": 4,
+      "bio": "Name : Andrea Marinelli-Scoch\nAge : 25\nBorn : Birmingham, Scotland\nHeight : 181\nRace : Italian-Scottish\n\nPotrayed by Lorenzo Zurzolo",
+      "portrait": "assets/thoughts/1790511248493-194922-lorenzozurzolo-2022-r.webp"
+    },
+    {
+      "id": "character-1790087652299",
+      "name": "Ashley Rae",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "",
+      "order": 10,
+      "bio": "Name : Ashley Rae\nAge : 24\nBorn : London, England\nHeight : 178\nRace : British\n\nPotrayed by Angourie Rice",
+      "portrait": "assets/thoughts/1790515217986-994530-angourie-rice-finding-emily.webp"
+    },
+    {
+      "id": "character-1790087813957",
+      "name": "Lily Elinmaar Renesve",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "",
+      "order": 9,
+      "bio": "Name : Lily Elinmaar Renesve\nAge : 28\nBorn : Liverpool, England\nHeight : 179\nRace : British-Norwegian\n\nPotrayed by Inga Ibsdotter Lilleaas",
+      "portrait": "assets/thoughts/1790515100246-4f2a49-wlzpignxmpk3nvvhg0bzzmwxzdh.webp"
+    },
+    {
+      "id": "character-1790515624394",
+      "name": "Craigan Tarrigan",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 4,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790515664392",
+      "name": "Cole Dandelion",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 3,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790515676548",
+      "name": "Archibald Dandelion",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 1,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790515695716",
+      "name": "Duncan Dunker",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 2,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790515707368",
+      "name": "Kane Perucino",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 5,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790515777672",
+      "name": "Gwayne Renees",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 6,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790515815143",
+      "name": "Balon Petyrson",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 7,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790515895527",
+      "name": "Jaime Anders",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 9,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790515972533",
+      "name": "Argen Chevreu",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 11,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516008604",
+      "name": "Marie Chevreu",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 12,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516030217",
+      "name": "Alto Perucino",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 13,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516049305",
+      "name": "Damien Perucino",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 14,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516062942",
+      "name": "Fionna Staunter",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 15,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516090003",
+      "name": "Lucy Frostnova",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 16,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516118439",
+      "name": "Garcon Basillone",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 17,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516133227",
+      "name": "Alisandre Sandorn",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 18,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516151343",
+      "name": "Hammer Dandelion",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 19,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516196115",
+      "name": "Aaron Renees",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 20,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516207129",
+      "name": "Redryk Dance",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 21,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516364653",
+      "name": "Rayes Shai",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 22,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516376314",
+      "name": "Norris Bronzecoat",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 23,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516401364",
+      "name": "Benjamin Svorks",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 24,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516424159",
+      "name": "Sabitha a Lua",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 25,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516432763",
+      "name": "Taron Tarrigan",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 26,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516446939",
+      "name": "Tommen",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 27,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516454609",
+      "name": "Mercedes",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 28,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516465792",
+      "name": "Eloise Dandelion",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 29,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516477384",
+      "name": "Lyonel Dandelion",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 30,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516488029",
+      "name": "Rohan Baricello",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 31,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516505194",
+      "name": "Arkhan Koro",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 32,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516521469",
+      "name": "Petyr Cloveryane",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 33,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516529270",
+      "name": "Brent Callagher",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 8,
+      "bio": "",
+      "portrait": ""
+    },
+    {
+      "id": "character-1790516540588",
+      "name": "Oslan Guillion",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 10,
+      "bio": "",
+      "portrait": ""
+    }
+  ],
+  "stories": [
+    {
+      "id": "story-1790072889333",
+      "title": "Tide Song of the Southern Shore",
+      "date": "2026-09-22",
+      "slug": "awdsda",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 2,
+      "published": false,
+      "characterIds": [],
+      "body": "adwsdawdsadwa"
+    },
+    {
+      "id": "story-1790073121302",
+      "title": "Feast from The East",
+      "date": "2026-09-22",
+      "slug": "feast-from-the-east",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 3,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790073150307",
+      "title": "Dreams of the Dreadnought",
+      "date": "2026-09-22",
+      "slug": "dreams-of-the-dreadnought",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 4,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790083130810",
+      "title": "Blood of My Blood",
+      "date": "2026-09-22",
+      "slug": "blood-of-my-blood",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 5,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790083276232",
+      "title": "Three Rounded Roads and Three More",
+      "date": "2026-09-22",
+      "slug": "three-rounded-roads-and-three-more",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 6,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790083302134",
+      "title": "The Pale Messenger",
+      "date": "2026-09-22",
+      "slug": "the-pale-messenger",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 7,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790083317026",
+      "title": "In The Midst of Human Written",
+      "date": "2026-09-22",
+      "slug": "in-the-midst-of-human-written",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 1,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790083348526",
+      "title": "Theatre of Time",
+      "date": "2026-09-22",
+      "slug": "theatre-of-time",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 8,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790083360561",
+      "title": "The Lion and The Broken",
+      "date": "2026-09-22",
+      "slug": "the-lion-and-the-broken",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 10,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790083681122",
+      "title": "Theatre of Time : Future",
+      "date": "2026-09-22",
+      "slug": "theatre-of-time-future",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 9,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790178719234",
+      "title": "Mercy",
+      "date": "2026-09-23",
+      "slug": "mercy",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083728371",
+      "order": 1,
+      "published": false,
+      "characterIds": [
+        "character-1790085522215",
+        "character-1790084064584",
+        "character-1790085288331",
+        "character-1790087597571",
+        "character-1790085319949",
+        "character-1790085260085",
+        "character-1790085616885"
+      ],
+      "body": "<p><em>March 20,&nbsp;</em><em>2020</em><br><strong style=\"font-size: 1.06rem; background-color: transparent\">20:40</strong></p><p>\n<strong>Garage</strong><br>\n<strong>-- S1 --</strong></p><p><em>JAKOVIC taps the kick drum, listens, then tightens the pedal. Still not right. He leans forward, gives it another tap, then adjusts the setting again.</em></p><p><em>Meanwhile, DOUGLAS sits beside AMELIE at the piano, going through a few notes together. CHERLINE pulls the microphone closer to her mouth, then shifts around on the stool she is sitting on.</em></p><p>ANDREA : Row. Row. Row.<br>\n<em>ANDREA warms up his voice, testing a few notes under his breath. He plucks the string down one note.</em></p><p>ANDREA : Row. Fucking hell.<br>\n<em>He stops, stares at the guitar for a second, then puts it down beside him.</em></p><p>ANDREA : G minor's fine. It's just... something feels off with the arrangement.<br>\nCHERLINE : What part?<br>\n<em>CHERLINE tilts her head, waiting.</em></p><p>ANDREA : The guitar, mostly. When everything comes in, I can't really sit with the vocal.<br>\nCHERLINE : Too loud?<br>\nANDREA : Kinda. Not really.<br>\n<em>He rubs his jaw, trying to find the right words.</em></p><p>ANDREA : It's just there all the time. I push the vocal, it gets in the way. I pull back, and the whole thing loses something.<br>\nDOUGLAS : So what, you want me to play less?<br>\n<em>DOUGLAS glances over his shoulder at him, one eyebrow slightly raised.</em></p><p>ANDREA : A little, yeah. Just give me some room.<br>\nDOUGLAS : Alright.<br>\n<em>DOUGLAS lowers his hand towards the strings.</em></p><p>ANDREA : Not that much.<br>\n<em>DOUGLAS stops and looks at him.</em></p><p>DOUGLAS : Jesus. Make up your mind.<br>\nANDREA : I'm trying to.<br>\n<em>ANDREA gives him a tired look. DOUGLAS shakes his head with a small grin and plays the progression again, this time softer.</em></p><p><em>ANDREA starts singing.</em></p><p><em>He gets through the verse without stopping.</em></p><p>ANDREA : Yeah. That's better.<br>\n<em>He looks towards DOUGLAS and gives a small nod.</em></p><p>CHERLINE : Yeah, actually.<br>\nANDREA : The verse, anyway.<br>\nCHERLINE : What's wrong with the chorus?<br>\nANDREA : It just jumps out too much. When everything comes in, it gets way too bright.<br>\n<em>DOUGLAS looks down at his guitar and plays the last part of the progression again, listening to it.</em></p><p>DOUGLAS : Yeah... I kinda hear it.<br>\nANDREA : See.<br>\nDOUGLAS : Don't get too excited.<br>\nANDREA : Shut up.<br>\n<em>AMELIE shifts closer to the piano, resting one hand on the edge of it.</em></p><p>AMELIE : We could change the chords when the chorus starts.<br>\nDOUGLAS : Like what?<br>\nAMELIE : I don't know. Something a bit darker.<br>\n<em>CHERLINE looks between them.</em></p><p>CHERLINE : Aren't we already in G minor?<br>\nAMELIE : Doesn't mean every chord has to sound the same.<br>\n<em>She presses down a few keys, trying out a different progression. DOUGLAS leans over slightly to listen.</em></p><p>DOUGLAS : What about C minor?<br>\nAMELIE : Try it.<br>\n<em>DOUGLAS joins her on guitar.</em></p><p>CHERLINE : Is that C minor I'm hearing?<br>\n<em>DOUGLAS raises his thumb without looking up, his fingers still moving.</em></p><p>CHERLINE : Did you even hear me?<br>\nDOUGLAS : Yeah.<br>\n<em>They play the progression again. ANDREA leans back slightly, listening. His eyes stay on the piano for a few seconds before he shakes his head.</em></p><p>ANDREA : Hmm... no.<br>\nAMELIE : No?<br>\n<em>AMELIE looks over at him.</em></p><p>ANDREA : It's too dark.<br>\nDOUGLAS : Bit of a problem, considering you just said it was too bright.<br>\nANDREA : I know. I'm saying that's too far the other way.<br>\nAMELIE : So somewhere in between.<br>\n<em>ANDREA nods, thinking.</em></p><p>ANDREA : Yeah. Pretty much.<br>\n<em>AMELIE changes one of the chords and plays the progression again. ANDREA suddenly lifts a hand.</em></p><p>ANDREA : Wait. That one.<br>\n<em>AMELIE immediately stops.</em></p><p>AMELIE : This?<br>\nANDREA : Yeah, keep that. I like that change.<br>\n<em>AMELIE repeats the chord. ANDREA leans forward, listening more closely.</em></p><p><em>She moves into the next chord.</em></p><p>ANDREA : No, not that one. The next one.<br>\nDOUGLAS : Which next one?<br>\n<em>ANDREA points towards the piano, trying to follow along.</em></p><p>ANDREA : The one after that.<br>\nDOUGLAS : That's incredibly helpful.<br>\nANDREA : You know what I mean.<br>\nDOUGLAS : I probably do.<br>\n<em>AMELIE plays through it again, this time following ANDREA's suggestion. ANDREA nods along, his fingers lightly tapping against his knee.</em></p><p>ANDREA : Yeah. That's it.<br>\nCHERLINE : Okay, that actually sounds nice.<br>\n<em>CHERLINE leans forward a little, listening as they play the progression once more.</em></p><p>AMELIE : From the top?<br>\n<em>ANDREA picks his guitar back up and settles it against his knee.</em></p><p>ANDREA : Yeah.<br>\n<em>Everyone gets into position again.</em></p><p><em>ANDREA glances towards AMELIE before starting.</em></p><p><strong>-- JUMP S2 : 5 MINUTES --</strong></p><p><strong>-- JUMP S2 : 5 MINUTES --</strong></p><p><em>CHERLINE sits on the floor, eating her favourite pickle-topping pizza. Sauce is smeared around the corner of her mouth. AMELIE hands her a tissue.</em></p><p>CHERLINE : Oh, thanks, Em.<br>\nAMELIE : You're very welcome.</p><p><em>CHERLINE wipes her mouth and looks down at the tissue.</em></p><p>AMELIE : So, did you text him back?<br>\nCHERLINE : Who?<br>\nAMELIE : Blond-haired guy. From the Year Opening.<br>\nCHERLINE : Oh. Taylor?<br>\nAMELIE : That's his name?<br>\nCHERLINE : Sounds like it. I wasn't exactly taking notes.<br>\nAMELIE : He texted you, didn't he?<br>\nCHERLINE : Yeah. I'm not replying yet.<br>\nAMELIE : Why not?<br>\nCHERLINE : I don't know, girl.<br>\nAMELIE : You like him.<br>\nCHERLINE : Don't be so bold saying that.</p><p><em>AMELIE gives her a knowing look.</em></p><p>CHERLINE : Anyway, fancy a little drink after this?<br>\nAMELIE : Downtown?<br>\nCHERLINE : I thought Bronn's.<br>\nAMELIE : Downtown's fine.<br>\nCHERLINE : As long as we're not taking that horror alley.<br>\nJAKOVIC : I'm coming.</p><p><em>JAKOVIC drops into a crouch beside them.</em></p><p>CHERLINE : You weren't invited.<br>\nJAKOVIC : Didn't stop me hearing you.<br>\nAMELIE : You're actually coming?<br>\nJAKOVIC : Yeah. I don't wanna go home yet.<br>\nCHERLINE : Why?<br>\nJAKOVIC : Just don't.</p><p><em>CHERLINE looks at him for a moment.</em></p><p>AMELIE : I think WXRLD;END are playing at Downtown tonight.<br>\nCHERLINE : What?<br>\nAMELIE : Pretty sure I saw it on a flyer.<br>\nCHERLINE : And you're only mentioning that now?<br>\nAMELIE : You would've made it a whole thing.<br>\nCHERLINE : I wouldn't.<br>\nJAKOVIC : You are right now.<br>\nCHERLINE : Fuck off.</p><p><em>JAKOVIC steals a pickle from CHERLINE's pizza.</em></p><p>CHERLINE : Mate, what the hell are you doing?<br>\nJAKOVIC : You were distracted.<br>\nCHERLINE : Give me that.</p><p><em>She grabs it back.</em></p><p>\n\n\n\n\n\n\n\n\n\n\n\n\n\n</p><p>JAKOVIC : So we're going Downtown, then?<br>\nAMELIE : Looks like it.<br>\nCHERLINE : Fine.<br>\nCHERLINE : But if they're not there, I'm blaming you.<br>\nAMELIE : Why me?<br>\nCHERLINE : You're the one who brought them up.<br>\nJAKOVIC : Fair.<br>\nCHERLINE : You're not helping.</p><p><strong>-- JUMP S3 : NC --</strong></p><p><em>DOUGLAS brings his leftover pizza to the bathroom. He's about to pee when his zipper gets stuck halfway. He needs both hands to free it, so he clamps the pizza between his lips.</em></p><p><em>ANDREA enters and sees DOUGLAS from behind. Neither of them seems particularly bothered by the lack of privacy.</em></p><p>ANDREA : Sorry about earlier. I know I was being a bit much. I just... I don't know. I hate when something feels off and we keep playing it anyway.<br>\n<em>DOUGLAS finishes peeing and pulls his zip back up, the pizza still clamped between his lips.</em></p><p>ANDREA : And I wasn't trying to knock your arrangement or anything. I actually like what you guys had. I just couldn't get into it. Then we kept changing stuff and somehow everything sounded worse.<br>\n<em>DOUGLAS takes the pizza out of his mouth.</em></p><p>ANDREA : And then we wait for William and he can't even come tonight. That's just brilliant.<br>\n<em>A beat.</em></p><p>ANDREA : Anyway, Cher's been weirdly cheerful today. She was talking about some guy earlier too. Taylor, I think. You don't think that's why she's been less grumpy, do you? Or maybe it's Amelie. She likes this Taylor guy. I don't know. Don't you like her?<br>\n<em>DOUGLAS gives him a quick glance.</em></p><p>ANDREA : Douglas, please. Say something.<br>\nDOUGLAS : What do you want me to say?<br>\nANDREA : I don't know. An answer?<br>\nDOUGLAS : We're only friends.<br>\nANDREA : You're so fucking useless.<br>\n<em>DOUGLAS gives him the slightest grin.</em></p><p>DOUGLAS : Still here, though.<br>\nANDREA : Yeah, unfortunately.<br>\nDOUGLAS : Shall we?<br>\n<em>ANDREA sighs and follows him out of the bathroom.</em></p><p><strong>-- JUMP S4 : 40M --</strong></p><p><em>Night is still going, and the whole band except WILLIAM remains in the garage.</em></p><p><em>The three around the instruments are still at it. AMELIE sits at the piano, DOUGLAS beside her with his guitar, while ANDREA stands a few steps away, listening with his arms folded.</em></p><p><em>Across the room, CHERLINE sits at one end of the sofa, legs stretched out. JAKOVIC is lying across it with his head resting comfortably on her lap, one arm hanging off the edge.</em></p><p>CHERLINE : They're still on that?<br>\nJAKOVIC : Apparently.<br>\nCHERLINE : We've been here forever.<br>\nJAKOVIC : And we're still nowhere.<br>\n<em>CHERLINE watches AMELIE play another variation.</em></p><p>CHERLINE : I kinda like this one.<br>\nJAKOVIC : You said that about the last one.<br>\nCHERLINE : The last one was shit.<br>\nJAKOVIC : So this one?<br>\nCHERLINE : Less shit.<br>\n<em>JAKOVIC lets out a quiet laugh, then settles back against her.</em></p><p><em>At the piano, AMELIE stops playing.</em></p><p>DOUGLAS : It's terrible.<br>\nAMELIE : It's boring.<br>\nANDREA : Yeah.<br>\nDOUGLAS : Great. So we're back to nothing.<br>\n<em>AMELIE taps a few keys without looking at either of them.</em></p><p>AMELIE : What if we don't force the chorus to sound bigger?<br>\nANDREA : Then what?<br>\nAMELIE : Make it smaller.<br>\nDOUGLAS : That's the opposite of what we were doing.<br>\nAMELIE : I know.<br>\n<em>ANDREA thinks for a moment, then nods.</em></p><p>ANDREA : Worth trying.<br>\nJAKOVIC : Still considering letting me join you guys?<br>\nCHERLINE : Why are you being so stubborn?<br>\nJAKOVIC : Because I don't wanna go home.<br>\nCHERLINE : That's not my problem.<br>\nJAKOVIC : Come on. One drink.<br>\nCHERLINE : You said that already.<br>\nJAKOVIC : And I'm saying it again.<br>\n<em>He sits up slightly.</em></p><p>JAKOVIC : I just need to get wasted tonight.<br>\nCHERLINE : Okay, okay. But just you. Don't invite the other boys. Deal?<br>\nJAKOVIC : Deal.<br>\n<em>CHERLINE looks at AMELIE, then back at JAKOVIC.</em></p><p>CHERLINE : Jake, I've got an idea.</p><p><strong>-- JUMP S5 : 30M --</strong></p><p><em>Practice is over. Everyone is packing up. ANDREA, as usual, is responsible for the keys and locks the garage.</em></p><p><em>DOUGLAS is already putting on his helmet. AMELIE gets into CHERLINE's car.</em></p><p><em>DOUGLAS pauses.</em></p><p>DOUGLAS : Did you guys see Jake by any chance?<br>\nANDREA : What?<br>\nDOUGLAS : Jake. Where is he?<br>\n<em>AMELIE looks around.</em></p><p>CHERLINE : He's got something to do. Didn't you hear him earlier?<br>\nAMELIE : Did he say that?<br>\nDOUGLAS : I didn't hear anything.<br>\n<em>ANDREA shakes his head, starts his motorcycle and gets on.</em></p><p>DOUGLAS : Well, let's call it a day, pal. See you.<br>\nANDREA : Night, lad.<br>\nCHERLINE : Bye!<br>\nAMELIE : Bye!<br>\n<em>ANDREA and DOUGLAS ride off.</em></p><p><em>CHERLINE takes out her phone and calls someone.</em></p><p><em>A few seconds later, JAKOVIC comes out from the side of the garage, phone in hand.</em></p><p>CHERLINE : They're gone.<br>\nAMELIE : You actually did it.<br>\nJAKOVIC : Obviously.<br>\nCHERLINE : Get in.<br>\n<em>JAKOVIC gets into the car.</em></p><p>JAKOVIC : So where are we going?</p><p><strong>-- JUMP S6 : 45M --</strong></p><p><em>CHERLINE, AMELIE, and JAKOVIC arrive at Downtown. The bar is already fairly crowded. Music is playing through the speakers, and they can barely hear each other.</em></p><p>JAKOVIC : Why is it so crowded?<br>\nCHERLINE : Don't know.</p><p><em>JAKOVIC looks around the room.</em></p><p>JAKOVIC : Maybe because of that.</p><p><em>He points towards a poster in the corner of the room.</em></p><p><em>A WXRLD;END poster.</em></p><p><em>CHERLINE stops when she sees it.</em></p><p>CHERLINE : Oh, shit. They're actually here.</p><p><em>She looks at AMELIE.</em></p><p>CHERLINE : You knew?<br>\nAMELIE : I said I thought they might be.<br>\nCHERLINE : That's basically knowing.<br>\nAMELIE : I suspected.<br>\nCHERLINE : Barely.</p><p><em>At the counter, JAKOVIC catches their attention and makes their usual hand gesture for “the usual?” He follows it with a quick nod towards the drinks.</em></p><p><em>AMELIE and CHERLINE both nod.</em></p><p><em>JAKOVIC heads towards the counter.</em></p><p>CHERLINE : What are they doing here anyway?<br>\nAMELIE : Performing, presumably.</p><p><em>JAKOVIC returns with the drinks, a cigarette between his fingers.</em></p><p>JAKOVIC : Got a lighter?</p><p><em>AMELIE pulls out her lighter and hands it to him.</em></p><p><em>A familiar voice comes through the microphone.</em></p><p><em>People begin moving towards the stage. CHERLINE, AMELIE, and JAKOVIC follow, with JAKOVIC still struggling to light his cigarette.</em></p><p><em>TAYLOR, the vocalist of WXRLD;END, adjusts the microphone and looks out at the crowd.</em></p><p><em>Then he starts singing.</em></p><p><em>It's jazz.</em></p><p><em>Nobody seems to have expected it. WXRLD;END is known more for pop-rock, and even JAKOVIC looks up from his cigarette for a second.</em></p><p><em>CHERLINE is more interested than she means to be. She edges through the crowd until she can get a clearer view of the stage.</em></p><p><em>Halfway through the third song, their eyes meet.</em></p><p><em>CHERLINE drops her gaze.</em></p><p><em>Then she looks back.</em></p><p><em>TAYLOR is still looking at her.</em></p><p>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n</p><p><em>The corner of his mouth lifts slightly before he turns his attention back to the performance.</em></p><p><em>The performance ends.</em></p><p><em>CHERLINE, AMELIE, and JAKOVIC sit near the counter, talking over the music.</em></p><p><em>From across the room, TAYLOR notices them and starts walking over.</em></p><p><em>Halfway there, two girls stop him to ask for a photo. He laughs, takes the pictures, then continues towards the table.</em></p><p>TAYLOR : Umm, hello?<br>\n<em>The three turn around at the same time.</em></p><p>AMELIE : Hello!<br>\nCHERLINE : Hi.<br>\nTAYLOR : Did I disturb you guys?<br>\nAMELIE : Oh, no, no. We're just hanging around. Want to join us?<br>\nTAYLOR : Would be my pleasure.<br>\n<em>TAYLOR sits in the empty seat beside CHERLINE.</em></p><p><em>CHERLINE looks straight ahead, suddenly very interested in the music coming from the speakers.</em></p><p><em>TAYLOR orders a drink.</em></p><p>AMELIE : Great performance, by the way.<br>\nTAYLOR : Thank you.<br>\nAMELIE : Is that your first time doing jazz?<br>\nTAYLOR : Oh, no. I used to sing jazz with my dad. Or my grandad, actually. They're both really into it.<br>\nAMELIE : Oh, nice.<br>\n<em>TAYLOR looks at AMELIE.</em></p><p>TAYLOR : You're Amelie, right?<br>\nAMELIE : Yeah. These guys call me Amy.<br>\n<em>He looks towards JAKOVIC.</em></p><p>TAYLOR : And you're... Jake?<br>\nJAKOVIC : Yeah. These guys call me Drumass.<br>\n<em>He raises a hand in greeting.</em></p><p>TAYLOR : And... Cherline.<br>\n<em>He looks towards her.</em></p><p>CHERLINE : Right.<br>\nTAYLOR : Oh, yeah. Sorry. Anyway, I'm Taylor.<br>\nAMELIE : We know.<br>\nCHERLINE : She's a big fan of WXRLD;END. She told me.<br>\nTAYLOR : Oh, really?<br>\nAMELIE : Yeah. I've already put at least two of your songs on my Spotify playlist.<br>\nTAYLOR : Oh... that's a decent number.<br>\nAMELIE : I'm messing around.<br>\n<em>AMELIE suddenly gets to her feet.</em></p><p>AMELIE : Anyway, I should go to the toilet.<br>\n<em>She grabs her bag, then looks at JAKOVIC.</em></p><p>AMELIE : Jake, come with me.<br>\nJAKOVIC : Excuse me? I'm not your servant.<br>\nAMELIE : Just take this.<br>\n<em>She puts her bag in his hands and starts pulling him away.</em></p><p>JAKOVIC : The toilet's that way.<br>\nAMELIE : I know.<br>\nJAKOVIC : Then why are we going this way?<br>\nAMELIE : Just come on.<br>\n<em>JAKOVIC looks back at CHERLINE and TAYLOR.</em></p><p>JAKOVIC : Oh.<br>\nAMELIE : Exactly.<br>\nJAKOVIC : Right.<br>\n<em>They keep walking.</em></p><p><em>CHERLINE is left alone with TAYLOR.</em></p><p>TAYLOR : Hi.<br>\nCHERLINE : Hi.<br>\nTAYLOR : I saw you in the crowd earlier.<br>\nCHERLINE : I saw you on the stage.<br>\n<em>They both laugh quietly.</em></p><p>TAYLOR : Anyway, we barely see your band performing lately. Everything alright?<br>\nCHERLINE : Yeah, it's fine. We're preparing for our own show, so that's kind of our priority at the moment.<br>\nTAYLOR : Oh, that's nice. Can I get an early ticket?<br>\nCHERLINE : It's a bit early for that. We haven't even thought about tickets yet.<br>\n<em>TAYLOR smiles.</em></p><p>TAYLOR : Anyway... I texted you like a month ago. Did you change your number? It seemed like my messages weren't getting through?</p><p>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n</p><p><strong>END OF EPISODE 1</strong></p>",
+      "endingSong": {
+        "title": "Goodness Gracious",
+        "artist": "Yung Gravy, bbno$",
+        "path": "assets/thoughts/audio/8a7435a4-1edc-4c86-9ae0-e823cb487d65-goodness-gracious-yung-gravy.mp3.chunks.json"
+      },
+      "synopsis": "Mercy's practicing with their last song for the Summer Album. Cherline has a feeling to a boy she met earlier during Year Opening Concert, that also in a band called WXRLDSEND, Taylor Johannson. Amelie arranged something but things unexpected happen.",
+      "banner": "",
+      "bannerPosition": "center"
+    },
+    {
+      "id": "story-1790178733318",
+      "title": "Man with Prada",
+      "date": "2026-09-23",
+      "slug": "man-with-prada",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083728371",
+      "order": 2,
+      "published": false,
+      "characterIds": [],
+      "body": "<p style=\"font-family: Newsreader\">&nbsp;&nbsp;<strong style=\"font-family: Newsreader; font-size: 1.06rem; background-color: transparent\">EPISODE 2</strong></p><div>\n<p><strong>-- S1 : FLASHBACK --</strong></p>\n<p><em>Earlier that year, at a music festival on the outskirts of London, bands of all kinds are performing. Some are already well known. Others are still trying to make a name for themselves. MERCY is among them.</em></p><p><em>It is the first time CHERLINE and TAYLOR meet. Their sets happen close together. TAYLOR performs first, and the two briefly pass each other while CHERLINE is getting ready for MERCY's set.</em></p><p><em>Nothing happens.</em></p><p><em>MERCY performs. TAYLOR stays somewhere nearby.</em></p><p><em>At one point, his eyes catch the bracelet around CHERLINE's wrist. He looks at it for a little longer than he probably means to.</em></p><p><em>Later that same day, CHERLINE is with the rest of her band when TAYLOR approaches from behind.</em></p><p>TAYLOR : Hello.</p><p><em>He taps her shoulder.</em></p><p>CHERLINE : Hi!<br>\nTAYLOR : Oh, um... I'm Taylor.<br>\nCHERLINE : Cher.<br>\nTAYLOR : Nice to meet you.<br>\nCHERLINE : You too. You're...<br>\nTAYLOR : I liked your voice, by the way.<br>\nCHERLINE : Oh. Thanks.<br>\nTAYLOR : Is that bracelet handmade?<br>\nCHERLINE : Yeah. I made it myself.<br>\nTAYLOR : Thought so.<br>\nCHERLINE : Are you into crochet too?<br>\nTAYLOR : A bit, yeah.</p><p><em>He reaches for the small crochet guitar hanging from his bag.</em></p><p>TAYLOR : I've got one too.<br>\nCHERLINE : Oh, that's cute.<br>\nTAYLOR : And the little details on yours...<br>\nCHERLINE : Oh, you noticed.</p><p><em>She turns her wrist slightly.</em></p><p>CHERLINE : This random letter is actually the initial of one of my friend's names.<br>\nTAYLOR : Oh, nice.</p><p><em>He looks at the bracelet again.</em></p><p>TAYLOR : I've got a few more of these back home.<br>\nCHERLINE : Really?<br>\nTAYLOR : Yeah. I could send you some pictures sometime.<br>\nCHERLINE : I'd like that.</p><p><em>A small pause.</em></p><p>TAYLOR : Mind if I get your number?<br>\nCHERLINE : Yeah, sure.</p><p><em>CHERLINE opens her phone and starts giving him the number.</em></p><p>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n</p><p>CHERLINE : It's... ███-███-07...2.</p>\n<p><strong>-- JUMP S2 : BACK TO PRESENT --</strong></p>\n<p><em>CHERLINE is still standing near the front of the bar.</em></p>\n<p>CHERLINE : Shit.</p>\n<p><strong>-- JUMP S3 : GARAGE --</strong></p>\n<p><em>Outside the garage, WILLIAM stops in front of the half-open door.</em></p>\n<p>WILLIAM : Oh, shit.<br>\n<em>He looks at it properly.</em></p>\n<p><em>The garage is almost never open this early. And, as far as he knows, none of them are supposed to be here.</em></p>\n<p><em>WILLIAM walks towards the door.</em></p>\n<p><strong>-- JUMP S4 : STREET --</strong></p>\n<p><em>DOUGLAS is out for his morning run, earphones in.</em></p>\n<p><em>His phone rings.</em></p>\n<p><em>WILLIAM's name appears on the screen.</em></p>\n<p><em>DOUGLAS answers.</em></p>\n<p>DOUGLAS : I'll be there in a sec.<br>\n<em>He hangs up, pulls the earphones from his ears and stuffs them into his pocket.</em></p>\n<p><strong>-- JUMP S5 : GARAGE --</strong></p>\n<p><em>DOUGLAS arrives at the garage.</em></p>\n<p><em>He looks at the open door.</em></p>\n<p><em>Then at WILLIAM's motorcycle.</em></p>\n<p><em>Something about it catches his attention.</em></p>\n<p><em>He walks closer and notices the key still sitting in the ignition.</em></p>\n<p><em>He pulls it out, then heads inside.</em></p>\n<p><em>From the doorway, he can already see WILLIAM at the little kitchen by the entrance, pouring himself a cup of tea.</em></p>\n<p><em>DOUGLAS is still slightly out of breath from the run when he gets closer.</em></p>\n<p>DOUGLAS : Someone trying to get in?<br>\nWILLIAM : Oh, Doug. Sorry.<br>\n<em>WILLIAM gives him a small smile.</em></p>\n<p>DOUGLAS : What?<br>\nWILLIAM : It's, uh... no one.<br>\n<em>He points towards the sofa.</em></p>\n<p>WILLIAM : But I found Andrea asleep there. Think he stayed here last night. I don't really know.<br>\nDOUGLAS : Oh.<br>\nWILLIAM : Yeah. I literally texted everyone, but no one answered. Except you.<br>\n<em>He looks around the garage.</em></p>\n<p>WILLIAM : Like, where the fuck have these people gone?<br>\nDOUGLAS : They're probably tired. We were practising until pretty late.<br>\n<em>DOUGLAS looks towards ANDREA.</em></p>\n<p>DOUGLAS : Anyway, you good?<br>\nWILLIAM : Yeah. Thanks for asking.<br>\n<em>He takes a sip of tea.</em></p>\n<p>WILLIAM : I'm more worried about him, honestly. Kind of weird finding him asleep here. Think he was playing around with the instruments too. Don't know.<br>\n<em>DOUGLAS looks at ANDREA again.</em></p>\n<p><em>They all left together last night. At least, that's how he remembers it.</em></p>\n<p>DOUGLAS : You tried waking him?<br>\nWILLIAM : Yeah. He was on the floor earlier, so I moved him onto the sofa.<br>\nWILLIAM : Couldn't wake him up.<br>\nDOUGLAS : Mmhm.<br>\nWILLIAM : He must've just gone to sleep.<br>\nDOUGLAS : Right.<br>\nWILLIAM : Fancy a cup of tea?<br>\nDOUGLAS : Nah, I'm good. Just went for a run.<br>\nWILLIAM : Fair.<br>\n<em>WILLIAM sits down with his tea.</em></p>\n<p>WILLIAM : How was last night?<br>\nDOUGLAS : We were shit.<br>\nWILLIAM : That bad?<br>\nDOUGLAS : The arrangement was doing our heads in. Every time we changed something, we had to rework half the song. By the end, it didn't even sound like what we started with.<br>\nWILLIAM : Maybe that's why.<br>\nDOUGLAS : Could be.<br>\n<em>WILLIAM's phone buzzes.</em></p>\n<p><em>He looks down.</em></p>\n<p><em>AMELIE.</em></p>\n<p>WILLIAM : Amelie's finally answered.<br>\n<em>He opens the chat.</em></p>\n<p><em>MISSED CALL</em></p>\n<p><em>MISSED CALL</em></p>\n<p>WILLIAM : Answer.<br>\nAMELIE : Sorry, mate.<br>\nAMELIE : Just woke up, swear.<br>\nAMELIE : What's going on?<br>\nWILLIAM : Never mind.<br>\nAMELIE : Then why text me?<br>\nWILLIAM : I'll tell you later.<br>\n<em>Something moves on the sofa.</em></p>\n<p><em>WILLIAM looks up.</em></p>\n<p><em>DOUGLAS does too.</em></p>\n<p><em>ANDREA shifts slightly, but doesn't wake.</em></p>\n<p>WILLIAM : You got anywhere to be?<br>\nDOUGLAS : Nah. Why?<br>\nWILLIAM : You just went jogging. Go home, have a shower or something. Come back later if you want.<br>\n<em>He looks towards ANDREA.</em></p>\n<p>WILLIAM : I'll wait for this kid to wake up. Probably slept pretty late.<br>\nDOUGLAS : Yeah. Fair enough.<br>\nWILLIAM : Take care.<br>\nDOUGLAS : You too.<br>\n<em>DOUGLAS leaves.</em></p>\n<p><strong>-- JUMP S6 : 20 MINUTES EARLIER --</strong></p>\n<p><em>CHERLINE is still in bed.</em></p>\n<p><em>The same pieces of last night keep coming back.</em></p>\n<p><em>The wrong number.</em></p>\n<p><em>TAYLOR.</em></p>\n<p><em>The girl who kissed him.</em></p>\n<p><em>She picks up her phone.</em></p>\n<p><em>Turns it on.</em></p>\n<p><em>Turns it off.</em></p>\n<p><em>A few seconds later, she turns it on again.</em></p>\n<p><em>Then off.</em></p>\n<p><em>She eventually shuts it down completely and throws it to the other end of the bed.</em></p>\n<p><em>CHERLINE gets up and walks around the room for a while.</em></p>\n<p><em>She stops and reaches into her pocket.</em></p>\n<p><em>She pulls out the little crochet record charm TAYLOR gave her.</em></p>\n<p><em>She turns it over in her hand.</em></p>\n<p><em>Looks at it for a moment.</em></p>\n<p><em>Then attaches it to her bag.</em></p>\n<p><strong>-- JUMP S7 : BACK TO PRESENT --</strong></p>\n<p><em>DOUGLAS is on his way back home when his phone rings again.</em></p>\n<p>WILLIAM : Where are you?<br>\nDOUGLAS : Like two turns away from my flat. Why?<br>\nWILLIAM : Cher's phone went dead when I called her. Can you go check on her?<br>\nDOUGLAS : Huh? What happened?<br>\n<em>He sighs.</em></p>\n<p>DOUGLAS : Alright. I'll go.<br>\n<em>There is some noise in the background.</em></p>\n<p>DOUGLAS : Has that kid woken up yet?<br>\nWILLIAM : Who?<br>\n<em>He looks over.</em></p>\n<p>WILLIAM : Oh. Yeah. He's awake. Eating instant ramen.<br>\n<em>WILLIAM raises his voice.</em></p>\n<p>WILLIAM : Woi, Andrea! Douglas is here!<br>\nANDREA : Doug!<br>\nDOUGLAS : You alright there, buddy?<br>\nANDREA : Yeah. I'm alive.<br>\nDOUGLAS : Right.<br>\nWILLIAM : Okay, Doug. Don't forget.<br>\nDOUGLAS : Yeah. I'll head back, grab the bike, then go get Cher.<br>\nWILLIAM : Okay.<br>\n<em>The call ends.</em></p>\n<p><em>WILLIAM watches ANDREA eat.</em></p>\n<p><em>He is absolutely destroying the ramen.</em></p>\n<p><em>ANDREA eventually notices.</em></p>\n<p>ANDREA : What?<br>\nWILLIAM : Nothing.<br>\nANDREA : Why are you looking at me like that?<br>\n<em>WILLIAM points towards the far end of the kitchen.</em></p>\n<p>WILLIAM : That ramen you're eating?<br>\n<em>ANDREA looks over.</em></p>\n<p>WILLIAM : It was in the cupboard over there. You could've just taken it.<br>\nANDREA : Yeah, well... didn't know.<br>\n<em>WILLIAM gives him a look.</em></p>\n<p>WILLIAM : What were you doing here all night, anyway?<br>\n<em>ANDREA stops.</em></p>\n<p><em>He swallows what's left in his mouth.</em></p>\n<p><em>He puts the noodle packet down beside him.</em></p>\n<p><em>He doesn't answer straight away.</em></p>\n<p><strong>-- JUMP S8 : 30 MINUTES LATER --</strong></p>\n<p><em>A knock at the door.</em></p>\n<p>DOUGLAS : Cher?<br>\n<em>Inside, CHERLINE is looking through a drawer.</em></p>\n<p><em>She stops and opens the door.</em></p>\n<p>CHERLINE : Oh, hey, Doug.<br>\nDOUGLAS : Why weren't you picking up?<br>\nCHERLINE : Oh.<br>\n<em>She looks at her phone.</em></p>\n<p><em>The screen stays black.</em></p>\n<p><em>Then she remembers.</em></p>\n<p>CHERLINE : Oh yeah. I turned it off.<br>\nDOUGLAS : What for?<br>\nCHERLINE : Nothing. Phone was acting up.<br>\n<em>She turns it back on.</em></p>\n<p>CHERLINE : Think I need to buy a new one.<br>\n<em>The screen lights up.</em></p>\n<p><em>Notifications start coming in.</em></p>\n<p><em>WILLIAM.</em></p>\n<p><em>ANDREA.</em></p>\n<p><em>DOUGLAS.</em></p>\n<p><em>More from WILLIAM than anyone else.</em></p>\n<p>CHERLINE : You guys called me like a ton. What happened?<br>\nDOUGLAS : William called me while I was jogging. He thought someone broke into the garage.<br>\nCHERLINE : What?<br>\nDOUGLAS : The door was open. He called everyone, but nobody picked up except me.<br>\n<em>He shrugs.</em></p>\n<p>DOUGLAS : Then I get there and Andrea's asleep inside.<br>\nCHERLINE : Andrea?<br>\nDOUGLAS : Yeah. Apparently he stayed there all night. Forgot to shut the door properly.<br>\nCHERLINE : Why was he even there?<br>\nDOUGLAS : Don't know.<br>\n<em>A beat.</em></p>\n<p>DOUGLAS : Got a few theories, though.<br>\n<em>CHERLINE doesn't ask what they are. She goes back to looking through the drawer.</em></p>\n<p>DOUGLAS : What are you looking for?<br>\nCHERLINE : My crochet needle. I lost one.<br>\nDOUGLAS : You're crocheting again?<br>\nCHERLINE : Don't know. Felt like it.<br>\nDOUGLAS : Mm.<br>\nCHERLINE : Can you take me to the crochet shop?<br>\nDOUGLAS : Yeah, sure.<br>\nCHERLINE : I need to restock anyway.</p>\n<p><strong>-- JUMP S9 : 20 MINUTES LATER --</strong></p>\n<p><em>DOUGLAS parks the motorcycle outside the shop.</em></p>\n<p><em>They both take off their helmets.</em></p>\n<p><em>DOUGLAS reaches out to help CHERLINE with hers.</em></p>\n<p>CHERLINE : Thank you.<br>\n<em>She looks towards the shop.</em></p>\n<p>CHERLINE : Anyway, are you coming in too? Might take a while.<br>\nDOUGLAS : I've been distracted by that burrito place since we got here.<br>\n<em>He points across the street.</em></p>\n<p>DOUGLAS : I'll get one first. Then I'll come back.<br>\nDOUGLAS : You want one?<br>\nCHERLINE : Nah. Go on.<br>\nDOUGLAS : Okay then.<br>\nCHERLINE : Okay.<br>\n<em>They split up.</em></p>\n<p><em>CHERLINE goes into the crochet shop.</em></p>\n<p><em>DOUGLAS walks towards a small burrito cart by the roadside.</em></p>\n<p>DOUGLAS : One, please.<br>\n<em>He waits.</em></p>\n<p><em>He takes out his phone.</em></p>\n<p><em>Before opening Instagram, he lowers the brightness.</em></p>\n<p><em>A message from AMELIE is waiting.</em></p>\n<p>AMELIE : There's always something going on this early.<br>\n<em>DOUGLAS sends a laughing emoji.</em></p>\n<p>AMELIE : You with Cher?<br>\nDOUGLAS : Yeah. Why?<br>\nAMELIE : Nothing. She disappeared last night.<br>\nDOUGLAS : What do you mean disappeared? Didn't she go home with you?<br>\nAMELIE : Yeah, she did. We went to the bar first. Tell her I'm fine. My messages weren't going through.<br>\nDOUGLAS : Ohh. So you were probably a bit drunk and slept in. Cher's phone was off.<br>\nAMELIE : Yeah, basically. Hehe.<br>\n<em>DOUGLAS looks up for a second.</em></p>\n<p><em>Then types.</em></p>\n<p>DOUGLAS : Have you heard from Jake? He still hasn't read my messages.<br>\n<em>A moment.</em></p>\n<p>AMELIE : He came with us.<br>\n<em>DOUGLAS stares at the message.</em></p>\n<p>DOUGLAS : Good to know I wasn't invited.<br>\nAMELIE : Yeah.......... I should get ready. Boss Willie's calling me to the garage. Bye.<br>\nDOUGLAS : Bye.<br>\n<em>He puts his phone back into his pocket.</em></p>\n<p><em>The burrito is ready.</em></p>\n<p><em>DOUGLAS pays for the burrito and heads back towards the shop. At almost the same time, CHERLINE comes out with several bags in her hands.</em></p><p><em>They sit on the bench outside.</em></p><p>DOUGLAS : That's quite a lot.<br>\nCHERLINE : A lot of the yarn ran out.<br>\nDOUGLAS : Amy said she's fine. She went home first last night.<br>\nCHERLINE : Fucking hell.</p><p><em>DOUGLAS takes a bite of his burrito.</em></p><p>DOUGLAS : How come Jake got invited and I didn't?<br>\nCHERLINE : It was supposed to be just me and Amy. He kept pushing to come. Said he wanted to get drunk.<br>\nDOUGLAS : Nice.<br>\nCHERLINE : It was supposed to be a girls' night. Somehow he turned it into something else.<br>\nDOUGLAS : Something else?<br>\nCHERLINE : There was...</p><p><em>She stops.</em></p><p><em>Something catches her attention across the street.</em></p><p>CHERLINE : Oh, shit.<br>\nDOUGLAS : What?<br>\nCHERLINE : Don't look.<br>\nDOUGLAS : Why?<br>\nCHERLINE : Just keep talking.<br>\nDOUGLAS : About what?<br>\nCHERLINE : Anything.<br>\nDOUGLAS : Alright. This burrito's actually shit.<br>\nCHERLINE : It's not.<br>\nDOUGLAS : It is.<br>\nCHERLINE : You just picked the wrong one.<br>\nDOUGLAS : There was a wrong one?</p><p><em>CHERLINE laughs despite herself.</em></p><p><em>She keeps glancing past him.</em></p><p>DOUGLAS : You're definitely looking at something.<br>\nCHERLINE : I'm not.<br>\nDOUGLAS : Right.</p><p><em>TAYLOR walks past behind them.</em></p><p><em>CHERLINE follows him with her eyes for a moment before looking away.</em></p><p><em>DOUGLAS notices and reaches over, giving her cheek a quick squeeze.</em></p><p>CHERLINE : Ow!<br>\nDOUGLAS : You're being weird.<br>\nCHERLINE : That hurt.<br>\nDOUGLAS : Good.</p><p><em>CHERLINE looks at him, then pinches his cheek.</em></p><p>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n</p><p>DOUGLAS : Ow!<br>\nCHERLINE : Fair.</p>\n<p><strong>-- JUMP S10 : GARAGE --</strong></p>\n<p><em>Back at the garage, WILLIAM and ANDREA are still there.</em></p>\n<p><em>AMELIE arrives a few minutes later.</em></p>\n<p><em>Not long after, DOUGLAS and CHERLINE walk in.</em></p>\n<p><em>ANDREA is still sitting on the sofa, looking half asleep.</em></p>\n<p>CHERLINE : Wake up, sleepyhead.<br>\n<em>She throws a ball of yarn at his head.</em></p>\n<p>ANDREA : What in the fuck?<br>\nDOUGLAS : Morning.<br>\nCHERLINE : Where were you? I was looking for you last night.<br>\nAMELIE : I was looking for you too.<br>\nCHERLINE : Yeah? Where were you?<br>\nAMELIE : You mean with Jake?<br>\nCHERLINE : Speaking of Jake, where is he?<br>\nAMELIE : He's fine. He's not coming.<br>\nCHERLINE : Why?<br>\nAMELIE : He's got something to do.<br>\n<em>WILLIAM taps his soda can against the table.</em></p>\n<p>WILLIAM : Okay, lads.<br>\n<em>Everyone looks over.</em></p>\n<p>WILLIAM : Since I've already called half of you this morning, might as well get everyone together.<br>\n<em>He puts the can down.</em></p>\n<p>WILLIAM : There's something we need to talk about.<br>\nCHERLINE : What happened?<br>\nWILLIAM : The venue for our summer performance can't keep the date we agreed on.<br>\nDOUGLAS : Why?<br>\nWILLIAM : They've got some issue with the government or something. Whatever it is, they can't change it.<br>\nCHERLINE : So what now?<br>\nWILLIAM : Two options.<br>\n<em>He counts them off on his fingers.</em></p>\n<p>WILLIAM : We move the show two weeks to a month earlier.<br>\nWILLIAM : Or we move it to September.<br>\nCHERLINE : September? That's basically two months later.<br>\nWILLIAM : Exactly.<br>\nCHERLINE : So if we don't want to push it back that far—<br>\nWILLIAM : We perform earlier.<br>\n<em>ANDREA stays quiet.</em></p>\n<p>DOUGLAS : How much time would we have?<br>\nWILLIAM : Two or three months.<br>\nAMELIE : Not bad.<br>\nCHERLINE : Better than delaying it.<br>\nDOUGLAS : Yeah, but we'd have to plan those three months properly.<br>\n<em>He looks around at everyone.</em></p>\n<p>DOUGLAS : Like, properly. Otherwise we're not gonna make it.<br>\nCHERLINE : Agreed.<br>\n<em>AMELIE looks at ANDREA.</em></p>\n<p>AMELIE : What about you, Andrew ?<br>\n<em>ANDREA looks around.</em></p>\n<p><em>He thinks for a moment.</em></p>\n<p>ANDREA : Yeah... okay.<br>\n<em>A small pause.</em></p>\n<p>ANDREA : Yeah, alright.<br>\nWILLIAM : So we're doing it?<br>\n<em>ANDREA nods.</em></p>\n<p>ANDREA : We're doing it.</p></div><div></div><div></div>",
+      "endingSong": {
+        "title": "Prada",
+        "artist": "cassö, RAYE, D-Block Europe",
+        "path": "assets/thoughts/audio/4ee12196-dd21-4852-9d56-aa7117436be8-casso-raye-d-block-europe-prada-lyrics-7clouds-rock.mp3.chunks.json"
+      },
+      "synopsis": "William comeback to London at early morning, finding out the Garage was full of mess. Cherline had struggle with her feelings entire night.",
+      "banner": "",
+      "bannerPosition": "center"
+    },
+    {
+      "id": "story-1790178749976",
+      "title": "Nobody Wants You (and Me)",
+      "date": "2026-09-23",
+      "slug": "nobody-wants-you-and-me",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083728371",
+      "order": 3,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790178767652",
+      "title": "The Music Stop when The Lights On",
+      "date": "2026-09-23",
+      "slug": "the-music-stop-when-the-lights-on",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083728371",
+      "order": 5,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790181021553",
+      "title": "Great Dissapointment",
+      "date": "2026-09-23",
+      "slug": "great-dissapointment",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083796402",
+      "order": 1,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790181052555",
+      "title": "Ol' Your Friends are Suck!",
+      "date": "2026-09-23",
+      "slug": "ol-your-friends-are-suck",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083796402",
+      "order": 2,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790181089078",
+      "title": "Onto Something New",
+      "date": "2026-09-23",
+      "slug": "onto-something-new",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083796402",
+      "order": 3,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790181106916",
+      "title": "Dear Mercy",
+      "date": "2026-09-23",
+      "slug": "dear-mercy",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083796402",
+      "order": 4,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790181173273",
+      "title": "Bring the Band on the Floor!",
+      "date": "2026-09-23",
+      "slug": "bring-the-band-on-the-floor",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083796402",
+      "order": 5,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790181201543",
+      "title": "Your Assumption Means Nothing",
+      "date": "2026-09-23",
+      "slug": "your-assumption-means-nothing",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083796402",
+      "order": 6,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790181233989",
+      "title": "End of Beginning",
+      "date": "2026-09-23",
+      "slug": "end-of-beginning",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083796402",
+      "order": 7,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790181335725",
+      "title": "Minute",
+      "date": "2026-09-23",
+      "slug": "minute",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083796402",
+      "order": 8,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790181353490",
+      "title": "ETA",
+      "date": "2026-09-23",
+      "slug": "eta",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083796402",
+      "order": 9,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790181657819",
+      "title": "Reckless in the Nation",
+      "date": "2026-09-23",
+      "slug": "rest-for-you-i-never-forget",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083796402",
+      "order": 10,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790181825476",
+      "title": "Cheers",
+      "date": "2026-09-23",
+      "slug": "cheers",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083796402",
+      "order": 11,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790181871427",
+      "title": "Years Bygone",
+      "date": "2026-09-23",
+      "slug": "years-bygone",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083796402",
+      "order": 12,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790181945250",
+      "title": "Be My Flower",
+      "date": "2026-09-23",
+      "slug": "be-my-flower",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083819601",
+      "order": 1,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790181976695",
+      "title": "The Words that Mean Something",
+      "date": "2026-09-23",
+      "slug": "the-words-that-mean-something",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083819601",
+      "order": 2,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790182009241",
+      "title": "What is Your Name Again?",
+      "date": "2026-09-23",
+      "slug": "what-is-your-name-again",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083819601",
+      "order": 3,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790182045519",
+      "title": "Different",
+      "date": "2026-09-23",
+      "slug": "different",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083819601",
+      "order": 4,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790182065463",
+      "title": "The Snow",
+      "date": "2026-09-23",
+      "slug": "the-snow",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083819601",
+      "order": 5,
+      "published": false,
+      "characterIds": [],
+      "body": "",
+      "endingSong": {
+        "title": "La Nieve",
+        "artist": "Guitarricadelafuente",
+        "path": "assets/thoughts/audio/0994ce38-59e9-4e96-a19c-43306a4e26a3-guitarricadelafuente-la-nieve-original-song-from-the-film-la.mp3.chunks.json"
+      }
+    },
+    {
+      "id": "story-1790182093235",
+      "title": "Aurora/Night Sky",
+      "date": "2026-09-23",
+      "slug": "aurora-night-sky",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083819601",
+      "order": 6,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790182141196",
+      "title": "Stand by Me, Stand by You",
+      "date": "2026-09-23",
+      "slug": "stand-by-me-stand-by-you",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083819601",
+      "order": 7,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790182173399",
+      "title": "Abel and Cain",
+      "date": "2026-09-23",
+      "slug": "abel-and-cain",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083819601",
+      "order": 8,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790182623500",
+      "title": "Love Letter",
+      "date": "2026-09-23",
+      "slug": "love-letter",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083819601",
+      "order": 10,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790182647184",
+      "title": "Remain of Us",
+      "date": "2026-09-23",
+      "slug": "remain-of-us",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083819601",
+      "order": 9,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790182673342",
+      "title": "Homecoming",
+      "date": "2026-09-23",
+      "slug": "homecoming",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083819601",
+      "order": 11,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790182712658",
+      "title": "Be my Only Flowers",
+      "date": "2026-09-23",
+      "slug": "be-my-only-flowers",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083819601",
+      "order": 12,
+      "published": false,
+      "characterIds": [],
+      "body": "",
+      "endingSong": {
+        "title": "All Waters",
+        "artist": "Perfume Genius",
+        "path": "assets/thoughts/audio/06a60aae-25af-42a9-a332-8fc996401d62-all-waters-perfume-genius.mp3.chunks.json"
+      }
+    },
+    {
+      "id": "story-1790182743792",
+      "title": "Coward",
+      "date": "2026-09-23",
+      "slug": "coward",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083812939",
+      "order": 1,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790182758568",
+      "title": "Pasta on the Drumstick",
+      "date": "2026-09-23",
+      "slug": "pasta-on-the-drumstick",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083812939",
+      "order": 2,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790182775315",
+      "title": "They Told Me Im Wrong, So Be It!",
+      "date": "2026-09-23",
+      "slug": "they-told-me-im-wrong-so-be-it",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083812939",
+      "order": 3,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790182811596",
+      "title": "Sweet Chaos",
+      "date": "2026-09-24",
+      "slug": "sweet-chaos",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083812939",
+      "order": 4,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790183031862",
+      "title": "Summer Ammusement",
+      "date": "2026-09-24",
+      "slug": "summer-ammusement",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083812939",
+      "order": 8,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790183991009",
+      "title": "Tell Me Its Not Over Yet",
+      "date": "2026-09-24",
+      "slug": "tell-me-its-not-over-yet",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083812939",
+      "order": 6,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790184083603",
+      "title": "Button Activation",
+      "date": "2026-09-24",
+      "slug": "requiem-for-a-dream",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083812939",
+      "order": 11,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790184136616",
+      "title": "Six Colour on That Summer",
+      "date": "2026-09-24",
+      "slug": "jake-jakov-jakovic",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083812939",
+      "order": 12,
+      "published": false,
+      "characterIds": [],
+      "body": "",
+      "banner": "",
+      "bannerPosition": "center",
+      "synopsis": ""
+    },
+    {
+      "id": "story-1790184191652",
+      "title": "U OK?",
+      "date": "2026-09-24",
+      "slug": "ok",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083812939",
+      "order": 9,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790184319635",
+      "title": "Girl You've Met",
+      "date": "2026-09-24",
+      "slug": "girl-you-ve-met",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083812939",
+      "order": 5,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790184359593",
+      "title": "Help Needed, Hello?",
+      "date": "2026-09-24",
+      "slug": "help-needed-hello",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083812939",
+      "order": 10,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790217964307",
+      "title": "Underwater",
+      "date": "2026-09-24",
+      "slug": "underwater",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083728371",
+      "order": 7,
+      "published": false,
+      "characterIds": [],
+      "body": ""
+    },
+    {
+      "id": "story-1790219679334",
+      "title": "You're Not Mine",
+      "date": "2026-09-24",
+      "slug": "non-sei-mio",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083812939",
+      "order": 7,
+      "published": false,
+      "characterIds": [],
+      "body": "",
+      "endingSong": {
+        "title": "Non Sei Mio",
+        "artist": "Cyril Giroux",
+        "path": "assets/thoughts/audio/b20b9253-0361-4ed7-8ed0-c48f49de0276-non-sei-mio-cyril-giroux.mp3.chunks.json"
+      }
+    },
+    {
+      "id": "story-1790677288448",
+      "title": "The Party",
+      "date": "2026-09-29",
+      "slug": "the-expo",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083728371",
+      "order": 8,
+      "published": false,
+      "characterIds": [],
+      "body": "",
+      "synopsis": ""
+    },
+    {
+      "id": "story-1790677327736",
+      "title": "Where Do We Go From Here?",
+      "date": "2026-09-29",
+      "slug": "where-do-we-go-from-here",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083728371",
+      "order": 11,
+      "published": false,
+      "characterIds": [],
+      "body": "",
+      "synopsis": ""
+    },
+    {
+      "id": "story-1790677465117",
+      "title": "Such a Pity, Such a Pity",
+      "date": "2026-09-29",
+      "slug": "such-a-pity-such-a-pity",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083728371",
+      "order": 9,
+      "published": false,
+      "characterIds": [],
+      "body": "",
+      "synopsis": ""
+    },
+    {
+      "id": "story-1790680280355",
+      "title": "Epilogue",
+      "date": "2026-09-29",
+      "slug": "epilogue",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083819601",
+      "order": 13,
+      "published": false,
+      "characterIds": [],
+      "body": "<p style=\"text-align: center\">I used to think people stayed.&nbsp;<span style=\"font-size: 1.06rem; background-color: transparent\">Maybe because, for a while, we did.</span></p><p style=\"text-align: center\">We kept showing up in the same places, sitting beside the same people, making the same noise. It was easy to believe that was just how things were going to be.</p><p style=\"text-align: center\">Then Cher changed.</p><p style=\"text-align: center\">Then Jakov.</p><p></p><div style=\"text-align: center\"><span style=\"font-size: 1.06rem; background-color: transparent\">Not all at once.&nbsp;</span></div><div style=\"text-align: center\"><span style=\"font-size: 1.06rem; background-color: transparent\">Not in some dramatic way.&nbsp;</span></div><div style=\"text-align: center\"><span style=\"font-size: 1.06rem; background-color: transparent\">Just little things.&nbsp;</span></div><div style=\"text-align: center\"><span style=\"font-size: 1.06rem; background-color: transparent\">A different plan.</span></div><div style=\"text-align: center\"><span style=\"font-size: 1.06rem; background-color: transparent\">&nbsp;A different place.<br><br></span></div><span style=\"font-size: 1.06rem; background-color: transparent\"><div style=\"text-align: center\"><span style=\"font-size: 1.06rem; background-color: transparent\">Someone not showing up one night.&nbsp;</span></div><div style=\"text-align: center\"><span style=\"font-size: 1.06rem; background-color: transparent\">Someone who used to be there suddenly having somewhere else to be.</span></div></span><p></p><p style=\"text-align: center\">And somehow, the world kept moving anyway.</p><p style=\"text-align: center\">I think I spent a long time trying to understand when things had started becoming different.</p><p style=\"text-align: center\">Maybe there wasn't a moment.</p><p style=\"text-align: center\">Maybe we just weren't paying attention.</p><p style=\"text-align: center\">Even now, Douglas is still Douglas. Amelie is still Amelie. Henry is still somewhere in the middle of whatever he's trying to figure out.</p><p style=\"text-align: center\">And the band...</p><p style=\"text-align: center\">Well.</p><p style=\"text-align: center\">It's not what it was.</p><p style=\"text-align: center\">I don't think it's supposed to be.</p><p style=\"text-align: center\">People carry things you don't see.&nbsp;<br><span style=\"font-size: 1.06rem; background-color: transparent\">They keep parts of themselves somewhere you can't reach. <br>Sometimes you find out.<br>&nbsp;Sometimes you don't.</span></p><p style=\"text-align: center\">And maybe that's okay.</p><p style=\"text-align: center\">Maybe knowing someone isn't about knowing everything.</p><p style=\"text-align: center\">Maybe it's just being there long enough to see them become someone you didn't expect.</p><p style=\"text-align: center\">And still recognising them.</p><p style=\"text-align: center\">Still caring.</p><p style=\"text-align: center\">Even when you don't quite know where they're going next.</p><p style=\"text-align: center\">I don't know if we ever really stayed together.</p><p style=\"text-align: center\">Maybe we just kept finding our way back to each other.</p><p style=\"text-align: center\">And maybe that's enough.</p><p style=\"text-align: center\">Because in the end, that's what this was.</p><p style=\"text-align: center\">Not a place where everyone stayed.</p><p style=\"text-align: center\">Just a place where, for a while...</p><p style=\"text-align: center\">we found each other.<br></p><p></p><div style=\"text-align: center\"><span style=\"font-size: 1.06rem; background-color: transparent\">Glad that i found myself in these people i loved and i cared.</span></div><div style=\"text-align: center\"><span style=\"font-size: 1.06rem; background-color: transparent\">And tommorow, it's year 2021.<br>Au Revoir.</span></div><div style=\"text-align: center\"><br></div><p></p>",
+      "synopsis": ""
+    },
+    {
+      "id": "story-1790827221092",
+      "title": "I Hate your Gut",
+      "date": "2026-10-01",
+      "slug": "i-hate-your-gut",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083728371",
+      "order": 4,
+      "published": false,
+      "characterIds": [],
+      "body": "",
+      "synopsis": ""
+    },
+    {
+      "id": "story-1790827343630",
+      "title": "Kiss your Friend Because the World is On Fire",
+      "date": "2026-10-01",
+      "slug": "kiss-your-friend-because-the-world-is-on-fire",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083728371",
+      "order": 6,
+      "published": false,
+      "characterIds": [],
+      "body": "",
+      "synopsis": ""
+    },
+    {
+      "id": "story-1790827479864",
+      "title": "Sleeping with the Lights On",
+      "date": "2026-10-01",
+      "slug": "sleeping-with-the-lights-on",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083728371",
+      "order": 10,
+      "published": false,
+      "characterIds": [],
+      "body": "",
+      "synopsis": ""
+    },
+    {
+      "id": "story-1790827585261",
+      "title": "Anchored",
+      "date": "2026-10-01",
+      "slug": "anchored",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "subseries-1790083728371",
+      "order": 12,
+      "published": false,
+      "characterIds": [],
+      "body": "",
+      "synopsis": ""
+    }
+  ],
+  "worldEntries": [],
+  "galleryItems": [
+    {
+      "id": "gallery-1791010100881-0",
+      "category": "poster",
+      "characterId": "",
+      "title": "The Lion, The Wolf and The Broken",
+      "caption": "",
+      "order": 0,
+      "image": "assets/thoughts/1791009982550-160fd7-artboard-1-copy-2.webp"
+    },
+    {
+      "id": "gallery-1791010100881-1",
+      "category": "poster",
+      "characterId": "",
+      "title": "Three Rounde Roads and Three More",
+      "caption": "",
+      "order": 1,
+      "image": "assets/thoughts/1791009984541-38accc-artboard-1-copy-3.webp"
+    },
+    {
+      "id": "gallery-1791010100881-2",
+      "category": "poster",
+      "characterId": "",
+      "title": "Ballad of The Merciless",
+      "caption": "",
+      "order": 2,
+      "image": "assets/thoughts/1791009986270-878925-artboard-1-copy-4.webp"
+    },
+    {
+      "id": "gallery-1791010100881-3",
+      "category": "poster",
+      "characterId": "",
+      "title": "The Pale Messenger",
+      "caption": "",
+      "order": 3,
+      "image": "assets/thoughts/1791009988210-b1c2af-artboard-1-copy-5.webp"
+    },
+    {
+      "id": "gallery-1791010100881-4",
+      "category": "poster",
+      "characterId": "",
+      "title": "Theatre of Time",
+      "caption": "",
+      "order": 4,
+      "image": "assets/thoughts/1791009989938-a1a650-artboard-1-copy-6.webp"
+    },
+    {
+      "id": "gallery-1791010100881-5",
+      "category": "poster",
+      "characterId": "",
+      "title": "Blood of My Blood",
+      "caption": "",
+      "order": 5,
+      "image": "assets/thoughts/1791009991705-153c82-artboard-1-copy-7.webp"
+    },
+    {
+      "id": "gallery-1791010100881-6",
+      "category": "poster",
+      "characterId": "",
+      "title": "In The Midst of Human Written",
+      "caption": "",
+      "order": 6,
+      "image": "assets/thoughts/1791009993691-49fa0c-artboard-1-copy-8.webp"
+    },
+    {
+      "id": "gallery-1791010100881-7",
+      "category": "poster",
+      "characterId": "",
+      "title": "West Wine and Feast",
+      "caption": "",
+      "order": 7,
+      "image": "assets/thoughts/1791009995630-7a7488-artboard-1-copy.webp"
+    },
+    {
+      "id": "gallery-1791010100881-8",
+      "category": "poster",
+      "characterId": "",
+      "title": "Tide Song of The Southern Shore",
+      "caption": "",
+      "order": 8,
+      "image": "assets/thoughts/1791009997720-872cbb-artboard-1.webp"
+    }
+  ]
+}
