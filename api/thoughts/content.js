@@ -10,7 +10,9 @@ function normalize(data) {
     series: Array.isArray(source.series) ? source.series : [],
     subseries: Array.isArray(source.subseries) ? source.subseries : [],
     characters: Array.isArray(source.characters) ? source.characters : [],
-    stories: stories.filter(function (story) {\n      return story && story.published !== false;\n    }),
+    stories: stories.filter(function (story) {
+      return story && story.published !== false;
+    }),
     worldEntries: Array.isArray(source.worldEntries) ? source.worldEntries : [],
     galleryItems: Array.isArray(source.galleryItems) ? source.galleryItems : [],
   };
