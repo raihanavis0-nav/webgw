@@ -1,4 +1,4 @@
-name: Import website archive
+name: Import uploaded website
 
 on:
   push:
@@ -16,26 +16,122 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Download exact source commit
+      - name: Extract text files from uploaded archive payload
         shell: bash
         run: |
           set -euo pipefail
-          curl -L --fail --retry 3             "https://codeload.github.com/alfathxxxxyz/websiteguaa/zip/39911847b4ad00aa7f11d217e45b18c909dce5b4"             -o /tmp/website.zip
-          rm -rf /tmp/website-import
-          mkdir -p /tmp/website-import
-          unzip -q /tmp/website.zip -d /tmp/website-import
-
-      - name: Copy website into repository root
-        shell: bash
-        run: |
-          set -euo pipefail
-          ROOT_DIR="$(find /tmp/website-import -mindepth 1 -maxdepth 1 -type d | head -n 1)"
+          test -f .import/text.b64
+          base64 -d .import/text.b64 > /tmp/text-only.zip
+          rm -rf /tmp/text-import
+          mkdir -p /tmp/text-import
+          unzip -q /tmp/text-only.zip -d /tmp/text-import
+          ROOT_DIR="$(find /tmp/text-import -mindepth 1 -maxdepth 1 -type d | head -n 1)"
           test -n "$ROOT_DIR"
           shopt -s dotglob nullglob
           cp -a "$ROOT_DIR"/. .
+
+      - name: Restore exact binary assets
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          PROBE_PATH="assets/img/Failnauqht_Outline_wide.png"
+          PROBE_SHA="9c8686947096e9570fc089f2e9aad2fea8b46ed05d5b2a5feed198fa65807e9b"
+          ASSET_BASE=""
+
+          for base in "https://h00dle.xyz" "https://websiteguaa.vercel.app"; do
+            echo "Probing $base"
+            if curl -L --fail --silent --show-error --connect-timeout 8 --max-time 30 "$base/$PROBE_PATH" -o /tmp/probe-asset; then
+              got="$(sha256sum /tmp/probe-asset | awk '{print $1}')"
+              if [ "$got" = "$PROBE_SHA" ]; then
+                ASSET_BASE="$base"
+                break
+              fi
+            fi
+          done
+
+          if [ -z "$ASSET_BASE" ]; then
+            echo "No live asset source matched the uploaded archive."
+            exit 1
+          fi
+
+          echo "Using exact-match asset source: $ASSET_BASE"
+
+          while read -r expected path; do
+            [ -n "$expected" ] || continue
+            mkdir -p "$(dirname "$path")"
+            tmp="$(mktemp)"
+            curl -L --fail --silent --show-error --connect-timeout 8 --max-time 60 "$ASSET_BASE/$path" -o "$tmp"
+            got="$(sha256sum "$tmp" | awk '{print $1}')"
+            if [ "$got" != "$expected" ]; then
+              echo "Hash mismatch: $path"
+              echo "expected=$expected"
+              echo "got=$got"
+              rm -f "$tmp"
+              exit 1
+            fi
+            mv "$tmp" "$path"
+            echo "verified $path"
+          done <<'ASSETS'
+9c8686947096e9570fc089f2e9aad2fea8b46ed05d5b2a5feed198fa65807e9b assets/img/Failnauqht_Outline_wide.png
+a2a3a37f999b8eec6794de6eb05cbf97f8ff3f473f7f35fcbba16613371d6c0c assets/img/designs/designs-01.webp
+50a5afc9870aa780e50b4b49ff9fc6e6324cbe75f2422faebccc237399d75b39 assets/img/designs/designs-02.webp
+eb03783353c923106f08af9d58e92bf5a67732fe9d5334a991befbbff3668d02 assets/img/designs/designs-03.webp
+256a8aa72875779fd20f49814304852acfcb85642c677f1c049f2979e876ea7f assets/img/designs/designs-04.webp
+81a1f13205fd9c67feb995719f12816ebabcd046bae5f2f6da7e962f7a038e6e assets/img/designs/designs-05.webp
+8424772f878bc5b2ebc5add48a20de3e4ca9c344af07a32c40760fecb18ab9ab assets/img/designs/designs-06.webp
+78e5d115892c52f2e1046218c4fe13b6c419c75efd453b79dc331e47d67c205b assets/img/designs/designs-07.webp
+e596256246e571a77f457bf00da85a91f58098345dc58e1f0e97f4b4492ca8c1 assets/img/designs/designs-08.webp
+dd57b7960181505f9041ce3c4b34f5b8e292baab55702e47f397611279a8430a assets/img/designs/designs-09.webp
+0661849a8a67a1f1b877940b9be3fc032b5fe37ebdfa9591dc12793112d65ff7 assets/img/designs/designs-10.webp
+e0009800f4c193af528440ddd87857436836dc0cd61f7f2f4a6637442240a7a3 assets/img/designs/designs-11.webp
+ce6704f26f6b1771de88c6d8daf2d0eac29ac3a8ee1d6ab5a9fc055d582e4131 assets/img/designs/designs-12.webp
+ed3b6cdcbcc540acfaae1805b8d60442d8e94d0eb4a8ad49584e34dc0c98dbdb assets/img/esport-posters/esport-posters-01.webp
+e20dcca2c09f2bae2520f1d8a53dd1a80aaf8064f1f855d66dff26b5ccc82f7d assets/img/esport-posters/esport-posters-02.webp
+6d8ff1f4f5fd27731269f11e6dcfb75ac914de5ca106ea52fc895761a9fe9720 assets/img/esport-posters/esport-posters-03.webp
+46892c64efac58a304e555f11d1bff5c207d44a4e8109f3f342e29ab2b034cc3 assets/img/esport-posters/esport-posters-04.webp
+c00af39f0cf3d84c711d2487bc7da687df6d426d95aa735793205de69598510c assets/img/esport-posters/esport-posters-05.webp
+969e533b6f27b049875498fd077cbbe65a272e1f569ba04cfb0cc0fc76471022 assets/img/f1/f1-01.webp
+8466e59dfd6f88e807c7116ce49a7e32ee0c7ed317fd1c6c9eb0015adaea39e8 assets/img/f1/f1-02.webp
+11ebd39fca31a916dd07c27d52de5dacd7bd7a372c1f87a1f8bc4ede24c2dbda assets/img/f1/f1-03.webp
+f1dd9ac2895bcf09b8759d097416b5a496fee151ee7b85dce65045f05c8960f2 assets/img/f1/f1-04.webp
+bf9d241f63c18b3fa4abda9ac6b62c01156f3b40447e8e5541b7704ec1f273b3 assets/img/f1/f1-05.webp
+7de11d8d9eab5cbaeb279b365e52376e7fb893960ba05167e8f4568e62d3fdc8 assets/img/f1/f1-06.webp
+e8d3d33478c1e3d3ea1bc30c3a40e77469df40b3d1abda3138791e21d83e4449 assets/img/f1/f1-07.webp
+70a532c008dbf6bb8361344d7bd3b53379b14fb6713ea29824b243393b9c79aa assets/img/f1/f1-08.webp
+d588989edf55197edb94300e9ee7f29ea61b0c80c93448fcaf43ee0be204e642 assets/img/f1/f1-09.webp
+ed60761c668a9f130d4f21a8a979e66a420f2a7e748d046fb96d97b341bc6d9c assets/img/f1/f1-10.webp
+a61658387658bb5244bd734bcbaad476d627cbe6fa81e94987c8bd673a2922b2 assets/img/f1/f1-11.webp
+b11b3c90979712cc9d3d81d2bda2bc1fdb8d973e0398bcec61aa6bbd420d3f8b assets/img/f1/f1-12.webp
+554dc0b4ba74b910970494aad7c018e47f8fdaa381a52de3a1721abcf5bfbdc2 assets/img/f1/f1-13.webp
+853fd9c0725e83c8d2998f7217f61f33afe9f4e29be255dd22de32c0beb09789 assets/img/f1/f1-14.webp
+a8cc0ed41b33727f95275e0b91e164483cccb9478c32eba2fe3aa6b826e0001d assets/img/f1/f1-15.webp
+46ddfe171435c84ee52c102bbcb23decc326d4ab5eb308c95f2a512d333efcf4 assets/img/f1/f1-16.webp
+d054b487e2b80be6f8013db75fac92210e6c33adcfda578d13a40e4a1e234f2a assets/img/f1/f1-17.webp
+d6638295c65d43b45666d78802cfe6190bda4b8444c4e133a487d19274fce3e3 assets/img/futbol/futbol-01.webp
+dba80bbb33e8b27a1cac77e13d141a6af930f45f16f7c8765f3bb4e6b5e966da assets/img/futbol/futbol-02.webp
+d80eaac19965dc8b3dccf9ed7d17b35663c04dc521f2195958bb866dfbf0d2a4 assets/img/infographics/infographics-01.webp
+17a8618e33ea32b7516c33b77e378beb76cfe0df25d633f06f55d5874d0d891f assets/img/infographics/infographics-02.webp
+c4feffbbc77179e16347879dee123253969ba183bd8d58e72efd83a551aa099b assets/img/infographics/infographics-03.webp
+73990a49bbc913dacb501402da2afc24d2dc9c72fc89ff8951e837aafa465d5e assets/img/profile-patt.webp
+594e6da996adee6fbb9f418957b0384327ea084a1ac3c2aa1f90ffbf9c4cd853 assets/img/stress-capital/stress-capital-01.webp
+9fd6984c1609fcf53478bec054a1736b789c148659488c147db042640a7d8b17 assets/img/stress-capital/stress-capital-02.webp
+ed524dbc6099bd22a80f7259db4bb01b40fe489ae6db3116784505d570755083 assets/img/stress-capital/stress-capital-03.webp
+12c153f217a1c58d70450a2b5c89519518a5622015558b27ec7286597d5de5c6 assets/img/stress-capital/stress-capital-04.webp
+dc9e94116fbf936c05fd22a1502d4074767c86013711b60dbb46770b48847848 assets/img/stress-capital/stress-capital-05.webp
+ca3246ce485193bb5d81c9a406fc990ba91001cfdf297be3af981ec233eed06c assets/img/stress-capital/stress-capital-06.webp
+c584d1c79d462b6794b13efb918b5d30fe46c43b6f0d815038940c2522aa8f37 assets/img/stress-capital/stress-capital-07.webp
+a3b853b6d42be301acf07eb27cb1529e552782f80fa745602498fbf9323ac1cf assets/img/stress-capital/stress-capital-08.webp
+ASSETS
+
+      - name: Remove temporary import files
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .import
           rm -f .github/workflows/import-webgw.yml
 
-      - name: Commit imported website
+      - name: Commit exact uploaded website
         shell: bash
         run: |
           set -euo pipefail
