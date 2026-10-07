@@ -104,6 +104,16 @@
   ],
   "redirects": [
     {
+      "source": "/admin.html",
+      "destination": "/storyadm",
+      "permanent": false
+    },
+    {
+      "source": "/admin",
+      "destination": "/storyadm",
+      "permanent": false
+    },
+    {
       "source": "/thoughts",
       "destination": "/read",
       "permanent": false
