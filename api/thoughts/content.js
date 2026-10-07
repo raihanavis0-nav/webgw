@@ -29,7 +29,7 @@ module.exports = async function handler(req, res) {
   if (!reader.requireSession(req, res)) return;
 
   try {
-    const library = await store.readLibrary();
+    const library = await store.readPublicLibrary();
     return res.status(200).json({
       data: normalize(library.data),
     });
