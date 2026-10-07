@@ -30,6 +30,11 @@ jobs:
           shopt -s dotglob nullglob
           cp -a "$ROOT_DIR"/. .
 
+          # GitHub Actions' token cannot create/update workflow files.
+          # Keep the temporary import workflow unchanged and add the real
+          # workflow afterward through the GitHub connector.
+          rm -f .github/workflows/build-gallery.yml
+
       - name: Verify imported structure
         shell: bash
         run: |
@@ -46,12 +51,11 @@ jobs:
           echo "Asset files: $count"
           [ "$count" -ge 49 ]
 
-      - name: Remove temporary import files
+      - name: Remove transfer payload
         shell: bash
         run: |
           set -euo pipefail
           rm -rf .import
-          rm -f .github/workflows/import-webgw.yml
 
       - name: Commit imported website
         shell: bash
