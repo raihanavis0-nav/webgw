@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 
 const COOKIE_NAME = "thoughts_admin_session";
-const SESSION_TTL_SECONDS = 60 * 60 * 24 * 30;
+const SESSION_TTL_SECONDS = 60 * 60 * 24;
 
 function adminUsername() {
   return String(process.env.THOUGHTS_ADMIN_USERNAME || "admin").trim() || "admin";
