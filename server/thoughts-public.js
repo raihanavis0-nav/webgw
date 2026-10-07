@@ -4,7 +4,7 @@ const COOKIE_NAME = "thoughts_reader_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 30;
 
 function accessCode() {
-  return process.env.THOUGHTS_ACCESS_CODE || "";
+  return process.env.THOUGHTS_ACCESS_CODE || process.env.PASS_READ || "";
 }
 
 function readerSecret() {
