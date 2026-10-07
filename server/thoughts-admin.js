@@ -4,11 +4,11 @@ const COOKIE_NAME = "thoughts_admin_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 24;
 
 function adminUsername() {
-  return String(process.env.THOUGHTS_ADMIN_USERNAME || "admin").trim() || "admin";
+  return String(process.env.THOUGHTS_ADMIN_USERNAME || process.env.UNAME_ADM || "admin").trim() || "admin";
 }
 
 function adminPassword() {
-  return process.env.THOUGHTS_ADMIN_PASSWORD || "";
+  return process.env.THOUGHTS_ADMIN_PASSWORD || process.env.PASS_ADM || "";
 }
 
 function githubToken() {
