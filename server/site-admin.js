@@ -177,7 +177,7 @@ function uniqueImagePath(folder, baseName, index, extension, originalName) {
 
 function findArrayProperty(source, propertyName, fromIndex) {
   const startAt = Math.max(0, Number(fromIndex) || 0);
-  const pattern = new RegExp("\\"?" + propertyName + "\\"?\\s*:\\s*\\[", "g");
+  const pattern = new RegExp('"?' + propertyName + '"?\\s*:\\s*\\[', "g");
   pattern.lastIndex = startAt;
   const match = pattern.exec(source);
   if (!match) return null;
