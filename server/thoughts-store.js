@@ -4,6 +4,14 @@ const DATA_BRANCH = "thoughts-data";
 const DATA_PATH = "content/thoughts.json";
 
 const API_ROOT = "https://api.github.com/repos/" + OWNER + "/" + REPO;
+const RAW_ROOT =
+  "https://raw.githubusercontent.com/" +
+  OWNER +
+  "/" +
+  REPO +
+  "/" +
+  DATA_BRANCH +
+  "/";
 
 // Temporary compatibility path for the large audio chunks that could not be
 // copied through the repository connector. New uploads are always written to
@@ -44,15 +52,19 @@ function writeHeaders() {
   };
 }
 
+function encodedPath(path) {
+  return String(path || "")
+    .split("/")
+    .map(encodeURIComponent)
+    .join("/");
+}
+
 function contentUrl(path, apiRoot) {
-  return (
-    (apiRoot || API_ROOT) +
-    "/contents/" +
-    String(path || "")
-      .split("/")
-      .map(encodeURIComponent)
-      .join("/")
-  );
+  return (apiRoot || API_ROOT) + "/contents/" + encodedPath(path);
+}
+
+function rawUrl(path) {
+  return RAW_ROOT + encodedPath(path);
 }
 
 async function publicJson(url) {
@@ -116,10 +128,7 @@ async function fetchRaw(url, headers) {
 }
 
 async function getRawFile(path) {
-  const primary = await fetchRaw(
-    contentUrl(path) + "?ref=" + encodeURIComponent(DATA_BRANCH),
-    publicHeaders("application/vnd.github.raw+json")
-  );
+  const primary = await fetchRaw(rawUrl(path), {});
 
   if (primary.file) return primary.file;
 
@@ -160,6 +169,25 @@ async function getRawFile(path) {
   error.status = primary.response.status;
   error.detail = detail;
   throw error;
+}
+
+async function readPublicLibrary() {
+  const response = await fetch(rawUrl(DATA_PATH), {
+    headers: { Accept: "application/json" },
+  });
+
+  if (!response.ok) {
+    const error = new Error(
+      "Public story storage request failed (" + response.status + ")."
+    );
+    error.status = response.status;
+    throw error;
+  }
+
+  return {
+    sha: null,
+    data: JSON.parse(await response.text()),
+  };
 }
 
 async function readLibrary() {
@@ -223,6 +251,7 @@ module.exports = {
   getRawFile,
   isConfigured,
   readLibrary,
+  readPublicLibrary,
   writeLibrary,
   writeMedia,
 };
