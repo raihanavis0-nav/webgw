@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <title>Admin // Patt</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      [hidden] { display: none !important; }
+      body { min-height: 100vh; }
+      .admin-wrap {
+        width: min(760px, calc(100% - 36px));
+        margin: 0 auto;
+        padding: 56px 0 96px;
+      }
+      .admin-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        align-items: flex-end;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 20px;
+        margin-bottom: 24px;
+      }
+      .admin-title {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 7vw, 3.3rem);
+        letter-spacing: -0.055em;
+        line-height: 0.95;
+        margin: 0;
+      }
+      .admin-kicker, .hint, .status {
+        color: var(--text-muted);
+      }
+      .admin-kicker { margin: 8px 0 0; }
+      .card {
+        border: 1px solid var(--border);
+        background: var(--surface);
+        padding: 24px;
+        margin-bottom: 18px;
+      }
+      .card h2 {
+        margin: 0 0 6px;
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+      }
+      .hint {
+        font-size: 0.88rem;
+        line-height: 1.55;
+        margin: 0 0 18px;
+      }
+      .field {
+        display: block;
+        margin: 14px 0 6px;
+        color: var(--text-muted);
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+      input, select {
+        width: 100%;
+        border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--text);
+        font: inherit;
+        padding: 12px 13px;
+        outline: none;
+      }
+      input:focus, select:focus { border-color: var(--accent); }
+      input[type="file"] { padding: 10px; }
+      button {
+        font: inherit;
+      }
+      .btn {
+        border: 1px solid var(--accent);
+        background: var(--accent);
+        color: var(--accent-ink);
+        padding: 11px 17px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+      .btn.secondary {
+        background: transparent;
+        color: var(--text);
+        border-color: var(--border-strong);
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+      }
+      .modes {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+      }
+      .mode-btn {
+        border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--text-muted);
+        padding: 8px 12px;
+        cursor: pointer;
+      }
+      .mode-btn.active {
+        color: var(--text);
+        border-color: var(--accent);
+      }
+      .status {
+        font-family: "Space Grotesk", monospace;
+        font-size: 0.82rem;
+        white-space: pre-wrap;
+        border: 1px dashed var(--border);
+        padding: 12px;
+        margin-top: 14px;
+        min-height: 42px;
+      }
+      .status:empty { display: none; }
+      .status.ok { color: var(--accent); }
+      .status.err { color: #ff6b5e; }
+      .session {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        color: var(--text-muted);
+        font-size: 0.86rem;
+      }
+      .session b { color: var(--text); }
+      @media (max-width: 560px) {
+        .admin-head { align-items: flex-start; flex-direction: column; }
+        .card { padding: 20px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="admin-wrap">
+      <header class="admin-head">
+        <div>
+          <h1 class="admin-title">Portfolio Admin</h1>
+          <p class="admin-kicker">Film dan portfolio, tanpa GitHub token di browser.</p>
+        </div>
+        <div class="session" id="sessionBar" hidden>
+          <span>Login: <b id="sessionUser"></b></span>
+          <a href="storyadm">Story admin</a>
+          <button class="btn secondary" id="logoutButton" type="button">Logout</button>
+        </div>
+      </header>
+
+      <section class="card" id="loginCard">
+        <h2>Login</h2>
+        <p class="hint">Pakai akun admin yang sama dengan Story Admin.</p>
+
+        <label class="field" for="usernameInput">Username</label>
+        <input id="usernameInput" type="text" autocomplete="username" />
+
+        <label class="field" for="passwordInput">Password</label>
+        <input id="passwordInput" type="password" autocomplete="current-password" />
+
+        <div class="actions">
+          <button class="btn" id="loginButton" type="button">Login</button>
+        </div>
+        <div class="status" id="loginStatus" role="status"></div>
+      </section>
+
+      <div id="adminApp" hidden>
+        <section class="card">
+          <h2>Tambah Film</h2>
+          <p class="hint">Film baru masuk paling atas sebagai yang paling baru ditonton.</p>
+
+          <label class="field" for="filmTitle">Judul Film</label>
+          <input id="filmTitle" type="text" maxlength="200" />
+
+          <label class="field" for="filmRating">Rating</label>
+          <select id="filmRating">
+            <option value="N/R">Belum dirating (N/R)</option>
+            <option value="5">5 / 5</option>
+            <option value="4.5">4.5 / 5</option>
+            <option value="4">4 / 5</option>
+            <option value="3.5">3.5 / 5</option>
+            <option value="3">3 / 5</option>
+            <option value="2.5">2.5 / 5</option>
+            <option value="2">2 / 5</option>
+            <option value="1.5">1.5 / 5</option>
+            <option value="1">1 / 5</option>
+            <option value="0.5">0.5 / 5</option>
+          </select>
+
+          <div class="actions">
+            <button class="btn" id="addFilmButton" type="button">Tambah & Publish</button>
+          </div>
+          <div class="status" id="filmStatus" role="status"></div>
+        </section>
+
+        <section class="card">
+          <h2>Tambah Gambar Kerja</h2>
+          <p class="hint">Gambar di-resize maksimal 1500px dan dikompres di browser sebelum dikirim ke server.</p>
+
+          <div class="modes">
+            <button class="mode-btn active" data-mode="existing" type="button">Album yang ada</button>
+            <button class="mode-btn" data-mode="new" type="button">Album baru</button>
+            <button class="mode-btn" data-mode="loose" type="button">Foto lepas</button>
+          </div>
+
+          <div id="existingAlbumFields">
+            <label class="field" for="albumSelect">Album</label>
+            <select id="albumSelect"></select>
+          </div>
+
+          <div id="newAlbumFields" hidden>
+            <label class="field" for="newAlbumName">Nama Album Baru</label>
+            <input id="newAlbumName" type="text" maxlength="120" />
+          </div>
+
+          <label class="field" for="imageFiles">Gambar</label>
+          <input id="imageFiles" type="file" accept="image/*" multiple />
+
+          <div class="actions">
+            <button class="btn" id="uploadButton" type="button">Upload & Publish</button>
+          </div>
+          <div class="status" id="imageStatus" role="status"></div>
+        </section>
+      </div>
+    </main>
+
+    <script src="js/data.js"></script>
+    <script src="js/admin.js"></script>
+  </body>
+</html>
