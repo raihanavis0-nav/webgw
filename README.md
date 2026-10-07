@@ -10,9 +10,10 @@ Multi-page personal portfolio built with plain HTML, CSS, and JavaScript and dep
 - `films.html` — searchable/sortable film list
 - `contact.html` — contact and social links
 - `/read` — password-gated fiction/archive reader
+- `/admin` — server-side portfolio admin for films and work images
 - `/storyadm` — server-side archive admin
 
-The old browser-based `/admin` that stored a GitHub PAT in localStorage has been removed. Requests to `/admin` are redirected to `/storyadm`.
+Both admin surfaces use the same server-side admin session. GitHub credentials never need to be pasted into or stored by the browser.
 
 ## Content
 
@@ -62,7 +63,7 @@ For archive editing, `THOUGHTS_GITHUB_TOKEN` needs Contents read/write permissio
 
 ## JavaScript structure
 
-Shared behavior is kept small and page-specific behavior only loads where needed.
+Shared behavior is kept small and page-specific behavior only loads where needed. `js/admin.js` talks only to same-origin server APIs; it does not contain or persist a GitHub token.
 
 ```text
 js/
