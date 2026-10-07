@@ -25,6 +25,14 @@ function githubToken() {
   return process.env.THOUGHTS_GITHUB_TOKEN || "";
 }
 
+function legacyGithubToken() {
+  return (
+    process.env.THOUGHTS_LEGACY_GITHUB_TOKEN ||
+    process.env.THOUGHTS_GITHUB_TOKEN ||
+    ""
+  );
+}
+
 function isConfigured() {
   return Boolean(githubToken());
 }
@@ -137,7 +145,7 @@ async function getRawFile(path) {
     /^assets\/thoughts\/audio\/chunks\/[a-zA-Z0-9._-]+\.part$/.test(
       String(path || "")
     ) &&
-    githubToken();
+    legacyGithubToken();
 
   if (canUseLegacyAudio) {
     const legacy = await fetchRaw(
@@ -145,7 +153,7 @@ async function getRawFile(path) {
         "?ref=" +
         encodeURIComponent(DATA_BRANCH),
       {
-        Authorization: "Bearer " + githubToken(),
+        Authorization: "Bearer " + legacyGithubToken(),
         Accept: "application/vnd.github.raw+json",
         "X-GitHub-Api-Version": "2022-11-28",
       }
