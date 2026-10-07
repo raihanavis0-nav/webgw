@@ -7,12 +7,12 @@ function accessCode() {
   return process.env.THOUGHTS_ACCESS_CODE || "";
 }
 
-function githubToken() {
-  return process.env.THOUGHTS_GITHUB_TOKEN || "";
+function readerSecret() {
+  return process.env.THOUGHTS_READER_SESSION_SECRET || accessCode();
 }
 
 function isConfigured() {
-  return Boolean(accessCode().length >= 16 && githubToken());
+  return accessCode().length >= 16;
 }
 
 function safeEqual(a, b) {
@@ -38,7 +38,7 @@ function parseCookies(header) {
 function signingSecret() {
   return crypto
     .createHash("sha256")
-    .update("thoughts-reader\u0000" + accessCode() + "\u0000" + githubToken())
+    .update("thoughts-reader\u0000" + readerSecret())
     .digest();
 }
 
