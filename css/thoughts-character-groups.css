@@ -1,0 +1,146 @@
+.character-series-group {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 120px);
+  gap: 22px 18px;
+  align-items: start;
+  padding-top: 24px;
+  margin-top: 6px;
+  border-top: 1px solid var(--line);
+}
+
+.character-series-group:first-child {
+  padding-top: 0;
+  margin-top: 0;
+  border-top: 0;
+}
+
+.character-series-heading {
+  grid-column: 1 / -1;
+  margin: 0 0 2px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.character-series-group .character-meta[hidden] {
+  display: none;
+}
+
+.character-series-group .character-portrait-placeholder {
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  letter-spacing: -0.03em;
+}
+
+@media (max-width: 680px) {
+  .character-series-group {
+    grid-template-columns: repeat(auto-fill, 120px);
+  }
+}
+
+
+/* iPhone character grid */
+@media (max-width: 480px) {
+  .character-series-group {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 26px 14px;
+    padding-top: 20px;
+  }
+
+  .character-series-heading {
+    min-height: 40px;
+    align-items: center;
+  }
+}
+
+
+/* Reader character collapse controls */
+.reader-character-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.reader-character-section-heading h2 {
+  margin-right: auto;
+}
+
+.reader-character-collapse-toggle {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  display: inline-grid;
+  place-items: center;
+  margin: 0 2px 0 -4px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.reader-character-collapse-toggle:hover,
+.reader-character-collapse-toggle:focus-visible {
+  color: var(--ink);
+}
+
+.reader-character-collapse-toggle:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 2px;
+}
+
+.reader-character-collapse-icon {
+  display: block;
+  transform: translateY(-0.5px);
+}
+
+.character-series-heading.reader-character-group-heading {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.character-series-heading.reader-character-group-heading
+  > .reader-character-collapse-toggle {
+  margin-left: -5px;
+}
+
+#charactersSection.reader-characters-collapsed > #characterGrid {
+  display: none !important;
+}
+
+.character-series-group.reader-character-group-collapsed
+  > .character-card {
+  display: none !important;
+}
+
+.character-series-group.reader-character-group-collapsed {
+  gap: 0;
+}
+
+.character-series-group.reader-character-group-collapsed
+  > .character-series-heading {
+  margin-bottom: 0;
+}
+
+@media (max-width: 480px) {
+  .reader-character-collapse-toggle {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+    margin-left: -7px;
+    font-size: 0.94rem;
+    touch-action: manipulation;
+  }
+
+  .character-series-heading.reader-character-group-heading
+    > .reader-character-collapse-toggle {
+    margin-left: -8px;
+  }
+}

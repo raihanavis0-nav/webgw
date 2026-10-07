@@ -1,0 +1,88 @@
+/* =============================================================
+   REVEAL-TEXT.CSS — rectangular per-line text reveal.
+   A block sweeps across each line (left to right), then sweeps off
+   (still left to right) leaving the text behind. Lines are staggered.
+   Paired with js/reveal-text.js, which does the line splitting.
+   ============================================================= */
+
+/* Before JS splits it, keep the text hidden so it can't flash unmasked.
+   The .rt-ready class is only added once lines exist, so if JS never
+   runs the text stays visible via the :not() guard below. */
+[data-reveal-text].rt-ready > .rt-line {
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.rt-line-in {
+  display: block;
+  opacity: 0;
+}
+
+.rt-mask {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+/* Only run once the line scrolls into view (JS adds .rt-in). */
+.rt-line.rt-in .rt-mask {
+  animation: rtMask 0.9s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: calc(var(--i, 0) * 0.12s);
+}
+
+.rt-line.rt-in .rt-line-in {
+  animation: rtText 0.9s steps(1, end) forwards;
+  animation-delay: calc(var(--i, 0) * 0.12s);
+}
+
+/* Sweep in from the left, then continue off to the right — the origin
+   flip at the midpoint is what makes it read as one pass rather than a
+   block that grows and shrinks back. */
+@keyframes rtMask {
+  0% {
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+  48% {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+  52% {
+    transform: scaleX(1);
+    transform-origin: right center;
+  }
+  100% {
+    transform: scaleX(0);
+    transform-origin: right center;
+  }
+}
+
+/* The text appears under the block while it is fully covering. */
+@keyframes rtText {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rt-line-in {
+    opacity: 1;
+  }
+  .rt-mask {
+    display: none;
+  }
+  .rt-line.rt-in .rt-mask,
+  .rt-line.rt-in .rt-line-in {
+    animation: none;
+  }
+}

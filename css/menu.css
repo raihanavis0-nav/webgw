@@ -1,0 +1,162 @@
+/* =============================================================
+   MENU.CSS — fullscreen "spring & snap" nav overlay (homepage).
+   Opens from the navbar menu button with staggered nav links.
+   Pure CSS motion (no GSAP); wired by js/menu.js.
+   Honors reduced-motion.
+   ============================================================= */
+
+/* Homepage adopts the overlay as the primary nav: hide the inline
+   links and always show the menu button. */
+.home-editorial .nav-links {
+  display: none !important;
+}
+.home-editorial .menu-btn {
+  display: inline-flex;
+}
+
+.mega-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  align-content: center;
+  visibility: hidden;
+  pointer-events: none;
+}
+.mega-menu.open {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Backdrop that wipes in from the top. */
+.mega-menu::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--bg);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.mega-menu.open::before {
+  transform: scaleY(1);
+}
+
+/* ---------- Left: staggered nav links ---------- */
+.mega-nav {
+  padding: 0 clamp(28px, 8vw, 120px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 1vw, 10px);
+}
+
+.mega-link {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  overflow: hidden;
+  padding: 2px 0;
+  text-decoration: none;
+}
+.mega-link .mega-idx {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  transform: translateY(120%);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--i) * 0.05s + 0.12s);
+}
+.mega-link .mega-word {
+  display: block;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  transform: translateY(110%);
+  transition:
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.25s ease;
+  transition-delay: calc(var(--i) * 0.06s + 0.15s), 0s;
+}
+.mega-menu.open .mega-link .mega-idx,
+.mega-menu.open .mega-link .mega-word {
+  transform: translateY(0);
+}
+.mega-link:hover .mega-word,
+.mega-link.is-active .mega-word {
+  color: var(--accent);
+}
+
+/* ---------- Overlay footer (email) ---------- */
+.mega-foot {
+  position: absolute;
+  left: clamp(28px, 8vw, 120px);
+  bottom: 28px;
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.5s ease 0.4s;
+}
+.mega-menu.open .mega-foot {
+  opacity: 1;
+}
+.mega-foot a {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.mega-foot a:hover {
+  color: var(--accent);
+}
+
+/* Close button — lives inside the overlay so it always sits on top
+   (the navbar is z-index 100, below the overlay). */
+.mega-close {
+  position: absolute;
+  top: 22px;
+  right: 24px;
+  z-index: 140;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.8) rotate(-90deg);
+  transition:
+    opacity 0.4s ease 0.3s,
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+.mega-menu.open .mega-close {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+.mega-close:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mega-menu::before,
+  .mega-link .mega-idx,
+  .mega-link .mega-word {
+    transition: none;
+  }
+}

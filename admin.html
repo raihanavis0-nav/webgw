@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Admin // Patt</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✦</text></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      .admin-wrap {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 60px 24px 100px;
+      }
+      .admin-title {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 6vw, 3rem);
+        letter-spacing: -1px;
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+      .admin-sub {
+        color: var(--text-muted);
+        margin-bottom: 36px;
+        font-size: 0.98rem;
+      }
+      .card {
+        border: 1px solid var(--border);
+        background: var(--surface);
+        padding: 26px;
+        margin-bottom: 22px;
+      }
+      .card h2 {
+        font-family: var(--font-display);
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      .card .hint {
+        color: var(--text-muted);
+        font-size: 0.88rem;
+        margin-bottom: 18px;
+      }
+      label.field {
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: var(--text-muted);
+        margin: 14px 0 6px;
+      }
+      input[type="text"],
+      input[type="password"],
+      select {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+        font-size: 0.95rem;
+        outline: none;
+      }
+      input[type="text"]:focus,
+      input[type="password"]:focus,
+      select:focus {
+        border-color: var(--accent);
+      }
+      input[type="file"] {
+        width: 100%;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        margin-top: 6px;
+      }
+      .row {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+      .row > * {
+        flex: 1;
+        min-width: 160px;
+      }
+      .btn-admin {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 13px 24px;
+        background: var(--accent);
+        color: var(--accent-ink);
+        border: 1px solid var(--accent);
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: 0.2s var(--ease);
+      }
+      .btn-admin:hover {
+        filter: brightness(1.05);
+      }
+      .btn-admin:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .btn-ghost-admin {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid var(--border-strong);
+      }
+      .modes {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 6px;
+      }
+      .mode-btn {
+        padding: 9px 16px;
+        border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--text-muted);
+        font-family: var(--font-body);
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+      }
+      .mode-btn.active {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.88rem;
+        color: var(--text-muted);
+      }
+      .topbar b {
+        color: var(--text);
+      }
+      .log {
+        font-family: "Space Grotesk", monospace;
+        font-size: 0.85rem;
+        white-space: pre-wrap;
+        line-height: 1.6;
+        margin-top: 18px;
+        padding: 14px;
+        border: 1px dashed var(--border-strong);
+        background: var(--bg);
+        max-height: 240px;
+        overflow: auto;
+        display: none;
+      }
+      .log.show {
+        display: block;
+      }
+      .ok {
+        color: var(--accent);
+      }
+      .err {
+        color: #ff6b5e;
+      }
+      .help {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+        margin-top: 14px;
+      }
+      .help a {
+        color: var(--accent);
+        text-decoration: underline;
+      }
+      .hide {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="admin-wrap">
+      <h1 class="admin-title">Admin Panel ✦</h1>
+      <p class="admin-sub">
+        Tambah film & gambar kerja langsung ke situs. Perubahan otomatis
+        ke-publish (live ~1 menit setelah simpan).
+      </p>
+
+      <!-- ===== LOCK / CONNECT ===== -->
+      <section class="card" id="lockCard">
+        <h2>Hubungkan ke GitHub</h2>
+        <p class="hint">
+          Tempel GitHub token sekali. Disimpan cuma di browser ini.
+        </p>
+        <label class="field" for="tokenInput">GitHub Token</label>
+        <input
+          type="password"
+          id="tokenInput"
+          placeholder="github_pat_..."
+          autocomplete="off"
+        />
+        <label class="field" for="branchInput">Branch (biarkan "main")</label>
+        <input type="text" id="branchInput" value="main" />
+        <button class="btn-admin" id="connectBtn">Hubungkan</button>
+        <div class="help">
+          Belum punya token? Buat
+          <a
+            href="https://github.com/settings/personal-access-tokens/new"
+            target="_blank"
+            rel="noopener"
+            >fine-grained token</a
+          >
+          → pilih repo <b>websiteguaa</b> → izin <b>Contents: Read and write</b>
+          → Generate → tempel di atas.
+        </div>
+        <div class="log" id="lockLog"></div>
+      </section>
+
+      <!-- ===== APP ===== -->
+      <div id="app" class="hide">
+        <div class="topbar">
+          <span>Terhubung: <b id="repoLabel"></b> · branch <b id="branchLabel"></b></span>
+          <button class="mode-btn" id="lockBtn">Lupakan token</button>
+        </div>
+
+        <!-- Add Film -->
+        <section class="card">
+          <h2>Tambah Film</h2>
+          <p class="hint">Masuk ke bagian atas daftar (paling baru ditonton).</p>
+          <label class="field" for="filmTitle">Judul Film</label>
+          <input type="text" id="filmTitle" placeholder="cth. Dune: Part Two" />
+          <label class="field" for="filmRating">Rating</label>
+          <select id="filmRating">
+            <option value="N/R">Belum dirating (N/R)</option>
+            <option value="5">5 / 5</option>
+            <option value="4.5">4.5 / 5</option>
+            <option value="4">4 / 5</option>
+            <option value="3.5">3.5 / 5</option>
+            <option value="3">3 / 5</option>
+            <option value="2.5">2.5 / 5</option>
+            <option value="2">2 / 5</option>
+            <option value="1.5">1.5 / 5</option>
+            <option value="1">1 / 5</option>
+            <option value="0.5">0.5 / 5</option>
+          </select>
+          <button class="btn-admin" id="addFilmBtn">Tambah & Publish</button>
+        </section>
+
+        <!-- Add Work Images -->
+        <section class="card">
+          <h2>Tambah Gambar Kerja</h2>
+          <p class="hint">
+            Gambar otomatis di-resize ke maks 1500px & dikompres sebelum
+            di-upload.
+          </p>
+          <div class="modes">
+            <button class="mode-btn active" data-mode="existing">
+              Album yang ada
+            </button>
+            <button class="mode-btn" data-mode="new">Album baru</button>
+            <button class="mode-btn" data-mode="loose">Foto lepas</button>
+          </div>
+
+          <div id="modeExisting">
+            <label class="field" for="albumSelect">Pilih Album</label>
+            <select id="albumSelect"></select>
+          </div>
+
+          <div id="modeNew" class="hide">
+            <label class="field" for="newAlbumName">Nama Album Baru</label>
+            <input
+              type="text"
+              id="newAlbumName"
+              placeholder="cth. Logo Explorations"
+            />
+          </div>
+
+          <label class="field" for="imgFiles">Pilih Gambar (boleh banyak)</label>
+          <input type="file" id="imgFiles" accept="image/*" multiple />
+          <button class="btn-admin" id="addImgBtn">Upload & Publish</button>
+        </section>
+
+        <div class="log show" id="log"></div>
+      </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/admin.js"></script>
+  </body>
+</html>
