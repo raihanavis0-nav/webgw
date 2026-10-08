@@ -91,7 +91,14 @@
       "order": 4,
       "description": "",
       "banner": "assets/thoughts/1790932148801-52ce9a-melancholic-over-the-shoulder-in-mist.webp",
-      "cover": ""
+      "cover": "assets/thoughts/1791448978598-93d76c-group-1-copy-6.webp",
+      "uiTheme": {
+        "background": "#003994",
+        "font": ""
+      },
+      "paperTheme": {
+        "background": "#FFFDF7"
+      }
     },
     {
       "id": "subseries-1790510502303",
