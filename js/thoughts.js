@@ -1110,10 +1110,7 @@
     var next = ["stories", "characters", "world", "timeline"].includes(view)
       ? view
       : "stories";
-    if (next !== "stories" && window.SubseriesThemes) {
-      window.SubseriesThemes.applyUi(document.body, null);
-    }
-
+    // Tab switching must preserve the selected Book's theme.
     document.querySelectorAll("[data-archive-view]").forEach(function (button) {
       var active = button.getAttribute("data-archive-view") === next;
       button.setAttribute("aria-pressed", active ? "true" : "false");
@@ -1146,7 +1143,8 @@
       var selected = seriesContext().seriesId;
       var params = new URLSearchParams();
       if (selected) params.set("series", selected);
-      if (next === "stories" && selected && seriesContext().bookId) params.set("book", seriesContext().bookId);
+      // Preserve the current Book for Characters, World and Timeline too.
+      if (selected && seriesContext().bookId) params.set("book", seriesContext().bookId);
       if (next !== "stories") params.set("view", next);
       history.pushState({}, "", "read" + (params.toString() ? "?" + params.toString() : ""));
     }
@@ -1816,12 +1814,14 @@
   }
 
   function renderStory(story) {
-    // Chapter pages use the global UI theme and independent paper color.
-    if (window.SubseriesThemes) window.SubseriesThemes.applyUi(document.body, null);
     if (window.ArchiveSeriesPostersReader) window.ArchiveSeriesPostersReader.stopAll();
     var series = seriesById(story.seriesId);
     var subseries = subseriesById(story.subseriesId);
-    if (window.SubseriesThemes) window.SubseriesThemes.applyPaper($("chapterPaper"), subseries && subseries.paperTheme);
+    // Sub-series theme paints the viewport, while its chapter paper has a separate color.
+    if (window.SubseriesThemes) {
+      window.SubseriesThemes.applyUi(document.body, subseries && subseries.uiTheme);
+      window.SubseriesThemes.applyPaper($("chapterPaper"), subseries && subseries.paperTheme);
+    }
     var path = [];
 
     if (series) path.push(series.name);
@@ -1877,6 +1877,7 @@
   }
 
   function showGate(message) {
+    $("readerAuthLoading").hidden = true;
     if (window.SubseriesThemes) window.SubseriesThemes.applyUi(document.body, null);
     document.body.classList.add("is-locked");
     $("accessGate").hidden = false;
@@ -1889,6 +1890,7 @@
   }
 
   function showLibrary() {
+    $("readerAuthLoading").hidden = true;
     document.body.classList.remove("is-locked");
     $("accessGate").hidden = true;
     $("libraryApp").hidden = false;
@@ -1995,8 +1997,35 @@
       });
   }
 
+  // Internal chapter links and Back navigation keep the loaded authenticated app alive.
+  // Passwords are never cached: the secure reader session cookie remains authoritative.
+  function handleArchiveLink(event) {
+    if (event.defaultPrevented || event.button !== 0 ||
+        event.ctrlKey || event.metaKey || event.shiftKey || event.altKey ||
+        document.body.classList.contains("is-locked")) return;
+    var target = event.target;
+    var link = target && target.closest ? target.closest("a[href]") : null;
+    if (!link || !$("libraryApp").contains(link) ||
+        link.hasAttribute("download") ||
+        (link.target && link.target !== "_self")) return;
+    var dest;
+    try {
+      dest = new URL(link.href, window.location.href);
+    } catch (_) { return; }
+    if (dest.origin !== window.location.origin ||
+        !["/read", "/read/", "/thoughts", "/thoughts/"].includes(dest.pathname)) return;
+    event.preventDefault();
+    var path = dest.pathname + dest.search + dest.hash;
+    if (path !== window.location.pathname + window.location.search + window.location.hash) {
+      history.pushState({}, "", path);
+    }
+    renderLibrary();
+    window.scrollTo(0, 0);
+  }
+
   function wire() {
     setupThemeSwitch();
+    document.addEventListener("click", handleArchiveLink);
 
     $("unlockButton").addEventListener("click", unlock);
     $("accessCodeInput").addEventListener("keydown", function (event) {

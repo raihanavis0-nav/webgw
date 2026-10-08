@@ -47,3 +47,12 @@ body.subseries-ui-themed #seriesList .archive-hierarchy-chapters * {
 #storyView .chapter-paper .post-body table{width:100%;border-collapse:collapse;display:block;overflow-x:auto;margin:1.3em 0}
 #storyView .chapter-paper .post-body th,#storyView .chapter-paper .post-body td{min-width:80px;border:1px solid currentColor;padding:9px;text-align:left}
 @media(max-width:640px){#storyView .chapter-paper{margin:16px auto 0;padding:25px 19px;box-shadow:0 3px 15px #0000000f}}
+
+/* A neutral loading state prevents password UI flashes on valid reader sessions. */
+.reader-auth-loading {
+  margin: clamp(24px, 8vh, 90px) auto;
+  text-align: center;
+  font-size: .82rem;
+  letter-spacing: .025em;
+  color: var(--muted);
+}
