@@ -45,7 +45,7 @@
     img.style.objectPosition = x + "% " + y + "%";
     img.style.transformOrigin = x + "% " + y + "%";
     img.style.transform = "scale(" + (zoom / 100) + ")";
-    if (src) img.src = src;
+    if (src && img.getAttribute("src") !== src) img.src = src;
     else img.removeAttribute("src");
     $(id + "Empty").hidden = Boolean(src);
     $(id + "PositionText").textContent = "X " + x + "% · Y " + y + "% · Zoom " + zoom + "%";
