@@ -160,6 +160,16 @@
       "description": "",
       "banner": "",
       "cover": "assets/thoughts/1791452705871-a7bdb5-artboard-1-copy-8.webp"
+    },
+    {
+      "id": "subseries-1791452861064",
+      "seriesId": "series-1790072885901",
+      "name": "WEST WINE AND FEAST",
+      "slug": "west-wine-and-feast",
+      "order": 2,
+      "description": "",
+      "banner": "",
+      "cover": "assets/thoughts/1791452764553-bde037-artboard-1-copy.webp"
     }
   ],
   "characters": [
