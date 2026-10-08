@@ -695,16 +695,16 @@
     var series = state.data.series.find(function (s) { return String(s.id) === context.seriesId; });
     var stories = state.data.stories || [];
     if (!series) {
-      archiveHeading(host, "", "Choose a series", "Every series has its own world, books, characters and lore.");
       var seriesGrid = document.createElement("div");
-      seriesGrid.className = "archive-collection-grid";
+      seriesGrid.className = "reader-series-grid";
       state.data.series.slice().sort(sortByOrderName).forEach(function (item) {
         var count = stories.filter(function (story) { return story.seriesId === item.id; }).length;
-        seriesGrid.appendChild(collectionCard(item, "Series", count + (count === 1 ? " chapter" : " chapters"), function () {
+        seriesGrid.appendChild(window.ArchiveSeriesPostersReader.create(item, count, function () {
           goToCollection(item.id, "", "stories");
-        }));
+        }, mediaUrl));
       });
       host.appendChild(seriesGrid);
+      if (!state.data.series.length) archiveHeading(host, "", "No series yet", "New worlds will appear here.");
       return;
     }
 
