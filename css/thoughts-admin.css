@@ -1718,3 +1718,18 @@ select {
     max-width: 100%;
   }
 }
+
+/* Keep admin lists readable without repeating full-width rules at every level. */
+.admin-main > #libraryView .library-section {
+  border-top: 0;
+}
+.admin-main .series-block,
+.admin-main .story-row {
+  border-top: 0;
+}
+.admin-main .story-row {
+  padding-block: 13px;
+}
+.admin-main .admin-series-block + .admin-series-block {
+  margin-top: 26px;
+}

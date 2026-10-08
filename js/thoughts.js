@@ -691,7 +691,7 @@
   function renderSeriesNavigator() {
     var host = $("seriesList");
     host.innerHTML = "";
-    if (window.SubseriesThemes) window.SubseriesThemes.applyUi(host, null);
+    if (window.SubseriesThemes) window.SubseriesThemes.applyUi(document.body, null);
     var context = seriesContext();
     var series = state.data.series.find(function (s) { return String(s.id) === context.seriesId; });
     var stories = state.data.stories || [];
@@ -712,7 +712,7 @@
     var book = state.data.subseries.find(function (item) {
       return String(item.id) === context.bookId && item.seriesId === series.id;
     });
-    if (window.SubseriesThemes) window.SubseriesThemes.applyUi(host, book && book.uiTheme);
+    if (window.SubseriesThemes) window.SubseriesThemes.applyUi(document.body, book && book.uiTheme);
     archiveHeading(host, "All series", book ? (book.name || "Book") : (series.name || "Series"),
       book ? book.description : series.description, function () {
         goToCollection(book ? series.id : "", "", "stories");
@@ -720,7 +720,7 @@
     if (!book) {
       var shortcuts = document.createElement("div");
       shortcuts.className = "archive-hierarchy-quicklinks";
-      [["characters", "Meet the characters"], ["world", "Explore the world"], ["timeline", "Timeline"], ["gallery", "Artwork"]].forEach(function (item) {
+      [["characters", "Meet the characters"], ["world", "Explore the world"], ["timeline", "Timeline"]].forEach(function (item) {
         var button = document.createElement("button"); button.type = "button";
         button.textContent = item[1];
         button.addEventListener("click", function () { goToCollection(series.id, "", item[0]); });
@@ -732,14 +732,8 @@
       bookGrid.className = "reader-series-grid reader-books-grid";
       books.forEach(function (item) {
         var count = stories.filter(function (story) { return story.subseriesId === item.id; }).length;
-        var displayBook = Object.assign({}, item);
-        // Preserve existing Series poster uploads as defaults until this Book gets its own posters.
-        if ((!Array.isArray(item.posters) || !item.posters.length) &&
-            Array.isArray(series.posters) && series.posters.length) {
-          displayBook.posters = series.posters;
-          displayBook.posterRatio = series.posterRatio || "2:3";
-        }
-        bookGrid.appendChild(window.ArchiveSeriesPostersReader.create(displayBook, count, function () {
+        // Only posters saved on this Sub-series are shown; Series posters belong to Series only.
+        bookGrid.appendChild(window.ArchiveSeriesPostersReader.create(item, count, function () {
           goToCollection(series.id, item.id, "stories");
         }, mediaUrl, "Book"));
       });
@@ -1098,7 +1092,7 @@
 
   function archiveViewFromUrl() {
     var view = new URLSearchParams(window.location.search).get("view") || "stories";
-    return ["stories", "characters", "world", "timeline", "gallery"].includes(view)
+    return ["stories", "characters", "world", "timeline"].includes(view)
       ? view
       : "stories";
   }
@@ -1109,14 +1103,16 @@
       characters: "Characters",
       world: "World",
       timeline: "Timeline",
-      gallery: "Gallery",
     }[view] || "Stories";
   }
 
   function setArchiveView(view, pushHistory) {
-    var next = ["stories", "characters", "world", "timeline", "gallery"].includes(view)
+    var next = ["stories", "characters", "world", "timeline"].includes(view)
       ? view
       : "stories";
+    if (next !== "stories" && window.SubseriesThemes) {
+      window.SubseriesThemes.applyUi(document.body, null);
+    }
 
     document.querySelectorAll("[data-archive-view]").forEach(function (button) {
       var active = button.getAttribute("data-archive-view") === next;
@@ -1137,9 +1133,7 @@
     if (empty) empty.hidden = Boolean(hasContent);
     if (emptyText) {
       emptyText.textContent =
-        next === "gallery"
-          ? "No Gallery albums yet."
-          : next === "characters"
+        next === "characters"
             ? "No characters yet."
             : next === "timeline"
               ? "No stories have Timeline metadata yet."
@@ -1733,7 +1727,6 @@
     renderCharacters();
     renderWorld();
     renderTimeline();
-    renderGallery();
 
     $("seriesSection").dataset.hasContent =
       state.data.stories.length > 0 ? "true" : "false";
@@ -1823,6 +1816,8 @@
   }
 
   function renderStory(story) {
+    // Chapter pages use the global UI theme and independent paper color.
+    if (window.SubseriesThemes) window.SubseriesThemes.applyUi(document.body, null);
     if (window.ArchiveSeriesPostersReader) window.ArchiveSeriesPostersReader.stopAll();
     var series = seriesById(story.seriesId);
     var subseries = subseriesById(story.subseriesId);
@@ -1882,6 +1877,7 @@
   }
 
   function showGate(message) {
+    if (window.SubseriesThemes) window.SubseriesThemes.applyUi(document.body, null);
     document.body.classList.add("is-locked");
     $("accessGate").hidden = false;
     $("libraryApp").hidden = true;

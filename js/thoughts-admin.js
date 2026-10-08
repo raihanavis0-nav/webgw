@@ -918,7 +918,7 @@
   }
 
   function normalizeAdminView(value) {
-    return ["stories", "characters", "world", "gallery", "appearance"].includes(value)
+    return ["stories", "characters", "world", "appearance"].includes(value)
       ? value
       : "stories";
   }
@@ -981,7 +981,6 @@
     renderSeries();
     renderCharacters();
     renderWorldAdmin();
-    renderGalleryAdmin();
     if (window.ArchiveAppearanceAdmin) window.ArchiveAppearanceAdmin.render(state.data.appearance);
     setAdminLibraryView(state.libraryView, false);
   }

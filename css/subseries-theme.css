@@ -1,8 +1,43 @@
 
-#seriesList.subseries-ui-themed{background:var(--subseries-ui-bg,transparent);color:var(--subseries-ui-ink,inherit);font-family:var(--subseries-ui-font,inherit);border-radius:9px;padding:clamp(18px,4vw,40px)}
-#seriesList.subseries-ui-themed .archive-hierarchy-heading,#seriesList.subseries-ui-themed .archive-hierarchy-heading *,#seriesList.subseries-ui-themed .archive-hierarchy-chapters,#seriesList.subseries-ui-themed .story-list,#seriesList.subseries-ui-themed .story-list *{color:var(--subseries-ui-ink)!important;font-family:var(--subseries-ui-font,inherit)}
-#seriesList.subseries-ui-themed .story-row,#seriesList.subseries-ui-themed .archive-hierarchy-chapters{border-color:color-mix(in srgb,var(--subseries-ui-ink) 24%,transparent)}
-#seriesList.subseries-ui-themed .archive-hierarchy-back{color:var(--subseries-ui-ink)}
+/* Full-viewport Sub-series theme, only while browsing that Sub-series's chapters. */
+html:has(body.subseries-ui-themed) {
+  background: var(--subseries-ui-bg, var(--paper));
+  color: var(--subseries-ui-ink, var(--ink));
+}
+body.subseries-ui-themed {
+  --paper: var(--subseries-ui-bg);
+  --ink: var(--subseries-ui-ink);
+  --muted: color-mix(in srgb, var(--subseries-ui-ink) 70%, var(--subseries-ui-bg));
+  --line: color-mix(in srgb, var(--subseries-ui-ink) 16%, var(--subseries-ui-bg));
+  --soft: color-mix(in srgb, var(--subseries-ui-ink) 8%, var(--subseries-ui-bg));
+  --link: var(--subseries-ui-ink);
+  background: var(--subseries-ui-bg);
+  color: var(--subseries-ui-ink);
+  font-family: var(--subseries-ui-font, var(--font-editorial));
+  min-height: 100dvh;
+}
+body.subseries-ui-themed #seriesList {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  color: inherit;
+  font-family: inherit;
+}
+body.subseries-ui-themed .archive-hierarchy-heading,
+body.subseries-ui-themed .archive-hierarchy-chapters,
+body.subseries-ui-themed .story-list,
+body.subseries-ui-themed .story-row,
+body.subseries-ui-themed .thoughts-header,
+body.subseries-ui-themed .archive-section-nav,
+body.subseries-ui-themed .thoughts-footer {
+  font-family: inherit;
+  border-color: transparent;
+}
+body.subseries-ui-themed #seriesList .archive-hierarchy-heading *,
+body.subseries-ui-themed #seriesList .archive-hierarchy-chapters * {
+  font-family: inherit;
+}
 #storyView .chapter-paper{box-sizing:border-box;width:100%;max-width:800px;margin:24px auto 0;padding:clamp(25px,7vw,70px) clamp(20px,7vw,68px);background:var(--chapter-paper-bg,#FFFDF7);color:var(--chapter-paper-ink,#202020);border:1px solid color-mix(in srgb,var(--chapter-paper-ink) 12%,transparent);box-shadow:0 8px 34px #00000015;border-radius:2px;overflow-wrap:anywhere}
 #storyView .chapter-paper .story-header,#storyView .chapter-paper .story-header *,#storyView .chapter-paper .story-characters,#storyView .chapter-paper .post-body{color:var(--chapter-paper-ink)}
 #storyView .chapter-paper .post-body{line-height:1.75}

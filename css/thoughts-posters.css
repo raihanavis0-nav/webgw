@@ -177,3 +177,31 @@ body[data-reader-level="selector"] .reader-series-grid { padding-top: 0; }
 #readerHeroMedia, #storyBanner, .archive-banner-shell, .series-banner, .subseries-banner { display:none!important; }
 /* Hide banner editing without deleting any previously saved banner URLs. */
 #appearanceHeroSettings, #appearanceHeroFrame, #entityBannerField, #storyHeaderMedia { display:none!important; }
+
+
+/* Reader decluttering: spacing and type hierarchy, not stacked horizontal dividers. */
+body:not(.is-locked) .thoughts-header {
+  border-bottom: 0;
+}
+body:not(.is-locked) .archive-section-nav {
+  border-bottom: 0;
+  margin-bottom: 26px;
+  padding-bottom: 4px;
+}
+body:not(.is-locked) .library-home > .library-section {
+  border-top: 0;
+  padding-top: 16px;
+}
+body:not(.is-locked) #seriesList .story-row {
+  border-top: 0;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+body:not(.is-locked) .world-category-grid,
+body:not(.is-locked) .world-category-card,
+body:not(.is-locked) .timeline-group-heading,
+body:not(.is-locked) .timeline-entry {
+  border: 0;
+}
+body:not(.is-locked) .world-category-card { border-radius: 4px; }
+body:not(.is-locked) .timeline-entry { margin-top: 10px; }
