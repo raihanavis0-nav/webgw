@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="css/thoughts-character-groups.css" />
     <link rel="stylesheet" href="css/thoughts-admin.css" />
     <link rel="stylesheet" href="css/thoughts-appearance.css" />
+    <link rel="stylesheet" href="css/thoughts-posters.css" />
   </head>
   <body class="thoughts-admin-body">
     <section class="admin-login" id="loginView">
@@ -340,6 +341,35 @@
           </div>
           <p class="portrait-help">Wide images work best. If empty, no banner or blank space is shown.</p>
         </div>
+        <section class="dialog-field series-posters-field" id="seriesPostersField" hidden>
+          <div class="series-poster-field-head">
+            <div><label for="seriesPosterFiles">Series posters</label><p>Set multiple posters for the series selection screen. The first poster is the default.</p></div>
+            <label class="series-poster-upload-button" for="seriesPosterFiles">+ Add posters</label>
+          </div>
+          <input id="seriesPosterFiles" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden />
+          <div class="series-poster-ratio">
+            <span>Poster frame ratio</span>
+            <label for="seriesPosterWidth">Width <input id="seriesPosterWidth" type="number" min="1" max="10" step="0.5" value="2" /></label>
+            <span aria-hidden="true">:</span>
+            <label for="seriesPosterHeight">Height <input id="seriesPosterHeight" type="number" min="1" max="10" step="0.5" value="3" /></label>
+          </div>
+          <div class="series-posters-editor">
+            <div class="series-poster-list" id="seriesPosterList" aria-label="Series poster order"></div>
+            <div class="series-poster-details">
+              <p class="series-poster-details-label">Live crop preview</p>
+              <div class="series-poster-crop-frame" id="seriesPosterFrame"><img id="seriesPosterImage" alt="Selected poster preview" /><span id="seriesPosterPlaceholder">Select a poster to adjust its framing.</span></div>
+              <p class="series-poster-crop-note">Drag artwork to reposition. Ratio and crop are saved per Series.</p>
+              <div class="series-poster-sliders" id="seriesPosterControls">
+                <label>Horizontal <input id="seriesPosterX" type="range" min="0" max="100" step="1" value="50" /></label>
+                <label>Vertical <input id="seriesPosterY" type="range" min="0" max="100" step="1" value="50" /></label>
+                <label>Zoom <input id="seriesPosterZoom" type="range" min="100" max="250" step="5" value="100" /></label>
+              </div>
+              <span id="seriesPosterCropValues" class="series-poster-crop-note"></span>
+            </div>
+          </div>
+          <p class="series-poster-status" id="seriesPosterStatus" role="status"></p>
+          <p class="portrait-help">Posters rotate every 5 seconds only while hovered or keyboard-focused. On touchscreens, readers can browse them manually. Static images are recommended for performance.</p>
+        </section>
         <div class="dialog-field cover-field" id="entityCoverField" hidden>
           <label>Book cover <span class="optional">(optional)</span></label>
           <div class="cover-admin-editor">
@@ -496,6 +526,7 @@
     <script src="js/thoughts-rich-content.js" defer></script>
     <script src="js/thoughts-editor.js" defer></script>
     <script src="js/thoughts-appearance-admin.js" defer></script>
+    <script src="js/thoughts-series-posters-admin.js" defer></script>
     <script src="js/thoughts-admin.js" defer></script>
     <script src="js/thoughts-editor-bridge.js" defer></script>
     <script src="js/thoughts-character-groups.js" defer></script>
