@@ -134,10 +134,12 @@
     {
       "id": "subseries-1790510739521",
       "seriesId": "series-1790083460918",
-      "name": "TWO OF US",
+      "name": "WHAT Spin-off : William",
       "slug": "life-william-sub",
       "order": 6,
-      "description": ""
+      "description": "",
+      "banner": "",
+      "cover": ""
     },
     {
       "id": "subseries-1791451921522",
