@@ -210,6 +210,16 @@
       "description": "",
       "banner": "",
       "cover": "assets/thoughts/1791453129814-9d0bde-artboard-1-copy-4.webp"
+    },
+    {
+      "id": "subseries-1791453268542",
+      "seriesId": "series-1790072885901",
+      "name": "Theatre of Time",
+      "slug": "theatre-of-time",
+      "order": 7,
+      "description": "",
+      "banner": "",
+      "cover": "assets/thoughts/1791453172296-0c7ccd-artboard-1-copy-6.webp"
     }
   ],
   "characters": [
