@@ -2619,15 +2619,21 @@
   }
 
   function compressImage(file) {
+    // Keep animation intact; canvas conversion would turn GIFs into still images.
+    if (/image\\/gif/i.test(file.type) || /\\.gif$/i.test(file.name)) {
+      if (file.size > 2750000) {
+        return Promise.reject(new Error("Animated GIF is too large (max 2.75 MB). Please optimize it before uploading."));
+      }
+      return Promise.resolve({ blob: file, ext: "gif" });
+    }
     return loadImage(file).then(function (image) {
       var width = image.naturalWidth;
       var height = image.naturalHeight;
-      var maxWidth = 1400;
-
-      if (width > maxWidth) {
-        height = Math.round(height * (maxWidth / width));
-        width = maxWidth;
-      }
+      // Limit both axes; tall phone images previously bypassed the width-only cap.
+      var maxSide = 1600;
+      var scale = Math.min(1, maxSide / Math.max(width, height));
+      width = Math.max(1, Math.round(width * scale));
+      height = Math.max(1, Math.round(height * scale));
 
       var canvas = document.createElement("canvas");
       canvas.width = width;
@@ -2677,6 +2683,9 @@
       }
 
       return blobToBase64(result.blob).then(function (content) {
+        if (content.length > 3800000) {
+          throw new Error("Image is too large after compression. Please choose a smaller image.");
+        }
         return apiJson(API.upload, {
           method: "POST",
           body: JSON.stringify({
