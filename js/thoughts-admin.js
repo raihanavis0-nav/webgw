@@ -29,6 +29,7 @@
   function emptyData() {
     return {
       schemaVersion: 3,
+      appearance: {},
       series: [],
       subseries: [],
       characters: [],
@@ -179,6 +180,7 @@
     var source = data && typeof data === "object" ? data : {};
     return {
       schemaVersion: 3,
+      appearance: source.appearance && typeof source.appearance === "object" ? source.appearance : {},
       series: Array.isArray(source.series) ? source.series : [],
       subseries: Array.isArray(source.subseries) ? source.subseries : [],
       characters: Array.isArray(source.characters) ? source.characters : [],
@@ -915,7 +917,7 @@
   }
 
   function normalizeAdminView(value) {
-    return ["stories", "characters", "world", "gallery"].includes(value)
+    return ["stories", "characters", "world", "gallery", "appearance"].includes(value)
       ? value
       : "stories";
   }
@@ -937,6 +939,10 @@
       gallery: {
         title: "Gallery",
         description: "Manage extra character images, banners, posters, and artwork.",
+      },
+      appearance: {
+        title: "Reader Appearance",
+        description: "Edit the access screen, animated artwork, and library banner.",
       },
     }[view];
   }
@@ -975,6 +981,7 @@
     renderCharacters();
     renderWorldAdmin();
     renderGalleryAdmin();
+    if (window.ArchiveAppearanceAdmin) window.ArchiveAppearanceAdmin.render(state.data.appearance);
     setAdminLibraryView(state.libraryView, false);
   }
 
@@ -2923,6 +2930,16 @@
     sessionStorage.removeItem("thoughts_gh_token");
 
     initTheme();
+
+    if (window.ArchiveAppearanceAdmin) {
+      window.ArchiveAppearanceAdmin.init({
+        save: function (appearance) {
+          var candidate = clone(state.data);
+          candidate.appearance = appearance;
+          return saveCandidate(candidate, "stories: update reader appearance");
+        },
+      });
+    }
 
     try {
       state.libraryView = normalizeAdminView(
