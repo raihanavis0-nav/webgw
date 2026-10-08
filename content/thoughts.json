@@ -170,6 +170,16 @@
       "description": "",
       "banner": "",
       "cover": "assets/thoughts/1791452764553-bde037-artboard-1-copy.webp"
+    },
+    {
+      "id": "subseries-1791452997352",
+      "seriesId": "series-1790072885901",
+      "name": "The Lion, The Wolf and The Broken",
+      "slug": "the-lion-the-wolf-and-the-broken",
+      "order": 3,
+      "description": "",
+      "banner": "",
+      "cover": "assets/thoughts/1791452893277-2e5e8d-artboard-1-copy-2.webp"
     }
   ],
   "characters": [
