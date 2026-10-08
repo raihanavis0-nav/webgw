@@ -1716,6 +1716,11 @@
   function renderHome() {
     $("libraryHome").hidden = false;
     $("storyView").hidden = true;
+    if (window.ArchiveSeriesPostersReader) window.ArchiveSeriesPostersReader.stopAll();
+    var context = seriesContext();
+    var hasSeries = state.data.series.some(function (item) { return String(item.id) === context.seriesId; });
+    document.body.dataset.readerLevel = hasSeries ? "series" : "selector";
+    $("archiveSectionNav").hidden = !hasSeries;
 
     renderSeries();
     renderCharacters();
@@ -1726,7 +1731,7 @@
     $("seriesSection").dataset.hasContent =
       state.data.stories.length > 0 ? "true" : "false";
 
-    setArchiveView(archiveViewFromUrl(), false);
+    setArchiveView(hasSeries ? archiveViewFromUrl() : "stories", false);
   }
 
   function renderStoryCharacters(story) {
@@ -1811,6 +1816,7 @@
   }
 
   function renderStory(story) {
+    if (window.ArchiveSeriesPostersReader) window.ArchiveSeriesPostersReader.stopAll();
     var series = seriesById(story.seriesId);
     var subseries = subseriesById(story.subseriesId);
     var path = [];
