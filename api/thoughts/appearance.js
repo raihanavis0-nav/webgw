@@ -9,9 +9,9 @@ function cleanSlot(value, fallback) {
   const source = value && typeof value === "object" ? value : {};
   return {
     image: cleanImage(source.image),
-    ratio: ["3:1", "5:1", "16:9", "4:3", "1:1", "3:4", "9:16"].includes(source.ratio) ? source.ratio : fallback,
-    x: Math.min(100, Math.max(0, Number(source.x) || 50)),
-    y: Math.min(100, Math.max(0, Number(source.y) || 50)),
+    ratio: ["3:1", "5:1", "16:9", "4:3", "1:1", "3:4", "9:16", "1:3", "1:5"].includes(source.ratio) ? source.ratio : fallback,
+    x: Math.min(100, Math.max(0, source.x == null ? 50 : Number(source.x))),
+    y: Math.min(100, Math.max(0, source.y == null ? 50 : Number(source.y))),
     zoom: Math.min(250, Math.max(100, Number(source.zoom) || 100)),
   };
 }
