@@ -2620,7 +2620,7 @@
 
   function compressImage(file) {
     // Keep animation intact; canvas conversion would turn GIFs into still images.
-    if (/image\\/gif/i.test(file.type) || /\\.gif$/i.test(file.name)) {
+    if (/image\/gif/i.test(file.type) || /\.gif$/i.test(file.name)) {
       if (file.size > 2750000) {
         return Promise.reject(new Error("Animated GIF is too large (max 2.75 MB). Please optimize it before uploading."));
       }
