@@ -37,7 +37,7 @@ module.exports = async function handler(req, res) {
   const body = bodyObject(req);
   const content = String(body.content || "").replace(/\s+/g, "");
   const extension = String(body.extension || "").toLowerCase();
-  const allowedExtensions = ["webp", "jpg", "jpeg", "png"];
+  const allowedExtensions = ["webp", "jpg", "jpeg", "png", "gif"];
 
   if (!allowedExtensions.includes(extension)) {
     return res.status(400).json({ error: "Unsupported image type." });
