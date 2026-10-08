@@ -20,15 +20,31 @@
   <body class="thoughts-admin-body">
     <section class="admin-login" id="loginView">
       <div class="admin-login-box">
-        <p class="eyebrow">Fiction archive · Private workspace</p>
-        <h1>Welcome back.</h1>
-        <p class="login-explain">Sign in to manage stories, worlds, characters, and the Reader experience.</p>
-        <div class="admin-login-fields">
-          <input id="usernameInput" type="text" autocomplete="username" value="admin" aria-label="Username" placeholder="Username" />
-          <input id="passwordInput" type="password" autocomplete="current-password" aria-label="Password" placeholder="Password" />
-          <button id="loginBtn" type="button">Enter</button>
+        <div class="admin-login-brand">
+          <span class="admin-login-emblem" aria-hidden="true">A<span class="admin-login-emblem-dot">.</span></span>
+          <span class="admin-login-brand-name">THE ARCHIVE <span>/ STUDIO</span></span>
         </div>
-        <p class="admin-login-status" id="loginStatus" role="status"></p>
+        <div class="admin-login-intro">
+          <p class="eyebrow">PRIVATE WORKSPACE</p>
+          <h1>Welcome back.</h1>
+          <p class="login-explain">Your stories, characters and worlds, all in one place.</p>
+        </div>
+        <div class="admin-login-fields">
+          <div class="admin-login-field">
+            <label for="usernameInput">Username</label>
+            <input id="usernameInput" type="text" autocomplete="username" value="admin" placeholder="Your username" spellcheck="false" />
+          </div>
+          <div class="admin-login-field">
+            <label for="passwordInput">Password</label>
+            <div class="admin-login-password-wrap">
+              <input id="passwordInput" type="password" autocomplete="current-password" placeholder="Enter password" />
+              <button class="admin-login-password-toggle" id="passwordVisibilityButton" type="button" aria-label="Show password" aria-pressed="false">Show</button>
+            </div>
+          </div>
+          <button class="admin-login-submit" id="loginBtn" type="button"><span>Sign in</span><span aria-hidden="true">↗</span></button>
+        </div>
+        <p class="admin-login-status" id="loginStatus" role="status" aria-live="polite"></p>
+        <div class="admin-login-bottom"><span>ARCHIVE MANAGEMENT</span><a href="read">Back to Reader ↗</a></div>
       </div>
     </section>
 
