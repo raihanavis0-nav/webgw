@@ -1,5 +1,24 @@
 {
   "schemaVersion": 3,
+  "appearance": {
+    "title": "welcome",
+    "subtitle": "Choose a series and discover its world.",
+    "accent": "#000000",
+    "login": {
+      "image": "assets/thoughts/1791446516366-7255f6-blurrrr.gif",
+      "ratio": "16:9",
+      "x": 50,
+      "y": 46,
+      "zoom": 130
+    },
+    "hero": {
+      "image": "assets/thoughts/1791446612166-a590ab-audif1-2026-dutchgp-premium-wallpaper-4-1125x2436.webp",
+      "ratio": "3:1",
+      "x": 52,
+      "y": 5,
+      "zoom": 100
+    }
+  },
   "series": [
     {
       "id": "series-1790072885901",
