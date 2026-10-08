@@ -105,9 +105,9 @@
       image.onerror = function () { busy = false; };
       image.src = mediaUrl(target.path);
     }
-    function start() {
+    function start(event) {
       if (active || posters.length < 2 || reduceMotion || document.hidden) return;
-      if (window.matchMedia && !window.matchMedia("(hover: hover)").matches) return;
+      if (window.matchMedia && !window.matchMedia("(hover: hover)").matches && (!event || event.type !== "focusin")) return;
       active = true;
       entry.classList.add("is-active");
       interval = setInterval(next, 5000);
