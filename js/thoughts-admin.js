@@ -1076,6 +1076,15 @@
   function openWorldEntry(id) {
     var item = id ? worldById(id) : null;
     $("worldIdInput").value = item ? item.id : "";
+    var worldSeriesSelect = $("worldSeriesInput");
+    worldSeriesSelect.innerHTML = "";
+    state.data.series.slice().sort(sortByOrderName).forEach(function (s) {
+      var option = document.createElement("option");
+      option.value = s.id; option.textContent = s.name || "Untitled series";
+      worldSeriesSelect.appendChild(option);
+    });
+    var relatedStory = item && (item.relatedStoryIds || []).map(storyById).find(Boolean);
+    worldSeriesSelect.value = item && item.seriesId || (relatedStory && relatedStory.seriesId) || (state.data.series[0] && state.data.series[0].id) || "";
     $("worldDialogEyebrow").textContent = item ? "Edit" : "Create";
     $("worldCategoryInput").value = item ? item.category || "locations" : "locations";
     $("worldNameInput").value = item ? item.name || "" : "";
@@ -1112,6 +1121,8 @@
     }
 
     item.category = $("worldCategoryInput").value;
+    item.seriesId = $("worldSeriesInput").value;
+    if (!item.seriesId) { $("worldStatus").textContent = "Create a Series before adding World entries."; return; }
     item.name = name;
     item.order = numberValue($("worldOrderInput").value);
     item.description = $("worldDescriptionInput").value.trim();
