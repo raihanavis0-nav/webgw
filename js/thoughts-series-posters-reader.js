@@ -147,6 +147,8 @@
     stops.forEach(function (fn) { fn(); });
     stops.length = 0;
   }
-  document.addEventListener("visibilitychange", function () { if (document.hidden) stopAll(); });
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) stops.forEach(function (stop) { stop(); });
+  });
   window.ArchiveSeriesPostersReader = { create: posterCard, stopAll: stopAll };
 })();
