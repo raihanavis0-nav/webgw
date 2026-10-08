@@ -87,8 +87,15 @@
       "slug": "season-2",
       "order": 2,
       "description": "",
-      "banner": "assets/thoughts/1790947954164-05247d-contemplative-young-man-in-sunlit-woods.webp",
-      "cover": ""
+      "banner": "",
+      "cover": "assets/thoughts/1791451128907-7a63a5-group-1-copy-4.webp",
+      "uiTheme": {
+        "background": "#FFAE00",
+        "font": ""
+      },
+      "paperTheme": {
+        "background": "#FFFDF7"
+      }
     },
     {
       "id": "subseries-1790083819601",
