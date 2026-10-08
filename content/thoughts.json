@@ -230,6 +230,16 @@
       "description": "",
       "banner": "",
       "cover": "assets/thoughts/1791453216629-bd4aef-artboard-1-copy-3.webp"
+    },
+    {
+      "id": "subseries-1791453348831",
+      "seriesId": "series-1790072885901",
+      "name": "The Pale Messenger",
+      "slug": "the-pale-messenger",
+      "order": 9,
+      "description": "",
+      "banner": "",
+      "cover": "assets/thoughts/1791453253030-7deb92-artboard-1-copy-5.webp"
     }
   ],
   "characters": [
