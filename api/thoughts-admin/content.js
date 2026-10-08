@@ -85,7 +85,7 @@ function validateData(data) {
     const item = appearance[key] || {};
     if (typeof item !== "object" || Array.isArray(item)) return "Invalid appearance image settings.";
     if (item.image && (typeof item.image !== "string" || !/^assets\/thoughts\/[a-zA-Z0-9._/-]+\.(webp|jpg|jpeg|png|gif)$/i.test(item.image) || item.image.includes(".."))) return "Invalid appearance image path.";
-    if (item.ratio != null && !["3:1", "5:1", "16:9", "4:3", "1:1", "3:4", "9:16"].includes(item.ratio)) return "Invalid preview ratio.";
+    if (item.ratio != null && !["3:1", "5:1", "16:9", "4:3", "1:1", "3:4", "9:16", "1:3", "1:5"].includes(item.ratio)) return "Invalid preview ratio.";
     for (const prop of ["x", "y"]) if (item[prop] != null && (!isNumber(item[prop]) || item[prop] < 0 || item[prop] > 100)) return "Invalid focal point.";
     if (item.zoom != null && (!isNumber(item.zoom) || item.zoom < 100 || item.zoom > 250)) return "Invalid image zoom.";
   }
