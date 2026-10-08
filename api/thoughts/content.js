@@ -7,6 +7,7 @@ function normalize(data) {
 
   return {
     schemaVersion: source.schemaVersion || 3,
+    appearance: source.appearance && typeof source.appearance === "object" ? source.appearance : {},
     series: Array.isArray(source.series) ? source.series : [],
     subseries: Array.isArray(source.subseries) ? source.subseries : [],
     characters: Array.isArray(source.characters) ? source.characters : [],
