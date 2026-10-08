@@ -1586,6 +1586,7 @@
     $("portraitField").hidden = !isCharacter;
     $("entityBannerField").hidden = !(isSeries || isSubseries);
     $("entityCoverField").hidden = !(isSeries || isSubseries);
+    $("seriesPostersField").hidden = !isSeries;
 
     $("entityDialogTitle").textContent =
       type === "series"
@@ -1622,6 +1623,8 @@
         ? item.bio || ""
         : item.description || ""
       : "";
+
+    if (isSeries && window.ArchiveSeriesPosters) window.ArchiveSeriesPosters.open(item);
 
     if (isSeries || isSubseries) {
       setEntityBannerPreview(item ? item.banner || "" : "");
@@ -1700,6 +1703,16 @@
       series.description = $("entityDescriptionInput").value.trim();
       series.banner = $("entityBannerPathInput").value || "";
       series.cover = $("entityCoverPathInput").value || "";
+      if (window.ArchiveSeriesPosters) {
+        try {
+          var posterValue = window.ArchiveSeriesPosters.getValue();
+          series.posters = posterValue.posters;
+          series.posterRatio = posterValue.posterRatio;
+        } catch (error) {
+          $("entityStatus").textContent = error.message;
+          return;
+        }
+      }
     }
 
     if (type === "subseries") {
@@ -2942,6 +2955,8 @@
     sessionStorage.removeItem("thoughts_gh_token");
 
     initTheme();
+
+    if (window.ArchiveSeriesPosters) window.ArchiveSeriesPosters.init({ uploadFile: uploadFile, mediaUrl: mediaUrl });
 
     if (window.ArchiveAppearanceAdmin) {
       window.ArchiveAppearanceAdmin.init({
