@@ -346,3 +346,7 @@ html[data-theme="dark"] .reader-gate-card .gate-form button {
   .thoughts-admin-body .admin-login-brand { margin-bottom: 27px; }
   .thoughts-admin-body .admin-login-box h1 { font-size: 38px; }
 }
+
+/* Clear but restrained error feedback on both themes. */
+.thoughts-admin-body .admin-login-status.is-error { color: #ac4237; }
+html[data-theme="dark"] .thoughts-admin-body .admin-login-status.is-error { color: #f3a69d; }
