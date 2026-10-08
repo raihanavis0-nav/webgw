@@ -235,6 +235,7 @@
     $("adminApp").hidden = true;
     $("loginView").hidden = false;
     $("loginStatus").textContent = message || "";
+    $("loginStatus").classList.toggle("is-error", Boolean(message));
     $("passwordInput").value = "";
     state.username = "";
     state.dirty = false;
@@ -2968,6 +2969,14 @@
     });
 
     $("loginBtn").addEventListener("click", login);
+    $("passwordVisibilityButton").addEventListener("click", function () {
+      var input = $("passwordInput");
+      var showing = input.type === "password";
+      input.type = showing ? "text" : "password";
+      this.textContent = showing ? "Hide" : "Show";
+      this.setAttribute("aria-label", showing ? "Hide password" : "Show password");
+      this.setAttribute("aria-pressed", showing ? "true" : "false");
+    });
     $("passwordInput").addEventListener("keydown", function (event) {
       if (event.key === "Enter") login();
     });
