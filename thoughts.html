@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="css/thoughts-character-detail.css" />
     <link rel="stylesheet" href="css/thoughts-synopsis.css" />
     <link rel="stylesheet" href="css/thoughts-ending-song.css" />
+    <link rel="stylesheet" href="css/thoughts-appearance.css" />
   </head>
   <body class="is-locked">
     <div class="page-shell">
@@ -47,6 +48,11 @@
 
       <main id="thoughtsApp" aria-live="polite">
         <section class="access-gate" id="accessGate">
+          <div class="reader-gate-card">
+            <div class="archive-visual reader-login-media" id="readerLoginMedia" hidden><img id="readerLoginImage" alt="Archive artwork" /></div>
+            <p class="eyebrow">Private fiction library</p>
+            <h1 id="readerLoginTitle">Archive</h1>
+            <p class="gate-desc">Enter your access code to explore the library.</p>
           <div class="gate-form">
             <input
               id="accessCodeInput"
@@ -58,17 +64,16 @@
             <button id="unlockButton" type="button">Enter</button>
           </div>
           <p class="gate-status" id="gateStatus" role="status"></p>
+          </div>
         </section>
 
         <div id="libraryApp" hidden>
           <section class="library-home" id="libraryHome">
             <header class="library-intro">
               <p class="eyebrow">Fiction archive</p>
-              <h1>Archive</h1>
-              <p>
-                Stories, characters, world notes, chronology, and artwork —
-                kept in one connected archive.
-              </p>
+              <h1 id="readerArchiveTitle" class="reader-archive-home-title">Archive</h1>
+              <p id="readerArchiveSubtitle" class="reader-archive-home-desc">Choose a series and discover its world.</p>
+              <div class="archive-visual reader-library-hero" id="readerHeroMedia" hidden><img id="readerHeroImage" alt="Library banner" /></div>
             </header>
 
             <nav class="archive-section-nav" id="archiveSectionNav" aria-label="Archive sections">
@@ -81,7 +86,7 @@
 
             <section class="library-section archive-panel" id="seriesSection" data-archive-panel="stories">
               <div class="section-heading">
-                <h2>Stories</h2>
+                <h2>Discover Worlds</h2>
               </div>
               <div id="seriesList"></div>
             </section>
@@ -141,7 +146,7 @@
           </section>
 
           <article class="story-view" id="storyView" hidden>
-            <a class="back-link" href="read">← All stories</a>
+            <a class="back-link" id="readerStoryBack" href="read">← Back to chapters</a>
 
             <img class="story-banner" id="storyBanner" alt="" hidden />
 
@@ -193,6 +198,7 @@
 
     <script src="js/thoughts-rich-content.js" defer></script>
     <script src="js/thoughts.js" defer></script>
+    <script src="js/thoughts-appearance-reader.js" defer></script>
     <script src="js/thoughts-ending-song.js" defer></script>
     <script src="js/thoughts-character-groups.js" defer></script>
     <script src="js/thoughts-character-detail.js" defer></script>
