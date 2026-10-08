@@ -622,18 +622,6 @@
   ],
   "stories": [
     {
-      "id": "story-1790083276232",
-      "title": "Three Rounded Roads and Three More",
-      "date": "2026-09-22",
-      "slug": "three-rounded-roads-and-three-more",
-      "seriesId": "series-1790072885901",
-      "subseriesId": "",
-      "order": 1,
-      "published": true,
-      "characterIds": [],
-      "body": ""
-    },
-    {
       "id": "story-1790178719234",
       "title": "Mercy",
       "date": "2026-09-23",
