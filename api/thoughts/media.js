@@ -17,6 +17,7 @@ function contentType(path, fallback) {
   if (lower.endsWith(".webp")) return "image/webp";
   if (lower.endsWith(".jpg") || lower.endsWith(".jpeg")) return "image/jpeg";
   if (lower.endsWith(".png")) return "image/png";
+  if (lower.endsWith(".gif")) return "image/gif";
   return fallback || "application/octet-stream";
 }
 
