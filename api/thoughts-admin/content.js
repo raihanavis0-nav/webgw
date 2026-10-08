@@ -77,6 +77,18 @@ function validateEndingSong(song, ownerLabel) {
 function validateData(data) {
   if (!data || typeof data !== "object") return "Invalid stories data.";
 
+  const appearance = data.appearance || {};
+  if (typeof appearance !== "object" || Array.isArray(appearance)) return "Invalid appearance settings.";
+  if (appearance.title != null && (typeof appearance.title !== "string" || appearance.title.length > 120)) return "Invalid Reader title.";
+  if (appearance.subtitle != null && (typeof appearance.subtitle !== "string" || appearance.subtitle.length > 280)) return "Invalid Reader subtitle.";
+  for (const key of ["login", "hero"]) {
+    const item = appearance[key] || {};
+    if (typeof item !== "object" || Array.isArray(item)) return "Invalid appearance image settings.";
+    if (item.image && (typeof item.image !== "string" || !/^assets\/thoughts\/[a-zA-Z0-9._/-]+\.(webp|jpg|jpeg|png|gif)$/i.test(item.image) || item.image.includes(".."))) return "Invalid appearance image path.";
+    if (item.ratio != null && !["3:1", "5:1", "16:9", "4:3", "1:1", "3:4", "9:16"].includes(item.ratio)) return "Invalid preview ratio.";
+    for (const prop of ["x", "y"]) if (item[prop] != null && (!isNumber(item[prop]) || item[prop] < 0 || item[prop] > 100)) return "Invalid focal point.";
+    if (item.zoom != null && (!isNumber(item.zoom) || item.zoom < 100 || item.zoom > 250)) return "Invalid image zoom.";
+  }
   const series = Array.isArray(data.series) ? data.series : null;
   const subseries = Array.isArray(data.subseries) ? data.subseries : null;
   const characters = Array.isArray(data.characters) ? data.characters : null;
@@ -398,6 +410,7 @@ function validateData(data) {
 function normalizedData(data) {
   return {
     schemaVersion: 3,
+    appearance: data.appearance && typeof data.appearance === "object" ? data.appearance : {},
     series: Array.isArray(data.series) ? data.series : [],
     subseries: Array.isArray(data.subseries) ? data.subseries : [],
     characters: Array.isArray(data.characters) ? data.characters : [],
