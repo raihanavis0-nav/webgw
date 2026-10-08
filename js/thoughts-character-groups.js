@@ -141,6 +141,11 @@
     var cards = Array.from(grid.querySelectorAll(":scope > .character-card"));
     if (!cards.length) return;
 
+    // A selected Series is already the only Character scope: show portraits directly.
+    // No redundant Series grouping or additional expand/collapse step.
+    if (grid.id === "characterGrid" &&
+        new URLSearchParams(window.location.search).has("series")) return;
+
     var groups = new Map();
 
     cards.forEach(function (card) {
@@ -187,14 +192,8 @@
       });
 
       grid.appendChild(group);
-      if (grid.id === "characterGrid") {
-        decorateReaderCharacterGroup(group);
-      }
     });
 
-    if (grid.id === "characterGrid") {
-      decorateReaderCharactersSection();
-    }
   }
 
   function schedule(grid) {
@@ -448,8 +447,6 @@
   }
 
   function init() {
-    decorateReaderCharactersSection();
-
     GRID_IDS.forEach(function (id) {
       var grid = document.getElementById(id);
       if (grid) watch(grid);
