@@ -163,6 +163,30 @@ function validateData(data) {
     if (bannerError) return bannerError;
     const coverError = validateCoverPath(item.cover, "Sub-series");
     if (coverError) return coverError;
+    if (item.posterRatio != null) {
+      if (!isString(item.posterRatio) || !/^(?:[1-9]|10)(?:\.\d{1,2})?:(?:[1-9]|10)(?:\.\d{1,2})?$/.test(item.posterRatio)) {
+        return "Invalid poster ratio.";
+      }
+      const parts = item.posterRatio.split(":").map(Number);
+      if (parts[0] / parts[1] < 0.2 || parts[0] / parts[1] > 5) return "Poster ratio must be between 1:5 and 5:1.";
+    }
+    if (item.posters != null) {
+      if (!Array.isArray(item.posters) || item.posters.length > 20) return "Too many Sub-series posters (maximum 20).";
+      const seen = new Set();
+      for (const poster of item.posters) {
+        if (!poster || typeof poster !== "object" || Array.isArray(poster)) return "Invalid Sub-series poster.";
+        if (!isString(poster.path) || !/^assets\/thoughts\/[a-zA-Z0-9._/-]+\.(?:webp|jpg|jpeg|png)$/i.test(poster.path) || poster.path.includes("..")) {
+          return "Invalid Sub-series poster path.";
+        }
+        if (seen.has(poster.path)) return "Duplicate Sub-series poster.";
+        seen.add(poster.path);
+        for (const key of ["x", "y", "zoom"]) {
+          if (poster[key] != null && (!isNumber(poster[key]) || poster[key] < (key === "zoom" ? 100 : 0) || poster[key] > (key === "zoom" ? 250 : 100))) {
+            return "Invalid Sub-series poster position or zoom.";
+          }
+        }
+      }
+    }
 
     if (item.uiTheme != null) {
       if (!item.uiTheme || typeof item.uiTheme !== "object" || Array.isArray(item.uiTheme)) return "Invalid Sub-series UI theme.";

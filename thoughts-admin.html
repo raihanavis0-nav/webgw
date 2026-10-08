@@ -120,12 +120,12 @@
             <div class="section-heading admin-section-heading">
               <div>
                 <h2>Gallery</h2>
-                <p class="admin-section-note">Banners, posters, and artwork. Character images stay in Characters.</p>
+                <p class="admin-section-note">Posters and artwork. Legacy banners are retained but hidden.</p>
               </div>
               <button class="inline-add" id="addGalleryBtn" type="button">+ Images</button>
             </div>
             <div class="admin-index-list" id="adminGalleryList"></div>
-            <div class="admin-empty" id="galleryEmpty" hidden><p>No extra Gallery images yet. Existing portraits, covers, and banners are included automatically.</p></div>
+            <div class="admin-empty" id="galleryEmpty" hidden><p>No extra Gallery images yet. Existing portraits and covers appear automatically.</p></div>
           </section>
 <section class="library-section admin-library-panel" data-admin-panel="appearance" hidden>
 <div class="section-heading"><div><h2>Reader Appearance</h2><p class="admin-section-note">Customize the Reader without editing code. Changes are visible in preview until saved.</p></div></div>
@@ -148,7 +148,7 @@
 <label for="appearanceLoginX">Focus X<input id="appearanceLoginX" type="range" min="0" max="100" value="50" step="1" /></label>
 <label for="appearanceLoginY">Focus Y<input id="appearanceLoginY" type="range" min="0" max="100" value="50" step="1" /></label>
 </div><button class="quiet-action" type="button" id="appearanceLoginRemove">Remove artwork</button><span class="appearance-position-note" id="appearanceLoginPositionText"></span></section>
-<section class="appearance-group"><h3>Library hero banner</h3><p>Supports GIF, PNG, JPEG, WebP. GIF stays animated. Drag the preview to reposition artwork.</p>
+<section class="appearance-group" id="appearanceHeroSettings" hidden><h3>Library hero banner (paused)</h3><p>Supports GIF, PNG, JPEG, WebP. GIF stays animated. Drag the preview to reposition artwork.</p>
 <label for="appearanceHeroUpload">Image / GIF<input id="appearanceHeroUpload" type="file" accept="image/gif,image/png,image/jpeg,image/webp" /></label>
 <div class="appearance-controls-grid">
 <label for="appearanceHeroRatio">Display ratio<select id="appearanceHeroRatio">
@@ -192,7 +192,7 @@
             </label>
           </div>
 
-          <div class="story-header-media" id="storyHeaderMedia">
+          <div class="story-header-media" id="storyHeaderMedia" hidden>
             <button class="story-header-empty" id="addStoryHeaderBtn" type="button">+ Add story header</button>
             <div class="story-header-preview-wrap" id="storyHeaderPreviewWrap" hidden>
               <img class="story-header-preview" id="storyBannerPreview" alt="" />
@@ -369,8 +369,11 @@
         </div>
         <section class="dialog-field series-posters-field" id="seriesPostersField" hidden>
           <div class="series-poster-field-head">
-            <div><label for="seriesPosterFiles">Series posters</label><p>Set multiple posters for the series selection screen. The first poster is the default.</p></div>
-            <label class="series-poster-upload-button" for="seriesPosterFiles">+ Add posters</label>
+            <div><label for="seriesPosterFiles" id="seriesPosterHeading">Posters</label><p id="seriesPosterHelp">The first poster is the default.</p></div>
+            <div class="series-poster-top-actions">
+              <button type="button" class="series-poster-upload-button" id="seriesPosterCopyParent" hidden>Use Series posters</button>
+              <label class="series-poster-upload-button" for="seriesPosterFiles">+ Add posters</label>
+            </div>
           </div>
           <input id="seriesPosterFiles" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden />
           <div class="series-poster-ratio">
@@ -384,7 +387,7 @@
             <div class="series-poster-details">
               <p class="series-poster-details-label">Live crop preview</p>
               <div class="series-poster-crop-frame" id="seriesPosterFrame"><img id="seriesPosterImage" alt="Selected poster preview" /><span id="seriesPosterPlaceholder">Select a poster to adjust its framing.</span></div>
-              <p class="series-poster-crop-note">Drag artwork to reposition. Ratio and crop are saved per Series.</p>
+              <p class="series-poster-crop-note">Drag artwork to reposition. Crop and ratio are saved per Series or Sub-series.</p>
               <div class="series-poster-sliders" id="seriesPosterControls">
                 <label>Horizontal <input id="seriesPosterX" type="range" min="0" max="100" step="1" value="50" /></label>
                 <label>Vertical <input id="seriesPosterY" type="range" min="0" max="100" step="1" value="50" /></label>
@@ -485,7 +488,7 @@
         <input id="galleryIdInput" type="hidden" />
         <div class="dialog-field"><label for="galleryCategoryInput">Album</label>
           <select id="galleryCategoryInput">
-            <option value="banner">Banner</option>
+            <option value="banner" hidden>Banner (paused)</option>
             <option value="poster">Poster</option>
             <option value="artwork">Artwork</option>
           </select>

@@ -6,6 +6,7 @@
   var uploading = false;
   var options = null;
   var dragStart = null;
+  var ownerKind = "Series";
   function $(id) { return document.getElementById(id); }
   function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
   function status(text, error) {
@@ -75,7 +76,7 @@
     if (!posters.length) {
       var empty = document.createElement("p");
       empty.className = "series-posters-empty";
-      empty.textContent = "No posters yet. The existing Series cover can be used until you add posters.";
+      empty.textContent = "No custom posters. You can upload new ones or reuse posters from the parent Series.";
       host.appendChild(empty);
     }
     posters.forEach(function (poster, index) {
@@ -127,7 +128,13 @@
     selected = to;
     render();
   }
-  function open(series) {
+  function open(series, kind) {
+    ownerKind = kind === "Sub-series" ? "Sub-series" : "Series";
+    $("seriesPosterHeading").textContent = ownerKind + " posters";
+    $("seriesPosterHelp").textContent = ownerKind === "Series"
+      ? "Displayed when selecting a Series. First poster is the default."
+      : "Displayed when selecting a Book. Parent Series posters are used until you add your own.";
+    $("seriesPosterCopyParent").hidden = ownerKind !== "Sub-series";
     var value = series || {};
     posters = Array.isArray(value.posters) ? value.posters.filter(function (p) { return p && p.path; }).map(normalizedPoster) : [];
     var parts = String(value.posterRatio || "2:3").split(":");
@@ -145,7 +152,7 @@
     });
     if (!candidates.length) { status("Select PNG, JPEG or WebP images.", true); return; }
     if (posters.length + candidates.length > 20) {
-      status("Maximum 20 posters per Series.", true);
+      status("Maximum 20 posters per " + ownerKind + ".", true);
       return;
     }
     if (uploading) return;
@@ -165,7 +172,7 @@
       });
     });
     queue.then(function () {
-      status(candidates.length + (candidates.length === 1 ? " poster" : " posters") + " uploaded. Save Series to publish.");
+      status(candidates.length + (candidates.length === 1 ? " poster" : " posters") + " uploaded. Save " + ownerKind + " to publish.");
     }).catch(function (error) {
       status("Upload stopped: " + (error.message || "Please retry remaining files."), true);
     }).finally(function () {
@@ -174,8 +181,24 @@
       render();
     });
   }
+  function copyFromParent() {
+    var parent = options && typeof options.getParentSeries === "function" ? options.getParentSeries() : null;
+    if (!parent || !Array.isArray(parent.posters) || !parent.posters.length) {
+      status("The selected Series has no posters to reuse. Upload posters here instead.", true);
+      return;
+    }
+    if (uploading) { status("Finish uploading before reusing posters.", true); return; }
+    posters = parent.posters.slice(0, 20).map(normalizedPoster);
+    var parts = String(parent.posterRatio || "2:3").split(":");
+    $("seriesPosterWidth").value = Number(parts[0]) || 2;
+    $("seriesPosterHeight").value = Number(parts[1]) || 3;
+    selected = 0;
+    render();
+    status("Copied " + posters.length + " posters. Save Sub-series to publish.");
+  }
   function init(config) {
     options = config;
+    $("seriesPosterCopyParent").addEventListener("click", copyFromParent);
     $("seriesPosterFiles").addEventListener("change", function () {
       upload(this.files);
       this.value = "";

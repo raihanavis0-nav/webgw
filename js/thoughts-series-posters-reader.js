@@ -18,16 +18,17 @@
     node.style.transformOrigin = node.style.objectPosition;
     node.style.transform = "scale(" + (poster.zoom == null ? 100 : clamp(Number(poster.zoom),100,250)) / 100 + ")";
   }
-  function posterCard(series, count, onOpen, mediaUrl) {
+  function posterCard(series, count, onOpen, mediaUrl, kind) {
+    kind = kind === "Book" ? "Book" : "Series";
     var posters = Array.isArray(series.posters) ? series.posters.filter(isPoster) : [];
-    if (!posters.length && (series.cover || series.banner)) posters = [{ path: series.cover || series.banner, x: 50, y: 50, zoom: 100 }];
+    if (!posters.length && series.cover) posters = [{ path: series.cover, x: 50, y: 50, zoom: 100 }];
     var entry = document.createElement("article");
     entry.className = "reader-series-card";
     entry.style.setProperty("--poster-ratio", ratio(series.posterRatio));
     var open = document.createElement("button");
     open.type = "button";
     open.className = "reader-series-open";
-    open.setAttribute("aria-label", "Open series " + (series.name || "Untitled"));
+    open.setAttribute("aria-label", "Open " + kind.toLowerCase() + " " + (series.name || "Untitled"));
 
     var frame = document.createElement("span");
     frame.className = "reader-series-frame";
@@ -130,7 +131,7 @@
       change.className = "reader-series-next-button";
       change.type = "button";
       change.textContent = "›";
-      change.setAttribute("aria-label", "Show next poster for " + (series.name || "Series"));
+      change.setAttribute("aria-label", "Show next poster for " + (series.name || kind));
       change.title = "Next poster";
       change.addEventListener("click", function (event) {
         event.preventDefault();

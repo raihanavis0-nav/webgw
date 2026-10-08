@@ -31,7 +31,10 @@
     if ($("readerLoginTitle")) $("readerLoginTitle").textContent = a.title || "Archive";
     if (a.accent && /^#[a-fA-F0-9]{6}$/.test(a.accent)) document.documentElement.style.setProperty("--reader-accent", a.accent);
     applyFrame("readerLogin", a.login, "4:3");
-    applyFrame("readerHero", a.hero, "3:1");
+    // The old Library hero banner is paused while posters take priority.
+    var hero = $("readerHeroMedia"), heroImg = $("readerHeroImage");
+    if (hero) hero.hidden = true;
+    if (heroImg) heroImg.removeAttribute("src");
   }
   function load() {
     fetch("/api/thoughts/auth?appearance=1", { credentials: "same-origin", headers: { Accept: "application/json" } })

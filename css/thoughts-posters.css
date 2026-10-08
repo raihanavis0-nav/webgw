@@ -169,3 +169,11 @@ body[data-reader-level="selector"] .reader-series-grid { padding-top: 0; }
 @media (prefers-reduced-motion: reduce) {
   .thoughts-header .theme-switch.reader-icon-themes button { transition: none; }
 }
+
+/* The Book selection uses the same portrait poster cards as Series selection. */
+.reader-books-grid { padding-top: clamp(15px,2vw,25px); }
+.series-poster-top-actions { display:flex;align-items:center;gap:8px;flex-wrap:wrap; }
+.series-poster-top-actions button.series-poster-upload-button { border:1px solid var(--line);background:var(--soft);color:var(--ink); }
+#readerHeroMedia, #storyBanner, .archive-banner-shell, .series-banner, .subseries-banner { display:none!important; }
+/* Hide banner editing without deleting any previously saved banner URLs. */
+#appearanceHeroSettings, #appearanceHeroFrame, #entityBannerField, #storyHeaderMedia { display:none!important; }

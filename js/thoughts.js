@@ -729,12 +729,19 @@
       host.appendChild(shortcuts);
       var books = state.data.subseries.filter(function (s) { return s.seriesId === series.id; }).sort(sortByOrderName);
       var bookGrid = document.createElement("div");
-      bookGrid.className = "archive-collection-grid";
+      bookGrid.className = "reader-series-grid reader-books-grid";
       books.forEach(function (item) {
         var count = stories.filter(function (story) { return story.subseriesId === item.id; }).length;
-        bookGrid.appendChild(collectionCard(item, "Book", count + (count === 1 ? " chapter" : " chapters"), function () {
+        var displayBook = Object.assign({}, item);
+        // Preserve existing Series poster uploads as defaults until this Book gets its own posters.
+        if ((!Array.isArray(item.posters) || !item.posters.length) &&
+            Array.isArray(series.posters) && series.posters.length) {
+          displayBook.posters = series.posters;
+          displayBook.posterRatio = series.posterRatio || "2:3";
+        }
+        bookGrid.appendChild(window.ArchiveSeriesPostersReader.create(displayBook, count, function () {
           goToCollection(series.id, item.id, "stories");
-        }));
+        }, mediaUrl, "Book"));
       });
       host.appendChild(bookGrid);
       var standalones = stories.filter(function (story) { return story.seriesId === series.id && !story.subseriesId; });
@@ -1558,9 +1565,7 @@
         );
       });
     banners = uniqueGalleryMedia(banners);
-    if (banners.length) {
-      albums.push({ id: "banners", title: "Banners", type: "Archive", items: banners });
-    }
+    // Legacy banner gallery is hidden for now; stored artwork is untouched.
 
     ["poster", "artwork"].forEach(function (category) {
       var items = state.data.galleryItems
@@ -1838,31 +1843,11 @@
     $("storyTitle").textContent = story.title || "Untitled";
     $("storyDate").textContent = formatDate(story.date);
 
+    // Banners are temporarily removed from the reader. Keep old uploads and metadata.
     var storyBanner = $("storyBanner");
     if (storyBanner) {
-      storyBanner.onerror = function () {
-        storyBanner.hidden = true;
-        storyBanner.removeAttribute("src");
-        storyBanner.style.removeProperty("object-position");
-      };
-
-      if (story.banner) {
-        var bannerPosition =
-          story.bannerPosition === "left" || story.bannerPosition === "right"
-            ? story.bannerPosition
-            : "center";
-        storyBanner.src = mediaUrl(story.banner);
-        storyBanner.style.objectPosition =
-          bannerPosition === "left"
-            ? "left center"
-            : bannerPosition === "right"
-              ? "right center"
-              : "center center";
-        storyBanner.hidden = false;
-      } else {
-        storyBanner.hidden = true;
-        storyBanner.removeAttribute("src");
-      }
+      storyBanner.hidden = true;
+      storyBanner.removeAttribute("src");
     }
 
     renderStoryBody(story.body || "");

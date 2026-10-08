@@ -1584,9 +1584,9 @@
     $("entitySlugField").hidden = isCharacter;
     $("entityOrderField").hidden = isCharacter;
     $("portraitField").hidden = !isCharacter;
-    $("entityBannerField").hidden = !(isSeries || isSubseries);
+    $("entityBannerField").hidden = true; // Preserve, but hide legacy banners.
     $("entityCoverField").hidden = !(isSeries || isSubseries);
-    $("seriesPostersField").hidden = !isSeries;
+    $("seriesPostersField").hidden = !(isSeries || isSubseries);
     $("subseriesThemeField").hidden = !isSubseries;
 
     $("entityDialogTitle").textContent =
@@ -1625,7 +1625,7 @@
         : item.description || ""
       : "";
 
-    if (isSeries && window.ArchiveSeriesPosters) window.ArchiveSeriesPosters.open(item);
+    if (isSeries && window.ArchiveSeriesPosters) window.ArchiveSeriesPosters.open(item, "Series");
     if (isSubseries && window.SubseriesThemeAdmin) window.SubseriesThemeAdmin.open(item);
 
     if (isSeries || isSubseries) {
@@ -1644,6 +1644,7 @@
         item ? item.seriesId : context.seriesId || "",
         "Choose Series"
       );
+      if (window.ArchiveSeriesPosters) window.ArchiveSeriesPosters.open(item, "Sub-series");
     }
 
     if (isCharacter) {
@@ -1756,6 +1757,16 @@
       subseries.description = $("entityDescriptionInput").value.trim();
       subseries.banner = $("entityBannerPathInput").value || "";
       subseries.cover = $("entityCoverPathInput").value || "";
+      if (window.ArchiveSeriesPosters) {
+        try {
+          var subPosters = window.ArchiveSeriesPosters.getValue();
+          subseries.posters = subPosters.posters;
+          subseries.posterRatio = subPosters.posterRatio;
+        } catch (error) {
+          $("entityStatus").textContent = error.message;
+          return;
+        }
+      }
       if (window.SubseriesThemeAdmin) {
         try {
           var settings = window.SubseriesThemeAdmin.getValue();
@@ -2980,7 +2991,11 @@
 
     initTheme();
 
-    if (window.ArchiveSeriesPosters) window.ArchiveSeriesPosters.init({ uploadFile: uploadFile, mediaUrl: mediaUrl });
+    if (window.ArchiveSeriesPosters) window.ArchiveSeriesPosters.init({
+      uploadFile: uploadFile,
+      mediaUrl: mediaUrl,
+      getParentSeries: function () { return seriesById($("entitySeriesInput").value); }
+    });
 
     if (window.ArchiveAppearanceAdmin) {
       window.ArchiveAppearanceAdmin.init({
