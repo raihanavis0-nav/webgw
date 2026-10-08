@@ -622,7 +622,136 @@
     return frame;
   }
 
+
+  // Existing data maps directly: Series = World, Sub-series = Book, Story = Chapter.
+  function seriesContext() {
+    var p = new URLSearchParams(window.location.search);
+    return {
+      seriesId: p.get("series") || "",
+      bookId: p.get("book") || "",
+    };
+  }
+  function goToCollection(seriesId, bookId, view) {
+    var query = new URLSearchParams();
+    if (seriesId) query.set("series", seriesId);
+    if (bookId) query.set("book", bookId);
+    if (view && view !== "stories") query.set("view", view);
+    history.pushState({}, "", "read" + (query.toString() ? "?" + query.toString() : ""));
+    renderHome();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  function archiveHeading(host, label, title, description, back) {
+    var wrap = document.createElement("header");
+    wrap.className = "archive-hierarchy-heading";
+    if (back) {
+      var previous = document.createElement("button");
+      previous.type = "button"; previous.className = "archive-hierarchy-back";
+      previous.textContent = "← " + label;
+      previous.addEventListener("click", back);
+      wrap.appendChild(previous);
+    }
+    var headline = document.createElement("h3");
+    headline.textContent = title;
+    wrap.appendChild(headline);
+    if (description) {
+      var text = document.createElement("p");
+      text.textContent = description;
+      wrap.appendChild(text);
+    }
+    host.appendChild(wrap);
+  }
+  function collectionCard(item, type, count, onClick) {
+    var card = document.createElement("button");
+    card.type = "button";
+    card.className = "archive-collection-card";
+    var media = document.createElement("span");
+    media.className = "archive-collection-card-media";
+    if (item.cover || item.banner) {
+      var image = document.createElement("img");
+      image.src = mediaUrl(item.cover || item.banner);
+      image.alt = ""; image.loading = "lazy";
+      media.appendChild(image);
+    }
+    var text = document.createElement("span");
+    text.className = "archive-collection-card-body";
+    var meta = document.createElement("small");
+    meta.textContent = type + " · " + count;
+    var title = document.createElement("strong");
+    title.textContent = item.name || "Untitled";
+    text.appendChild(meta); text.appendChild(title);
+    if (item.description) {
+      var desc = document.createElement("span");
+      desc.textContent = item.description;
+      text.appendChild(desc);
+    }
+    card.appendChild(media); card.appendChild(text);
+    card.addEventListener("click", onClick);
+    return card;
+  }
+  function renderSeriesNavigator() {
+    var host = $("seriesList");
+    host.innerHTML = "";
+    var context = seriesContext();
+    var series = state.data.series.find(function (s) { return String(s.id) === context.seriesId; });
+    var stories = state.data.stories || [];
+    if (!series) {
+      archiveHeading(host, "", "Choose a series", "Every series has its own world, books, characters and lore.");
+      var seriesGrid = document.createElement("div");
+      seriesGrid.className = "archive-collection-grid";
+      state.data.series.slice().sort(sortByOrderName).forEach(function (item) {
+        var count = stories.filter(function (story) { return story.seriesId === item.id; }).length;
+        seriesGrid.appendChild(collectionCard(item, "Series", count + (count === 1 ? " chapter" : " chapters"), function () {
+          goToCollection(item.id, "", "stories");
+        }));
+      });
+      host.appendChild(seriesGrid);
+      return;
+    }
+
+    var book = state.data.subseries.find(function (item) {
+      return String(item.id) === context.bookId && item.seriesId === series.id;
+    });
+    archiveHeading(host, "All series", book ? (book.name || "Book") : (series.name || "Series"),
+      book ? book.description : series.description, function () {
+        goToCollection(book ? series.id : "", "", "stories");
+      });
+    if (!book) {
+      var shortcuts = document.createElement("div");
+      shortcuts.className = "archive-hierarchy-quicklinks";
+      [["characters", "Meet the characters"], ["world", "Explore the world"], ["timeline", "Timeline"], ["gallery", "Artwork"]].forEach(function (item) {
+        var button = document.createElement("button"); button.type = "button";
+        button.textContent = item[1];
+        button.addEventListener("click", function () { goToCollection(series.id, "", item[0]); });
+        shortcuts.appendChild(button);
+      });
+      host.appendChild(shortcuts);
+      var books = state.data.subseries.filter(function (s) { return s.seriesId === series.id; }).sort(sortByOrderName);
+      var bookGrid = document.createElement("div");
+      bookGrid.className = "archive-collection-grid";
+      books.forEach(function (item) {
+        var count = stories.filter(function (story) { return story.subseriesId === item.id; }).length;
+        bookGrid.appendChild(collectionCard(item, "Book", count + (count === 1 ? " chapter" : " chapters"), function () {
+          goToCollection(series.id, item.id, "stories");
+        }));
+      });
+      host.appendChild(bookGrid);
+      var standalones = stories.filter(function (story) { return story.seriesId === series.id && !story.subseriesId; });
+      if (standalones.length) {
+        archiveHeading(host, "", "Standalone chapters", "");
+        host.appendChild(createStoryList(standalones));
+      }
+      return;
+    }
+    var chapters = stories.filter(function (story) { return story.subseriesId === book.id && story.seriesId === series.id; });
+    var wrapper = document.createElement("div");
+    wrapper.className = "archive-hierarchy-chapters";
+    wrapper.appendChild(createStoryList(chapters));
+    host.appendChild(wrapper);
+  }
+
   function renderSeries() {
+    renderSeriesNavigator();
+    return;
     var host = $("seriesList");
     host.innerHTML = "";
 
@@ -905,7 +1034,9 @@
     var grid = $("characterGrid");
     grid.innerHTML = "";
 
+    var chosenSeries = seriesContext().seriesId;
     var characters = state.data.characters
+      .filter(function (item) { return !chosenSeries || item.seriesId === chosenSeries; })
       .slice()
       .sort(sortByOrderName);
 
@@ -1009,8 +1140,12 @@
     }
 
     if (pushHistory) {
-      var target = next === "stories" ? "read" : "read?view=" + encodeURIComponent(next);
-      history.pushState({}, "", target);
+      var selected = seriesContext().seriesId;
+      var params = new URLSearchParams();
+      if (selected) params.set("series", selected);
+      if (next === "stories" && selected && seriesContext().bookId) params.set("book", seriesContext().bookId);
+      if (next !== "stories") params.set("view", next);
+      history.pushState({}, "", "read" + (params.toString() ? "?" + params.toString() : ""));
     }
 
     document.title = archiveViewLabel(next) + " — Archive";
@@ -1136,7 +1271,7 @@
       .filter(function (entry) {
         var categoryMatch =
           category === "__search__" || !category || entry.category === category;
-        return categoryMatch && worldEntryMatches(entry, query);
+        return categoryMatch && worldBelongsToSeries(entry) && worldEntryMatches(entry, query);
       })
       .slice()
       .sort(sortByOrderName);
@@ -1173,6 +1308,16 @@
     }
   }
 
+  function worldBelongsToSeries(entry) {
+    var chosen = seriesContext().seriesId;
+    if (!chosen) return true;
+    if (entry.seriesId) return entry.seriesId === chosen;
+    return (entry.relatedStoryIds || []).some(function (id) {
+      var story = storyById(id);
+      return story && story.seriesId === chosen;
+    });
+  }
+
   function renderWorld() {
     var section = $("worldSection");
     var host = $("worldCategoryGrid");
@@ -1189,7 +1334,7 @@
 
     categories.forEach(function (category) {
       var items = state.data.worldEntries.filter(function (entry) {
-        return entry.category === category;
+        return entry.category === category && worldBelongsToSeries(entry);
       });
 
       var card = document.createElement("button");
@@ -1220,7 +1365,7 @@
 
     $("worldEntriesView").hidden = true;
     host.hidden = false;
-    section.dataset.hasContent = state.data.worldEntries.length ? "true" : "false";
+    section.dataset.hasContent = state.data.worldEntries.some(worldBelongsToSeries) ? "true" : "false";
   }
 
   function filterWorld(value) {
@@ -1247,6 +1392,7 @@
       .filter(function (story) {
         return (
           story &&
+          (!seriesContext().seriesId || story.seriesId === seriesContext().seriesId) &&
           story.timelineEnabled === true &&
           String(story.timelineLabel || "").trim()
         );
@@ -1670,6 +1816,13 @@
     if (subseries) path.push(subseries.name);
 
     $("storyPath").textContent = path.join(" / ");
+    var back = $("readerStoryBack");
+    if (back) {
+      var query = new URLSearchParams();
+      if (story.seriesId) query.set("series", story.seriesId);
+      if (story.subseriesId) query.set("book", story.subseriesId);
+      back.href = "read" + (query.toString() ? "?" + query.toString() : "");
+    }
     $("storyTitle").textContent = story.title || "Untitled";
     $("storyDate").textContent = formatDate(story.date);
 
