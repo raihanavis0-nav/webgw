@@ -200,6 +200,16 @@
       "description": "",
       "banner": "",
       "cover": "assets/thoughts/1791453019291-281d1c-artboard-1-copy-7.webp"
+    },
+    {
+      "id": "subseries-1791453232536",
+      "seriesId": "series-1790072885901",
+      "name": "Ballad of The Merciless",
+      "slug": "ballad-of-the-merciless",
+      "order": 6,
+      "description": "",
+      "banner": "",
+      "cover": "assets/thoughts/1791453129814-9d0bde-artboard-1-copy-4.webp"
     }
   ],
   "characters": [
