@@ -90,3 +90,259 @@
 @media (prefers-reduced-motion: reduce) {
   .archive-collection-card, .appearance-live-preview { transition: none; }
 }
+
+
+/* Editorial sign-in refresh · explicit theme colors avoid pale-on-white text. */
+.thoughts-admin-body {
+  --login-surface: #fffdf9;
+  --login-text: #272620;
+  --login-muted: #706b61;
+  --login-outline: #d8d0c4;
+  --login-field: #f7f4ed;
+  --login-field-outline: #d5cdbf;
+  --login-action: #272722;
+  --login-action-text: #faf7ef;
+}
+html[data-theme="dark"] .thoughts-admin-body {
+  --login-surface: #24241f;
+  --login-text: #f3efe7;
+  --login-muted: #b5aea3;
+  --login-outline: #48453e;
+  --login-field: #1c1d1a;
+  --login-field-outline: #4c4940;
+  --login-action: #eae5da;
+  --login-action-text: #252420;
+}
+.thoughts-admin-body .admin-login {
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin: 0;
+  padding: 36px 20px;
+  background: var(--paper);
+}
+.thoughts-admin-body .admin-login-box {
+  color: var(--login-text);
+  background: var(--login-surface);
+  width: min(100%, 432px);
+  padding: clamp(28px, 5vw, 38px);
+  border-radius: 18px;
+  border: 1px solid var(--login-outline);
+  box-shadow: 0 14px 42px rgba(0,0,0,.08), 0 2px 12px rgba(0,0,0,.02);
+}
+html[data-theme="dark"] .thoughts-admin-body .admin-login-box {
+  box-shadow: 0 28px 80px rgba(0,0,0,.22);
+}
+.thoughts-admin-body .admin-login-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  border-bottom: 1px solid var(--login-outline);
+  padding-bottom: 22px;
+  margin-bottom: 35px;
+}
+.thoughts-admin-body .admin-login-emblem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 37px;
+  width: 37px;
+  height: 37px;
+  border: 1px solid var(--login-outline);
+  border-radius: 10px;
+  font-family: "Newsreader",Georgia,serif;
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--login-text);
+}
+.thoughts-admin-body .admin-login-emblem-dot { color: #b09268; }
+.thoughts-admin-body .admin-login-brand-name {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: .105em;
+  color: var(--login-text);
+}
+.thoughts-admin-body .admin-login-brand-name span { color: var(--login-muted); font-weight: 450; }
+.thoughts-admin-body .admin-login-intro { margin: 0 0 30px; }
+.thoughts-admin-body .admin-login-box .eyebrow {
+  color: var(--login-muted);
+  font-family: Inter, system-ui, sans-serif;
+  letter-spacing: .13em;
+  font-size: 10px;
+  font-weight: 600;
+  margin: 0 0 13px;
+  text-transform: uppercase;
+}
+.thoughts-admin-body .admin-login-box h1 {
+  color: var(--login-text);
+  font-family: "Newsreader",Georgia,serif;
+  font-size: clamp(37px, 6vw, 44px);
+  line-height: 1.04;
+  font-weight: 500;
+  letter-spacing: -.045em;
+  margin: 0 0 14px;
+}
+.thoughts-admin-body .admin-login-box .login-explain {
+  color: var(--login-muted);
+  opacity: 1;
+  font-family: Inter,system-ui,sans-serif;
+  font-size: 13px;
+  line-height: 1.65;
+  margin: 0;
+}
+.thoughts-admin-body .admin-login-fields {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 19px;
+}
+.thoughts-admin-body .admin-login-field { min-width: 0; }
+.thoughts-admin-body .admin-login-field > label {
+  display: block;
+  color: var(--login-text);
+  font-family: Inter,system-ui,sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0 0 9px;
+}
+.thoughts-admin-body .admin-login-fields input {
+  color: var(--login-text);
+  -webkit-text-fill-color: var(--login-text);
+  background: var(--login-field);
+  border: 1px solid var(--login-field-outline);
+  width: 100%;
+  height: 49px;
+  min-height: 49px;
+  padding: 0 14px;
+  border-radius: 10px;
+  box-shadow: none;
+  outline: 0;
+  font-family: Inter,system-ui,sans-serif;
+  font-size: 14px;
+  line-height: 1.3;
+  margin: 0;
+}
+.thoughts-admin-body .admin-login-fields input::placeholder {
+  color: var(--login-muted);
+  -webkit-text-fill-color: var(--login-muted);
+  opacity: .83;
+}
+.thoughts-admin-body .admin-login-fields input:focus-visible {
+  border-color: #b09268;
+  box-shadow: 0 0 0 3px rgba(176,146,104,.15);
+}
+.thoughts-admin-body .admin-login-password-wrap { position: relative; }
+.thoughts-admin-body .admin-login-password-wrap input { padding-right: 77px; }
+.thoughts-admin-body .admin-login-password-wrap .admin-login-password-toggle {
+  position: absolute;
+  right: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 7px;
+  padding: 7px 9px;
+  background: transparent;
+  color: var(--login-muted);
+  min-width: auto;
+  width: auto;
+  height: auto;
+  min-height: 0;
+  margin: 0 !important;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 11px;
+  cursor: pointer;
+}
+.thoughts-admin-body .admin-login-password-toggle:hover { color: var(--login-text); }
+.thoughts-admin-body .admin-login-fields .admin-login-submit {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  min-height: 50px;
+  padding: 0 18px;
+  margin: 7px 0 0 !important;
+  border: 1px solid var(--login-action);
+  border-radius: 10px;
+  background: var(--login-action);
+  color: var(--login-action-text);
+  font-family: Inter,system-ui,sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  cursor: pointer;
+  transition: filter .15s ease, transform .15s ease;
+}
+.thoughts-admin-body .admin-login-fields .admin-login-submit:hover { filter: brightness(.94); }
+.thoughts-admin-body .admin-login-fields .admin-login-submit:active { transform: translateY(1px); }
+.thoughts-admin-body .admin-login-fields .admin-login-submit:disabled { opacity: .55; cursor: wait; }
+.thoughts-admin-body .admin-login-status {
+  color: var(--login-muted);
+  font: 12px/1.55 Inter,system-ui,sans-serif;
+  min-height: 0;
+  overflow-wrap: anywhere;
+  margin: 14px 0 0;
+}
+.thoughts-admin-body .admin-login-status:empty { display: none; }
+.thoughts-admin-body .admin-login-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 21px;
+  margin-top: 27px;
+  border-top: 1px solid var(--login-outline);
+  font: 10px/1.3 Inter,system-ui,sans-serif;
+  letter-spacing: .065em;
+  color: var(--login-muted);
+}
+.thoughts-admin-body .admin-login-bottom a {
+  color: var(--login-text);
+  text-decoration: none;
+  font-size: 11px;
+  letter-spacing: 0;
+  font-weight: 600;
+}
+.thoughts-admin-body .admin-login-bottom a:hover { text-decoration: underline; }
+/* The Reader's password gate should not invert its text colors either. */
+.reader-gate-card {
+  background: #fffdf9;
+  color: #272620;
+  border-color: #d8d0c4;
+}
+html[data-theme="dark"] .reader-gate-card {
+  background: #24241f;
+  color: #f3efe7;
+  border-color: #48453e;
+}
+.reader-gate-card h1 { color: inherit; }
+.reader-gate-card .eyebrow { color: inherit; opacity: .72; }
+.reader-gate-card .gate-desc { color: inherit; opacity: .76; }
+.reader-gate-card .gate-form input {
+  background: #f7f4ed;
+  border-color: #d5cdbf;
+  color: #272620;
+}
+html[data-theme="dark"] .reader-gate-card .gate-form input {
+  background: #1c1d1a;
+  border-color: #4c4940;
+  color: #f3efe7;
+}
+.reader-gate-card .gate-form button {
+  background: #272722;
+  color: #faf7ef;
+  border-color: #272722;
+}
+html[data-theme="dark"] .reader-gate-card .gate-form button {
+  background: #eae5da;
+  color: #252420;
+  border-color: #eae5da;
+}
+@media (max-width: 520px) {
+  .thoughts-admin-body .admin-login { padding: 20px 14px; }
+  .thoughts-admin-body .admin-login-box { padding: 26px 24px; border-radius: 16px; }
+  .thoughts-admin-body .admin-login-brand { margin-bottom: 27px; }
+  .thoughts-admin-body .admin-login-box h1 { font-size: 38px; }
+}
