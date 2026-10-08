@@ -34,7 +34,7 @@
     applyFrame("readerHero", a.hero, "3:1");
   }
   function load() {
-    fetch("/api/thoughts/appearance", { credentials: "same-origin", headers: { Accept: "application/json" } })
+    fetch("/api/thoughts/auth?appearance=1", { credentials: "same-origin", headers: { Accept: "application/json" } })
       .then(function (r) { if (!r.ok) throw new Error("Appearance unavailable"); return r.json(); })
       .then(function (r) { apply(r.appearance); })
       .catch(function () { /* Keep the archive usable with default appearance. */ });
