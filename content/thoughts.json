@@ -25,7 +25,66 @@
       "name": "Mankind",
       "slug": "land-of-the-mankind",
       "order": 1,
-      "description": ""
+      "description": "",
+      "banner": "",
+      "cover": "",
+      "posters": [
+        {
+          "path": "assets/thoughts/1791453663826-ccfa99-artboard-1-copy-8.webp",
+          "x": 50,
+          "y": 50,
+          "zoom": 100
+        },
+        {
+          "path": "assets/thoughts/1791453665901-464f7e-artboard-1-copy.webp",
+          "x": 50,
+          "y": 50,
+          "zoom": 100
+        },
+        {
+          "path": "assets/thoughts/1791453652871-01ebe1-artboard-1-copy-2.webp",
+          "x": 50,
+          "y": 50,
+          "zoom": 100
+        },
+        {
+          "path": "assets/thoughts/1791453668092-e0552a-artboard-1.webp",
+          "x": 50,
+          "y": 50,
+          "zoom": 100
+        },
+        {
+          "path": "assets/thoughts/1791453662169-d577b6-artboard-1-copy-7.webp",
+          "x": 50,
+          "y": 50,
+          "zoom": 100
+        },
+        {
+          "path": "assets/thoughts/1791453660423-f2e5d8-artboard-1-copy-6.webp",
+          "x": 50,
+          "y": 50,
+          "zoom": 100
+        },
+        {
+          "path": "assets/thoughts/1791453654943-d3f7a1-artboard-1-copy-3.webp",
+          "x": 50,
+          "y": 50,
+          "zoom": 100
+        },
+        {
+          "path": "assets/thoughts/1791453656534-78c533-artboard-1-copy-4.webp",
+          "x": 50,
+          "y": 50,
+          "zoom": 100
+        },
+        {
+          "path": "assets/thoughts/1791453658563-3fc82a-artboard-1-copy-5.webp",
+          "x": 50,
+          "y": 50,
+          "zoom": 100
+        }
+      ],
+      "posterRatio": "2:3"
     },
     {
       "id": "series-1790083460918",
