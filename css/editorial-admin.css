@@ -1,0 +1,55 @@
+/* Editorial Studio: restrained working UI. No change to storage or editor behavior. */
+.thoughts-admin-body{--max:1120px;}
+.admin-main{width:min(calc(100% - 48px),1120px);padding:clamp(28px,5vw,60px) 0 90px;}
+.admin-library-intro{padding-bottom:clamp(24px,4vw,48px);}
+.admin-library-intro h1{font-size:clamp(50px,7vw,88px);letter-spacing:-.055em;line-height:.98;}
+.admin-library-nav{display:flex;gap:clamp(16px,3vw,34px);overflow:auto;scrollbar-width:none;border:0;margin-bottom:35px;}
+.admin-library-nav button{
+  font:600 11px/1.4 Inter,system-ui,sans-serif!important;
+  text-transform:uppercase;letter-spacing:.07em;white-space:nowrap;
+}
+.admin-library-panel>.section-heading h2{font:400 clamp(32px,4vw,52px)/1.1 "Newsreader",Georgia,serif;letter-spacing:-.035em}
+.admin-main>.library-section,.admin-main .admin-library-panel{border-top:0;}
+.admin-main .admin-story-row,.admin-main .admin-index-row{border-color:color-mix(in srgb,var(--ink) 12%,transparent);}
+.admin-main .admin-series-block{padding:18px 0;}
+/* Tabs in Series/Sub-series editor; original form fields retain their values while hidden. */
+.editorial-entity-tabs{
+  display:flex;align-items:center;gap:24px;
+  margin:6px 0 26px;padding:0 0 9px;
+  border-bottom:1px solid var(--line);
+}
+.editorial-entity-tabs button{
+  appearance:none;border:0;border-bottom:2px solid transparent;
+  padding:12px 0;background:transparent;color:var(--muted);
+  font:600 11px/1.3 Inter,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;
+  cursor:pointer;
+}
+.editorial-entity-tabs button[aria-pressed="true"]{color:var(--ink);border-color:var(--ink);}
+.editorial-entity-tabs button:hover{color:var(--ink);}
+#entityForm[data-active-entity-tab="general"] #seriesPostersField,
+#entityForm[data-active-entity-tab="general"] #subseriesThemeField,
+#entityForm[data-active-entity-tab="posters"] #editorialGeneralFields,
+#entityForm[data-active-entity-tab="posters"] #subseriesThemeField,
+#entityForm[data-active-entity-tab="appearance"] #editorialGeneralFields,
+#entityForm[data-active-entity-tab="appearance"] #seriesPostersField{display:none!important;}
+#entityForm[data-active-entity-tab] #entityCoverField,
+#entityForm[data-active-entity-tab] #entityBannerField,
+#seriesPosterCopyParent{display:none!important;}
+.entity-general-fields{display:grid;gap:10px;}
+#entityDialog .dialog-shell{width:min(calc(100vw - 24px),820px);}
+#entityDialog .dialog-head h2{font-size:clamp(28px,4vw,44px);}
+#entityDialog .dialog-field{border-top:0;}
+#entityDialog #seriesPostersField{padding-top:0;border:0;}
+#entityDialog #subseriesThemeField{padding:0;border:0;}
+#entityDialog .theme-preview{border-radius:5px;}
+#entityDialog .theme-paper-preview{box-shadow:none;}
+#entityDialog .series-poster-crop-frame{border-radius:4px;}
+#entityDialog .series-poster-row{border-radius:4px;}
+#storyWorkspace .chapter-editor-page{border-radius:2px;box-shadow:0 16px 50px #00000013;}
+#storyWorkspace .chapter-editor-page .story-title-input{font-family:"Newsreader",Georgia,serif;font-weight:400;letter-spacing:-.04em;}
+#storyWorkspace .chapter-editor-page .story-body-editor{font-family:"Newsreader",Georgia,serif;font-size:18px;line-height:1.8;}
+@media(max-width:680px){
+  .admin-main{width:calc(100% - 32px);padding:28px 0 65px;}
+  .editorial-entity-tabs{gap:20px;}
+  #entityDialog .dialog-shell{width:min(calc(100vw - 14px),820px);}
+}

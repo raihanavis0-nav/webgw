@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="css/thoughts-appearance.css" />
     <link rel="stylesheet" href="css/thoughts-posters.css" />
     <link rel="stylesheet" href="css/subseries-theme.css" />
+    <link rel="stylesheet" href="css/editorial-cinematic.css" />
   </head>
   <body class="is-locked">
     <div class="page-shell">
@@ -63,7 +64,7 @@
             <div class="archive-visual reader-login-media" id="readerLoginMedia" hidden><img id="readerLoginImage" alt="Archive artwork" /></div>
             <p class="eyebrow">Private fiction library</p>
             <h1 id="readerLoginTitle">Archive</h1>
-            <p class="gate-desc">Enter your access code to explore the library.</p>
+            <p class="gate-desc">Enter the archive.</p>
           <div class="gate-form">
             <input
               id="accessCodeInput"
@@ -81,14 +82,19 @@
         <div id="libraryApp" hidden>
           <section class="library-home" id="libraryHome">
             <header class="library-intro">
-              <p class="eyebrow">Fiction archive</p>
+              <p class="eyebrow">THE COLLECTION / FICTION</p>
               <h1 id="readerArchiveTitle" class="reader-archive-home-title">Archive</h1>
               <p id="readerArchiveSubtitle" class="reader-archive-home-desc">Choose a series and discover its world.</p>
+              <a class="reader-continue" id="readerContinue" href="read" hidden>
+                <span class="reader-continue-icon" aria-hidden="true">↗</span>
+                <span><small>CONTINUE READING</small><strong id="readerContinueTitle"></strong></span>
+                <span class="reader-continue-arrow" aria-hidden="true">→</span>
+              </a>
               <div class="archive-visual reader-library-hero" id="readerHeroMedia" hidden><img id="readerHeroImage" alt="Library banner" /></div>
             </header>
 
             <nav class="archive-section-nav" id="archiveSectionNav" aria-label="Archive sections">
-              <button type="button" data-archive-view="stories" aria-pressed="true">Books & Chapters</button>
+              <button type="button" data-archive-view="stories" aria-pressed="true">Seasons</button>
               <button type="button" data-archive-view="characters" aria-pressed="false">Characters</button>
               <button type="button" data-archive-view="world" aria-pressed="false">World</button>
               <button type="button" data-archive-view="timeline" aria-pressed="false">Timeline</button>
@@ -112,13 +118,13 @@
               <div class="section-heading archive-tool-heading">
                 <div>
                   <h2>World</h2>
-                  <p class="archive-section-description">The places, organizations, events, objects, and terms that belong to this universe.</p>
+                  <p class="archive-section-description">People, places and details from this world.</p>
                 </div>
                 <input id="worldSearchInput" class="archive-search-input" type="search" placeholder="Search World" autocomplete="off" aria-label="Search World" />
               </div>
-              <div class="world-category-grid" id="worldCategoryGrid"></div>
+              <div class="world-category-grid" id="worldCategoryGrid" role="group" aria-label="Filter world entries"></div>
               <div class="world-entries-view" id="worldEntriesView" hidden>
-                <button class="archive-back-button" id="worldBackButton" type="button">← Categories</button>
+                <button class="archive-back-button" id="worldBackButton" type="button" hidden>← Categories</button>
                 <div class="world-view-heading">
                   <p class="eyebrow">World</p>
                   <h3 id="worldViewTitle"></h3>
@@ -156,6 +162,12 @@
           </section>
 
           <article class="story-view" id="storyView" hidden>
+            <div class="reader-progress" id="readerProgress" aria-hidden="true"><span id="readerProgressFill"></span></div>
+            <div class="reader-reading-tools" role="group" aria-label="Reading text size">
+              <span class="reader-reading-tools-label">TEXT SIZE</span>
+              <button type="button" id="readerTextSmaller" aria-label="Decrease text size">A−</button>
+              <button type="button" id="readerTextLarger" aria-label="Increase text size">A+</button>
+            </div>
             <a class="back-link" id="readerStoryBack" href="read">← Back to chapters</a>
 
             <img class="story-banner" id="storyBanner" alt="" hidden />
@@ -213,5 +225,6 @@
     <script src="js/thoughts-ending-song.js" defer></script>
     <script src="js/thoughts-character-groups.js" defer></script>
     <script src="js/thoughts-character-detail.js" defer></script>
+    <script src="js/editorial-reader.js" defer></script>
   </body>
 </html>

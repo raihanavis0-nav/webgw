@@ -462,9 +462,14 @@
       time.dateTime = story.date || "";
       time.textContent = formatShortDate(story.date);
 
+      var arrow = document.createElement("span");
+      arrow.className = "story-row-arrow";
+      arrow.setAttribute("aria-hidden", "true");
+      arrow.textContent = "↗";
       row.appendChild(order);
       row.appendChild(titleStack);
       row.appendChild(time);
+      row.appendChild(arrow);
       list.appendChild(row);
     });
 
@@ -650,6 +655,10 @@
       previous.addEventListener("click", back);
       wrap.appendChild(previous);
     }
+    var kicker = document.createElement("span");
+    kicker.className = "archive-hierarchy-kicker";
+    kicker.textContent = seriesContext().bookId ? "THE CHAPTERS" : "THE COLLECTION";
+    wrap.appendChild(kicker);
     var headline = document.createElement("h3");
     headline.textContent = title;
     wrap.appendChild(headline);
@@ -718,15 +727,6 @@
         goToCollection(book ? series.id : "", "", "stories");
       });
     if (!book) {
-      var shortcuts = document.createElement("div");
-      shortcuts.className = "archive-hierarchy-quicklinks";
-      [["characters", "Meet the characters"], ["world", "Explore the world"], ["timeline", "Timeline"]].forEach(function (item) {
-        var button = document.createElement("button"); button.type = "button";
-        button.textContent = item[1];
-        button.addEventListener("click", function () { goToCollection(series.id, "", item[0]); });
-        shortcuts.appendChild(button);
-      });
-      host.appendChild(shortcuts);
       var books = state.data.subseries.filter(function (s) { return s.seriesId === series.id; }).sort(sortByOrderName);
       var bookGrid = document.createElement("div");
       bookGrid.className = "reader-series-grid reader-books-grid";
@@ -754,271 +754,6 @@
 
   function renderSeries() {
     renderSeriesNavigator();
-    return;
-    var host = $("seriesList");
-    host.innerHTML = "";
-
-    var stories = state.data.stories || [];
-    var seriesItems = state.data.series.slice().sort(sortByOrderName);
-
-    seriesItems.forEach(function (series) {
-      var directStories = stories.filter(function (story) {
-        return story.seriesId === series.id && !story.subseriesId;
-      });
-
-      var subseriesItems = state.data.subseries
-        .filter(function (subseries) {
-          return subseries.seriesId === series.id;
-        })
-        .sort(sortByOrderName);
-
-      var hasNestedStories = subseriesItems.some(function (subseries) {
-        return stories.some(function (story) {
-          return story.subseriesId === subseries.id;
-        });
-      });
-
-      if (!directStories.length && !hasNestedStories) return;
-
-      var block = document.createElement("section");
-      block.className = "series-block";
-
-      var totalStories = stories.filter(function (story) {
-        return story.seriesId === series.id;
-      }).length;
-
-      var titleRow = document.createElement("div");
-      titleRow.className = "series-title-row";
-
-      var title = document.createElement("h3");
-      title.className = "series-title";
-      title.textContent = series.name || "Untitled series";
-
-      var seriesCollapseButton = createArchiveCollapseButton(
-        block,
-        "series",
-        series.id,
-        series.name || "Series",
-        false
-      );
-
-      var count = document.createElement("span");
-      count.className = "series-meta";
-      count.textContent =
-        totalStories + (totalStories === 1 ? " story" : " stories");
-
-      titleRow.appendChild(seriesCollapseButton);
-      titleRow.appendChild(title);
-      titleRow.appendChild(count);
-
-      if (series.banner) {
-        block.classList.add("has-cinematic-banner");
-
-        var seriesBannerShell = document.createElement("div");
-        seriesBannerShell.className = "archive-banner-shell series-banner-shell";
-
-        var seriesBanner = document.createElement("img");
-        seriesBanner.className = "series-banner";
-        seriesBanner.src = mediaUrl(series.banner);
-        seriesBanner.alt = "";
-        seriesBanner.loading = "lazy";
-
-        var seriesCaption = document.createElement("div");
-        seriesCaption.className = "archive-banner-caption";
-
-        var seriesBannerMeta = document.createElement("span");
-        seriesBannerMeta.className = "archive-banner-meta";
-        seriesBannerMeta.textContent =
-          totalStories + (totalStories === 1 ? " story" : " stories");
-
-        seriesCaption.appendChild(seriesBannerMeta);
-        seriesBannerShell.appendChild(seriesBanner);
-        seriesBannerShell.appendChild(seriesCaption);
-
-        seriesBanner.addEventListener("error", function () {
-          block.classList.remove("has-cinematic-banner");
-          seriesBannerShell.remove();
-        });
-
-        block.appendChild(seriesBannerShell);
-      }
-
-      var seriesDescription = null;
-      if (series.description) {
-        seriesDescription = document.createElement("p");
-        seriesDescription.className = "series-description";
-        seriesDescription.textContent = series.description;
-      }
-
-      if (series.cover) {
-        block.classList.add("has-book-cover");
-
-        var seriesLayout = document.createElement("div");
-        seriesLayout.className = "archive-book-layout series-book-layout";
-
-        var seriesCopy = document.createElement("div");
-        seriesCopy.className = "archive-book-copy";
-        seriesCopy.appendChild(titleRow);
-        if (seriesDescription) seriesCopy.appendChild(seriesDescription);
-
-        var seriesToggle = createArchiveFocusToggle(
-          seriesLayout,
-          "series",
-          series.id
-        );
-        var seriesCover = createBookCover(
-          series,
-          series.name || "Series",
-          seriesLayout,
-          seriesToggle
-        );
-
-        seriesLayout.appendChild(seriesToggle);
-        seriesLayout.appendChild(seriesCopy);
-        seriesLayout.appendChild(seriesCover);
-        block.appendChild(seriesLayout);
-
-        applyArchiveFocusMode(
-          seriesLayout,
-          "series",
-          series.id,
-          getArchiveFocusMode("series", series.id)
-        );
-      } else {
-        block.appendChild(titleRow);
-        if (seriesDescription) block.appendChild(seriesDescription);
-      }
-
-      if (directStories.length) {
-        block.appendChild(createStoryList(directStories));
-      }
-
-      subseriesItems.forEach(function (subseries) {
-        var nestedStories = stories.filter(function (story) {
-          return story.subseriesId === subseries.id;
-        });
-
-        if (!nestedStories.length) return;
-
-        var nested = document.createElement("section");
-        nested.className = "subseries-block";
-
-        var nestedTitleRow = document.createElement("div");
-        nestedTitleRow.className = "archive-subseries-title-row";
-
-        var nestedTitle = document.createElement("h4");
-        nestedTitle.className = "subseries-title";
-        nestedTitle.textContent = subseries.name || "Untitled sub-series";
-
-        var nestedCollapseButton = createArchiveCollapseButton(
-          nested,
-          "subseries",
-          subseries.id,
-          subseries.name || "Sub-series",
-          false
-        );
-
-        nestedTitleRow.appendChild(nestedCollapseButton);
-        nestedTitleRow.appendChild(nestedTitle);
-
-        if (subseries.banner) {
-          nested.classList.add("has-cinematic-banner");
-
-          var subseriesBannerShell = document.createElement("div");
-          subseriesBannerShell.className =
-            "archive-banner-shell subseries-banner-shell";
-
-          var subseriesBanner = document.createElement("img");
-          subseriesBanner.className = "subseries-banner";
-          subseriesBanner.src = mediaUrl(subseries.banner);
-          subseriesBanner.alt = "";
-          subseriesBanner.loading = "lazy";
-
-          var subseriesCaption = document.createElement("div");
-          subseriesCaption.className = "archive-banner-caption";
-
-          var subseriesBannerMeta = document.createElement("span");
-          subseriesBannerMeta.className = "archive-banner-meta";
-          subseriesBannerMeta.textContent =
-            nestedStories.length +
-            (nestedStories.length === 1 ? " story" : " stories");
-
-          subseriesCaption.appendChild(subseriesBannerMeta);
-          subseriesBannerShell.appendChild(subseriesBanner);
-          subseriesBannerShell.appendChild(subseriesCaption);
-
-          subseriesBanner.addEventListener("error", function () {
-            nested.classList.remove("has-cinematic-banner");
-            subseriesBannerShell.remove();
-          });
-
-          nested.appendChild(subseriesBannerShell);
-        }
-
-        var nestedDescription = null;
-        if (subseries.description) {
-          nestedDescription = document.createElement("p");
-          nestedDescription.className = "subseries-description";
-          nestedDescription.textContent = subseries.description;
-        }
-
-        if (subseries.cover) {
-          nested.classList.add("has-book-cover");
-
-          var nestedLayout = document.createElement("div");
-          nestedLayout.className = "archive-book-layout subseries-book-layout";
-
-          var nestedCopy = document.createElement("div");
-          nestedCopy.className = "archive-book-copy";
-          nestedCopy.appendChild(nestedTitleRow);
-          if (nestedDescription) nestedCopy.appendChild(nestedDescription);
-
-          var nestedToggle = createArchiveFocusToggle(
-            nestedLayout,
-            "subseries",
-            subseries.id
-          );
-          var nestedCover = createBookCover(
-            subseries,
-            subseries.name || "Sub-series",
-            nestedLayout,
-            nestedToggle
-          );
-
-          nestedLayout.appendChild(nestedToggle);
-          nestedLayout.appendChild(nestedCopy);
-          nestedLayout.appendChild(nestedCover);
-          nested.appendChild(nestedLayout);
-
-          applyArchiveFocusMode(
-            nestedLayout,
-            "subseries",
-            subseries.id,
-            getArchiveFocusMode("subseries", subseries.id)
-          );
-        } else {
-          nested.appendChild(nestedTitleRow);
-          if (nestedDescription) nested.appendChild(nestedDescription);
-        }
-
-        nested.appendChild(createStoryList(nestedStories));
-        setArchiveCollapsed(
-          nested,
-          "subseries",
-          subseries.id,
-          getArchiveCollapsed("subseries", subseries.id)
-        );
-        block.appendChild(nested);
-      });
-
-      setArchiveCollapsed(
-        block,
-        "series",
-        series.id,
-        getArchiveCollapsed("series", series.id)
-      );
-      host.appendChild(block);
-    });
   }
 
   function characterMeta(character) {
@@ -1068,7 +803,9 @@
       name.textContent = character.name || "Unnamed";
       card.appendChild(name);
 
-      var metaText = characterMeta(character);
+      var metaText = chosenSeries
+        ? (subseriesById(character.subseriesId) || {}).name || ""
+        : characterMeta(character);
       if (metaText) {
         var meta = document.createElement("p");
         meta.className = "character-meta";
@@ -1279,14 +1016,18 @@
 
     title.textContent =
       category === "__search__"
-        ? "Search"
-        : worldCategoryLabel(category);
+        ? "Search results"
+        : category ? worldCategoryLabel(category) : "All entries";
+    categoryGrid.querySelectorAll(".world-category-card").forEach(function (button) {
+      button.setAttribute("aria-pressed",
+        button.dataset.category === (category === "__search__" ? "" : category) ? "true" : "false");
+    });
 
     items.forEach(function (entry) {
       host.appendChild(renderWorldEntry(entry));
     });
 
-    categoryGrid.hidden = true;
+    categoryGrid.hidden = false;
     view.hidden = false;
 
     var empty = $("emptyState");
@@ -1298,15 +1039,9 @@
   function showWorldCategories() {
     activeWorldCategory = "";
     $("worldCategoryGrid").hidden = false;
-    $("worldEntriesView").hidden = true;
-
     var input = $("worldSearchInput");
     if (input && input.value) input.value = "";
-
-    var section = $("worldSection");
-    if ($("emptyState") && archiveViewFromUrl() === "world") {
-      $("emptyState").hidden = section.dataset.hasContent !== "false";
-    }
+    showWorldEntries("", "");
   }
 
   function worldBelongsToSeries(entry) {
@@ -1329,6 +1064,7 @@
     activeWorldCategory = "";
 
     var categories = [
+      "",
       "locations",
       "organizations",
       "events",
@@ -1338,23 +1074,25 @@
 
     categories.forEach(function (category) {
       var items = state.data.worldEntries.filter(function (entry) {
-        return entry.category === category && worldBelongsToSeries(entry);
+        return (!category || entry.category === category) && worldBelongsToSeries(entry);
       });
 
       var card = document.createElement("button");
       card.type = "button";
       card.className = "world-category-card";
+      card.dataset.category = category;
+      card.setAttribute("aria-pressed", category ? "false" : "true");
       card.disabled = !items.length;
 
       var label = document.createElement("strong");
-      label.textContent = worldCategoryLabel(category);
+      label.textContent = category ? worldCategoryLabel(category) : "All";
 
       var count = document.createElement("span");
       count.textContent = String(items.length).padStart(2, "0");
 
       var arrow = document.createElement("span");
       arrow.className = "world-category-arrow";
-      arrow.textContent = "→";
+      arrow.textContent = "";
 
       card.appendChild(label);
       card.appendChild(count);
@@ -1367,9 +1105,9 @@
       host.appendChild(card);
     });
 
-    $("worldEntriesView").hidden = true;
     host.hidden = false;
     section.dataset.hasContent = state.data.worldEntries.some(worldBelongsToSeries) ? "true" : "false";
+    showWorldEntries("", "");
   }
 
   function filterWorld(value) {
@@ -1719,6 +1457,12 @@
     var context = seriesContext();
     var hasSeries = state.data.series.some(function (item) { return String(item.id) === context.seriesId; });
     document.body.dataset.readerLevel = hasSeries ? "series" : "selector";
+    var chosenBook = hasSeries && state.data.subseries.some(function (item) {
+      return String(item.id) === context.bookId && item.seriesId === context.seriesId;
+    });
+    document.body.dataset.readerScope = chosenBook ? "book" : hasSeries ? "series" : "selector";
+    var tab = document.querySelector('[data-archive-view="stories"]');
+    if (tab) tab.textContent = chosenBook ? "Chapters" : "Seasons";
     $("archiveSectionNav").hidden = !hasSeries;
 
     renderSeries();
@@ -1730,6 +1474,7 @@
       state.data.stories.length > 0 ? "true" : "false";
 
     setArchiveView(hasSeries ? archiveViewFromUrl() : "stories", false);
+    if (window.EditorialReading) window.EditorialReading.renderHome(state.data);
   }
 
   function renderStoryCharacters(story) {
@@ -1814,6 +1559,7 @@
   }
 
   function renderStory(story) {
+    document.body.dataset.readerScope = "chapter";
     if (window.ArchiveSeriesPostersReader) window.ArchiveSeriesPostersReader.stopAll();
     var series = seriesById(story.seriesId);
     var subseries = subseriesById(story.subseriesId);
@@ -1852,6 +1598,7 @@
 
     $("libraryHome").hidden = true;
     $("storyView").hidden = false;
+    if (window.EditorialReading) window.EditorialReading.renderStory(story);
     document.title = (story.title || "Story") + " — Stories";
   }
 
