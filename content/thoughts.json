@@ -138,6 +138,16 @@
       "slug": "life-william-sub",
       "order": 6,
       "description": ""
+    },
+    {
+      "id": "subseries-1791451921522",
+      "seriesId": "series-1790083460918",
+      "name": "WHAT Spinoff : Andrea",
+      "slug": "what-spinoff-andrea",
+      "order": 7,
+      "description": "",
+      "banner": "",
+      "cover": ""
     }
   ],
   "characters": [
