@@ -1,0 +1,20 @@
+
+.subseries-appearance[hidden]{display:none!important}.subseries-appearance{border-top:1px solid var(--line);padding-top:20px}.subseries-appearance h3{margin:0 0 8px;font-size:1.05rem}
+.subseries-appearance .theme-field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:13px 0}.subseries-appearance .theme-field-grid label{display:grid;gap:7px;font-size:.8rem}
+.subseries-appearance input[type=color]{height:40px;width:100%;padding:4px}.subseries-appearance .theme-font-field{display:grid;gap:7px;margin:10px 0}.subseries-appearance .theme-font-field input{width:100%}
+.subseries-appearance .theme-actions{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.subseries-appearance .theme-preview{background:var(--subseries-ui-bg,#262D37);color:var(--subseries-ui-ink,#F8F6F0);font-family:var(--subseries-ui-font,inherit);padding:20px;border-radius:7px;margin-top:12px}
+.subseries-appearance .theme-preview strong{display:block;font-size:1.15rem;margin:6px 0}.subseries-appearance .theme-preview small{display:block;opacity:.85}
+.subseries-appearance .theme-paper-preview{background:var(--chapter-paper-bg,#FFFDF7);color:var(--chapter-paper-ink,#202020);padding:17px;border-radius:2px;margin:14px 0 0;box-shadow:0 2px 10px #0002;font-family:Georgia,serif}.subseries-appearance .theme-paper-preview p{margin:6px 0 0;font-size:.77rem}
+.subseries-appearance #subseriesThemeHint{font-size:.72rem;color:var(--muted);margin:12px 0 0}
+#storyWorkspace .chapter-editor-page{--chapter-paper-bg:#FFFDF7;--chapter-paper-ink:#202020;background:var(--chapter-paper-bg);color:var(--chapter-paper-ink);max-width:820px;padding:clamp(22px,6vw,64px);min-height:70vh;margin:0 auto 30px;border:1px solid color-mix(in srgb,var(--chapter-paper-ink) 12%,transparent);box-shadow:0 8px 34px #00000013;border-radius:2px;overflow-wrap:anywhere}
+#storyWorkspace .chapter-editor-page .story-title-input,#storyWorkspace .chapter-editor-page .story-body-editor{color:var(--chapter-paper-ink)}
+#storyWorkspace .chapter-editor-page .story-title-input{font-size:clamp(2rem,5vw,3.3rem);line-height:1.15;letter-spacing:-.02em;margin:0 0 20px}
+#storyWorkspace .chapter-editor-page .story-character-editor{margin:0 0 26px;padding-bottom:16px}
+#storyWorkspace .chapter-editor-page .writer-toolbar{top:105px;max-width:100%;display:flex;flex-wrap:wrap;margin:0 0 24px;background:var(--chapter-paper-bg);backdrop-filter:none}
+#storyWorkspace .chapter-editor-page .story-body-editor{min-height:55vh;padding:0;border:0;background:transparent;outline:none;line-height:1.7}
+#storyWorkspace .chapter-editor-page .post-body figure{width:100%;margin-left:0;transform:none}
+#storyWorkspace .chapter-editor-page .post-body img{max-width:100%;height:auto}
+#storyWorkspace .chapter-editor-page .post-body table{border-collapse:collapse;display:block;overflow-x:auto;margin:1.3em 0}
+#storyWorkspace .chapter-editor-page .post-body td,#storyWorkspace .chapter-editor-page .post-body th{border:1px solid currentColor;min-width:90px;padding:8px}
+@media(max-width:700px){#storyWorkspace .chapter-editor-page{padding:24px 16px;margin:10px 0 20px}#storyWorkspace .chapter-editor-page .writer-toolbar{position:static;overflow-x:auto;flex-wrap:nowrap}.subseries-appearance .theme-field-grid{grid-template-columns:1fr}}

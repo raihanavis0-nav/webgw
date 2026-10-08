@@ -1,0 +1,14 @@
+
+#seriesList.subseries-ui-themed{background:var(--subseries-ui-bg,transparent);color:var(--subseries-ui-ink,inherit);font-family:var(--subseries-ui-font,inherit);border-radius:9px;padding:clamp(18px,4vw,40px)}
+#seriesList.subseries-ui-themed .archive-hierarchy-heading,#seriesList.subseries-ui-themed .archive-hierarchy-heading *,#seriesList.subseries-ui-themed .archive-hierarchy-chapters,#seriesList.subseries-ui-themed .story-list,#seriesList.subseries-ui-themed .story-list *{color:var(--subseries-ui-ink)!important;font-family:var(--subseries-ui-font,inherit)}
+#seriesList.subseries-ui-themed .story-row,#seriesList.subseries-ui-themed .archive-hierarchy-chapters{border-color:color-mix(in srgb,var(--subseries-ui-ink) 24%,transparent)}
+#seriesList.subseries-ui-themed .archive-hierarchy-back{color:var(--subseries-ui-ink)}
+#storyView .chapter-paper{box-sizing:border-box;width:100%;max-width:800px;margin:24px auto 0;padding:clamp(25px,7vw,70px) clamp(20px,7vw,68px);background:var(--chapter-paper-bg,#FFFDF7);color:var(--chapter-paper-ink,#202020);border:1px solid color-mix(in srgb,var(--chapter-paper-ink) 12%,transparent);box-shadow:0 8px 34px #00000015;border-radius:2px;overflow-wrap:anywhere}
+#storyView .chapter-paper .story-header,#storyView .chapter-paper .story-header *,#storyView .chapter-paper .story-characters,#storyView .chapter-paper .post-body{color:var(--chapter-paper-ink)}
+#storyView .chapter-paper .post-body{line-height:1.75}
+#storyView .chapter-paper .post-body figure{width:100%;max-width:100%;margin-left:0;transform:none}
+#storyView .chapter-paper .post-body img{max-width:100%;height:auto}
+#storyView .chapter-paper .post-body blockquote{color:var(--chapter-paper-ink)}
+#storyView .chapter-paper .post-body table{width:100%;border-collapse:collapse;display:block;overflow-x:auto;margin:1.3em 0}
+#storyView .chapter-paper .post-body th,#storyView .chapter-paper .post-body td{min-width:80px;border:1px solid currentColor;padding:9px;text-align:left}
+@media(max-width:640px){#storyView .chapter-paper{margin:16px auto 0;padding:25px 19px;box-shadow:0 3px 15px #0000000f}}

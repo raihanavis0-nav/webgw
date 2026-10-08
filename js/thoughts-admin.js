@@ -1587,6 +1587,7 @@
     $("entityBannerField").hidden = !(isSeries || isSubseries);
     $("entityCoverField").hidden = !(isSeries || isSubseries);
     $("seriesPostersField").hidden = !isSeries;
+    $("subseriesThemeField").hidden = !isSubseries;
 
     $("entityDialogTitle").textContent =
       type === "series"
@@ -1625,6 +1626,7 @@
       : "";
 
     if (isSeries && window.ArchiveSeriesPosters) window.ArchiveSeriesPosters.open(item);
+    if (isSubseries && window.SubseriesThemeAdmin) window.SubseriesThemeAdmin.open(item);
 
     if (isSeries || isSubseries) {
       setEntityBannerPreview(item ? item.banner || "" : "");
@@ -1754,6 +1756,18 @@
       subseries.description = $("entityDescriptionInput").value.trim();
       subseries.banner = $("entityBannerPathInput").value || "";
       subseries.cover = $("entityCoverPathInput").value || "";
+      if (window.SubseriesThemeAdmin) {
+        try {
+          var settings = window.SubseriesThemeAdmin.getValue();
+          if (settings.uiTheme) subseries.uiTheme = settings.uiTheme;
+          else delete subseries.uiTheme;
+          if (settings.paperTheme) subseries.paperTheme = settings.paperTheme;
+          else delete subseries.paperTheme;
+        } catch (error) {
+          $("entityStatus").textContent = error.message;
+          return;
+        }
+      }
     }
 
     if (type === "character") {
@@ -1979,6 +1993,7 @@
     $("storyDateInput").value = draft.date || today();
     $("storyPublishedInput").checked = draft.published !== false;
     $("storyTitleInput").value = draft.title || "";
+    if (window.SubseriesThemeAdmin) window.SubseriesThemeAdmin.editorPaper(draft.subseriesId, state.data.subseries);
     $("storyBodyInput").value = draft.body || "";
     $("storySlugInput").value = draft.slug || "";
     $("storyOrderInput").value = String(draft.order || 0);
@@ -3130,6 +3145,7 @@
         "No sub-series"
       );
       markDirty();
+      if (window.SubseriesThemeAdmin) window.SubseriesThemeAdmin.editorPaper("", state.data.subseries);
     });
 
     [
@@ -3143,6 +3159,9 @@
       $(id).addEventListener("change", markDirty);
     });
 
+    $("storySubseriesInput").addEventListener("change", function () {
+      if (window.SubseriesThemeAdmin) window.SubseriesThemeAdmin.editorPaper(this.value, state.data.subseries);
+    });
     $("saveStoryBtn").addEventListener("click", saveStory);
     $("writeModeBtn").addEventListener("click", function () {
       setEditorMode("write");

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="css/thoughts.css" />
     <link rel="stylesheet" href="css/thoughts-character-groups.css" />
     <link rel="stylesheet" href="css/thoughts-admin.css" />
+    <link rel="stylesheet" href="css/subseries-theme-admin.css" />
     <link rel="stylesheet" href="css/thoughts-appearance.css" />
     <link rel="stylesheet" href="css/thoughts-posters.css" />
   </head>
@@ -212,6 +213,7 @@
             <input id="storyBannerPathInput" type="hidden" />
           </div>
 
+          <div class="chapter-editor-page" id="chapterEditorPage">
           <input class="story-title-input" id="storyTitleInput" type="text" placeholder="Untitled" autocomplete="off" />
 
           <div class="story-character-editor" id="storyCharacterEditor">
@@ -300,11 +302,13 @@
               <button type="button" data-editor-command="insertHorizontalRule" title="Horizontal rule">―</button>
               <button type="button" data-editor-command="removeFormat" title="Clear formatting">Clear</button>
               <button type="button" data-editor-action="image" id="richInsertImageBtn" title="Insert image">Image</button>
+              <button type="button" data-editor-action="table" title="Insert a 2 by 2 table" aria-label="Insert table">Table</button>
               <button type="button" id="storyPropertiesBtn" title="More properties">Properties</button>
             </div>
           </div>
 
           <div class="story-body-editor post-body" id="storyBodyEditor" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Start writing…" spellcheck="true"></div>
+          </div>
 
           <div class="legacy-editor-compat" aria-hidden="true">
             <button id="writeModeBtn" type="button">Write</button>
@@ -331,6 +335,28 @@
         <div class="dialog-field" id="entitySlugField"><label for="entitySlugInput">Slug</label><input id="entitySlugInput" type="text" autocomplete="off" /></div>
         <div class="dialog-field" id="entityOrderField"><label for="entityOrderInput">Order <span class="optional">(lower first)</span></label><input id="entityOrderInput" type="number" min="0" step="1" value="0" /></div>
         <div class="dialog-field"><label for="entityDescriptionInput" id="entityDescriptionLabel">Description</label><textarea id="entityDescriptionInput" rows="5"></textarea></div>
+        <section class="dialog-field subseries-appearance" id="subseriesThemeField" hidden>
+          <h3>Sub-series appearance</h3>
+          <p class="portrait-help">Colors and font affect this Sub-series and chapter list. Paper color affects Chapter Reader and the editor.</p>
+          <div class="theme-actions">
+            <label><input type="checkbox" id="subseriesThemeCustom" /> Customize this Sub-series</label>
+            <button type="button" class="quiet-action" id="subseriesThemeReset">Reset theme</button>
+          </div>
+          <div class="theme-field-grid">
+            <label for="subseriesUiColor">UI background <input id="subseriesUiColor" type="color" value="#262D37" /></label>
+            <label for="subseriesPaperColor">Paper background <input id="subseriesPaperColor" type="color" value="#FFFDF7" /></label>
+          </div>
+          <label class="theme-font-field" for="subseriesUiFont">Google Fonts family
+            <input id="subseriesUiFont" type="text" list="subseriesUiFontSuggestions" maxlength="70" placeholder="Search or type a Google Fonts name" autocomplete="off" />
+            <datalist id="subseriesUiFontSuggestions"></datalist>
+            <a href="https://fonts.google.com/" target="_blank" rel="noopener noreferrer" class="portrait-help">Browse the Google Fonts catalog ↗</a>
+          </label>
+          <div class="theme-preview" id="subseriesThemePreview">
+            <small>SUB-SERIES / CHAPTER LIST</small><strong>The Forgotten World</strong><small>Chapter 01 — The Beginning</small>
+            <div class="theme-paper-preview" id="subseriesPaperPreview"><strong>Chapter I</strong><p>The morning was unusually quiet...</p></div>
+          </div>
+          <p id="subseriesThemeHint"></p>
+        </section>
         <div class="dialog-field banner-field" id="entityBannerField" hidden>
           <label>Banner <span class="optional">(optional)</span></label>
           <img class="banner-admin-preview" id="entityBannerPreview" alt="" hidden />
@@ -527,6 +553,8 @@
     <script src="js/thoughts-editor.js" defer></script>
     <script src="js/thoughts-appearance-admin.js" defer></script>
     <script src="js/thoughts-series-posters-admin.js" defer></script>
+    <script src="js/subseries-theme.js" defer></script>
+    <script src="js/subseries-theme-admin.js" defer></script>
     <script src="js/thoughts-admin.js" defer></script>
     <script src="js/thoughts-editor-bridge.js" defer></script>
     <script src="js/thoughts-character-groups.js" defer></script>

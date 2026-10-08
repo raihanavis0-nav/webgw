@@ -164,6 +164,14 @@ function validateData(data) {
     const coverError = validateCoverPath(item.cover, "Sub-series");
     if (coverError) return coverError;
 
+    if (item.uiTheme != null) {
+      if (!item.uiTheme || typeof item.uiTheme !== "object" || Array.isArray(item.uiTheme)) return "Invalid Sub-series UI theme.";
+      if (item.uiTheme.background != null && (!isString(item.uiTheme.background) || !/^#[a-fA-F0-9]{6}$/.test(item.uiTheme.background))) return "Invalid Sub-series UI background.";
+      if (item.uiTheme.font != null && (!isString(item.uiTheme.font) || item.uiTheme.font.length > 70 || (item.uiTheme.font && !/^[a-zA-Z0-9][a-zA-Z0-9 +&.'-]*$/.test(item.uiTheme.font)))) return "Invalid Sub-series UI font.";
+    }
+    if (item.paperTheme != null) {
+      if (!item.paperTheme || typeof item.paperTheme !== "object" || Array.isArray(item.paperTheme) || !isString(item.paperTheme.background) || !/^#[a-fA-F0-9]{6}$/.test(item.paperTheme.background)) return "Invalid Sub-series paper color.";
+    }
     const endingSongError = validateEndingSong(item.endingSong, "Sub-series");
     if (endingSongError) return endingSongError;
   }

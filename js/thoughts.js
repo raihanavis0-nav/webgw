@@ -330,7 +330,7 @@
   }
 
   function looksLikeRichStoryBody(value) {
-    return /<(?:p|div|h[2-4]|blockquote|ul|ol|li|figure|figcaption|span|font|strong|b|em|i|u|s|strike|br|pre|code|img|hr|sub|sup)\b/i.test(
+    return /<(?:p|div|h[2-4]|blockquote|ul|ol|li|figure|figcaption|span|font|strong|b|em|i|u|s|strike|br|pre|code|img|hr|sub|sup|table|thead|tbody|tr|th|td)\b/i.test(
       String(value || "")
     );
   }
@@ -691,6 +691,7 @@
   function renderSeriesNavigator() {
     var host = $("seriesList");
     host.innerHTML = "";
+    if (window.SubseriesThemes) window.SubseriesThemes.applyUi(host, null);
     var context = seriesContext();
     var series = state.data.series.find(function (s) { return String(s.id) === context.seriesId; });
     var stories = state.data.stories || [];
@@ -711,6 +712,7 @@
     var book = state.data.subseries.find(function (item) {
       return String(item.id) === context.bookId && item.seriesId === series.id;
     });
+    if (window.SubseriesThemes) window.SubseriesThemes.applyUi(host, book && book.uiTheme);
     archiveHeading(host, "All series", book ? (book.name || "Book") : (series.name || "Series"),
       book ? book.description : series.description, function () {
         goToCollection(book ? series.id : "", "", "stories");
@@ -1819,6 +1821,7 @@
     if (window.ArchiveSeriesPostersReader) window.ArchiveSeriesPostersReader.stopAll();
     var series = seriesById(story.seriesId);
     var subseries = subseriesById(story.subseriesId);
+    if (window.SubseriesThemes) window.SubseriesThemes.applyPaper($("chapterPaper"), subseries && subseries.paperTheme);
     var path = [];
 
     if (series) path.push(series.name);

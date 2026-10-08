@@ -15,7 +15,7 @@
   }
 
   function looksLikeRichHtml(value) {
-    return /<(?:p|div|h[2-4]|blockquote|ul|ol|li|figure|span|strong|em|u|s|br|pre)\b/i.test(
+    return /<(?:p|div|h[2-4]|blockquote|ul|ol|li|figure|span|strong|em|u|s|br|pre|table|thead|tbody|tr|th|td)\b/i.test(
       String(value || "")
     );
   }

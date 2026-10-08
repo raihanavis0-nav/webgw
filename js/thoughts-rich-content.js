@@ -4,7 +4,8 @@
   var ALLOWED_TAGS = new Set([
     "P", "DIV", "BR", "H2", "H3", "H4", "STRONG", "B", "EM", "I", "U",
     "S", "STRIKE", "BLOCKQUOTE", "UL", "OL", "LI", "A", "IMG", "FIGURE",
-    "FIGCAPTION", "SPAN", "SUB", "SUP", "HR", "PRE", "CODE", "FONT"
+    "FIGCAPTION", "SPAN", "SUB", "SUP", "HR", "PRE", "CODE", "FONT",
+    "TABLE", "THEAD", "TBODY", "TFOOT", "TR", "TD", "TH"
   ]);
 
   var DROP_TAGS = new Set([

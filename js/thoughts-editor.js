@@ -106,6 +106,13 @@
     markChanged();
   }
 
+  function insertTable() {
+    restoreSelection(); editor.focus();
+    var markup = '<table><tbody><tr><th>Heading 1</th><th>Heading 2</th></tr><tr><td>Cell 1</td><td>Cell 2</td></tr></tbody></table><p><br></p>';
+    document.execCommand("insertHTML", false, markup);
+    markChanged();
+  }
+
   function insertMedia(path, alt) {
     if (!path) return;
     restoreSelection();
@@ -182,6 +189,7 @@
       if (action === "link") createLink();
       if (action === "unlink") exec("unlink");
       if (action === "image" && typeof config.onImage === "function") config.onImage();
+      if (action === "table") insertTable();
     });
 
     var block = $("editorBlockSelect");
