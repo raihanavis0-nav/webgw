@@ -66,7 +66,7 @@
       var id = slotName(key);
       draft[key].ratio = $(id + "Ratio").value;
       ["x", "y", "zoom"].forEach(function (field) {
-        draft[key][field] = Number($(id + field.toUpperCase()).value);
+        draft[key][field] = Number($(id + field.charAt(0).toUpperCase() + field.slice(1)).value);
       });
     });
     dirty = true;
@@ -83,7 +83,7 @@
       var id = slotName(name);
       $(id + "Ratio").value = draft[name].ratio;
       ["x", "y", "zoom"].forEach(function (key) {
-        $(id + key.toUpperCase()).value = draft[name][key];
+        $(id + key.charAt(0).toUpperCase() + key.slice(1)).value = draft[name][key];
       });
     });
     updatePreview();
