@@ -16,8 +16,8 @@
     if (!url) { img.removeAttribute("src"); return; }
     var ratio = /^([1-9][0-9]*):([1-9][0-9]*)$/.exec(slot.ratio || fallback);
     frame.style.aspectRatio = ratio ? ratio[1] + " / " + ratio[2] : "3 / 1";
-    var x = Math.max(0, Math.min(100, Number(slot.x) || 50));
-    var y = Math.max(0, Math.min(100, Number(slot.y) || 50));
+    var x = Math.max(0, Math.min(100, slot.x == null ? 50 : Number(slot.x)));
+    var y = Math.max(0, Math.min(100, slot.y == null ? 50 : Number(slot.y)));
     var zoom = Math.max(100, Math.min(250, Number(slot.zoom) || 100));
     img.style.objectPosition = x + "% " + y + "%";
     img.style.transformOrigin = x + "% " + y + "%";
