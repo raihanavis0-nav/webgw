@@ -180,6 +180,16 @@
       "description": "",
       "banner": "",
       "cover": "assets/thoughts/1791452893277-2e5e8d-artboard-1-copy-2.webp"
+    },
+    {
+      "id": "subseries-1791453078140",
+      "seriesId": "series-1790072885901",
+      "name": "Tide Song of The Southern Shore",
+      "slug": "tide-song-of-the-southern-shore",
+      "order": 4,
+      "description": "",
+      "banner": "",
+      "cover": "assets/thoughts/1791452979133-c5192d-artboard-1.webp"
     }
   ],
   "characters": [
