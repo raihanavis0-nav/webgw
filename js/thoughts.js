@@ -1315,6 +1315,9 @@
     return (entry.relatedStoryIds || []).some(function (id) {
       var story = storyById(id);
       return story && story.seriesId === chosen;
+    }) || (entry.relatedCharacterIds || []).some(function (id) {
+      var character = characterById(id);
+      return character && character.seriesId === chosen;
     });
   }
 
