@@ -319,6 +319,7 @@ function validateData(data) {
     ) {
       return "Invalid World entry.";
     }
+    if (item.seriesId != null && (!isString(item.seriesId) || (item.seriesId && !seriesIds.has(item.seriesId)))) return "A World entry must reference an existing Series.";
     if (worldIds.has(item.id)) return "Duplicate World entry id.";
     worldIds.add(item.id);
 
