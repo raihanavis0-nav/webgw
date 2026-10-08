@@ -85,3 +85,87 @@ body[data-reader-level="series"] .archive-section-nav { margin-top: 0; }
   .reader-series-open:hover .reader-series-frame { transform:none; }
   .reader-series-next { transition:none; }
 }
+
+
+/* Uncluttered Series Selection: posters and icon-only theme switch. */
+.thoughts-header .theme-switch.reader-icon-themes {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.thoughts-header .theme-switch.reader-icon-themes button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  min-width: 38px;
+  height: 38px;
+  min-height: 38px;
+  padding: 0;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .16s ease, background-color .16s ease, border-color .16s ease;
+}
+.thoughts-header .theme-switch.reader-icon-themes button svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+.thoughts-header .theme-switch.reader-icon-themes button[aria-pressed="true"] {
+  border-color: var(--line);
+  color: var(--ink);
+  background: var(--soft);
+}
+.thoughts-header .theme-switch.reader-icon-themes button:hover {
+  color: var(--ink);
+  background: var(--soft);
+}
+.thoughts-header .theme-switch.reader-icon-themes button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+body[data-reader-level="selector"] .thoughts-header {
+  border: 0;
+  padding: 20px 0 8px;
+  align-items: center;
+}
+body[data-reader-level="selector"] .header-tools {
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+}
+body[data-reader-level="selector"] #lockButton { display: none !important; }
+body[data-reader-level="selector"] #thoughtsApp { padding-top: 10px; }
+body[data-reader-level="selector"] .library-intro {
+  padding: 0;
+  margin: 0;
+  max-width: 100%;
+}
+body[data-reader-level="selector"] .library-intro > .eyebrow,
+body[data-reader-level="selector"] #readerArchiveTitle,
+body[data-reader-level="selector"] #readerArchiveSubtitle {
+  display: none !important;
+}
+body[data-reader-level="selector"] #readerHeroMedia:not([hidden]) {
+  margin: 0 0 24px;
+}
+body[data-reader-level="selector"] .reader-series-grid { padding-top: 0; }
+
+@media (max-width: 520px) {
+  .thoughts-header .theme-switch.reader-icon-themes button {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+  }
+  body[data-reader-level="selector"] .thoughts-header { padding: 14px 0 4px; }
+  body[data-reader-level="selector"] #thoughtsApp { padding-top: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .thoughts-header .theme-switch.reader-icon-themes button { transition: none; }
+}
