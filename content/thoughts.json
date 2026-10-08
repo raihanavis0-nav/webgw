@@ -60,8 +60,15 @@
       "slug": "awsd",
       "order": 1,
       "description": "",
-      "banner": "assets/thoughts/1790948791777-d73f99-wanita-berambut-merah-di-mal-mall.webp",
-      "cover": ""
+      "banner": "",
+      "cover": "",
+      "uiTheme": {
+        "background": "#D600AF",
+        "font": "Cabin Sketch"
+      },
+      "paperTheme": {
+        "background": "#FFFDF7"
+      }
     },
     {
       "id": "subseries-1790083796402",
