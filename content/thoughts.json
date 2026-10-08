@@ -150,6 +150,16 @@
       "description": "",
       "banner": "",
       "cover": ""
+    },
+    {
+      "id": "subseries-1791452810025",
+      "seriesId": "series-1790072885901",
+      "name": "In The Midst Of Human Written",
+      "slug": "in-the-midst-of-human-written",
+      "order": 1,
+      "description": "",
+      "banner": "",
+      "cover": "assets/thoughts/1791452705871-a7bdb5-artboard-1-copy-8.webp"
     }
   ],
   "characters": [
@@ -633,7 +643,8 @@
       "order": 1,
       "published": true,
       "characterIds": [],
-      "body": ""
+      "body": "",
+      "synopsis": ""
     },
     {
       "id": "story-1790083348526",
