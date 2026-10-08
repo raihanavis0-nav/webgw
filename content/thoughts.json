@@ -568,7 +568,7 @@
       "slug": "awdsda",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 2,
+      "order": 1,
       "published": true,
       "characterIds": [],
       "body": "adwsdawdsadwa"
@@ -580,7 +580,7 @@
       "slug": "feast-from-the-east",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 3,
+      "order": 2,
       "published": true,
       "characterIds": [],
       "body": ""
@@ -592,7 +592,7 @@
       "slug": "dreams-of-the-dreadnought",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 4,
+      "order": 3,
       "published": true,
       "characterIds": [],
       "body": ""
@@ -604,7 +604,7 @@
       "slug": "blood-of-my-blood",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 5,
+      "order": 4,
       "published": true,
       "characterIds": [],
       "body": ""
@@ -616,7 +616,7 @@
       "slug": "three-rounded-roads-and-three-more",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 6,
+      "order": 5,
       "published": true,
       "characterIds": [],
       "body": ""
@@ -628,23 +628,10 @@
       "slug": "the-pale-messenger",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 7,
+      "order": 6,
       "published": true,
       "characterIds": [],
       "body": ""
-    },
-    {
-      "id": "story-1790083317026",
-      "title": "In The Midst of Human Written",
-      "date": "2026-09-22",
-      "slug": "in-the-midst-of-human-written",
-      "seriesId": "series-1790072885901",
-      "subseriesId": "",
-      "order": 1,
-      "published": true,
-      "characterIds": [],
-      "body": "",
-      "synopsis": ""
     },
     {
       "id": "story-1790083348526",
@@ -653,7 +640,7 @@
       "slug": "theatre-of-time",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 8,
+      "order": 7,
       "published": true,
       "characterIds": [],
       "body": ""
@@ -665,7 +652,7 @@
       "slug": "the-lion-and-the-broken",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 10,
+      "order": 9,
       "published": true,
       "characterIds": [],
       "body": ""
@@ -677,7 +664,7 @@
       "slug": "theatre-of-time-future",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 9,
+      "order": 8,
       "published": true,
       "characterIds": [],
       "body": ""
