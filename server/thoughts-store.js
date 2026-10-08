@@ -76,7 +76,10 @@ function rawUrl(path) {
 }
 
 async function publicJson(url) {
-  const response = await fetch(url, { headers: publicHeaders() });
+  const headers = publicHeaders();
+  // This is server-side only; authenticated requests have a higher GitHub rate limit.
+  if (githubToken()) headers.Authorization = "Bearer " + githubToken();
+  const response = await fetch(url, { headers, cache: "no-store" });
 
   if (!response.ok) {
     const detail = await response.text();
@@ -180,22 +183,9 @@ async function getRawFile(path) {
 }
 
 async function readPublicLibrary() {
-  const response = await fetch(rawUrl(DATA_PATH), {
-    headers: { Accept: "application/json" },
-  });
-
-  if (!response.ok) {
-    const error = new Error(
-      "Public story storage request failed (" + response.status + ")."
-    );
-    error.status = response.status;
-    throw error;
-  }
-
-  return {
-    sha: null,
-    data: JSON.parse(await response.text()),
-  };
+  // The mutable raw.githubusercontent.com branch URL can serve cached older JSON.
+  // The Contents API resolves the current thoughts-data commit instead.
+  return readLibrary();
 }
 
 async function readLibrary() {

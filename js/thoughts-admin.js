@@ -216,6 +216,9 @@
         state.dirty = false;
         setSaveIndicator("Saved");
         renderLibrary();
+        // Notify an already-open Reader tab without sharing credentials or private content.
+        try { localStorage.setItem("thoughts_reader_content_updated", String(Date.now())); }
+        catch (_) {}
         return result;
       })
       .catch(function (error) {

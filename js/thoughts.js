@@ -1898,19 +1898,56 @@
     $("gateStatus").textContent = "";
   }
 
-  function loadLibrary() {
-    return apiJson(API.content)
-      .then(function (result) {
-        var data = result.data || {};
-        state.data = {
-          series: Array.isArray(data.series) ? data.series : [],
-          subseries: Array.isArray(data.subseries) ? data.subseries : [],
-          characters: Array.isArray(data.characters) ? data.characters : [],
-          stories: Array.isArray(data.stories) ? data.stories : [],
-          worldEntries: Array.isArray(data.worldEntries) ? data.worldEntries : [],
-          galleryItems: Array.isArray(data.galleryItems) ? data.galleryItems : [],
-        };
+  function normalizeReaderData(data) {
+    var source = data || {};
+    return {
+      series: Array.isArray(source.series) ? source.series : [],
+      subseries: Array.isArray(source.subseries) ? source.subseries : [],
+      characters: Array.isArray(source.characters) ? source.characters : [],
+      stories: Array.isArray(source.stories) ? source.stories : [],
+      worldEntries: Array.isArray(source.worldEntries) ? source.worldEntries : [],
+      galleryItems: Array.isArray(source.galleryItems) ? source.galleryItems : [],
+    };
+  }
 
+  var readerRefreshPromise = null;
+  var readerLastRefreshAttempt = 0;
+  var readerUpdatePending = false;
+  function refreshReaderContent(force) {
+    if (document.hidden || document.body.classList.contains("is-locked") ||
+        $("libraryApp").hidden) return Promise.resolve();
+    if (readerRefreshPromise) return readerRefreshPromise;
+    if (!force && Date.now() - readerLastRefreshAttempt < 12000) return Promise.resolve();
+    readerLastRefreshAttempt = Date.now();
+    readerRefreshPromise = apiJson(API.content, { cache: "no-store" })
+      .then(function (result) {
+        if (document.body.classList.contains("is-locked")) return;
+        var next = normalizeReaderData(result.data);
+        // Most focus/visibility changes should not rerender or reset reading position.
+        if (JSON.stringify(state.data) === JSON.stringify(next)) {
+          readerUpdatePending = false;
+          return;
+        }
+        var y = window.scrollY;
+        state.data = next;
+        readerUpdatePending = false;
+        renderLibrary();
+        window.scrollTo(0, y);
+      })
+      .catch(function (error) {
+        if (error && error.status === 401) showGate("Reader session expired. Enter the access code again.");
+        // Network errors are non-destructive: keep displaying the last good data.
+      })
+      .finally(function () { readerRefreshPromise = null; });
+    return readerRefreshPromise;
+  }
+
+  function loadLibrary() {
+    return apiJson(API.content, { cache: "no-store" })
+      .then(function (result) {
+        state.data = normalizeReaderData(result.data);
+        readerUpdatePending = false;
+        readerLastRefreshAttempt = Date.now();
         showLibrary();
         renderLibrary();
       })
@@ -2051,6 +2088,23 @@
 
     window.addEventListener("popstate", function () {
       renderLibrary();
+    });
+
+    // Revalidate when returning from Story Admin, without a page reload or password prompt.
+    window.addEventListener("focus", function () {
+      refreshReaderContent(false);
+    });
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) refreshReaderContent(readerUpdatePending);
+    });
+    window.addEventListener("storage", function (event) {
+      if (event.key === "thoughts_reader_content_updated") {
+        readerUpdatePending = true;
+        refreshReaderContent(true);
+      }
+    });
+    window.addEventListener("pageshow", function (event) {
+      if (event.persisted) refreshReaderContent(true);
     });
 
     checkSession();
