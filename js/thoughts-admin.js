@@ -163,6 +163,13 @@
     else node.textContent = text;
     node.setAttribute("aria-label", text);
     node.setAttribute("title", text);
+    var statusIcon = node.querySelector("svg path");
+    if (statusIcon) {
+      if (mode === "error") statusIcon.setAttribute("d", "M12 8v5m0 4h.01M10.3 3.7 2.3 3.7a2 2 0 0 1 1.4 0L22 19a2 2 0 0 1-1.7 3H3.7A2 2 0 0 1 2 19l8.3-15.3a2 2 0 0 1 1.4 0");
+      else if (mode === "saving") statusIcon.setAttribute("d", "M12 3a9 9 0 1 0 9 9M12 7v5l3 2");
+      else if (text === "Unsaved" || text === "New story") statusIcon.setAttribute("d", "M12 6v6m0 4h.01M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20");
+      else statusIcon.setAttribute("d", "M20 6 9 17l-5-5");
+    }
     node.classList.toggle("is-saving", mode === "saving");
     node.classList.toggle("is-error", mode === "error");
   }
