@@ -88,6 +88,64 @@ async function loadChunkedAudio(store, path) {
   };
 }
 
+// For audio seeking, fetch only the chunks overlapping the requested range.
+async function loadChunkedRange(store, path, range) {
+  if (!isChunkManifest(path)) return null;
+  const manifestFile = await store.getRawFile(path);
+  let m;
+  try { m = JSON.parse(manifestFile.buffer.toString("utf8")); }
+  catch (_) { const error = new Error("Invalid audio manifest."); error.status = 502; throw error; }
+  const extension = String(m.extension || "").toLowerCase();
+  const total = Number(m.totalSize || 0);
+  const chunks = Array.isArray(m.chunks) ? m.chunks : [];
+  if (m.kind !== "chunked-audio" || !["mp3","m4a","ogg"].includes(extension) ||
+      !Number.isInteger(total) || total < 1 || total > MAX_AUDIO_BYTES ||
+      chunks.length < 1 || chunks.length > 8) {
+    const error = new Error("Invalid audio manifest."); error.status = 502; throw error;
+  }
+  let offset = 0;
+  const layout = chunks.map(chunk => {
+    const size = Number(chunk && chunk.size);
+    if (!chunk || !validChunkPath(chunk.path) || !Number.isInteger(size) || size <= 0) {
+      const error = new Error("Invalid audio chunk metadata."); error.status = 502; throw error;
+    }
+    const start = offset;
+    offset += size;
+    return { path: chunk.path, start, end: offset - 1, size };
+  });
+  if (offset !== total) {
+    const error = new Error("Audio manifest size mismatch."); error.status = 502; throw error;
+  }
+  const match = /^bytes=(\d*)-(\d*)$/.exec(String(range || ""));
+  if (!match) return null;
+  let first, last;
+  if (match[1]) {
+    first = Number(match[1]);
+    last = match[2] ? Number(match[2]) : total - 1;
+  } else {
+    const suffix = Number(match[2]);
+    if (!suffix) return null;
+    first = Math.max(0, total - suffix);
+    last = total - 1;
+  }
+  if (!Number.isInteger(first) || !Number.isInteger(last) || first < 0 ||
+      last < first || first >= total) return null;
+  last = Math.min(last, total - 1);
+  const selected = layout.filter(chunk => chunk.end >= first && chunk.start <= last);
+  const segments = await Promise.all(selected.map(async chunk => {
+    const file = await store.getRawFile(chunk.path);
+    if (file.buffer.length !== chunk.size) {
+      const error = new Error("Audio chunk size mismatch."); error.status = 502; throw error;
+    }
+    return file.buffer.subarray(
+      Math.max(0,first - chunk.start),
+      Math.min(chunk.size,last - chunk.start + 1)
+    );
+  }));
+  return { buffer: Buffer.concat(segments, last-first+1), start:first, end:last,
+    total, contentType:contentTypeForExtension(extension) };
+}
+
 async function load(store, path) {
   if (isChunkManifest(path)) {
     return loadChunkedAudio(store, path);
@@ -98,4 +156,5 @@ async function load(store, path) {
 module.exports = {
   MAX_AUDIO_BYTES,
   load,
+  loadChunkedRange,
 };
