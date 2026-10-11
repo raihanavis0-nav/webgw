@@ -94,6 +94,17 @@ module.exports = async function handler(req, res) {
 
   try {
     const range = String(req.headers && req.headers.range || "").trim();
+    if (range && mediaLoader.isChunkManifest(path)) {
+      const part = await mediaLoader.loadChunkedRange(store, path, range);
+      if (part) {
+        res.setHeader("Content-Type", part.contentType);
+        res.setHeader("Accept-Ranges", "bytes");
+        res.setHeader("Cache-Control", "private, max-age=3600");
+        res.setHeader("Content-Range", "bytes " + part.start + "-" + part.end + "/" + part.total);
+        res.setHeader("Content-Length", String(part.buffer.length));
+        return res.status(206).send(part.buffer);
+      }
+    }
     if (range && !mediaLoader.isChunkManifest(path)) {
       const upstream = await store.getRawMediaRange(path, range);
       if (upstream) {
