@@ -18,6 +18,14 @@ function cleanImage(value) {
   const path = String(value || "");
   return /^assets\/thoughts\/[a-zA-Z0-9._/-]+\.(?:gif|webp|jpg|jpeg|png)$/i.test(path) && !path.includes("..") ? path : "";
 }
+function cleanLogo(value) {
+  const p = String(value || "");
+  if (p === "none") return "none";
+  if (p.includes("..") || p.includes("?") || p.includes("#")) return "";
+  if (!(p.startsWith("assets/img/") || p.startsWith("assets/thoughts/"))) return "";
+  const ext = p.split(".").pop().toLowerCase();
+  return ["png","jpg","jpeg","webp","gif","svg"].includes(ext) ? p : "";
+}
 function cleanSlot(value, fallback) {
   const source = value && typeof value === "object" ? value : {};
   return {
@@ -47,7 +55,7 @@ async function appearanceHandler(req, res) {
         interface: {
           displayFont: ["Inter","Newsreader","Space Grotesk","Instrument Serif","Archivo"].includes(source.interface && source.interface.displayFont) ? source.interface.displayFont : "Inter",
           bodyFont: ["Inter","Newsreader","Space Grotesk","Instrument Serif","Archivo"].includes(source.interface && source.interface.bodyFont) ? source.interface.bodyFont : "Inter",
-          logo: source.interface && typeof source.interface.logo === "string" ? source.interface.logo : "",
+          logo: cleanLogo(source.interface && source.interface.logo),
           layoutWidth: ["narrow","standard","wide"].includes(source.interface && source.interface.layoutWidth) ? source.interface.layoutWidth : "standard",
           cardStyle: ["square","soft","rounded"].includes(source.interface && source.interface.cardStyle) ? source.interface.cardStyle : "soft",
           showHero: !!(source.interface && source.interface.showHero),
