@@ -822,6 +822,15 @@
       "order": 11,
       "bio": "Name : Steffani Affina\nAge : 27\nBorn : Oxford, England\nHeight : 184\nRace : British-Lebanese\n\nPotrayed by Severina Lajtman",
       "portrait": "assets/thoughts/1791747422930-be9c74-chatgpt-image-oct-12-2026-02-36-27-am-1.webp"
+    },
+    {
+      "id": "character-1791749101897",
+      "name": "Rascal Solan",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 34,
+      "bio": "",
+      "portrait": "assets/thoughts/1791749005847-678984-chatgpt-image-oct-12-2026-03-03-52-am-3.webp"
     }
   ],
   "stories": [
