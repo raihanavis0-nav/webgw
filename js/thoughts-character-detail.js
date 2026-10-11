@@ -40,6 +40,7 @@
       '<p class="character-detail-meta" id="characterDetailMeta"></p>' +
       '<div class="character-detail-rule" aria-hidden="true"></div>' +
       '<div class="character-detail-bio" id="characterDetailBio"></div>' +
+      '<div class="character-detail-credit" id="characterDetailCredit" hidden></div>' +
       "</div>" +
       "</div>";
 
@@ -63,6 +64,7 @@
     var name = document.getElementById("characterDetailName");
     var meta = document.getElementById("characterDetailMeta");
     var bio = document.getElementById("characterDetailBio");
+    var credit = document.getElementById("characterDetailCredit");
 
     portrait.innerHTML = "";
 
@@ -88,20 +90,41 @@
     name.textContent = info.name;
     meta.textContent = info.meta;
     meta.hidden = !info.meta;
-    // Label/value lines become tidy card rows; freeform bios remain readable prose.
+    // Parse stored biographies without changing source data: skip duplicate Name,
+    // keep optional custom fields, and give casting credit its own compact footer.
     bio.replaceChildren();
+    credit.replaceChildren();
+    credit.hidden = true;
     var lines = (info.bio || "No description yet.").split(/\n/).map(function (line) {
       return line.trim();
     }).filter(Boolean);
+    function sameName(a, b) {
+      return String(a || "").trim().replace(/\s+/g, " ").toLocaleLowerCase() ===
+        String(b || "").trim().replace(/\s+/g, " ").toLocaleLowerCase();
+    }
+    var portrayed = "";
     lines.forEach(function (line) {
+      // Preserve the spelling in the stored data; normalize only the display label.
+      var cast = /^po(?:r)?trayed\s+by\s*:?\s*(.+)$/i.exec(line);
+      if (cast) {
+        portrayed = cast[1].trim();
+        return;
+      }
       var match = /^([^:\n]{1,32})\s*:\s*(.+)$/.exec(line);
       if (match) {
+        var fieldName = match[1].trim();
+        var fieldValue = match[2].trim();
+        if (/^name$/i.test(fieldName) && sameName(fieldValue, info.name)) return;
+        if (/^po(?:r)?trayed\s+by$/i.test(fieldName)) {
+          portrayed = fieldValue;
+          return;
+        }
         var row = document.createElement("dl");
         row.className = "character-detail-fact";
         var label = document.createElement("dt");
         var value = document.createElement("dd");
-        label.textContent = match[1].trim();
-        value.textContent = match[2].trim();
+        label.textContent = fieldName;
+        value.textContent = fieldValue;
         row.appendChild(label);
         row.appendChild(value);
         bio.appendChild(row);
@@ -112,7 +135,17 @@
         bio.appendChild(paragraph);
       }
     });
-
+    if (portrayed) {
+      var creditLabel = document.createElement("span");
+      creditLabel.className = "character-detail-credit-label";
+      creditLabel.textContent = "PORTRAYED BY";
+      var creditName = document.createElement("strong");
+      creditName.className = "character-detail-credit-name";
+      creditName.textContent = portrayed;
+      credit.appendChild(creditLabel);
+      credit.appendChild(creditName);
+      credit.hidden = false;
+    }
     if (!dialog.open) dialog.showModal();
   }
 
