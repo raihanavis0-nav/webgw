@@ -44,9 +44,14 @@
     document.body.classList.remove("reader-entrance-active");
     setLibraryInert(false);
     var main = $("libraryHome");
+    // Focusing the entire section gave Chrome a huge white UA focus outline.
+    // Announce the page heading instead; interactive controls retain focus rings.
     if (main && !main.hidden) {
-      main.setAttribute("tabindex", "-1");
-      main.focus({ preventScroll: true });
+      var heading = $("readerArchiveTitle");
+      if (heading) {
+        heading.setAttribute("tabindex", "-1");
+        heading.focus({ preventScroll: true });
+      }
     }
   }
 
