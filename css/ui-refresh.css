@@ -111,3 +111,19 @@ body.subseries-ui-themed .archive-hierarchy-chapters a:hover{color:var(--subseri
 #appearanceLivePreview:not(.is-mobile){max-width:var(--appearance-demo-width,400px);}
 #appearanceLivePreview .appearance-preview-card{border-radius:var(--reader-card-radius,14px);}
 body:not(.thoughts-admin-body) :is(.archive-collection-card,.reader-series-frame,.reader-gate-card,.character-detail-dialog){border-radius:var(--reader-card-radius,14px);}
+
+/* Dedicated book cover lives beside poster management, not hidden in legacy tabs. */
+#entityDialog #entityCoverField:not([hidden]){
+  display:grid;gap:13px;margin-top:3px;padding:18px;
+  border:1px solid var(--line);border-radius:14px;
+  background:color-mix(in srgb,var(--soft) 42%,var(--paper));
+}
+#entityDialog #entityCoverField>label{margin:0;color:var(--ink);font:650 15px/1.4 Inter,system-ui,sans-serif;letter-spacing:-.01em;text-transform:none;}
+#entityDialog .cover-admin-editor{min-width:0;align-items:center;}
+#entityDialog .cover-admin-preview-wrap{border-radius:9px;}
+#entityDialog .cover-admin-actions{min-width:0;gap:10px;}
+#entityDialog .cover-admin-actions .portrait-help{margin:0;max-width:410px;line-height:1.5;}
+@media(max-width:480px){
+  #entityDialog #entityCoverField:not([hidden]){padding:15px;}
+  #entityDialog .cover-admin-editor{grid-template-columns:85px minmax(0,1fr);gap:12px;}
+}
