@@ -88,7 +88,7 @@
     lines.forEach(function (line) {
       var match = /^([^:\n]{1,32})\s*:\s*(.+)$/.exec(line);
       if (match) {
-        var row = document.createElement("div");
+        var row = document.createElement("dl");
         row.className = "character-detail-fact";
         var label = document.createElement("dt");
         var value = document.createElement("dd");
