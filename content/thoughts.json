@@ -22,7 +22,7 @@
   "series": [
     {
       "id": "series-1790072885901",
-      "name": "Mankind",
+      "name": "Mankind (Book)",
       "slug": "land-of-the-mankind",
       "order": 1,
       "description": "",
@@ -84,7 +84,8 @@
           "zoom": 100
         }
       ],
-      "posterRatio": "2:3"
+      "posterRatio": "2:3",
+      "defaultFormat": "prose"
     },
     {
       "id": "series-1790083460918",
