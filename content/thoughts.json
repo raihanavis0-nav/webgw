@@ -895,7 +895,13 @@
       "order": 3,
       "published": true,
       "characterIds": [],
-      "body": ""
+      "body": "",
+      "timelineEnabled": true,
+      "timelineYear": 2020,
+      "timelineMonth": 3,
+      "timelineDay": 13,
+      "timelineSeason": "",
+      "timelinePrecision": "day"
     },
     {
       "id": "story-1790178767652",
