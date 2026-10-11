@@ -1002,9 +1002,25 @@
     }
   }
 
+  // Brand logo in the admin header, from the Interface settings.
+  function syncAdminLogo() {
+    var logo = $("adminLogo");
+    if (!logo) return;
+    var iface = (state.data.appearance && state.data.appearance.interface) || {};
+    var path = typeof iface.logo === "string" ? iface.logo : "";
+    if (path === "none") {
+      logo.hidden = true;
+      return;
+    }
+    logo.hidden = false;
+    var src = /^assets\/(img|thoughts)\//.test(path) ? path : "assets/img/logo-railnavis.png";
+    if (logo.getAttribute("src") !== src) logo.setAttribute("src", src);
+  }
+
   function renderLibrary() {
     syncManagedOrdersBeforeRender();
     renderSeries();
+    syncAdminLogo();
     var storySearch = $("adminStorySearch");
     if (storySearch) filterAdminStories(storySearch.value);
     renderCharacters();

@@ -1770,3 +1770,98 @@ select {
 .admin-section-heading .inline-add {
   margin-left: 0;
 }
+
+/* =============================================================
+   INTERFACE SETTINGS — brand logo, Inter default, dialog polish.
+   ============================================================= */
+
+/* Admin uses Inter throughout (reader keeps its own setting). */
+body {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.admin-logo {
+  height: 30px;
+  width: auto;
+  max-width: 180px;
+  object-fit: contain;
+  display: block;
+}
+
+.admin-brand {
+  line-height: 0;
+}
+
+/* Dialog polish: rhythm, inputs, no stray horizontal scroll. */
+.dialog-shell {
+  overflow-x: hidden;
+  padding: 26px 26px 24px;
+}
+
+.dialog-head {
+  margin-bottom: 6px;
+}
+
+.dialog-head h2 {
+  font-family: Inter, system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.dialog-field {
+  margin-top: 18px;
+}
+
+.dialog-field:first-of-type {
+  margin-top: 14px;
+}
+
+.dialog-field label {
+  margin-bottom: 7px;
+  font-weight: 600;
+}
+
+.dialog-field input,
+.dialog-field textarea,
+.dialog-field select {
+  border-radius: 3px;
+  font: inherit;
+  background: color-mix(in srgb, var(--ink) 2%, transparent);
+}
+
+.dialog-field input:focus,
+.dialog-field textarea:focus,
+.dialog-field select:focus {
+  border-color: var(--ink);
+  background: transparent;
+}
+
+.dialog-foot {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+/* Logo upload preview in appearance settings. */
+.appearance-logo-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 10px 0 4px;
+  min-height: 40px;
+}
+
+.appearance-logo-preview img {
+  height: 38px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+  background: #111;
+  border-radius: 4px;
+  padding: 4px 10px;
+}
+
+.appearance-logo-preview span {
+  font-size: 0.8rem;
+  color: var(--muted);
+}

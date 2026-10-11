@@ -7,7 +7,7 @@ html:has(body.subseries-ui-themed) {
 body.subseries-ui-themed {
   --paper: var(--subseries-ui-bg);
   --ink: var(--subseries-ui-ink);
-  --muted: color-mix(in srgb, var(--subseries-ui-ink) 70%, var(--subseries-ui-bg));
+  --muted: color-mix(in srgb, var(--subseries-ui-ink) 85%, var(--subseries-ui-bg));
   --line: color-mix(in srgb, var(--subseries-ui-ink) 16%, var(--subseries-ui-bg));
   --soft: color-mix(in srgb, var(--subseries-ui-ink) 8%, var(--subseries-ui-bg));
   --link: var(--subseries-ui-ink);
@@ -15,6 +15,16 @@ body.subseries-ui-themed {
   color: var(--subseries-ui-ink);
   font-family: var(--subseries-ui-font, var(--font-editorial));
   min-height: 100dvh;
+}
+
+/* Readability on loud theme backgrounds: lift long-form text. */
+body.subseries-ui-themed .story-list-synopsis {
+  font-weight: 500;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.28);
+}
+body.subseries-ui-themed .archive-hierarchy-heading p,
+body.subseries-ui-themed .archive-section-description {
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.25);
 }
 body.subseries-ui-themed #seriesList {
   background: transparent;

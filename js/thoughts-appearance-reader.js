@@ -6,6 +6,41 @@
     return /^assets\/thoughts\/[a-zA-Z0-9._/-]+\.(gif|png|jpg|jpeg|webp)$/i.test(String(path || "")) && !String(path).includes("..")
       ? RAW + String(path).split("/").map(encodeURIComponent).join("/") : "";
   }
+  // Interface settings: fonts + logo. Brand assets live on the main
+  // branch, so they resolve as site-relative paths (not the data branch).
+  var FONT_CHOICES = ["Inter", "Newsreader", "Space Grotesk", "Instrument Serif", "Archivo"];
+  var DEFAULT_LOGO = "assets/img/logo-railnavis.png";
+  function validFont(name) {
+    return FONT_CHOICES.indexOf(String(name || "")) !== -1 ? String(name) : "Inter";
+  }
+  function safeLogo(path) {
+    var p = String(path || "");
+    if (p === "none") return "none";
+    return /^assets\/(img|thoughts)\/[a-zA-Z0-9._\/-]+\.(png|jpg|jpeg|webp|gif|svg)$/i.test(p) && p.indexOf("..") === -1 ? p : "";
+  }
+  function applyInterface(appearance) {
+    var iface = (appearance && appearance.interface) || {};
+    var displayFont = validFont(iface.displayFont);
+    var bodyFont = validFont(iface.bodyFont);
+    if (window.SubseriesThemes && typeof window.SubseriesThemes.loadFont === "function") {
+      window.SubseriesThemes.loadFont(displayFont);
+      if (bodyFont !== displayFont) window.SubseriesThemes.loadFont(bodyFont);
+    }
+    var rootStyle = document.documentElement.style;
+    rootStyle.setProperty("--reader-display", '"' + displayFont + '", system-ui, sans-serif');
+    rootStyle.setProperty("--reader-body-font", '"' + bodyFont + '", system-ui, sans-serif');
+    var gateLogo = $("readerGateLogo");
+    if (gateLogo) {
+      var logo = safeLogo(iface.logo);
+      if (logo === "none") {
+        gateLogo.hidden = true;
+      } else {
+        gateLogo.hidden = false;
+        var src = logo || DEFAULT_LOGO;
+        if (gateLogo.getAttribute("src") !== src) gateLogo.setAttribute("src", src);
+      }
+    }
+  }
   function applyFrame(prefix, config, fallback) {
     var frame = $(prefix + "Media");
     var img = $(prefix + "Image");
@@ -35,6 +70,7 @@
     var hero = $("readerHeroMedia"), heroImg = $("readerHeroImage");
     if (hero) hero.hidden = true;
     if (heroImg) heroImg.removeAttribute("src");
+    applyInterface(a);
   }
   function load() {
     fetch("/api/thoughts/auth?appearance=1", { credentials: "same-origin", headers: { Accept: "application/json" } })

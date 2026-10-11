@@ -117,3 +117,17 @@
   font: 400 0.78rem/1.5 var(--reader-ui);
   color: var(--muted);
 }
+
+/* Search input: readable placeholder + stronger underline on loud themes. */
+.archive-search-input::placeholder {
+  color: color-mix(in srgb, var(--ink) 45%, transparent);
+  opacity: 1;
+}
+
+.story-discovery-toolbar .archive-search-input {
+  border-bottom-color: color-mix(in srgb, var(--ink) 38%, transparent);
+}
+
+.story-discovery-toolbar .archive-search-input:focus {
+  border-bottom-color: var(--ink);
+}

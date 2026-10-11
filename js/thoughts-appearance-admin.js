@@ -5,10 +5,16 @@
     subtitle: "Choose a series and discover its world.",
     accent: "#92785b",
     login: { image: "", ratio: "4:3", x: 50, y: 50, zoom: 100 },
-    hero: { image: "", ratio: "3:1", x: 50, y: 50, zoom: 100 }
+    hero: { image: "", ratio: "3:1", x: 50, y: 50, zoom: 100 },
+    interface: { displayFont: "Inter", bodyFont: "Inter", logo: "" }
   };
+  var FONT_CHOICES = ["Inter", "Newsreader", "Space Grotesk", "Instrument Serif", "Archivo"];
+  function validFont(name) {
+    return FONT_CHOICES.includes(String(name || "")) ? String(name) : "Inter";
+  }
   var draft = JSON.parse(JSON.stringify(defaults));
   var previewUrls = {};
+  var logoPreviewUrl = "";
   var pending = [];
   var saveFn = null;
   var dirty = false;
@@ -27,6 +33,10 @@
         if (source[field] !== undefined) next[key][field] = source[field];
       });
     });
+    var iface = a.interface || {};
+    next.interface.displayFont = validFont(iface.displayFont);
+    next.interface.bodyFont = validFont(iface.bodyFont);
+    next.interface.logo = typeof iface.logo === "string" ? iface.logo : "";
     return next;
   }
   function showStatus(message, error) {
@@ -50,6 +60,66 @@
     $(id + "Empty").hidden = Boolean(src);
     $(id + "PositionText").textContent = "X " + x + "% · Y " + y + "% · Zoom " + zoom + "%";
   }
+  function logoPreviewSrc(path) {
+    if (logoPreviewUrl) return logoPreviewUrl;
+    return path && path !== "none" ? adminMedia(path) : "";
+  }
+  function updateLogoPreview() {
+    var img = $("appearanceLogoPreview");
+    var empty = $("appearanceLogoEmpty");
+    if (!img || !empty) return;
+    var src = logoPreviewSrc(draft.interface.logo);
+    if (src) {
+      img.src = src;
+      img.hidden = false;
+      empty.textContent = draft.interface.logo === "" || !draft.interface.logo
+        ? "Default Railnavis logo."
+        : draft.interface.logo;
+    } else {
+      img.removeAttribute("src");
+      img.hidden = true;
+      empty.textContent = draft.interface.logo === "none"
+        ? "Logo hidden."
+        : "No logo uploaded — using the default Railnavis logo.";
+    }
+  }
+  function uploadLogo(file) {
+    if (!file) return;
+    if (!/^image\/(png|jpeg|webp|svg\+xml)$/i.test(file.type)) {
+      showStatus("Use PNG, JPEG, WebP, or SVG.", true);
+      return;
+    }
+    if (logoPreviewUrl) URL.revokeObjectURL(logoPreviewUrl);
+    logoPreviewUrl = URL.createObjectURL(file);
+    updateLogoPreview();
+    showStatus("Uploading logo…");
+    var ext = (file.name.split(".").pop() || "png").toLowerCase();
+    if (!["png", "jpg", "jpeg", "webp", "svg"].includes(ext)) ext = "png";
+    var operation = compressedUpload(file).then(function (converted) {
+      if (converted.blob.size > 2750000) throw new Error("File is too large. Use an image under 2.7 MB.");
+      return blobToBase64(converted.blob).then(function (content) {
+        return fetch("/api/thoughts-admin/upload", {
+          method: "POST", credentials: "same-origin",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({ filename: "logo", extension: converted.ext, content: content })
+        });
+      });
+    }).then(function (response) {
+      return response.json().then(function (result) {
+        if (!response.ok) throw new Error(result.error || "Upload failed.");
+        draft.interface.logo = result.path;
+        dirty = true;
+        updateLogoPreview();
+        showStatus("Logo uploaded. Click Save to publish.");
+      });
+    }).catch(function (error) {
+      showStatus(error.message || "Upload failed.", true);
+      throw error;
+    });
+    pending.push(operation);
+    operation.then(function () { pending = pending.filter(function (p) { return p !== operation; }); },
+      function () { pending = pending.filter(function (p) { return p !== operation; }); });
+  }
   function updatePreview() {
     $("appearancePreviewTitle").textContent = draft.title || "Archive";
     $("appearancePreviewSubtitle").textContent = draft.subtitle || "";
@@ -57,11 +127,14 @@
     $("appearanceLivePreview").style.setProperty("--reader-accent", draft.accent);
     updateSlot("login");
     updateSlot("hero");
+    updateLogoPreview();
   }
   function readForm() {
     draft.title = $("appearanceTitle").value.trim().slice(0, 120) || "Archive";
     draft.subtitle = $("appearanceSubtitle").value.trim().slice(0, 280);
     draft.accent = $("appearanceAccent").value;
+    draft.interface.displayFont = validFont($("appearanceDisplayFont").value);
+    draft.interface.bodyFont = validFont($("appearanceBodyFont").value);
     ["login", "hero"].forEach(function (key) {
       var id = slotName(key);
       draft[key].ratio = $(id + "Ratio").value;
@@ -79,6 +152,9 @@
     $("appearanceTitle").value = draft.title;
     $("appearanceSubtitle").value = draft.subtitle;
     $("appearanceAccent").value = /^#[\da-f]{6}$/i.test(draft.accent) ? draft.accent : defaults.accent;
+    $("appearanceDisplayFont").value = validFont(draft.interface.displayFont);
+    $("appearanceBodyFont").value = validFont(draft.interface.bodyFont);
+    updateLogoPreview();
     ["login", "hero"].forEach(function (name) {
       var id = slotName(name);
       $(id + "Ratio").value = draft[name].ratio;
@@ -178,6 +254,29 @@
     ["appearanceTitle", "appearanceSubtitle", "appearanceAccent"].forEach(function (id) {
       $(id).addEventListener("input", readForm);
     });
+    ["appearanceDisplayFont", "appearanceBodyFont"].forEach(function (id) {
+      $(id).addEventListener("change", readForm);
+    });
+    $("appearanceLogoUpload").addEventListener("change", function () {
+      uploadLogo(this.files && this.files[0]);
+      this.value = "";
+    });
+    $("appearanceLogoRemove").addEventListener("click", function () {
+      draft.interface.logo = "none";
+      if (logoPreviewUrl) URL.revokeObjectURL(logoPreviewUrl);
+      logoPreviewUrl = "";
+      dirty = true;
+      updateLogoPreview();
+      showStatus("Logo hidden in preview. Save to publish.");
+    });
+    $("appearanceLogoReset").addEventListener("click", function () {
+      draft.interface.logo = "";
+      if (logoPreviewUrl) URL.revokeObjectURL(logoPreviewUrl);
+      logoPreviewUrl = "";
+      dirty = true;
+      updateLogoPreview();
+      showStatus("Default logo restored in preview. Save to publish.");
+    });
     ["login", "hero"].forEach(function (name) {
       var id = slotName(name);
       [id + "Ratio", id + "X", id + "Y", id + "Zoom"].forEach(function (control) {
@@ -210,6 +309,8 @@
             if (previewUrls[name]) URL.revokeObjectURL(previewUrls[name]);
           });
           previewUrls = {};
+          if (logoPreviewUrl) URL.revokeObjectURL(logoPreviewUrl);
+          logoPreviewUrl = "";
           render(draft);
           showStatus("Saved. Refresh /read to see the published design.");
         }).catch(function (error) { showStatus(error.message || "Save failed.", true); })
