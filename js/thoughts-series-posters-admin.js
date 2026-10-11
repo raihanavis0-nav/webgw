@@ -34,6 +34,8 @@
     var img = $("seriesPosterImage");
     var label = $("seriesPosterPlaceholder");
     var obj = current();
+    var details = document.querySelector(".poster-preview-card");
+    if (details) details.classList.toggle("is-empty", !obj);
     var parts = ratio().split(":").map(Number);
     frame.style.aspectRatio = parts.length === 2 && parts[0] > 0 && parts[1] > 0 ? parts[0] + "/" + parts[1] : "2/3";
     if (!obj) {
@@ -73,10 +75,27 @@
   function render() {
     var host = $("seriesPosterList");
     host.textContent = "";
+    var count = $("seriesPosterCount");
+    if (count) count.textContent = String(posters.length);
     if (!posters.length) {
-      var empty = document.createElement("p");
+      var empty = document.createElement("div");
       empty.className = "series-posters-empty";
-      empty.textContent = "No custom posters. You can upload new ones or reuse posters from the parent Series.";
+      var icon = document.createElement("span");
+      icon.className = "poster-empty-icon";
+      icon.setAttribute("aria-hidden", "true");
+      icon.textContent = "▧";
+      var title = document.createElement("strong");
+      title.textContent = "No posters yet";
+      var hint = document.createElement("p");
+      hint.textContent = ownerKind === "Sub-series" ? "Add your own artwork or reuse posters from its Series." : "Add artwork to make this Series stand out.";
+      var pick = document.createElement("label");
+      pick.className = "series-poster-upload-button poster-empty-upload";
+      pick.setAttribute("for", "seriesPosterFiles");
+      pick.textContent = "Add your first poster";
+      empty.appendChild(icon);
+      empty.appendChild(title);
+      empty.appendChild(hint);
+      empty.appendChild(pick);
       host.appendChild(empty);
     }
     posters.forEach(function (poster, index) {
