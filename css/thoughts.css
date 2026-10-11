@@ -1914,3 +1914,8 @@ a.world-related-chip:hover {
     gap: 2px;
   }
 }
+
+
+/* Larger disclosure chevrons and navigation arrows, with no border. */
+.archive-collapse-toggle{font-size:1.16rem;border:0;}
+.world-category-arrow{font-size:1.22rem;line-height:1;border:0;}
