@@ -142,6 +142,25 @@
         }
       ],
       "posterRatio": "2:3"
+    },
+    {
+      "id": "series-1791731972187",
+      "name": "A Boy Who Loves Cinema",
+      "slug": "a-boy-who-loves-cinema",
+      "order": 4,
+      "description": "",
+      "defaultFormat": "prose",
+      "banner": "",
+      "cover": "",
+      "posters": [
+        {
+          "path": "assets/thoughts/1791731874690-7f9373-adwsawds.webp",
+          "x": 50,
+          "y": 50,
+          "zoom": 100
+        }
+      ],
+      "posterRatio": "2:3"
     }
   ],
   "subseries": [
