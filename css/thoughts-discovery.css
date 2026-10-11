@@ -17,32 +17,16 @@
   width: min(220px, 44vw);
 }
 
-.discovery-filters {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-}
-
-.discovery-filter-btn {
-  background: transparent;
-  border: 0;
-  border-bottom: 1.5px solid transparent;
-  color: var(--muted);
-  font: 600 11px/1.3 var(--reader-ui);
-  letter-spacing: 0.055em;
+/* Single format label for the whole list (uniform per book/series). */
+.discovery-format-label {
+  font: 600 10px/1.4 var(--reader-ui);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  padding: 10px 9px;
-  cursor: pointer;
-  transition: color 0.16s ease, border-color 0.16s ease;
-}
-
-.discovery-filter-btn:hover {
-  color: var(--ink);
-}
-
-.discovery-filter-btn[aria-pressed="true"] {
-  color: var(--ink);
-  border-bottom-color: var(--ink);
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 11px 3px;
+  white-space: nowrap;
 }
 
 .discovery-random-btn {
@@ -76,19 +60,6 @@
   color: var(--muted);
 }
 
-.format-badge {
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 3px 9px 2px;
-  font-size: 9px;
-  white-space: nowrap;
-}
-
-.format-badge.format-screenplay {
-  border-color: var(--ink);
-  color: var(--ink);
-}
-
 .discovery-empty {
   padding: 30px 0;
   color: var(--muted);
@@ -119,4 +90,30 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   font-size: 0.72rem;
+}
+
+/* Universal "back to all series" + series context for the
+   Characters / World / Timeline panels. */
+.archive-panel-back {
+  display: inline-flex;
+  margin: 0 0 12px;
+  padding: 0;
+  background: none;
+  border: 0;
+  font: 600 11px/1.4 var(--reader-ui);
+  letter-spacing: 0.065em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.16s ease;
+}
+
+.archive-panel-back:hover {
+  color: var(--ink);
+}
+
+.archive-panel-context {
+  margin: 8px 0 0;
+  font: 400 0.78rem/1.5 var(--reader-ui);
+  color: var(--muted);
 }
