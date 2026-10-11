@@ -96,7 +96,7 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  const attempt = limiter.check(req, res, "reader-unlock", {
+  const attempt = await limiter.checkAsync(req, res, "reader-unlock", {
     maxFailures: 8,
     windowMs: 15 * 60 * 1000,
     blockMs: 30 * 60 * 1000,
@@ -111,14 +111,14 @@ module.exports = async function handler(req, res) {
   const code = String(body.code || "").slice(0, 256);
 
   if (!reader.codeMatches(code)) {
-    limiter.recordFailure(attempt);
+    await limiter.recordFailureAsync(attempt);
     await new Promise(function (resolve) {
       setTimeout(resolve, 450);
     });
     return res.status(401).json({ error: "Wrong access code." });
   }
 
-  limiter.reset(attempt);
+  await limiter.resetAsync(attempt);
   reader.setSessionCookie(res);
   return res.status(200).json({ ok: true });
 };
