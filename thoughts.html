@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="css/editorial-cinematic.css" />
     <link rel="stylesheet" href="css/thoughts-screenplay.css" />
     <link rel="stylesheet" href="css/thoughts-discovery.css" />
+    <link rel="stylesheet" href="css/thoughts-mentions.css" />
   </head>
   <body class="is-locked">
     <div class="page-shell">
@@ -96,7 +97,7 @@
             </header>
 
             <nav class="archive-section-nav" id="archiveSectionNav" aria-label="Archive sections">
-              <button type="button" data-archive-view="stories" aria-pressed="true">Seasons</button>
+              <button type="button" data-archive-view="stories" aria-pressed="true">Series</button>
               <button type="button" data-archive-view="characters" aria-pressed="false">Characters</button>
               <button type="button" data-archive-view="world" aria-pressed="false">World</button>
               <button type="button" data-archive-view="timeline" aria-pressed="false">Timeline</button>
@@ -142,21 +143,7 @@
               <div class="archive-timeline" id="timelineList"></div>
             </section>
 
-            <section class="library-section archive-panel" id="gallerySection" data-archive-panel="gallery" hidden aria-hidden="true">
-              <div class="section-heading">
-                <h2>Gallery</h2>
-                <p class="archive-section-description">Artwork is organized into albums instead of one mixed image wall.</p>
-              </div>
-              <div class="gallery-album-grid" id="galleryAlbumGrid"></div>
-              <div class="gallery-album-view" id="galleryAlbumView" hidden>
-                <button class="archive-back-button" id="galleryBackButton" type="button">← Albums</button>
-                <div class="world-view-heading">
-                  <p class="eyebrow">Gallery</p>
-                  <h3 id="galleryAlbumTitle"></h3>
-                </div>
-                <div class="archive-gallery" id="galleryGrid"></div>
-              </div>
-            </section>
+            
 
             <section class="empty-state" id="emptyState" hidden>
               <p id="emptyStateText">Nothing published here yet.</p>
@@ -179,6 +166,7 @@
               <p class="story-path" id="storyPath"></p>
               <h1 id="storyTitle"></h1>
               <p class="story-date" id="storyDate"></p>
+              <p class="story-content-warning" id="storyContentWarning" hidden></p>
             </header>
 
             <section
@@ -227,6 +215,7 @@
     <script src="js/thoughts-ending-song.js" defer></script>
     <script src="js/thoughts-character-groups.js" defer></script>
     <script src="js/thoughts-character-detail.js" defer></script>
+    <script src="js/thoughts-mention.js" defer></script>
     <script src="js/editorial-reader.js" defer></script>
   </body>
 </html>

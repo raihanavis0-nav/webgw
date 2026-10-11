@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="css/thoughts-character-groups.css" />
     <link rel="stylesheet" href="css/thoughts-admin.css" />
     <link rel="stylesheet" href="css/thoughts-screenplay.css" />
+    <link rel="stylesheet" href="css/thoughts-mentions.css" />
     <link rel="stylesheet" href="css/subseries-theme-admin.css" />
     <link rel="stylesheet" href="css/editorial-admin.css" />
     <link rel="stylesheet" href="css/thoughts-appearance.css" />
@@ -75,6 +76,7 @@
             <p class="eyebrow">Fiction archive</p>
             <h1 id="adminLibraryTitle">Stories</h1>
             <p id="adminLibraryDescription">Manage Series, Sub-series, and Stories.</p>
+            <div class="admin-stats-strip" id="adminStatsStrip" aria-label="Archive statistics"></div>
           </header>
 
           <nav class="admin-library-nav" id="adminLibraryNav" aria-label="Archive admin sections">
@@ -87,6 +89,7 @@
           <section class="library-section admin-library-panel" data-admin-panel="stories">
             <div class="section-heading admin-section-heading">
               <h2>Series</h2>
+              <input class="archive-search-input admin-list-search" id="adminStorySearch" type="search" placeholder="Search stories" autocomplete="off" aria-label="Search stories" />
               <button class="inline-add" id="addSeriesBtn" type="button">+ Series</button>
             </div>
             <div id="adminSeriesList"></div>
@@ -351,6 +354,12 @@
         <div class="dialog-field" id="entitySlugField"><label for="entitySlugInput">Slug</label><input id="entitySlugInput" type="text" autocomplete="off" /></div>
         <div class="dialog-field" id="entityOrderField"><label for="entityOrderInput">Order <span class="optional">(lower first)</span></label><input id="entityOrderInput" type="number" min="0" step="1" value="0" /></div>
         <div class="dialog-field"><label for="entityDescriptionInput" id="entityDescriptionLabel">Description</label><textarea id="entityDescriptionInput" rows="5"></textarea></div>
+        <div class="dialog-field" id="entityDefaultFormatField" hidden><label for="entityDefaultFormatInput">Default story format <span class="optional">(new stories)</span></label>
+          <select id="entityDefaultFormatInput">
+            <option value="prose">Prose</option>
+            <option value="screenplay">Screenplay</option>
+          </select>
+        </div>
         </div>
         <section class="dialog-field subseries-appearance" id="subseriesThemeField" hidden>
           <h3>Sub-series appearance</h3>
@@ -557,6 +566,10 @@
             <option value="screenplay">Screenplay</option>
           </select>
         </div>
+        <div class="dialog-field">
+          <label for="storyContentWarningInput">Content warning <span class="optional">(optional)</span></label>
+          <input id="storyContentWarningInput" type="text" autocomplete="off" placeholder="e.g. Violence, strong language" />
+        </div>
         <p class="portrait-help">Screenplay enables script block styles (scene, character, dialogue) in the editor and a screenplay layout in the reader.</p>
 
         <div class="dialog-section-divider">
@@ -569,7 +582,7 @@
           <p class="portrait-help">Timeline does not use the Story date. The label can be fictional, approximate, or relative; order controls chronology.</p>
         </div>
 
-        <div class="dialog-foot"><button class="danger-action" id="deleteStoryBtn" type="button">Delete story</button><span class="dialog-spacer"></span><button class="primary-action" id="closeStoryActionsDoneBtn" type="button">Done</button></div>
+        <div class="dialog-foot"><button class="danger-action" id="deleteStoryBtn" type="button">Delete story</button><span class="dialog-spacer"></span><button class="quiet-action" id="duplicateStoryBtn" type="button">Duplicate</button><button class="primary-action" id="closeStoryActionsDoneBtn" type="button">Done</button></div>
       </div>
     </dialog>
 
@@ -579,6 +592,7 @@
 
     <script src="js/thoughts-rich-content.js" defer></script>
     <script src="js/thoughts-editor.js" defer></script>
+    <script src="js/thoughts-mention-editor.js" defer></script>
     <script src="js/thoughts-appearance-admin.js" defer></script>
     <script src="js/thoughts-series-posters-admin.js" defer></script>
     <script src="js/subseries-theme.js" defer></script>

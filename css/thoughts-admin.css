@@ -1733,3 +1733,40 @@ select {
 .admin-main .admin-series-block + .admin-series-block {
   margin-top: 26px;
 }
+
+/* =============================================================
+   ADMIN POWER TOOLS — stats strip, list search.
+   ============================================================= */
+
+.admin-stats-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.admin-stat {
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+.admin-stat strong {
+  color: var(--ink);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.admin-list-search {
+  margin-left: auto;
+}
+
+.admin-section-heading {
+  gap: 14px;
+}
+
+.admin-section-heading .inline-add {
+  margin-left: 0;
+}
