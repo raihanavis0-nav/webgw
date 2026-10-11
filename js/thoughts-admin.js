@@ -957,7 +957,7 @@
   }
 
   function normalizeAdminView(value) {
-    return ["stories", "characters", "world", "appearance"].includes(value)
+    return ["stories", "characters", "world", "timeline", "appearance"].includes(value)
       ? value
       : "stories";
   }
@@ -979,6 +979,10 @@
       gallery: {
         title: "Gallery",
         description: "Manage extra character images, banners, posters, and artwork.",
+      },
+      timeline: {
+        title: "Timeline",
+        description: "Place episodes on the in-story chronology with structured dates.",
       },
       appearance: {
         title: "Reader Appearance",
@@ -1039,6 +1043,7 @@
     renderCharacters();
     renderWorldAdmin();
     renderAdminStats();
+    if (window.ArchiveTimelineAdmin) window.ArchiveTimelineAdmin.render();
     if (window.ArchiveAppearanceAdmin) window.ArchiveAppearanceAdmin.render(state.data.appearance);
     setAdminLibraryView(state.libraryView, false);
   }
@@ -2091,6 +2096,11 @@
       timelineLabel: "",
       timelineGroup: "",
       timelineOrder: 0,
+      timelineYear: 0,
+      timelineMonth: 0,
+      timelineDay: 0,
+      timelineSeason: "",
+      timelinePrecision: "day",
     };
 
     populateStoryEditor();
@@ -2195,6 +2205,14 @@
 
   function saveStory() {
     var draft = collectStoryDraft();
+
+    if (draft.timelineEnabled && window.ArchiveTimeline &&
+        window.ArchiveTimeline.validate(window.ArchiveTimeline.read(draft)) &&
+        !(draft.timelineLabel && !draft.timelineYear)) {
+      toast("Set a valid in-story Timeline date in Story Actions.",true);
+      openStoryActions();
+      return;
+    }
 
     if (!draft.title) {
       toast("Story title is required.", true);
@@ -2444,6 +2462,38 @@
     $("charactersDialog").close();
   }
 
+  function storyTimelineDateFromInputs() {
+    var T=window.ArchiveTimeline;
+    return {
+      enabled: $("storyTimelineEnabledInput").checked,
+      precision: $("storyTimelinePrecisionInput").value,
+      year: T.num($("storyTimelineYearInput").value),
+      month: T.num($("storyTimelineMonthInput").value),
+      day: T.num($("storyTimelineDayInput").value),
+      season: $("storyTimelineSeasonInput").value
+    };
+  }
+
+  function syncStoryTimelineFields() {
+    var T=window.ArchiveTimeline;
+    if (!T) return;
+    var date=storyTimelineDateFromInputs();
+    var mode=date.precision;
+    $("storyTimelineMonthField").hidden=mode!=="month"&&mode!=="day";
+    $("storyTimelineDayField").hidden=mode!=="day";
+    $("storyTimelineSeasonField").hidden=mode!=="season";
+    var original=state.storyDraft&&T.read(state.storyDraft);
+    var legacy=original&&original.legacyLabel&&!date.year;
+    var error=T.validate(date);
+    if (legacy) error="";
+    $("storyTimelineError").textContent=error;
+    $("storyTimelinePreview").textContent=!date.enabled
+      ? "Not included in Reader Timeline."
+      : legacy ? "Legacy date: "+original.legacyLabel+" · Add a structured date when ready."
+      : error ? "Complete the date to include this episode."
+      : "Reader preview: "+T.caption(date);
+  }
+
   function openStoryActions() {
     if (!state.storyDraft) return;
 
@@ -2452,10 +2502,14 @@
     $("storyOrderInput").value = String(draft.order || 0);
     $("storyFormatInput").value = draft.format === "screenplay" ? "screenplay" : "prose";
     $("storyContentWarningInput").value = draft.contentWarning || "";
-    $("storyTimelineEnabledInput").checked = Boolean(draft.timelineEnabled);
-    $("storyTimelineLabelInput").value = draft.timelineLabel || "";
-    $("storyTimelineGroupInput").value = draft.timelineGroup || "";
-    $("storyTimelineOrderInput").value = String(draft.timelineOrder || 0);
+    var date=window.ArchiveTimeline.read(draft);
+    $("storyTimelineEnabledInput").checked = date.enabled;
+    $("storyTimelinePrecisionInput").value = date.precision || "day";
+    $("storyTimelineYearInput").value = date.year || "";
+    $("storyTimelineMonthInput").value = date.month || "";
+    $("storyTimelineDayInput").value = date.day || "";
+    $("storyTimelineSeasonInput").value = date.season || "";
+    syncStoryTimelineFields();
     $("storyActionsDialog").showModal();
   }
 
@@ -2470,10 +2524,16 @@
       $("storyFormatInput").value === "screenplay" ? "screenplay" : "prose";
     state.storyDraft.contentWarning = $("storyContentWarningInput").value.trim();
     applyStoryFormatUI();
-    state.storyDraft.timelineEnabled = $("storyTimelineEnabledInput").checked;
-    state.storyDraft.timelineLabel = $("storyTimelineLabelInput").value.trim();
-    state.storyDraft.timelineGroup = $("storyTimelineGroupInput").value.trim();
-    state.storyDraft.timelineOrder = numberValue($("storyTimelineOrderInput").value);
+    var T=window.ArchiveTimeline;
+    var timelineDate=storyTimelineDateFromInputs();
+    var legacy=state.storyDraft.timelineLabel&&!timelineDate.year;
+    var timelineError=T.validate(timelineDate);
+    if (timelineError && !legacy) {
+      $("storyTimelineError").textContent=timelineError;
+      $("storyTimelineYearInput").focus();
+      return;
+    }
+    state.storyDraft=T.patch(state.storyDraft,timelineDate);
     $("storySlugInput").value = state.storyDraft.slug;
     markDirty();
     $("storyActionsDialog").close();
@@ -3194,6 +3254,14 @@
       });
     }
 
+    if (window.ArchiveTimelineAdmin) {
+      window.ArchiveTimelineAdmin.init({
+        getData:function(){return state.data;},
+        save:function(candidate){return saveCandidate(candidate,"stories: update episode timeline dates");},
+        openStory:openStory
+      });
+    }
+
     if (window.ArchiveAppearanceAdmin) {
       window.ArchiveAppearanceAdmin.init({
         save: function (appearance) {
@@ -3402,6 +3470,11 @@
     });
     $("applyCharactersBtn").addEventListener("click", applyCharacters);
 
+    ["storyTimelineEnabledInput","storyTimelinePrecisionInput","storyTimelineYearInput",
+      "storyTimelineMonthInput","storyTimelineDayInput","storyTimelineSeasonInput"].forEach(function(id){
+      $(id).addEventListener("input",syncStoryTimelineFields);
+      $(id).addEventListener("change",syncStoryTimelineFields);
+    });
     $("storyMoreBtn").addEventListener("click", openStoryActions);
     $("storyPropertiesBtn").addEventListener("click", openStoryActions);
     $("addStoryHeaderBtn").addEventListener("click", function () {
