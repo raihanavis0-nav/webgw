@@ -1,6 +1,7 @@
 const reader = require("../../server/thoughts-public");
 const store = require("../../server/thoughts-store");
 const mediaLoader = require("../../server/thoughts-media");
+const { Readable } = require("stream");
 
 function safeMediaPath(value) {
   const path = String(value || "").replace(/^\/+/, "");
@@ -92,6 +93,21 @@ module.exports = async function handler(req, res) {
   }
 
   try {
+    const range = String(req.headers && req.headers.range || "").trim();
+    if (range && !mediaLoader.isChunkManifest(path)) {
+      const upstream = await store.getRawMediaRange(path, range);
+      if (upstream) {
+        res.setHeader("Content-Type", contentType(path, upstream.headers.get("content-type")));
+        res.setHeader("Cache-Control", "private, max-age=3600");
+        res.setHeader("Accept-Ranges", "bytes");
+        res.setHeader("Content-Range", upstream.headers.get("content-range"));
+        const length = upstream.headers.get("content-length");
+        if (length) res.setHeader("Content-Length", length);
+        res.status(206);
+        Readable.fromWeb(upstream.body).on("error", () => res.end()).pipe(res);
+        return;
+      }
+    }
     const media = await mediaLoader.load(store, path);
     return sendMedia(req, res, media, path);
   } catch (error) {
