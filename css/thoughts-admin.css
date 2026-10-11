@@ -1938,23 +1938,32 @@ body {
   font-size: 1.7rem !important;
 }
 
-.editor-dialog .dialog-close {
+.editor-dialog .dialog-close,
+.editor-dialog .dialog-head > .icon-action {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   min-width: 44px !important;
   height: 44px !important;
   flex: none !important;
-  font-size: 26px !important;
+  font-size: 30px !important;
   line-height: 1 !important;
   padding: 0 !important;
-  border: 0 !important;
-  border-radius: 10px !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 12px !important;
   background: transparent !important;
   color: var(--ink) !important;
   cursor: pointer !important;
 }
 
-.editor-dialog .dialog-close:hover {
+.editor-dialog .dialog-close:hover,
+.editor-dialog .dialog-head > .icon-action:hover {
+  border-color: var(--ink) !important;
   background: color-mix(in srgb, var(--ink) 10%, transparent) !important;
 }
+
+
+/* Consistent, visible close controls and upload removal buttons. */
+.editor-dialog .dialog-head > .icon-action:focus-visible {outline:2px solid var(--ink);outline-offset:2px;}
+.gallery-bulk-remove {width:40px;height:40px;display:grid;place-items:center;padding:0;border:1px solid var(--line);border-radius:10px;font-size:25px;line-height:1;}
+.gallery-bulk-remove:hover {border-color:var(--ink);}
