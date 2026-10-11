@@ -40,7 +40,7 @@
         gateLogo.hidden = true;
       } else {
         gateLogo.hidden = false;
-        var src = logo || DEFAULT_LOGO;
+        var src = logo && logo.startsWith("assets/thoughts/") ? "/api/thoughts/appearance-media?path=" + encodeURIComponent(logo) : (logo || DEFAULT_LOGO);
         if (gateLogo.getAttribute("src") !== src) gateLogo.setAttribute("src", src);
       }
     }
