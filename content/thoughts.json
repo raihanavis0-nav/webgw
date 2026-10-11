@@ -1455,6 +1455,27 @@
       "characterIds": [],
       "body": "",
       "synopsis": ""
+    },
+    {
+      "id": "story-1791732019207",
+      "title": "My Top 4 Letterboxd, and Why I Chose Those Films.",
+      "date": "2026-10-11",
+      "slug": "my-top-4-letterboxd-and-why-i-chose-those-films",
+      "seriesId": "series-1791731972187",
+      "subseriesId": "",
+      "order": 1,
+      "published": false,
+      "characterIds": [],
+      "body": "",
+      "format": "prose",
+      "contentWarning": "",
+      "banner": "",
+      "bannerPosition": "center",
+      "timelineEnabled": false,
+      "timelineLabel": "",
+      "timelineGroup": "",
+      "timelineOrder": 0,
+      "synopsis": ""
     }
   ],
   "worldEntries": [],
