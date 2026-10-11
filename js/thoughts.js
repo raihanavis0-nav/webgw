@@ -1449,7 +1449,20 @@
         subseriesById: subseriesById,
         storyUrl: storyUrl
       });
-      section.dataset.hasContent = count ? "true" : "false";
+      // Keep the Timeline discoverable even before its first episode date.
+      // No fake dates or publication dates are used to fill the archive.
+      if (!count) {
+        var empty = document.createElement("div");
+        empty.className = "timeline-wave-empty";
+        var title = document.createElement("h3");
+        title.textContent = "This timeline has no dated episodes yet.";
+        var desc = document.createElement("p");
+        desc.textContent = "Story events will appear here in chronological order once their dates are added in the Timeline Manager.";
+        empty.appendChild(title);
+        empty.appendChild(desc);
+        host.appendChild(empty);
+      }
+      section.dataset.hasContent = "true";
       return;
     }
     host.replaceChildren();
@@ -1479,7 +1492,7 @@
     renderWorld();
     renderTimeline();
     // Hide World / Timeline until the selected collection has content.
-    ["world", "timeline"].forEach(function (viewName) {
+    ["world"].forEach(function (viewName) {
       var button = document.querySelector('[data-archive-view="' + viewName + '"]');
       var panel = $(viewName === "world" ? "worldSection" : "timelineSection");
       if (button && panel) button.hidden = panel.dataset.hasContent === "false";
