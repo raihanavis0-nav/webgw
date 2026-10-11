@@ -139,11 +139,16 @@
       var creditLabel = document.createElement("span");
       creditLabel.className = "character-detail-credit-label";
       creditLabel.textContent = "PORTRAYED BY";
-      var creditName = document.createElement("strong");
-      creditName.className = "character-detail-credit-name";
-      creditName.textContent = portrayed;
+      var creditLink = document.createElement("a");
+      creditLink.className = "character-detail-credit-name";
+      // Search only the stored casting name; do not assume a TMDB/IMDb profile.
+      creditLink.href = "https://www.google.com/search?tbm=isch&q=" + encodeURIComponent(portrayed);
+      creditLink.target = "_blank";
+      creditLink.rel = "noopener noreferrer";
+      creditLink.textContent = portrayed;
+      creditLink.setAttribute("aria-label", "Search Google Images for " + portrayed + " (opens a new tab)");
       credit.appendChild(creditLabel);
-      credit.appendChild(creditName);
+      credit.appendChild(creditLink);
       credit.hidden = false;
     }
     if (!dialog.open) dialog.showModal();
