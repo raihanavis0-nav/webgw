@@ -831,6 +831,15 @@
       "order": 18,
       "bio": "",
       "portrait": "assets/thoughts/1791749374501-dd26b1-chatgpt-image-oct-12-2026-03-10-00-am-3.webp"
+    },
+    {
+      "id": "character-1791750125411",
+      "name": "Vivianne Wyne",
+      "seriesId": "series-1790072885901",
+      "subseriesId": "",
+      "order": 35,
+      "bio": "",
+      "portrait": ""
     }
   ],
   "stories": [
