@@ -159,11 +159,23 @@
       "cover": "assets/thoughts/1791451128907-7a63a5-group-1-copy-4.webp",
       "uiTheme": {
         "background": "#FFAE00",
-        "font": ""
+        "font": "",
+        "accent": "#E6BC78"
       },
       "paperTheme": {
-        "background": "#FFFDF7"
-      }
+        "background": "#FFFDF7",
+        "width": "standard",
+        "radius": "square"
+      },
+      "posters": [
+        {
+          "path": "assets/thoughts/1791726293077-58ea8c-group-1-copy-4.webp",
+          "x": 50,
+          "y": 50,
+          "zoom": 100
+        }
+      ],
+      "posterRatio": "2:3"
     },
     {
       "id": "subseries-1790083819601",
