@@ -227,9 +227,9 @@
       "banner": "",
       "cover": "assets/thoughts/1791451128907-7a63a5-group-1-copy-4.webp",
       "uiTheme": {
-        "background": "#FFAE00",
+        "background": "#E67A00",
         "font": "",
-        "accent": "#E6BC78"
+        "accent": "#000000"
       },
       "paperTheme": {
         "background": "#FFFDF7",
