@@ -122,6 +122,18 @@
       ],
       "posterRatio": "2:3",
       "defaultFormat": "prose"
+    },
+    {
+      "id": "series-1791729416326",
+      "name": "A Life of a Pretender and Liar",
+      "slug": "a-life-of-a-pretender-and-liar",
+      "order": 3,
+      "description": "",
+      "defaultFormat": "prose",
+      "banner": "",
+      "cover": "",
+      "posters": [],
+      "posterRatio": "2:3"
     }
   ],
   "subseries": [
