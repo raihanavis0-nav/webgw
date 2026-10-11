@@ -231,12 +231,14 @@
     {
       "id": "subseries-1791451921522",
       "seriesId": "series-1790083460918",
-      "name": "WHAT Spinoff : Andrea",
+      "name": "Spinoff : Andrea",
       "slug": "what-spinoff-andrea",
       "order": 7,
       "description": "",
       "banner": "",
-      "cover": ""
+      "cover": "",
+      "posters": [],
+      "posterRatio": "2:3"
     },
     {
       "id": "subseries-1791452810025",
