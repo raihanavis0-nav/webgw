@@ -209,3 +209,9 @@
     overflow-wrap: anywhere;
   }
 }
+
+
+/* Rounded outlined X with a comfortable touch target. */
+.character-detail-close{display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid var(--line);border-radius:11px;background:var(--paper);color:var(--ink);font-size:28px;line-height:1;}
+.character-detail-close:hover{border-color:var(--ink);}
+.character-detail-close:focus-visible{outline:2px solid var(--ink);outline-offset:2px;}
