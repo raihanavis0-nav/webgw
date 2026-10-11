@@ -178,7 +178,9 @@
     fan.setAttribute("aria-hidden", "true");
     if (posters.length > 1) {
       posters.forEach(function (poster, index) {
-        var position = fanPositions[index];
+        // Keep smaller stacks symmetrical instead of fanning only to the left.
+        var layouts = { 2: [1, 3], 3: [0, 2, 4], 4: [0, 1, 3, 4], 5: [0, 1, 2, 3, 4] };
+        var position = fanPositions[layouts[posters.length][index]];
         var page = el("span", "reader-book-fan-card");
         page.style.setProperty("--fan-x", position.x);
         page.style.setProperty("--fan-y", position.y);
