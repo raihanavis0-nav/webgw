@@ -139,7 +139,18 @@ async function fetchRaw(url, headers) {
 }
 
 async function getRawFile(path) {
-  const primary = await fetchRaw(rawUrl(path), {});
+  // GitHub raw CDN cannot read private repositories. Use authenticated
+  // Contents API with raw Accept whenever the storage repo is separate.
+  const privateStorage = REPO !== "webgw";
+  const url = privateStorage
+    ? contentUrl(path) + "?ref=" + encodeURIComponent(DATA_BRANCH)
+    : rawUrl(path);
+  const headers = privateStorage ? {
+    Authorization: "Bearer " + githubToken(),
+    Accept: "application/vnd.github.raw+json",
+    "X-GitHub-Api-Version": "2022-11-28",
+  } : {};
+  const primary = await fetchRaw(url, headers);
 
   if (primary.file) return primary.file;
 
