@@ -40,6 +40,56 @@ function prune(now) {
   }
 }
 
+// Optional Upstash Redis REST atomic limiter shared across serverless instances.
+function redisConfig() {
+  const url = process.env.UPSTASH_REDIS_REST_URL || "";
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN || "";
+  return url && token ? { url: url.endsWith("/") ? url.slice(0,-1) : url, token } : null;
+}
+async function redisCommand(args) {
+  const cfg = redisConfig();
+  const response = await fetch(cfg.url, {
+    method: "POST",
+    headers: { Authorization: "Bearer " + cfg.token, "Content-Type": "application/json" },
+    body: JSON.stringify(args),
+  });
+  if (!response.ok) throw new Error("Distributed login limiter unavailable.");
+  const payload = await response.json();
+  if (payload.error) throw new Error("Distributed login limiter unavailable.");
+  return payload.result;
+}
+const THROTTLE_SCRIPT = "local count=redis.call('INCR',KEYS[1]); " +
+  "if count==1 then redis.call('PEXPIRE',KEYS[1],ARGV[1]); end; " +
+  "if count==tonumber(ARGV[3]) then redis.call('PEXPIRE',KEYS[1],ARGV[2]); end; " +
+  "return {count,redis.call('PTTL',KEYS[1])}";
+async function checkAsync(req, res, scope, options) {
+  if (!redisConfig()) return check(req, res, scope, options);
+  const config = Object.assign({
+    windowMs: DEFAULT_WINDOW_MS, blockMs: DEFAULT_BLOCK_MS,
+    maxFailures: DEFAULT_MAX_FAILURES,
+  }, options || {});
+  const key = "archive:login:" + clientKey(req, scope);
+  // Count every remote attempt so simultaneous guesses cannot bypass the limit.
+  const result = await redisCommand([
+    "EVAL", THROTTLE_SCRIPT, "1", key,
+    String(config.windowMs), String(config.blockMs), String(config.maxFailures),
+  ]);
+  const count = Number(result && result[0]);
+  const ttlMs = Number(result && result[1]);
+  if (!Number.isFinite(count)) throw new Error("Invalid limiter response.");
+  const allowed = count <= config.maxFailures;
+  const retryAfter = Math.max(1, Math.ceil(Math.max(ttlMs, 1000) / 1000));
+  if (!allowed) res.setHeader("Retry-After", String(retryAfter));
+  return { allowed, key, remote: true, config, retryAfter };
+}
+async function resetAsync(token) {
+  if (!token) return;
+  if (token.remote) await redisCommand(["DEL", token.key]);
+  else reset(token);
+}
+async function recordFailureAsync(token) {
+  if (token && !token.remote) recordFailure(token);
+}
 function check(req, res, scope, options) {
   const now = Date.now();
   const config = Object.assign(
@@ -116,6 +166,9 @@ function reset(token) {
 
 module.exports = {
   check,
+  checkAsync,
+  resetAsync,
+  recordFailureAsync,
   recordFailure,
   reset,
 };
