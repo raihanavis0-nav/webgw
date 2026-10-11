@@ -2,6 +2,7 @@
 (function () {
   "use strict";
   var yearChoice = "all", newest = false, current = null, resizeBound = false, lastColumns = 0;
+  var collapsedYears = new Set();
   function el(tag, cls, text) {
     var node = document.createElement(tag);
     if (cls) node.className = cls;
@@ -46,9 +47,14 @@
     if (newest) items.reverse();
     var grouped = T.groups(items);
     if (yearChoice !== "all") grouped = grouped.filter(function (g) { return g.key === yearChoice; });
+    count.textContent = (yearChoice === "all" ? items.length : grouped.reduce(function(n,y){return n+y.count;},0)) + " episodes in story chronology";
     grouped.forEach(function (year,index) {
       var detail = el("details","timeline-wave-year");
-      detail.open = true;
+      detail.open = !collapsedYears.has(year.key);
+      detail.addEventListener("toggle", function () {
+        if (detail.open) collapsedYears.delete(year.key);
+        else collapsedYears.add(year.key);
+      });
       var summary = el("summary","timeline-wave-year-head");
       var label = el("span","timeline-wave-year-label",year.label);
       var length = el("span","timeline-wave-year-count",year.count + (year.count === 1 ? " episode" : " episodes"));
