@@ -108,3 +108,19 @@ Then open `http://localhost:8000`. Serverless archive APIs require the Vercel ru
 ## Deployment
 
 Vercel deploys `main`. Deployments are explicitly disabled for the `thoughts-data` branch.
+
+
+## Story Timeline (Reader + Admin)
+
+The Reader Timeline is a compact, responsive chronological map: **year anchors** on the left, **seasonal horizontal snake lanes** on desktop and a vertical episode list on mobile. Each episode links to its chapter, and readers can filter by year, reverse the order and collapse a year. Series/Sub-series context filters still apply.
+
+Dates are **in-story dates**, separate from the publishing date:
+
+- Story Admin → **Timeline**: select a Series/Sub-series, filter dated or undated episodes, edit Year/Month/Day (or choose Month / Season / Year precision), then **Save timeline dates**. Multiple episodes can be saved in one operation with revision/conflict protection.
+- Story Editor → Actions → **Include in Timeline**: set the episode's in-story date and preview its reader label.
+- Stored fields: `timelineEnabled`, `timelineYear`, `timelineMonth`, `timelineDay`, `timelineSeason`, `timelinePrecision`. Years are integers 1–9999 and exact dates must be real calendar days. All chronology is sorted automatically; publication `date` and episode `order` are unchanged.
+- Existing legacy Timeline metadata (`timelineLabel`, `timelineGroup`, `timelineOrder`) is **not erased**; enabled entries with legacy labels remain visible in "Other dates" until an editor assigns a structured date.
+- Never infer fictional chronology from publish dates. The Reader shows an appropriate empty state until dates are configured.
+
+Run regression tests: `node --test scripts/test-timeline.js` (also in CI). No additional Serverless Functions are added, preserving the Vercel Hobby API budget.
+
