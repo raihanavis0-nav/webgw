@@ -8,8 +8,10 @@ function ink(bg){var hex=validColor(bg,"#FFFDF7").slice(1),l=[0,2,4].map(functio
 function loadFont(name){var s=validFont(name);if(!s||loaded[s]||!document.head)return;loaded[s]=true;var a=document.createElement("link");a.rel="stylesheet";a.href="https://fonts.googleapis.com/css2?family="+encodeURIComponent(s).replace(/%20/g,"+")+"&display=swap";a.onerror=function(){loaded[s]=false};document.head.appendChild(a)}
 function applyUi(el,theme){
   if(!el)return;
-  var bg=validColor(theme&&theme.background,""),font=validFont(theme&&theme.font);
-  el.classList.toggle("subseries-ui-themed",!!(bg||font));
+  var bg=validColor(theme&&theme.background,""),font=validFont(theme&&theme.font),accent=validColor(theme&&theme.accent,"");
+  el.classList.toggle("subseries-ui-themed",!!(bg||font||accent));
+  if(accent)el.style.setProperty("--subseries-ui-accent",accent);
+  else el.style.removeProperty("--subseries-ui-accent");
   if(bg){
     el.style.setProperty("--subseries-ui-bg",bg);
     el.style.setProperty("--subseries-ui-ink",ink(bg));
@@ -36,6 +38,16 @@ function applyUi(el,theme){
   }
 }
 
-function applyPaper(el,theme){if(!el)return;var bg=validColor(theme&&theme.background,"#FFFDF7");el.style.setProperty("--chapter-paper-bg",bg);el.style.setProperty("--chapter-paper-ink",ink(bg))}
+function applyPaper(el,theme){
+  if(!el)return;
+  var bg=validColor(theme&&theme.background,"#FFFDF7");
+  var widths={narrow:"680px",standard:"800px",wide:"960px"};
+  var radii={square:"2px",soft:"12px",rounded:"22px"};
+  var width=theme&&theme.width||"standard",radius=theme&&theme.radius||"square";
+  el.style.setProperty("--chapter-paper-bg",bg);
+  el.style.setProperty("--chapter-paper-ink",ink(bg));
+  el.style.setProperty("--chapter-paper-max-width",widths[width]||widths.standard);
+  el.style.setProperty("--chapter-paper-radius",radii[radius]||radii.square);
+}
 window.SubseriesThemes={validColor:validColor,validFont:validFont,ink:ink,loadFont:loadFont,applyUi:applyUi,applyPaper:applyPaper,suggestions:suggestions};
 })();
