@@ -286,6 +286,51 @@ function validateData(data) {
       return "Invalid Story timeline visibility.";
     }
 
+    // New structured chronology fields coexist with legacy free-text Timeline labels.
+    for (const field of ["timelineYear","timelineMonth","timelineDay"]) {
+      if (story[field] != null &&
+          (!Number.isInteger(story[field]) || story[field] < 0)) {
+        return "Invalid Story " + field + ".";
+      }
+    }
+    if (story.timelineYear != null && story.timelineYear > 9999) return "Invalid Story Timeline year.";
+    if (story.timelineMonth != null && story.timelineMonth > 12) return "Invalid Story Timeline month.";
+    if (story.timelineDay != null && story.timelineDay > 31) return "Invalid Story Timeline day.";
+    if (story.timelinePrecision != null &&
+        !["day","month","season","year"].includes(story.timelinePrecision)) {
+      return "Invalid Story Timeline precision.";
+    }
+    if (story.timelineSeason != null &&
+        !["","spring","summer","autumn","winter"].includes(story.timelineSeason)) {
+      return "Invalid Story Timeline season.";
+    }
+    if (story.timelineEnabled === true && story.timelineYear) {
+      const precision = story.timelinePrecision ||
+        (story.timelineDay ? "day" : story.timelineMonth ? "month" : story.timelineSeason ? "season" : "year");
+      if (precision === "season" &&
+          !["spring","summer","autumn","winter"].includes(story.timelineSeason)) {
+        return "Timeline season is required.";
+      }
+      if (precision === "month" || precision === "day") {
+        if (!Number.isInteger(story.timelineMonth) || story.timelineMonth < 1 || story.timelineMonth > 12) {
+          return "Timeline month is required.";
+        }
+      }
+      if (precision === "day") {
+        const date = new Date(0);
+        date.setUTCHours(0,0,0,0);
+        date.setUTCFullYear(story.timelineYear,story.timelineMonth-1,story.timelineDay);
+        if (!Number.isInteger(story.timelineDay) || story.timelineDay < 1 ||
+            date.getUTCFullYear() !== story.timelineYear ||
+            date.getUTCMonth() !== story.timelineMonth-1 ||
+            date.getUTCDate() !== story.timelineDay) {
+          return "Invalid calendar date in Story Timeline.";
+        }
+      }
+    } else if (story.timelineEnabled === true && !String(story.timelineLabel || "").trim()) {
+      return "Choose a Timeline year or retain the existing legacy Timeline label.";
+    }
+
     const bannerError = validateBannerPath(story.banner, "Story");
     if (bannerError) return bannerError;
 
