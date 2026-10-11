@@ -26,7 +26,7 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  const attempt = limiter.check(req, res, "admin-login", {
+  const attempt = await limiter.checkAsync(req, res, "admin-login", {
     maxFailures: 6,
     windowMs: 15 * 60 * 1000,
     blockMs: 30 * 60 * 1000,
@@ -43,14 +43,14 @@ module.exports = async function handler(req, res) {
   const password = String(body.password || "").slice(0, 512);
 
   if (!admin.loginMatches(username, password)) {
-    limiter.recordFailure(attempt);
+    await limiter.recordFailureAsync(attempt);
     await new Promise(function (resolve) {
       setTimeout(resolve, 450);
     });
     return res.status(401).json({ error: "Wrong username or password." });
   }
 
-  limiter.reset(attempt);
+  await limiter.resetAsync(attempt);
   admin.setSessionCookie(res, admin.adminUsername());
   return res.status(200).json({
     ok: true,
