@@ -1429,27 +1429,6 @@
       "characterIds": [],
       "body": "",
       "synopsis": ""
-    },
-    {
-      "id": "story-1791729951915",
-      "title": "Incite",
-      "date": "2026-10-11",
-      "slug": "incite",
-      "seriesId": "series-1791729416326",
-      "subseriesId": "",
-      "order": 1,
-      "published": false,
-      "characterIds": [],
-      "body": "",
-      "format": "prose",
-      "contentWarning": "",
-      "banner": "",
-      "bannerPosition": "center",
-      "timelineEnabled": false,
-      "timelineLabel": "",
-      "timelineGroup": "",
-      "timelineOrder": 0,
-      "synopsis": ""
     }
   ],
   "worldEntries": [],
