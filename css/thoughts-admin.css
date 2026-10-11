@@ -1865,3 +1865,28 @@ body {
   font-size: 0.8rem;
   color: var(--muted);
 }
+
+/* Dialog close button: always visible, generous hit area. */
+.dialog-head .dialog-close {
+  font-size: 24px;
+  line-height: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: var(--muted);
+  flex: none;
+}
+
+.dialog-head .dialog-close:hover {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+}
+
+/* Dialog breathing room + guaranteed centering. */
+.editor-dialog {
+  margin: auto;
+  width: min(calc(100% - 48px), 560px);
+}
+
+.dialog-shell {
+  padding: 30px 30px 26px;
+}
