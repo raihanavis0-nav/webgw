@@ -236,9 +236,11 @@
         setSaveIndicator("Save failed", "error");
 
         if (error && error.status === 409) {
-          return loadData().then(function () {
-            throw error;
-          });
+          // Do not overwrite a draft with a fresh server snapshot on 409.
+          state.conflictDraft = clone(candidate);
+          var warning = $("conflictDraftBar");
+          if (warning) warning.hidden = false;
+          throw new Error("Archive changed elsewhere. Download your draft before reloading.");
         }
 
         throw error;
@@ -3454,4 +3456,27 @@
   }
 
   document.addEventListener("DOMContentLoaded", wire);
+  document.addEventListener("DOMContentLoaded", function () {
+    var download = $("downloadConflictDraft");
+    var reload = $("reloadConflictLibrary");
+    if (download) download.addEventListener("click", function () {
+      if (!state.conflictDraft) return;
+      var blob = new Blob([JSON.stringify(state.conflictDraft, null, 2)], { type: "application/json" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = "archive-unsaved-draft.json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    });
+    if (reload) reload.addEventListener("click", function () {
+      if (!state.conflictDraft || !window.confirm("Reload the latest archive? Export your draft first if you need it.")) return;
+      loadData().then(function () {
+        state.conflictDraft = null;
+        $("conflictDraftBar").hidden = true;
+      }).catch(function (error) { toast(error.message || "Could not reload", true); });
+    });
+  });
 })();
