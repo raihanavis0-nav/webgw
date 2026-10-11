@@ -33,5 +33,8 @@ jobs:
       - name: Test Reader appearance, auth and publishing
         run: node --test scripts/test-reader-regressions.js
 
+      - name: Guard Vercel Hobby Function budget and auth routing
+        run: node --test scripts/test-function-budget.js
+
       - name: Validate Vercel config
         run: node -e "JSON.parse(require('fs').readFileSync('vercel.json','utf8'))"
