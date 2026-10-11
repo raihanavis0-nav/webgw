@@ -425,6 +425,19 @@
     return "read?story=" + encodeURIComponent(slug);
   }
 
+  function storyFormat(story) {
+    return story && story.format === "screenplay" ? "screenplay" : "prose";
+  }
+
+  function readingMinutes(story) {
+    var text = String((story && story.body) || "")
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    var words = text ? text.split(" ").length : 0;
+    return Math.max(1, Math.round(words / 200));
+  }
+
   function createStoryList(stories) {
     var list = document.createElement("div");
     list.className = "story-list";
@@ -446,6 +459,22 @@
       link.href = storyUrl(story.slug);
       link.textContent = story.title || "Untitled";
       titleStack.appendChild(link);
+
+      var meta = document.createElement("p");
+      meta.className = "story-meta";
+
+      var badge = document.createElement("span");
+      var format = storyFormat(story);
+      badge.className = "format-badge format-" + format;
+      badge.textContent = format === "screenplay" ? "Script" : "Prose";
+      meta.appendChild(badge);
+
+      var minutes = document.createElement("span");
+      minutes.className = "story-reading-time";
+      minutes.textContent = readingMinutes(story) + " min read";
+      meta.appendChild(minutes);
+
+      titleStack.appendChild(meta);
 
       var synopsisText = String(story.synopsis || "").trim();
       if (synopsisText) {
@@ -474,6 +503,104 @@
     });
 
     return list;
+  }
+
+  // Story discovery: search + format filter + random, wrapping a story list.
+  function createStoryDiscovery(stories) {
+    var wrapper = document.createElement("div");
+    wrapper.className = "story-discovery";
+
+    var toolbar = document.createElement("div");
+    toolbar.className = "story-discovery-toolbar";
+
+    var search = document.createElement("input");
+    search.type = "search";
+    search.className = "archive-search-input";
+    search.placeholder = "Search stories";
+    search.setAttribute("aria-label", "Search stories");
+    search.autocomplete = "off";
+
+    var filters = document.createElement("div");
+    filters.className = "discovery-filters";
+    filters.setAttribute("role", "group");
+    filters.setAttribute("aria-label", "Filter by format");
+
+    var listHost = document.createElement("div");
+
+    var activeFormat = "all";
+
+    function currentFiltered() {
+      var q = search.value.trim().toLowerCase();
+      return (stories || []).filter(function (story) {
+        if (activeFormat !== "all" && storyFormat(story) !== activeFormat) {
+          return false;
+        }
+        if (!q) return true;
+        var hay = (
+          String(story.title || "") +
+          " " +
+          String(story.synopsis || "")
+        ).toLowerCase();
+        return hay.indexOf(q) !== -1;
+      });
+    }
+
+    function render() {
+      var filtered = currentFiltered();
+      listHost.innerHTML = "";
+      if (!filtered.length) {
+        var empty = document.createElement("p");
+        empty.className = "discovery-empty";
+        empty.textContent = "No stories match.";
+        listHost.appendChild(empty);
+        return;
+      }
+      listHost.appendChild(createStoryList(filtered));
+    }
+
+    [
+      ["all", "All"],
+      ["prose", "Prose"],
+      ["screenplay", "Script"]
+    ].forEach(function (pair) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "discovery-filter-btn";
+      btn.textContent = pair[1];
+      btn.setAttribute("aria-pressed", pair[0] === "all" ? "true" : "false");
+      btn.addEventListener("click", function () {
+        activeFormat = pair[0];
+        filters
+          .querySelectorAll(".discovery-filter-btn")
+          .forEach(function (b) {
+            b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+          });
+        render();
+      });
+      filters.appendChild(btn);
+    });
+
+    var random = document.createElement("button");
+    random.type = "button";
+    random.className = "discovery-random-btn";
+    random.textContent = "↯ Random";
+    random.setAttribute("aria-label", "Open a random story");
+    random.addEventListener("click", function () {
+      var pool = currentFiltered();
+      if (!pool.length) return;
+      var pick = pool[Math.floor(Math.random() * pool.length)];
+      window.location.href = storyUrl(pick.slug);
+    });
+
+    search.addEventListener("input", render);
+
+    toolbar.appendChild(search);
+    toolbar.appendChild(filters);
+    toolbar.appendChild(random);
+    wrapper.appendChild(toolbar);
+    wrapper.appendChild(listHost);
+    render();
+    return wrapper;
   }
 
   function archiveFocusStorageKey(kind, id) {
@@ -741,14 +868,14 @@
       var standalones = stories.filter(function (story) { return story.seriesId === series.id && !story.subseriesId; });
       if (standalones.length) {
         archiveHeading(host, "", "Standalone chapters", "");
-        host.appendChild(createStoryList(standalones));
+        host.appendChild(createStoryDiscovery(standalones));
       }
       return;
     }
     var chapters = stories.filter(function (story) { return story.subseriesId === book.id && story.seriesId === series.id; });
     var wrapper = document.createElement("div");
     wrapper.className = "archive-hierarchy-chapters";
-    wrapper.appendChild(createStoryList(chapters));
+    wrapper.appendChild(createStoryDiscovery(chapters));
     host.appendChild(wrapper);
   }
 
@@ -1582,7 +1709,10 @@
       back.href = "read" + (query.toString() ? "?" + query.toString() : "");
     }
     $("storyTitle").textContent = story.title || "Untitled";
-    $("storyDate").textContent = formatDate(story.date);
+    var dateText = formatDate(story.date);
+    var mins = readingMinutes(story);
+    $("storyDate").textContent =
+      (dateText ? dateText + " · " : "") + mins + " min read";
 
     // Banners are temporarily removed from the reader. Keep old uploads and metadata.
     var storyBanner = $("storyBanner");
