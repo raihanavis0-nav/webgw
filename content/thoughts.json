@@ -219,12 +219,14 @@
     {
       "id": "subseries-1790510739521",
       "seriesId": "series-1790083460918",
-      "name": "WHAT Spin-off : William",
+      "name": "Spin-off : William",
       "slug": "life-william-sub",
       "order": 6,
       "description": "",
       "banner": "",
-      "cover": ""
+      "cover": "",
+      "posters": [],
+      "posterRatio": "2:3"
     },
     {
       "id": "subseries-1791451921522",
