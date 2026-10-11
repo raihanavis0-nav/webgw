@@ -160,3 +160,34 @@ test("Chunked audio seeking reads only overlapping files", async () => {
     "assets/thoughts/audio/chunks/b.part"
   ]);
 });
+
+test("Character casting credits link to encoded Google Images and use one separator", () => {
+  const fs = require("node:fs");
+  const path = require("node:path");
+  const root = path.resolve(__dirname, "..");
+  const character = fs.readFileSync(path.join(root,"js/thoughts-character-detail.js"),"utf8");
+  const style = fs.readFileSync(path.join(root,"css/thoughts-reader-polish.css"),"utf8");
+  assert.match(character, /creditLink\.href = "https:\/\/www\.google\.com\/search\?tbm=isch&q=" \+ encodeURIComponent\(portrayed\)/);
+  assert.match(character, /creditLink\.rel = "noopener noreferrer"/);
+  assert.match(style, /\.character-detail-bio:has\(\+ \.character-detail-credit:not\(\[hidden\]\)\) > \.character-detail-fact:last-child/);
+});
+
+test("Opening Reader focuses a heading without outlining the full Library", () => {
+  const fs = require("node:fs");
+  const path = require("node:path");
+  const root = path.resolve(__dirname, "..");
+  const entrance = fs.readFileSync(path.join(root,"js/thoughts-entrance.js"),"utf8");
+  const style = fs.readFileSync(path.join(root,"css/thoughts-reader-polish.css"),"utf8");
+  assert.doesNotMatch(entrance, /main\.focus\(\{ preventScroll: true \}\)/);
+  assert.match(entrance, /heading\.focus\(\{ preventScroll: true \}\)/);
+  assert.match(style, /#readerArchiveTitle\[tabindex="-1"\]:focus/);
+});
+
+test("Timeline Admin has one primary title and no duplicate panel heading", () => {
+  const fs = require("node:fs");
+  const path = require("node:path");
+  const html = fs.readFileSync(path.resolve(__dirname,"../thoughts-admin.html"),"utf8");
+  assert.match(html, /id="adminLibraryTitle"/);
+  assert.match(html, /data-admin-panel="timeline"/);
+  assert.doesNotMatch(html, /<h2>Timeline Manager<\/h2>/);
+});
