@@ -62,3 +62,8 @@
   .timeline-wave-sort,.timeline-wave-select{min-height:36px}
 }
 @media(prefers-reduced-motion:reduce){.timeline-wave-card,.timeline-wave-chevron{transition:none}.timeline-wave-card:hover{transform:none}}
+
+
+.timeline-wave-empty{max-width:620px;margin:24px 0 65px;padding:30px 0 25px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.timeline-wave-empty h3{font:450 clamp(25px,3vw,35px)/1.1 var(--reader-display,Georgia,serif);letter-spacing:-.035em;margin:0 0 12px;color:var(--ink)}
+.timeline-wave-empty p{font:400 13px/1.7 var(--reader-ui,Inter,sans-serif);color:var(--muted);max-width:480px;margin:0}
