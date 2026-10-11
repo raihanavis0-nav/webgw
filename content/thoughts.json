@@ -806,6 +806,15 @@
       "order": 10,
       "bio": "",
       "portrait": ""
+    },
+    {
+      "id": "character-1791735265473",
+      "name": "Steffani Affina",
+      "seriesId": "series-1790083460918",
+      "subseriesId": "",
+      "order": 11,
+      "bio": "Name : Steffani Affina\nAge : 27\nBorn : Oxford, England\nHeight : 184\nRace : British-Lebanese",
+      "portrait": ""
     }
   ],
   "stories": [
