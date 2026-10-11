@@ -353,3 +353,13 @@ body.subseries-ui-themed .reader-reading-tools button{
   object-fit: contain;
   margin-bottom: 20px;
 }
+
+/* Reader typography: keep long Series names readable without hiding the poster grid. */
+.archive-hierarchy-heading h3 { font-size:clamp(38px,6.3vw,78px);line-height:1.02;letter-spacing:-.045em; }
+body[data-reader-scope="book"] .archive-hierarchy-heading h3 { font-size:clamp(40px,7.8vw,88px);line-height:1; }
+body[data-reader-scope="book"] .archive-hierarchy-heading { margin-bottom:clamp(24px,3.5vw,48px); }
+.reader-series-placeholder { font-size:clamp(60px,8vw,108px);font-weight:400; }
+@media(max-width:540px){
+  .archive-hierarchy-heading h3 { font-size:clamp(36px,9vw,52px); }
+  body[data-reader-scope="book"] .archive-hierarchy-heading h3 { font-size:clamp(38px,10vw,62px); }
+}
