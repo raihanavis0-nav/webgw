@@ -10,7 +10,48 @@ function bodyObject(req) {
   }
 }
 
+// The same Serverless Function handles admin login, logout, and session.
+// Vercel rewrites preserve the existing public endpoint URLs.
+function authenticationOperation(req) {
+  var action = req && req.query && req.query.authAction;
+  return typeof action === "string" ? action : "login";
+}
+
+function logoutHandler(req, res) {
+  admin.noStore(res);
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    return res.status(405).json({ error: "Method not allowed." });
+  }
+  if (!admin.requireSameOrigin(req, res)) return;
+  admin.clearSessionCookie(res);
+  return res.status(200).json({ ok: true });
+}
+
+function sessionHandler(req, res) {
+  admin.noStore(res);
+  if (req.method !== "GET") {
+    res.setHeader("Allow", "GET");
+    return res.status(405).json({ error: "Method not allowed." });
+  }
+  if (!admin.isConfigured()) {
+    return res.status(200).json({ configured: false, authenticated: false });
+  }
+  var session = admin.sessionFromRequest(req);
+  return res.status(200).json({
+    configured: true,
+    authenticated: Boolean(session),
+    username: session ? session.u : null,
+  });
+}
+
 module.exports = async function handler(req, res) {
+  // Existing routes are rewritten to this handler. Preserve method-specific
+  // CSRF protection and cookie semantics rather than redirecting requests.
+  const operation = authenticationOperation(req);
+  if (operation === "logout") return logoutHandler(req, res);
+  if (operation === "session") return sessionHandler(req, res);
+  if (operation !== "login") return res.status(404).json({ error: "Unknown authentication action." });
   admin.noStore(res);
 
   if (req.method !== "POST") {
