@@ -617,20 +617,11 @@
       "portrait": ""
     },
     {
-      "id": "character-1790516049305",
-      "name": "Damien Perucino",
-      "seriesId": "series-1790072885901",
-      "subseriesId": "",
-      "order": 15,
-      "bio": "",
-      "portrait": ""
-    },
-    {
       "id": "character-1790516062942",
       "name": "Fionna Staunter",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 16,
+      "order": 15,
       "bio": "",
       "portrait": ""
     },
@@ -648,7 +639,7 @@
       "name": "Garcon Basillone",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 17,
+      "order": 16,
       "bio": "",
       "portrait": "assets/thoughts/1791749332190-6735f8-chatgpt-image-oct-12-2026-03-09-59-am-2.webp"
     },
@@ -657,7 +648,7 @@
       "name": "Alisandre Sandorn",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 18,
+      "order": 17,
       "bio": "",
       "portrait": ""
     },
@@ -666,7 +657,7 @@
       "name": "Hammer Dandelion",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 20,
+      "order": 19,
       "bio": "",
       "portrait": ""
     },
@@ -675,7 +666,7 @@
       "name": "Aaron Renees",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 21,
+      "order": 20,
       "bio": "",
       "portrait": ""
     },
@@ -684,7 +675,7 @@
       "name": "Redryk Dance",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 22,
+      "order": 21,
       "bio": "",
       "portrait": "assets/thoughts/1791748680936-063ba8-chatgpt-image-oct-12-2026-02-54-21-am.webp"
     },
@@ -693,7 +684,7 @@
       "name": "Rayes Shai",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 23,
+      "order": 22,
       "bio": "",
       "portrait": ""
     },
@@ -702,7 +693,7 @@
       "name": "Norris Bronzecoat",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 24,
+      "order": 23,
       "bio": "",
       "portrait": "assets/thoughts/1791748492691-326c93-chibi-knight-with-brown-mustache.webp"
     },
@@ -711,7 +702,7 @@
       "name": "Benjamin Svorks",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 25,
+      "order": 24,
       "bio": "",
       "portrait": ""
     },
@@ -720,7 +711,7 @@
       "name": "Sabitha a Lua",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 26,
+      "order": 25,
       "bio": "",
       "portrait": ""
     },
@@ -729,7 +720,7 @@
       "name": "Taron Tarrigan",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 27,
+      "order": 26,
       "bio": "",
       "portrait": ""
     },
@@ -738,7 +729,7 @@
       "name": "Tommen",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 28,
+      "order": 27,
       "bio": "",
       "portrait": ""
     },
@@ -747,7 +738,7 @@
       "name": "Mercedes",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 29,
+      "order": 28,
       "bio": "",
       "portrait": ""
     },
@@ -756,7 +747,7 @@
       "name": "Eloise Dandelion",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 30,
+      "order": 29,
       "bio": "",
       "portrait": ""
     },
@@ -765,7 +756,7 @@
       "name": "Lyonel Dandelion",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 31,
+      "order": 30,
       "bio": "",
       "portrait": ""
     },
@@ -774,7 +765,7 @@
       "name": "Rohan Baricello",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 32,
+      "order": 31,
       "bio": "",
       "portrait": ""
     },
@@ -783,7 +774,7 @@
       "name": "Arkhan Koro",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 33,
+      "order": 32,
       "bio": "",
       "portrait": ""
     },
@@ -792,7 +783,7 @@
       "name": "Petyr Cloveryane",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 34,
+      "order": 33,
       "bio": "",
       "portrait": "assets/thoughts/1791749400107-8d3f5f-chatgpt-image-oct-12-2026-03-09-58-am-1.webp"
     },
@@ -828,7 +819,7 @@
       "name": "Rascal Solan",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 35,
+      "order": 34,
       "bio": "",
       "portrait": "assets/thoughts/1791749005847-678984-chatgpt-image-oct-12-2026-03-03-52-am-3.webp"
     },
@@ -837,7 +828,7 @@
       "name": "Damien Perucino",
       "seriesId": "series-1790072885901",
       "subseriesId": "",
-      "order": 19,
+      "order": 18,
       "bio": "",
       "portrait": "assets/thoughts/1791749374501-dd26b1-chatgpt-image-oct-12-2026-03-10-00-am-3.webp"
     }
