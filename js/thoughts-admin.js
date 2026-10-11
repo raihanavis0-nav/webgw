@@ -1963,6 +1963,7 @@
       published: false,
       characterIds: [],
       body: "",
+      format: "prose",
       banner: "",
       bannerPosition: "center",
       timelineEnabled: false,
@@ -2006,6 +2007,8 @@
     $("storyDateInput").value = draft.date || today();
     $("storyPublishedInput").checked = draft.published !== false;
     $("storyTitleInput").value = draft.title || "";
+    $("storyFormatInput").value = draft.format === "screenplay" ? "screenplay" : "prose";
+    applyStoryFormatUI();
     if (window.SubseriesThemeAdmin) window.SubseriesThemeAdmin.editorPaper(draft.subseriesId, state.data.subseries);
     $("storyBodyInput").value = draft.body || "";
     $("storySlugInput").value = draft.slug || "";
@@ -2025,6 +2028,21 @@
     }, 120);
   }
 
+  // Screenplay mode: toggles the script block toolbar and the
+  // is-screenplay preview styling on the WYSIWYG editor.
+  function applyStoryFormatUI() {
+    var draft = state.storyDraft || {};
+    var isScreenplay =
+      $("storyFormatInput").value === "screenplay" ||
+      draft.format === "screenplay";
+
+    var group = $("screenplayToolbarGroup");
+    if (group) group.hidden = !isScreenplay;
+
+    var editor = $("storyBodyEditor");
+    if (editor) editor.classList.toggle("is-screenplay", isScreenplay);
+  }
+
   function collectStoryDraft() {
     var draft = clone(state.storyDraft || {});
     draft.title = $("storyTitleInput").value.trim();
@@ -2032,6 +2050,7 @@
     draft.seriesId = $("storySeriesInput").value;
     draft.subseriesId = $("storySubseriesInput").value || "";
     draft.published = $("storyPublishedInput").checked;
+    draft.format = $("storyFormatInput").value === "screenplay" ? "screenplay" : "prose";
     draft.body = $("storyBodyInput").value.replace(/\s+$/, "");
     draft.slug = slugify($("storySlugInput").value || draft.title);
     draft.order = numberValue($("storyOrderInput").value);
@@ -2268,6 +2287,7 @@
     var draft = collectStoryDraft();
     $("storySlugInput").value = draft.slug || slugify(draft.title);
     $("storyOrderInput").value = String(draft.order || 0);
+    $("storyFormatInput").value = draft.format === "screenplay" ? "screenplay" : "prose";
     $("storyTimelineEnabledInput").checked = Boolean(draft.timelineEnabled);
     $("storyTimelineLabelInput").value = draft.timelineLabel || "";
     $("storyTimelineGroupInput").value = draft.timelineGroup || "";
@@ -2282,6 +2302,9 @@
       $("storySlugInput").value || $("storyTitleInput").value
     );
     state.storyDraft.order = numberValue($("storyOrderInput").value);
+    state.storyDraft.format =
+      $("storyFormatInput").value === "screenplay" ? "screenplay" : "prose";
+    applyStoryFormatUI();
     state.storyDraft.timelineEnabled = $("storyTimelineEnabledInput").checked;
     state.storyDraft.timelineLabel = $("storyTimelineLabelInput").value.trim();
     state.storyDraft.timelineGroup = $("storyTimelineGroupInput").value.trim();
@@ -3235,6 +3258,13 @@
       "click",
       applyStoryProperties
     );
+    $("storyFormatInput").addEventListener("change", function () {
+      if (!state.storyDraft) return;
+      state.storyDraft.format =
+        $("storyFormatInput").value === "screenplay" ? "screenplay" : "prose";
+      applyStoryFormatUI();
+      markDirty();
+    });
     $("deleteStoryBtn").addEventListener("click", deleteStory);
 
     window.addEventListener("beforeunload", function (event) {
