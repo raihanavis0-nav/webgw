@@ -123,12 +123,22 @@
       "cover": "",
       "uiTheme": {
         "background": "#D600AF",
-        "font": "Inter"
+        "font": "Inter",
+        "accent": "#FFFFFF"
       },
       "paperTheme": {
-        "background": "#FFFDF7"
+        "background": "#FFFDF7",
+        "width": "standard",
+        "radius": "square"
       },
-      "posters": [],
+      "posters": [
+        {
+          "path": "assets/thoughts/1791726312243-961bed-group-1-copy-3.webp",
+          "x": 50,
+          "y": 50,
+          "zoom": 100
+        }
+      ],
       "posterRatio": "2:3"
     },
     {
