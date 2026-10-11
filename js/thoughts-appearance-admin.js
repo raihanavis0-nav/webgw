@@ -212,6 +212,7 @@
   function uploadFile(name, file) {
     if (!file) return;
     if (!/^image\/(gif|png|jpeg|webp)$/i.test(file.type)) { showStatus("Use GIF, PNG, JPEG, or WebP.", true); return; }
+    if (file.type === "image/gif" && file.size > 900000) showStatus("Tip: GIFs over 900 KB may feel slow on mobile. Consider a shorter optimized loop.");
     if (previewUrls[name]) URL.revokeObjectURL(previewUrls[name]);
     previewUrls[name] = URL.createObjectURL(file);
     updatePreview();
