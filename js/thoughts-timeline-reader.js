@@ -58,8 +58,8 @@
       detail.appendChild(summary);
       var body = el("div","timeline-wave-year-body");
       var laneNo = 0;
-      var allLanes = [];
       year.periods.forEach(function (period) {
+        var periodLanes = [];
         var stack = el("section","timeline-wave-period");
         var periodLabel = el("h3","timeline-wave-period-title",period.label);
         stack.appendChild(periodLabel);
@@ -88,11 +88,11 @@
             card.appendChild(arrow);
             cell.appendChild(card);row.appendChild(cell);
           });
-          stack.appendChild(row);allLanes.push(row);laneNo++;
+          stack.appendChild(row);periodLanes.push(row);laneNo++;
         }
+        periodLanes.forEach(function (row,i) {if (i < periodLanes.length-1) row.classList.add("has-next");});
         body.appendChild(stack);
       });
-      allLanes.forEach(function (row,i) { if (i<allLanes.length-1) row.classList.add("has-next");});
       detail.appendChild(body);
       host.appendChild(detail);
     });
