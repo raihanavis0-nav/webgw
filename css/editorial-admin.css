@@ -32,7 +32,9 @@
 #entityForm[data-active-entity-tab="posters"] #subseriesThemeField,
 #entityForm[data-active-entity-tab="appearance"] #editorialGeneralFields,
 #entityForm[data-active-entity-tab="appearance"] #seriesPostersField{display:none!important;}
-#entityForm[data-active-entity-tab] #entityCoverField,
+/* Cover upload belongs to Posters, not General or Appearance. */
+#entityForm[data-active-entity-tab="general"] #entityCoverField,
+#entityForm[data-active-entity-tab="appearance"] #entityCoverField,
 #entityForm[data-active-entity-tab] #entityBannerField,
 #seriesPosterCopyParent{display:none!important;}
 .entity-general-fields{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;min-width:0;}
