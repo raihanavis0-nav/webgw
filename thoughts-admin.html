@@ -56,7 +56,7 @@
     <div class="admin-page" id="adminApp" hidden>
       <header class="admin-header">
         <div class="admin-header-inner">
-          <button class="admin-brand" id="homeButton" type="button">Stories <span>/ Admin</span></button>
+          <button class="admin-brand" id="homeButton" type="button" aria-label="Stories admin home"><img class="admin-logo" id="adminLogo" src="assets/img/logo-railnavis.png" alt="Railnavis" /></button>
           <div class="admin-header-actions">
             <span class="save-indicator" id="saveIndicator">Saved</span>
             <div class="theme-switch" role="group" aria-label="Color theme">
@@ -139,6 +139,28 @@
 <label for="appearanceTitle">Reader title<input id="appearanceTitle" type="text" maxlength="120" placeholder="Archive" /></label>
 <label for="appearanceSubtitle">Subtitle<textarea id="appearanceSubtitle" rows="3" maxlength="280" placeholder="Introduce your worlds..."></textarea></label>
 <label for="appearanceAccent">Accent color<input id="appearanceAccent" type="color" value="#92785b" /></label>
+</section>
+<section class="appearance-group"><h3>Interface</h3><p>Fonts and logo for the reader. Saved with the appearance — no code changes needed.</p>
+<div class="appearance-controls-grid">
+<label for="appearanceDisplayFont">Headings font<select id="appearanceDisplayFont">
+<option value="Inter">Inter</option>
+<option value="Newsreader">Newsreader (serif)</option>
+<option value="Space Grotesk">Space Grotesk</option>
+<option value="Instrument Serif">Instrument Serif</option>
+<option value="Archivo">Archivo</option>
+</select></label>
+<label for="appearanceBodyFont">Story text font<select id="appearanceBodyFont">
+<option value="Inter">Inter</option>
+<option value="Newsreader">Newsreader (serif)</option>
+<option value="Space Grotesk">Space Grotesk</option>
+<option value="Instrument Serif">Instrument Serif</option>
+<option value="Archivo">Archivo</option>
+</select></label>
+</div>
+<label for="appearanceLogoUpload">Logo<input id="appearanceLogoUpload" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" /></label>
+<div class="appearance-logo-preview"><img id="appearanceLogoPreview" alt="Logo preview" hidden /><span id="appearanceLogoEmpty">No logo uploaded — using the default Railnavis logo.</span></div>
+<div><button class="quiet-action" type="button" id="appearanceLogoRemove">Remove logo</button>
+<button class="quiet-action" type="button" id="appearanceLogoReset">Use default logo</button></div>
 </section>
 <section class="appearance-group"><h3>Login artwork / decorative GIF</h3><p>Supports GIF, PNG, JPEG, WebP. GIF stays animated. Drag the preview to reposition artwork.</p>
 <label for="appearanceLoginUpload">Image / GIF<input id="appearanceLoginUpload" type="file" accept="image/gif,image/png,image/jpeg,image/webp" /></label>
