@@ -4,7 +4,7 @@
   "use strict";
 
   var MIN_OPEN_MS = 1500;
-  var APPEARANCE_FALLBACK_MS = 3000;
+  var APPEARANCE_FALLBACK_MS = 1850;
   var started = Date.now();
   var intro = null;
   var readyButton = null;
