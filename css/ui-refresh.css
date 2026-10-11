@@ -127,3 +127,16 @@ body:not(.thoughts-admin-body) :is(.archive-collection-card,.reader-series-frame
   #entityDialog #entityCoverField:not([hidden]){padding:15px;}
   #entityDialog .cover-admin-editor{grid-template-columns:85px minmax(0,1fr);gap:12px;}
 }
+
+/* Conflict recovery stays available until the owner explicitly downloads or reloads. */
+.admin-conflict-bar[hidden] { display:none!important; }
+.admin-conflict-bar { display:flex;flex-wrap:wrap;align-items:center;gap:12px;
+  padding:12px max(18px,calc((100vw - 980px)/2));background:var(--soft);
+  border-block:1px solid var(--line);font-size:12px;line-height:1.6; }
+.admin-conflict-bar span { flex:1 1 240px; }
+.admin-conflict-bar button { padding:8px 12px;border:1px solid var(--line);border-radius:8px;color:var(--ink);background:var(--paper);cursor:pointer; }
+.admin-conflict-bar button:focus-visible { outline:2px solid var(--ink);outline-offset:2px; }
+.reader-entrance #readerLoadRetry:not([hidden]) { display:inline-flex;justify-content:center;align-items:center;
+  width:100%;padding:12px;border:1px solid var(--line);border-radius:9px;cursor:pointer;
+  background:var(--soft);color:var(--ink); }
+.archive-section-nav [data-archive-view][hidden] { display:none!important; }
