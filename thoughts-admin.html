@@ -88,6 +88,7 @@
             <button type="button" data-admin-view="stories" aria-pressed="true">Stories</button>
             <button type="button" data-admin-view="characters" aria-pressed="false">Characters</button>
             <button type="button" data-admin-view="world" aria-pressed="false">World</button>
+            <button type="button" data-admin-view="timeline" aria-pressed="false">Timeline</button>
             <button type="button" data-admin-view="appearance" aria-pressed="false">Reader Appearance</button>
           </nav>
 
@@ -111,6 +112,26 @@
             </div>
             <div class="character-grid" id="adminCharacterGrid"></div>
             <div class="admin-empty" id="charactersEmpty" hidden><p>No characters yet.</p></div>
+          </section>
+
+          <section class="library-section admin-library-panel timeline-manager" data-admin-panel="timeline" hidden>
+            <div class="section-heading admin-section-heading">
+              <div><h2>Timeline Manager</h2><p class="admin-section-note">When each episode takes place in the story, separate from its publication date.</p></div>
+            </div>
+            <div class="timeline-manager-toolbar">
+              <label><span>Series</span><select id="timelineManagerSeries" aria-label="Filter Timeline by series"></select></label>
+              <label><span>Sub-series</span><select id="timelineManagerBook" aria-label="Filter Timeline by sub-series"></select></label>
+              <label><span>Status</span><select id="timelineManagerStatus"><option value="all">All episodes</option><option value="dated">On Timeline</option><option value="undated">Not dated</option></select></label>
+              <label class="timeline-manager-search"><span>Find episode</span><input id="timelineManagerSearch" type="search" placeholder="Search episode title" autocomplete="off" /></label>
+            </div>
+            <div class="timeline-manager-overview"><span id="timelineManagerStats" role="status">0 episodes</span><span>Dates are sorted automatically in the Reader.</span></div>
+            <div class="timeline-manager-list" id="timelineManagerList"></div>
+            <div class="timeline-manager-footer">
+              <span id="timelineManagerPending" role="status">All changes saved</span>
+              <button type="button" class="quiet-action" id="timelineManagerDiscard">Discard</button>
+              <button type="button" class="primary-action" id="timelineManagerSave" disabled>Save timeline dates</button>
+            </div>
+            <p id="timelineManagerMessage" class="timeline-manager-message" role="status" aria-live="polite"></p>
           </section>
 
           <section class="library-section admin-library-panel" data-admin-panel="world" hidden>
@@ -609,14 +630,42 @@
         </div>
         <p class="portrait-help">Screenplay enables script block styles (scene, character, dialogue) in the editor and a screenplay layout in the reader.</p>
 
-        <div class="dialog-section-divider">
+        <div class="dialog-section-divider story-timeline-properties">
           <div class="dialog-field checkbox-field">
             <label class="plain-checkbox"><input id="storyTimelineEnabledInput" type="checkbox" /> <span>Include in Timeline</span></label>
           </div>
-          <div class="dialog-field"><label for="storyTimelineLabelInput">Timeline label <span class="optional">(free text)</span></label><input id="storyTimelineLabelInput" type="text" autocomplete="off" placeholder="20 September 2020 / Late Summer / Three days later" /></div>
-          <div class="dialog-field"><label for="storyTimelineGroupInput">Group / era <span class="optional">(optional)</span></label><input id="storyTimelineGroupInput" type="text" autocomplete="off" placeholder="September 2020 / College Years / Prequel" /></div>
-          <div class="dialog-field"><label for="storyTimelineOrderInput">Timeline order <span class="optional">(manual chronology)</span></label><input id="storyTimelineOrderInput" type="number" step="1" value="0" /></div>
-          <p class="portrait-help">Timeline does not use the Story date. The label can be fictional, approximate, or relative; order controls chronology.</p>
+          <p class="portrait-help">Set when this episode takes place in the story, independently of its publication date. You can also manage all episode dates in Timeline Manager.</p>
+          <div class="story-timeline-controls">
+            <label class="dialog-field" for="storyTimelinePrecisionInput">Date precision
+              <select id="storyTimelinePrecisionInput">
+                <option value="day">Exact date</option><option value="month">Month and year</option>
+                <option value="season">Season and year</option><option value="year">Year only</option>
+              </select>
+            </label>
+            <label class="dialog-field" for="storyTimelineYearInput">Year
+              <input id="storyTimelineYearInput" type="number" min="1" max="9999" step="1" placeholder="2020" />
+            </label>
+            <label class="dialog-field" for="storyTimelineMonthInput" id="storyTimelineMonthField">Month
+              <select id="storyTimelineMonthInput">
+                <option value="">Select month</option>
+                <option value="1">January</option><option value="2">February</option><option value="3">March</option>
+                <option value="4">April</option><option value="5">May</option><option value="6">June</option>
+                <option value="7">July</option><option value="8">August</option><option value="9">September</option>
+                <option value="10">October</option><option value="11">November</option><option value="12">December</option>
+              </select>
+            </label>
+            <label class="dialog-field" for="storyTimelineDayInput" id="storyTimelineDayField">Day
+              <input id="storyTimelineDayInput" type="number" min="1" max="31" step="1" placeholder="20" />
+            </label>
+            <label class="dialog-field" for="storyTimelineSeasonInput" id="storyTimelineSeasonField" hidden>Season
+              <select id="storyTimelineSeasonInput"><option value="">Select season</option>
+                <option value="spring">Spring</option><option value="summer">Summer</option>
+                <option value="autumn">Autumn</option><option value="winter">Winter</option>
+              </select>
+            </label>
+          </div>
+          <p class="timeline-story-preview" id="storyTimelinePreview" role="status"></p>
+          <p class="timeline-story-error" id="storyTimelineError" role="alert"></p>
         </div>
 
         <div class="dialog-foot"><button class="danger-action" id="deleteStoryBtn" type="button">Delete story</button><span class="dialog-spacer"></span><button class="quiet-action" id="duplicateStoryBtn" type="button">Duplicate</button><button class="primary-action" id="closeStoryActionsDoneBtn" type="button">Done</button></div>
