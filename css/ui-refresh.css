@@ -65,13 +65,13 @@
 .character-detail-kicker{display:inline-flex;width:fit-content;padding:6px 10px;border:1px solid color-mix(in srgb,var(--ink) 26%,transparent);border-radius:99px;font:650 10px/1 Inter,system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;margin:0 0 14px;}
 .character-detail-copy h2{font:500 clamp(2.1rem,5vw,3.5rem)/1.02 "Newsreader",Georgia,serif;letter-spacing:-.035em;overflow-wrap:anywhere;}
 .character-detail-meta{margin:14px 0 0;}
-.character-detail-rule{margin:22px 0 17px;opacity:.7;}
-.character-detail-bio{display:grid;gap:10px;white-space:normal;font-size:15px;line-height:1.55;}
-.character-detail-fact{display:grid;grid-template-columns:minmax(92px,115px) minmax(0,1fr);gap:12px;align-items:baseline;padding:0 0 10px;border-bottom:1px solid color-mix(in srgb,var(--ink) 12%,transparent);}
+.character-detail-rule{margin:18px 0 7px;opacity:.7;}
+.character-detail-bio{display:grid;gap:0;align-content:start;white-space:normal;font-size:15px;line-height:1.55;}
+.character-detail-fact{display:grid;grid-template-columns:minmax(92px,115px) minmax(0,1fr);gap:12px;align-items:baseline;margin:0;padding:8px 0;border-bottom:1px solid color-mix(in srgb,var(--ink) 12%,transparent);}
 .character-detail-fact dt{margin:0;color:var(--ink);opacity:.7;font:650 11px/1.4 Inter,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.04em;}
 .character-detail-fact dd{margin:0;min-width:0;overflow-wrap:anywhere;font:500 14px/1.5 Inter,system-ui,sans-serif;}
-.character-detail-paragraph{margin:0;white-space:pre-line;overflow-wrap:anywhere;}
-.character-detail-paragraph:last-child:not(:first-child){margin-top:10px;}
+.character-detail-paragraph{margin:0;padding-top:12px;white-space:pre-line;overflow-wrap:anywhere;}
+.character-detail-paragraph:last-child:not(:first-child){margin-top:4px;}
 .character-detail-close{top:18px;right:18px;background:var(--paper);border-color:color-mix(in srgb,var(--ink) 30%,transparent);}
 @media(max-width:700px){
  #entityDialog .series-posters-editor{grid-template-columns:minmax(0,1fr);}
