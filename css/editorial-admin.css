@@ -35,8 +35,14 @@
 #entityForm[data-active-entity-tab] #entityCoverField,
 #entityForm[data-active-entity-tab] #entityBannerField,
 #seriesPosterCopyParent{display:none!important;}
-.entity-general-fields{display:grid;gap:10px;}
-#entityDialog .dialog-shell{width:min(calc(100vw - 24px),820px);}
+.entity-general-fields{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;min-width:0;}
+#entityDialog .entity-general-fields .dialog-field{min-width:0;margin-top:0;}
+#entityDialog .entity-general-fields .dialog-field :is(input,select,textarea){max-width:100%;min-width:0;}
+#entityDialog .entity-general-fields .dialog-field :is(input,select){min-height:46px;}
+#entityDialog .entity-general-fields .dialog-field textarea{min-height:150px;}
+/* Match modal width to content to prevent the inner 820px horizontal scrollbar. */
+#entityDialog{width:min(820px,calc(100vw - 32px))!important;max-width:calc(100vw - 32px)!important;overflow:hidden;}
+#entityDialog .dialog-shell{width:100%;max-width:100%;min-width:0;}
 #entityDialog .dialog-head h2{font-size:clamp(28px,4vw,44px);}
 #entityDialog .dialog-field{border-top:0;}
 #entityDialog #seriesPostersField{padding-top:0;border:0;}
@@ -51,5 +57,6 @@
 @media(max-width:680px){
   .admin-main{width:calc(100% - 32px);padding:28px 0 65px;}
   .editorial-entity-tabs{gap:20px;}
-  #entityDialog .dialog-shell{width:min(calc(100vw - 14px),820px);}
+  #entityDialog{width:calc(100vw - 20px)!important;max-width:calc(100vw - 20px)!important;max-height:calc(100dvh - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom));}
+  #entityDialog .dialog-shell{width:100%;padding:20px!important;}
 }
