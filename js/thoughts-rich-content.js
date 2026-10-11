@@ -13,6 +13,20 @@
     "TEXTAREA", "SELECT", "OPTION", "SVG", "MATH", "META", "LINK"
   ]);
 
+  // Screenplay block classes. The sanitizer strips every other class, so
+  // script formatting survives save/load only through this allowlist.
+  var SCREENPLAY_CLASSES = new Set([
+    "sp-scene",
+    "sp-action",
+    "sp-character",
+    "sp-dialogue",
+    "sp-parenthetical",
+    "sp-transition"
+  ]);
+
+  // Tags allowed to carry screenplay classes.
+  var SCREENPLAY_CLASS_TAGS = new Set(["P", "DIV"]);
+
   var FONT_FAMILIES = new Set([
     "Newsreader",
     "Inter",
@@ -160,6 +174,15 @@
 
         var style = cleanStyle(original.style || "");
         if (style && tag !== "IMG") node.setAttribute("style", style);
+
+        if (SCREENPLAY_CLASS_TAGS.has(tag)) {
+          var spClasses = String(original["class"] || "")
+            .split(/\s+/)
+            .filter(function (c) {
+              return SCREENPLAY_CLASSES.has(c);
+            });
+          if (spClasses.length) node.setAttribute("class", spClasses.join(" "));
+        }
 
         if (tag === "FONT") {
           var face = String(original.face || "").replace(/["']/g, "").split(",")[0].trim();

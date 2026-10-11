@@ -1593,6 +1593,13 @@
 
     renderStoryBody(story.body || "");
 
+    // Screenplay stories get script typography (see css/thoughts-screenplay.css).
+    // Stories without a format field default to prose.
+    var isScreenplay = story.format === "screenplay";
+    var bodyHost = $("storyBody");
+    if (bodyHost) bodyHost.classList.toggle("is-screenplay", isScreenplay);
+    document.body.dataset.storyFormat = isScreenplay ? "screenplay" : "prose";
+
     renderStoryCharacters(story);
     renderStoryNav(story);
 
