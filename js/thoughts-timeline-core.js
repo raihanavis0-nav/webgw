@@ -65,7 +65,10 @@
   function bucket(p) {
     if (p.precision === "season") return {key:p.season,label:p.season.charAt(0).toUpperCase()+p.season.slice(1),position:seasonNumber(p.season)*32};
     if (p.precision === "day" || p.precision === "month") {
-      return {key:String(p.month),label:MONTHS[p.month-1],position:p.month*32};
+      // Months stay precise on episode cards, while seasonal grouping
+      // dramatically reduces the number of horizontal lanes.
+      var season = seasonOfMonth(p.month);
+      return {key:season,label:season.charAt(0).toUpperCase()+season.slice(1),position:p.month*32};
     }
     return {key:"year",label:"Year only",position:0};
   }
