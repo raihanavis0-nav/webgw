@@ -158,7 +158,11 @@
     var node = $("saveIndicator");
     if (!node) return;
 
-    node.textContent = text;
+    var label = node.querySelector("span");
+    if (label) label.textContent = text;
+    else node.textContent = text;
+    node.setAttribute("aria-label", text);
+    node.setAttribute("title", text);
     node.classList.toggle("is-saving", mode === "saving");
     node.classList.toggle("is-error", mode === "error");
   }
