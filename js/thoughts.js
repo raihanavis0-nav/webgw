@@ -1438,78 +1438,23 @@
     syncPanelContext("timelineSection");
     var section = $("timelineSection");
     var host = $("timelineList");
-    host.innerHTML = "";
-
-    var stories = state.data.stories
-      .filter(function (story) {
-        return (
-          story &&
-          (!seriesContext().seriesId || story.seriesId === seriesContext().seriesId) &&
-          story.timelineEnabled === true &&
-          String(story.timelineLabel || "").trim()
-        );
-      })
-      .slice()
-      .sort(function (a, b) {
-        var order = Number(a.timelineOrder || 0) - Number(b.timelineOrder || 0);
-        return order || sortStories(a, b);
+    var context = seriesContext();
+    if (window.ArchiveTimelineReader && window.ArchiveTimeline) {
+      var count = window.ArchiveTimelineReader.render({
+        host: host,
+        stories: state.data.stories,
+        seriesId: context.seriesId || "",
+        subseriesId: context.bookId || "",
+        seriesById: seriesById,
+        subseriesById: subseriesById,
+        storyUrl: storyUrl
       });
-
-    var lastGroup = null;
-
-    stories.forEach(function (story) {
-      var group = String(story.timelineGroup || "").trim();
-
-      if (group && group !== lastGroup) {
-        var groupHeading = document.createElement("div");
-        groupHeading.className = "timeline-group-heading";
-        groupHeading.textContent = group;
-        host.appendChild(groupHeading);
-      }
-      lastGroup = group;
-
-      var row = document.createElement("article");
-      row.className = "timeline-entry";
-
-      var label = document.createElement("div");
-      label.className = "timeline-label";
-      label.textContent = story.timelineLabel;
-
-      var copy = document.createElement("div");
-      copy.className = "timeline-copy";
-
-      var title = document.createElement("h3");
-      var link = document.createElement("a");
-      link.href = storyUrl(story.slug);
-      link.textContent = story.title || "Untitled";
-      title.appendChild(link);
-
-      var meta = document.createElement("p");
-      meta.className = "timeline-meta";
-      var series = seriesById(story.seriesId);
-      var subseries = subseriesById(story.subseriesId);
-      meta.textContent = [series && series.name, subseries && subseries.name]
-        .filter(Boolean)
-        .join(" / ");
-
-      copy.appendChild(title);
-      if (meta.textContent) copy.appendChild(meta);
-
-      if (story.synopsis) {
-        var synopsis = document.createElement("p");
-        synopsis.className = "timeline-synopsis";
-        synopsis.textContent = story.synopsis;
-        copy.appendChild(synopsis);
-      }
-
-      row.appendChild(label);
-      row.appendChild(copy);
-      host.appendChild(row);
-    });
-
-    section.dataset.hasContent = stories.length ? "true" : "false";
+      section.dataset.hasContent = count ? "true" : "false";
+      return;
+    }
+    host.replaceChildren();
+    section.dataset.hasContent = "false";
   }
-
 
   function renderHome() {
     $("libraryHome").hidden = false;
