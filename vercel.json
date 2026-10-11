@@ -159,6 +159,14 @@
   ],
   "rewrites": [
     {
+      "source": "/api/thoughts-admin/logout",
+      "destination": "/api/thoughts-admin/login?authAction=logout"
+    },
+    {
+      "source": "/api/thoughts-admin/session",
+      "destination": "/api/thoughts-admin/login?authAction=session"
+    },
+    {
       "source": "/read",
       "destination": "/thoughts"
     },
