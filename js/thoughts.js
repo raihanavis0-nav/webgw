@@ -749,6 +749,47 @@
     renderHome();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
+  function renderBreadcrumb(targetId, seriesId, bookId, chapterName) {
+    var host = $(targetId);
+    if (!host) return false;
+    host.replaceChildren();
+
+    var series = seriesId ? seriesById(seriesId) : null;
+    var subseries = series && bookId ? subseriesById(bookId) : null;
+    if (subseries && String(subseries.seriesId) !== String(series.id)) subseries = null;
+    var items = [];
+    items.push({ label: "Library", href: "read" });
+    function hrefFor(id, book) {
+      var q = new URLSearchParams();
+      if (id) q.set("series", id);
+      if (book) q.set("book", book);
+      return "read" + (q.toString() ? "?" + q.toString() : "");
+    }
+    if (series) items.push({ label: series.name || "Series", href: hrefFor(series.id) });
+    if (subseries) items.push({ label: subseries.name || "Sub-series", href: hrefFor(series.id, subseries.id) });
+    if (chapterName) items.push({ label: chapterName, href: "" });
+
+    // Do not add a redundant breadcrumb to the top-level series gallery.
+    var visible = items.length > 1;
+    host.hidden = !visible;
+    host.classList.toggle("is-visible", visible);
+    if (!visible) return false;
+
+    var list = document.createElement("ol");
+    items.forEach(function (item, index) {
+      var li = document.createElement("li");
+      var last = index === items.length - 1;
+      var node = document.createElement(last ? "span" : "a");
+      node.textContent = item.label;
+      if (last) node.setAttribute("aria-current", "page");
+      else node.href = item.href;
+      li.appendChild(node);
+      list.appendChild(li);
+    });
+    host.appendChild(list);
+    return true;
+  }
+
   function archiveHeading(host, label, title, description, back) {
     var wrap = document.createElement("header");
     wrap.className = "archive-hierarchy-heading";
@@ -1419,6 +1460,8 @@
     var tab = document.querySelector('[data-archive-view="stories"]');
     if (tab) tab.textContent = chosenBook ? "Chapters" : "Series";
     $("archiveSectionNav").hidden = !hasSeries;
+    var hasBreadcrumb = renderBreadcrumb("readerHierarchyNav", hasSeries ? context.seriesId : "", chosenBook ? context.bookId : "", "");
+    $("libraryHome").classList.toggle("has-reader-breadcrumb", hasBreadcrumb);
 
     renderSeries();
     renderCharacters();
@@ -1529,6 +1572,8 @@
     if (subseries) path.push(subseries.name);
 
     $("storyPath").textContent = path.join(" / ");
+    var chapterBreadcrumb = renderBreadcrumb("readerStoryBreadcrumb", story.seriesId, story.subseriesId, story.title || "Chapter");
+    $("storyView").classList.toggle("has-reader-breadcrumb", chapterBreadcrumb);
     var back = $("readerStoryBack");
     if (back) {
       var query = new URLSearchParams();
