@@ -887,6 +887,62 @@
     card.addEventListener("click", onClick);
     return card;
   }
+  // Poster layout is a reader preference, not a change to the Series data.
+  var POSTER_LAYOUT_KEY = "thoughts_subseries_poster_layout";
+  function savedPosterLayout() {
+    try {
+      return localStorage.getItem(POSTER_LAYOUT_KEY) === "list" ? "list" : "grid";
+    } catch (_) {
+      return "grid";
+    }
+  }
+
+  function createPosterLayoutSwitch(grid) {
+    var bar = document.createElement("div");
+    bar.className = "reader-poster-layout-bar";
+    var label = document.createElement("span");
+    label.className = "reader-poster-layout-label";
+    label.textContent = "VIEW";
+    bar.appendChild(label);
+
+    var group = document.createElement("div");
+    group.className = "reader-poster-layout-switch";
+    group.setAttribute("role", "group");
+    group.setAttribute("aria-label", "Sub-series poster layout");
+    var buttons = {};
+    var icons = {
+      grid: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>',
+      list: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5h12M9 12h12M9 19h12"/><rect x="3" y="3" width="3" height="4" rx=".5"/><rect x="3" y="10" width="3" height="4" rx=".5"/><rect x="3" y="17" width="3" height="4" rx=".5"/></svg>'
+    };
+    function apply(layout) {
+      var list = layout === "list";
+      grid.classList.toggle("is-list-view", list);
+      buttons.grid.setAttribute("aria-pressed", String(!list));
+      buttons.list.setAttribute("aria-pressed", String(list));
+      try {
+        localStorage.setItem(POSTER_LAYOUT_KEY, list ? "list" : "grid");
+      } catch (_) {}
+    }
+    ["grid", "list"].forEach(function (layout) {
+      var button = document.createElement("button");
+      button.type = "button";
+      button.className = "reader-poster-layout-button";
+      button.setAttribute("aria-label", layout === "grid" ? "Grid view" : "List view");
+      button.title = layout === "grid" ? "Grid view" : "List view";
+      button.innerHTML = icons[layout];
+      button.addEventListener("click", function () { apply(layout); });
+      buttons[layout] = button;
+      group.appendChild(button);
+    });
+    bar.appendChild(group);
+    // Apply stored layout without persisting or rerendering the poster cards.
+    var list = savedPosterLayout() === "list";
+    grid.classList.toggle("is-list-view", list);
+    buttons.grid.setAttribute("aria-pressed", String(!list));
+    buttons.list.setAttribute("aria-pressed", String(list));
+    return bar;
+  }
+
   function renderSeriesNavigator() {
     var host = $("seriesList");
     host.innerHTML = "";
@@ -946,6 +1002,7 @@
           goToCollection(series.id, item.id, "stories");
         }, mediaUrl, "Book"));
       });
+      if (books.length) host.appendChild(createPosterLayoutSwitch(bookGrid));
       host.appendChild(bookGrid);
       var standalones = stories.filter(function (story) { return story.seriesId === series.id && !story.subseriesId; });
       if (standalones.length) {
