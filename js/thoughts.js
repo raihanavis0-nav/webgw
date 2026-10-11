@@ -859,12 +859,27 @@
     if (staticHeading) staticHeading.hidden = Boolean(series);
     if (!series) {
       var seriesGrid = document.createElement("div");
-      seriesGrid.className = "reader-series-grid";
+      seriesGrid.className = "reader-series-grid reader-library-books";
       state.data.series.slice().sort(sortByOrderName).forEach(function (item) {
-        var count = stories.filter(function (story) { return story.seriesId === item.id; }).length;
-        seriesGrid.appendChild(window.ArchiveSeriesPostersReader.create(item, count, function () {
-          goToCollection(item.id, "", "stories");
-        }, mediaUrl));
+        var chapterList = stories.filter(function (story) { return story.seriesId === item.id; });
+        var count = chapterList.length;
+        var books = state.data.subseries
+          .filter(function (subseries) { return subseries.seriesId === item.id; })
+          .slice().sort(sortByOrderName)
+          .map(function (subseries) {
+            return {
+              id: subseries.id,
+              name: subseries.name,
+              chapterCount: chapterList.filter(function (story) { return story.subseriesId === subseries.id; }).length
+            };
+          });
+        var directCount = chapterList.filter(function (story) { return !story.subseriesId; }).length;
+        seriesGrid.appendChild(window.ArchiveSeriesBooksReader.create(
+          item, count, books, directCount,
+          function () { goToCollection(item.id, "", "stories"); },
+          function (subseriesId) { goToCollection(item.id, subseriesId, "stories"); },
+          mediaUrl
+        ));
       });
       host.appendChild(seriesGrid);
       if (!state.data.series.length) archiveHeading(host, "", "No series yet", "New worlds will appear here.");
@@ -1360,6 +1375,7 @@
     $("libraryHome").hidden = false;
     $("storyView").hidden = true;
     if (window.ArchiveSeriesPostersReader) window.ArchiveSeriesPostersReader.stopAll();
+    if (window.ArchiveSeriesBooksReader) window.ArchiveSeriesBooksReader.stopAll();
     var context = seriesContext();
     var hasSeries = state.data.series.some(function (item) { return String(item.id) === context.seriesId; });
     document.body.dataset.readerLevel = hasSeries ? "series" : "selector";
@@ -1596,7 +1612,7 @@
     if (readerRefreshPromise) return readerRefreshPromise;
     if (!force && Date.now() - readerLastRefreshAttempt < 12000) return Promise.resolve();
     readerLastRefreshAttempt = Date.now();
-    readerRefreshPromise = apiJson(API.content, { cache: "no-store" })
+    var refreshTask = apiJson(API.content, { cache: "no-store" })
       .then(function (result) {
         if (document.body.classList.contains("is-locked")) return;
         var next = normalizeReaderData(result.data);
@@ -1616,6 +1632,9 @@
         // Network errors are non-destructive: keep displaying the last good data.
       })
       .finally(function () { readerRefreshPromise = null; });
+    readerRefreshPromise = window.ReaderMotionLoader
+      ? window.ReaderMotionLoader.track(refreshTask, "Refreshing library…", true)
+      : refreshTask;
     return readerRefreshPromise;
   }
 
@@ -1650,7 +1669,7 @@
     button.disabled = true;
     $("gateStatus").textContent = "Checking…";
 
-    apiJson(API.auth, {
+    var unlockTask = apiJson(API.auth, {
       method: "POST",
       body: JSON.stringify({ action: "unlock", code: code }),
     })
@@ -1664,6 +1683,7 @@
       .finally(function () {
         button.disabled = false;
       });
+    if (window.ReaderMotionLoader) window.ReaderMotionLoader.track(unlockTask, "Opening library…");
   }
 
   function lock() {
@@ -1691,7 +1711,7 @@
   function checkSession() {
     $("gateStatus").textContent = "";
 
-    apiJson(API.auth)
+    var sessionTask = apiJson(API.auth)
       .then(function (result) {
         if (!result.configured) {
           showGate("Reader access is not configured yet.");
@@ -1709,6 +1729,7 @@
       .catch(function () {
         showGate("Could not check access right now.");
       });
+    if (window.ReaderMotionLoader) window.ReaderMotionLoader.track(sessionTask, "Opening library…");
   }
 
   // Internal chapter links and Back navigation keep the loaded authenticated app alive.
