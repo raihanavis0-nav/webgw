@@ -144,3 +144,7 @@
     margin-left: -8px;
   }
 }
+
+
+/* Readable disclosure chevrons without a surrounding outline. */
+.reader-character-collapse-toggle{font-size:1.15rem;border:0;}
