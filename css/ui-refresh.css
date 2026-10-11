@@ -106,3 +106,8 @@ body.subseries-ui-themed{--link:var(--subseries-ui-accent,var(--subseries-ui-ink
 body.subseries-ui-themed #seriesList a:hover,
 body.subseries-ui-themed .archive-hierarchy-chapters a:hover{color:var(--subseries-ui-accent,var(--subseries-ui-ink));}
 #storyView .chapter-paper,#storyWorkspace .chapter-editor-page{max-width:var(--chapter-paper-max-width,800px);border-radius:var(--chapter-paper-radius,2px);}
+
+/* Reader-wide saved interface options and accurate appearance previews. */
+#appearanceLivePreview:not(.is-mobile){max-width:var(--appearance-demo-width,400px);}
+#appearanceLivePreview .appearance-preview-card{border-radius:var(--reader-card-radius,14px);}
+body:not(.thoughts-admin-body) :is(.archive-collection-card,.reader-series-frame,.reader-gate-card,.character-detail-dialog){border-radius:var(--reader-card-radius,14px);}
