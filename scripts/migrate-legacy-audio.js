@@ -43,7 +43,7 @@ async function main() {
     const blob = await call(SOURCE,"/git/blobs/" + file.sha,sourceToken);
     if (blob.encoding !== "base64" || !blob.content) throw new Error("Unexpected blob encoding: " + file.path);
     const uploaded = await call(destination,"/git/blobs",destToken,{
-      method:"POST",body:JSON.stringify({content:blob.content.replace(/\\s/g,""),encoding:"base64"})
+      method:"POST",body:JSON.stringify({content:blob.content.split(String.fromCharCode(10)).join("").split(String.fromCharCode(13)).join(""),encoding:"base64"})
     });
     if (uploaded.sha !== file.sha) throw new Error("Blob hash mismatch: " + file.path);
     entries.push({path:file.path,mode:"100644",type:"blob",sha:uploaded.sha});
