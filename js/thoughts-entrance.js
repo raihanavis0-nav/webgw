@@ -26,9 +26,11 @@
   function showReady() {
     if (!intro || intro.hidden || entered || !artworkReady || !destination ||
         Date.now() - started < MIN_OPEN_MS) return;
+    if (!readyButton.hidden) return;
     waiting.hidden = true;
     readyButton.hidden = false;
     intro.classList.add("is-ready");
+    readyButton.focus({ preventScroll: true });
   }
 
   function focusGate() {
