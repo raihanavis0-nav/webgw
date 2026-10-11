@@ -353,6 +353,18 @@
       "cover": "",
       "posters": [],
       "posterRatio": "2:3"
+    },
+    {
+      "id": "subseries-1791728897378",
+      "seriesId": "series-1790083460918",
+      "name": "Spin-Off : Cherline",
+      "slug": "spin-off-cherline",
+      "order": 10,
+      "description": "",
+      "banner": "",
+      "cover": "",
+      "posters": [],
+      "posterRatio": "2:3"
     }
   ],
   "characters": [
