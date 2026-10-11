@@ -89,6 +89,15 @@ function validateData(data) {
     for (const prop of ["x", "y"]) if (item[prop] != null && (!isNumber(item[prop]) || item[prop] < 0 || item[prop] > 100)) return "Invalid focal point.";
     if (item.zoom != null && (!isNumber(item.zoom) || item.zoom < 100 || item.zoom > 250)) return "Invalid image zoom.";
   }
+  if (appearance.interface != null) {
+    const iface = appearance.interface;
+    if (!iface || typeof iface !== "object" || Array.isArray(iface)) return "Invalid interface settings.";
+    for (const key of ["displayFont", "bodyFont"]) if (iface[key] != null &&
+      !["Inter","Newsreader","Space Grotesk","Instrument Serif","Archivo"].includes(iface[key])) return "Invalid interface font.";
+    if (iface.layoutWidth != null && !["narrow","standard","wide"].includes(iface.layoutWidth)) return "Invalid reader width.";
+    if (iface.cardStyle != null && !["square","soft","rounded"].includes(iface.cardStyle)) return "Invalid card corners.";
+    if (iface.showHero != null && typeof iface.showHero !== "boolean") return "Invalid library hero preference.";
+  }
   const series = Array.isArray(data.series) ? data.series : null;
   const subseries = Array.isArray(data.subseries) ? data.subseries : null;
   const characters = Array.isArray(data.characters) ? data.characters : null;
