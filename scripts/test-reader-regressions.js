@@ -11,6 +11,7 @@ function mockResponse() {
     setHeader(key, value) { this.headers[key.toLowerCase()] = value; },
     status(code) { this.code = code; return this; },
     json(body) { this.body = body; return this; },
+    send(body) { this.body = body; return this; },
     end() { return this; },
   };
 }
@@ -93,4 +94,38 @@ test("Public Reader API excludes unpublished stories", async () => {
     reader.requireSession = before;
     store.readPublicLibrary = readBefore;
   }
+});
+
+test("Opening media endpoint rejects non-decorative archive content", async () => {
+  const oldRead = store.readPublicLibrary;
+  const oldRaw = store.getRawFile;
+  store.readPublicLibrary = async () => ({ data: { appearance: { login: {
+    image: "assets/thoughts/intro.gif"
+  } } } });
+  store.getRawFile = async () => ({ buffer: Buffer.from("GIF89a") });
+  try {
+    const handler = require("../api/thoughts/appearance-media");
+    const allowed = mockResponse();
+    await handler({ method:"GET", query:{path:"assets/thoughts/intro.gif"} }, allowed);
+    assert.equal(allowed.code, 200);
+    assert.equal(allowed.headers["content-type"], "image/gif");
+    const denied = mockResponse();
+    await handler({ method:"GET", query:{path:"assets/thoughts/private.png"} }, denied);
+    assert.equal(denied.code, 404);
+  } finally {
+    store.readPublicLibrary = oldRead;
+    store.getRawFile = oldRaw;
+  }
+});
+
+test("Reader scripts retain conflict recovery and lightweight preview logic", () => {
+  const fs = require("node:fs");
+  const path = require("node:path");
+  const root = path.resolve(__dirname,"..");
+  const admin = fs.readFileSync(path.join(root,"js/thoughts-admin.js"),"utf8");
+  const reader = fs.readFileSync(path.join(root,"js/thoughts.js"),"utf8");
+  assert.match(admin,/state\.conflictDraft\s*=\s*clone\(candidate\)/);
+  assert.match(admin,/archive-unsaved-draft\.json/);
+  assert.match(reader,/readerLoadRetry/);
+  assert.match(reader,/createPosterLayoutSwitch/);
 });
