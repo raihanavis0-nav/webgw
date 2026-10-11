@@ -471,6 +471,13 @@
       titleStack.appendChild(meta);
 
       var synopsisText = String(story.synopsis || "").trim();
+      // Preview only: derive a short excerpt if the author left synopsis empty.
+      if (!synopsisText) {
+        synopsisText = String(story.body || "")
+          .replace(/<[^>]*>/g, " ").replace(/&(?:amp|nbsp|lt|gt|quot);/g, " ")
+          .replace(/[#*_~>]/g, " ").replace(/\s+/g, " ").trim().slice(0, 150);
+        if (synopsisText.length > 140) synopsisText = synopsisText.slice(0, 140).trimEnd() + "…";
+      }
       if (synopsisText) {
         row.classList.add("has-list-synopsis");
 
@@ -987,7 +994,7 @@
       return String(item.id) === context.bookId && item.seriesId === series.id;
     });
     if (window.SubseriesThemes) window.SubseriesThemes.applyUi(document.body, book && book.uiTheme);
-    archiveHeading(host, "All series", book ? (book.name || "Book") : (series.name || "Series"),
+    archiveHeading(host, "All series", book ? (book.name || "Sub-series") : (series.name || "Series"),
       book ? book.description : series.description, function () {
         goToCollection(book ? series.id : "", "", "stories");
       });
@@ -1000,7 +1007,7 @@
         // Only posters saved on this Sub-series are shown; Series posters belong to Series only.
         bookGrid.appendChild(window.ArchiveSeriesPostersReader.create(item, count, function () {
           goToCollection(series.id, item.id, "stories");
-        }, mediaUrl, "Book"));
+        }, mediaUrl, "Sub-series"));
       });
       if (books.length) host.appendChild(createPosterLayoutSwitch(bookGrid));
       host.appendChild(bookGrid);
@@ -1146,7 +1153,9 @@
     var next = ["stories", "characters", "world", "timeline"].includes(view)
       ? view
       : "stories";
-    // Tab switching must preserve the selected Book's theme.
+    var requested = document.querySelector('[data-archive-view="' + next + '"]');
+    if (requested && requested.hidden) next = "stories";
+    // Tab switching must preserve the selected Sub-series theme.
     document.querySelectorAll("[data-archive-view]").forEach(function (button) {
       var active = button.getAttribute("data-archive-view") === next;
       button.setAttribute("aria-pressed", active ? "true" : "false");
@@ -1524,6 +1533,12 @@
     renderCharacters();
     renderWorld();
     renderTimeline();
+    // Hide World / Timeline until the selected collection has content.
+    ["world", "timeline"].forEach(function (viewName) {
+      var button = document.querySelector('[data-archive-view="' + viewName + '"]');
+      var panel = $(viewName === "world" ? "worldSection" : "timelineSection");
+      if (button && panel) button.hidden = panel.dataset.hasContent === "false";
+    });
 
     $("seriesSection").dataset.hasContent =
       state.data.stories.length > 0 ? "true" : "false";
