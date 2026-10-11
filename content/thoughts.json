@@ -913,7 +913,13 @@
       "order": 5,
       "published": true,
       "characterIds": [],
-      "body": ""
+      "body": "",
+      "timelineEnabled": false,
+      "timelineYear": 2020,
+      "timelineMonth": 3,
+      "timelineDay": 15,
+      "timelineSeason": "",
+      "timelinePrecision": "day"
     },
     {
       "id": "story-1790181021553",
