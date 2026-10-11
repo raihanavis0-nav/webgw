@@ -186,6 +186,16 @@ async function getRawFile(path) {
 const PUBLIC_CACHE_MS = 12 * 1000;
 let publicCache = null;
 let publicFetch = null;
+// Stream direct upstream byte ranges for ordinary media when supported.
+async function getRawMediaRange(path, range) {
+  if (!String(range || "").startsWith("bytes=")) return null;
+  const response = await fetch(rawUrl(path), {
+    headers: { Range: String(range) }, cache: "no-store",
+  });
+  const contentRange = response.headers.get("content-range") || "";
+  if (response.status !== 206 || !response.body || !contentRange.startsWith("bytes ")) return null;
+  return response;
+}
 async function readPublicLibrary() {
   const now = Date.now();
   if (publicCache && now < publicCache.until) return publicCache.library;
@@ -258,6 +268,7 @@ module.exports = {
   DATA_PATH,
   getFile,
   getRawFile,
+  getRawMediaRange,
   isConfigured,
   readLibrary,
   readPublicLibrary,
