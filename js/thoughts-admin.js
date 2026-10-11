@@ -376,6 +376,29 @@
     });
   }
 
+  // Items for the @-mention autocomplete in the story editor.
+  function getMentionItems() {
+    var list = [];
+    (state.data.characters || []).forEach(function (character) {
+      var series = seriesById(character.seriesId);
+      list.push({
+        type: "character",
+        id: character.id,
+        name: character.name || "Unnamed",
+        hint: series ? series.name : "",
+      });
+    });
+    (state.data.worldEntries || []).forEach(function (entry) {
+      list.push({
+        type: "world",
+        id: entry.id,
+        name: entry.name || "Untitled",
+        hint: entry.category || "",
+      });
+    });
+    return list;
+  }
+
   function galleryById(id) {
     return state.data.galleryItems.find(function (item) {
       return String(item.id) === String(id);
@@ -982,10 +1005,65 @@
   function renderLibrary() {
     syncManagedOrdersBeforeRender();
     renderSeries();
+    var storySearch = $("adminStorySearch");
+    if (storySearch) filterAdminStories(storySearch.value);
     renderCharacters();
     renderWorldAdmin();
+    renderAdminStats();
     if (window.ArchiveAppearanceAdmin) window.ArchiveAppearanceAdmin.render(state.data.appearance);
     setAdminLibraryView(state.libraryView, false);
+  }
+
+  // Small stats strip in the admin library header.
+  function renderAdminStats() {
+    var host = $("adminStatsStrip");
+    if (!host) return;
+    var stories = state.data.stories || [];
+    var words = stories.reduce(function (n, story) {
+      var text = String(story.body || "")
+        .replace(/<[^>]*>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+      return n + (text ? text.split(" ").length : 0);
+    }, 0);
+    var wordLabel =
+      words >= 1000 ? (words / 1000).toFixed(1) + "k" : String(words);
+    host.innerHTML = "";
+    [
+      [stories.length, stories.length === 1 ? "story" : "stories"],
+      [(state.data.characters || []).length, "characters"],
+      [(state.data.series || []).length, "series"],
+      [wordLabel, "words"]
+    ].forEach(function (pair) {
+      var stat = document.createElement("span");
+      stat.className = "admin-stat";
+      var num = document.createElement("strong");
+      num.textContent = pair[0];
+      stat.appendChild(num);
+      stat.appendChild(document.createTextNode(" " + pair[1]));
+      host.appendChild(stat);
+    });
+  }
+
+  // Filter admin story rows by title as the user types.
+  function filterAdminStories(query) {
+    var q = String(query || "").trim().toLowerCase();
+    document
+      .querySelectorAll("#adminSeriesList .admin-story-row")
+      .forEach(function (row) {
+        var title = row.querySelector(".story-open");
+        var text = title ? title.textContent.toLowerCase() : "";
+        row.hidden = Boolean(q) && text.indexOf(q) === -1;
+      });
+    // Hide series blocks left with no visible stories.
+    document
+      .querySelectorAll("#adminSeriesList .admin-series-block")
+      .forEach(function (block) {
+        var visible = block.querySelector(
+          ".admin-story-row:not([hidden])"
+        );
+        block.hidden = Boolean(q) && !visible;
+      });
   }
 
   function showLibraryView(force) {
@@ -1590,6 +1668,7 @@
     $("entityCoverField").hidden = !(isSeries || isSubseries);
     $("seriesPostersField").hidden = !(isSeries || isSubseries);
     $("subseriesThemeField").hidden = !isSubseries;
+    $("entityDefaultFormatField").hidden = !isSeries;
 
     $("entityDialogTitle").textContent =
       type === "series"
@@ -1626,6 +1705,10 @@
         ? item.bio || ""
         : item.description || ""
       : "";
+    if (isSeries) {
+      $("entityDefaultFormatInput").value =
+        item && item.defaultFormat === "screenplay" ? "screenplay" : "prose";
+    }
 
     if (isSeries && window.ArchiveSeriesPosters) window.ArchiveSeriesPosters.open(item, "Series");
     if (isSubseries && window.SubseriesThemeAdmin) window.SubseriesThemeAdmin.open(item);
@@ -1706,6 +1789,10 @@
       series.slug = slug;
       series.order = numberValue($("entityOrderInput").value);
       series.description = $("entityDescriptionInput").value.trim();
+      series.defaultFormat =
+        $("entityDefaultFormatInput").value === "screenplay"
+          ? "screenplay"
+          : "prose";
       series.banner = $("entityBannerPathInput").value || "";
       series.cover = $("entityCoverPathInput").value || "";
       if (window.ArchiveSeriesPosters) {
@@ -1950,6 +2037,10 @@
       seriesId ||
       (state.data.series.length === 1 ? state.data.series[0].id : "");
 
+    var series = seriesById(selectedSeries);
+    var defaultFormat =
+      series && series.defaultFormat === "screenplay" ? "screenplay" : "prose";
+
     state.currentStoryId = "";
     state.storyIsNew = true;
     state.storyDraft = {
@@ -1963,6 +2054,8 @@
       published: false,
       characterIds: [],
       body: "",
+      format: defaultFormat,
+      contentWarning: "",
       banner: "",
       bannerPosition: "center",
       timelineEnabled: false,
@@ -2006,6 +2099,9 @@
     $("storyDateInput").value = draft.date || today();
     $("storyPublishedInput").checked = draft.published !== false;
     $("storyTitleInput").value = draft.title || "";
+    $("storyFormatInput").value = draft.format === "screenplay" ? "screenplay" : "prose";
+    $("storyContentWarningInput").value = draft.contentWarning || "";
+    applyStoryFormatUI();
     if (window.SubseriesThemeAdmin) window.SubseriesThemeAdmin.editorPaper(draft.subseriesId, state.data.subseries);
     $("storyBodyInput").value = draft.body || "";
     $("storySlugInput").value = draft.slug || "";
@@ -2025,6 +2121,21 @@
     }, 120);
   }
 
+  // Screenplay mode: toggles the script block toolbar and the
+  // is-screenplay preview styling on the WYSIWYG editor.
+  function applyStoryFormatUI() {
+    var draft = state.storyDraft || {};
+    var isScreenplay =
+      $("storyFormatInput").value === "screenplay" ||
+      draft.format === "screenplay";
+
+    var group = $("screenplayToolbarGroup");
+    if (group) group.hidden = !isScreenplay;
+
+    var editor = $("storyBodyEditor");
+    if (editor) editor.classList.toggle("is-screenplay", isScreenplay);
+  }
+
   function collectStoryDraft() {
     var draft = clone(state.storyDraft || {});
     draft.title = $("storyTitleInput").value.trim();
@@ -2032,6 +2143,8 @@
     draft.seriesId = $("storySeriesInput").value;
     draft.subseriesId = $("storySubseriesInput").value || "";
     draft.published = $("storyPublishedInput").checked;
+    draft.format = $("storyFormatInput").value === "screenplay" ? "screenplay" : "prose";
+    draft.contentWarning = $("storyContentWarningInput").value.trim();
     draft.body = $("storyBodyInput").value.replace(/\s+$/, "");
     draft.slug = slugify($("storySlugInput").value || draft.title);
     draft.order = numberValue($("storyOrderInput").value);
@@ -2116,9 +2229,49 @@
       });
   }
 
+  // Duplicate the current story draft as a new unpublished story.
+  function duplicateStory() {
+    if (!state.storyDraft || state.storyIsNew) return;
+
+    var draft = collectStoryDraft();
+    var copy = clone(draft);
+    copy.id = "story-" + Date.now();
+    copy.title = (copy.title || "Untitled") + " (copy)";
+    copy.published = false;
+
+    var baseSlug = slugify(copy.slug + "-copy") || "story-copy";
+    var slug = baseSlug;
+    var n = 2;
+    var taken = function (s) {
+      return state.data.stories.some(function (story) {
+        return story.slug === s;
+      });
+    };
+    while (taken(slug)) {
+      slug = baseSlug + "-" + n;
+      n += 1;
+    }
+    copy.slug = slug;
+
+    var candidate = clone(state.data);
+    candidate.stories.push(copy);
+
+    $("duplicateStoryBtn").disabled = true;
+    saveCandidate(candidate, 'stories: duplicate "' + draft.title + '"')
+      .then(function () {
+        $("duplicateStoryBtn").disabled = false;
+        $("storyActionsDialog").close();
+        openStory(copy.id);
+        toast("Story duplicated as draft.");
+      })
+      .catch(function (error) {
+        $("duplicateStoryBtn").disabled = false;
+        toast("Duplicate failed: " + (error && error.message ? error.message : error), true);
+      });
+  }
+
   function deleteStory() {
     if (!state.storyDraft) return;
-
     if (state.storyIsNew) {
       $("storyActionsDialog").close();
       showLibraryView(true);
@@ -2268,6 +2421,8 @@
     var draft = collectStoryDraft();
     $("storySlugInput").value = draft.slug || slugify(draft.title);
     $("storyOrderInput").value = String(draft.order || 0);
+    $("storyFormatInput").value = draft.format === "screenplay" ? "screenplay" : "prose";
+    $("storyContentWarningInput").value = draft.contentWarning || "";
     $("storyTimelineEnabledInput").checked = Boolean(draft.timelineEnabled);
     $("storyTimelineLabelInput").value = draft.timelineLabel || "";
     $("storyTimelineGroupInput").value = draft.timelineGroup || "";
@@ -2282,6 +2437,10 @@
       $("storySlugInput").value || $("storyTitleInput").value
     );
     state.storyDraft.order = numberValue($("storyOrderInput").value);
+    state.storyDraft.format =
+      $("storyFormatInput").value === "screenplay" ? "screenplay" : "prose";
+    state.storyDraft.contentWarning = $("storyContentWarningInput").value.trim();
+    applyStoryFormatUI();
     state.storyDraft.timelineEnabled = $("storyTimelineEnabledInput").checked;
     state.storyDraft.timelineLabel = $("storyTimelineLabelInput").value.trim();
     state.storyDraft.timelineGroup = $("storyTimelineGroupInput").value.trim();
@@ -2999,6 +3158,13 @@
       getParentSeries: function () { return seriesById($("entitySeriesInput").value); }
     });
 
+    if (window.ThoughtsMentionEditor) {
+      window.ThoughtsMentionEditor.init({
+        editorId: "storyBodyEditor",
+        getItems: getMentionItems,
+      });
+    }
+
     if (window.ArchiveAppearanceAdmin) {
       window.ArchiveAppearanceAdmin.init({
         save: function (appearance) {
@@ -3235,7 +3401,18 @@
       "click",
       applyStoryProperties
     );
+    $("storyFormatInput").addEventListener("change", function () {
+      if (!state.storyDraft) return;
+      state.storyDraft.format =
+        $("storyFormatInput").value === "screenplay" ? "screenplay" : "prose";
+      applyStoryFormatUI();
+      markDirty();
+    });
+    $("adminStorySearch").addEventListener("input", function () {
+      filterAdminStories($("adminStorySearch").value);
+    });
     $("deleteStoryBtn").addEventListener("click", deleteStory);
+    $("duplicateStoryBtn").addEventListener("click", duplicateStory);
 
     window.addEventListener("beforeunload", function (event) {
       if (!state.dirty) return;

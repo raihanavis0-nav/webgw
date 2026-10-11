@@ -1,0 +1,66 @@
+/* =============================================================
+   SCREENPLAY — script formatting for format:"screenplay" stories.
+   Applied when the story body container carries .is-screenplay
+   (reader: #storyBody, admin editor: #storyBodyEditor).
+   Adapts classic screenplay margins to a web measure.
+   ============================================================= */
+
+.is-screenplay {
+  --sp-font: "Courier Prime", "Courier New", Courier, monospace;
+  font-family: var(--sp-font);
+  font-size: 1rem;
+  line-height: 1.55;
+  max-width: 46rem;
+}
+
+/* Reset prose-first styles that would fight script layout. */
+.is-screenplay p,
+.is-screenplay div {
+  margin: 0 0 1em;
+}
+
+.is-screenplay .sp-scene {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: 1.75em 0 1em;
+}
+
+.is-screenplay .sp-action {
+  margin: 0 0 1em;
+}
+
+.is-screenplay .sp-character {
+  text-transform: uppercase;
+  margin: 1em 0 0 37%;
+}
+
+.is-screenplay .sp-dialogue {
+  margin: 0 12% 1em 22%;
+}
+
+.is-screenplay .sp-parenthetical {
+  margin: 0 22% 0 30%;
+}
+
+.is-screenplay .sp-transition {
+  text-transform: uppercase;
+  text-align: right;
+  margin: 1em 0;
+}
+
+/* Empty script blocks still need height in contenteditable. */
+.is-screenplay .sp-scene:empty::before,
+.is-screenplay .sp-action:empty::before,
+.is-screenplay .sp-character:empty::before,
+.is-screenplay .sp-dialogue:empty::before,
+.is-screenplay .sp-parenthetical:empty::before,
+.is-screenplay .sp-transition:empty::before {
+  content: "\200b";
+}
+
+@media (max-width: 640px) {
+  .is-screenplay .sp-character { margin-left: 30%; }
+  .is-screenplay .sp-dialogue { margin-left: 12%; margin-right: 6%; }
+  .is-screenplay .sp-parenthetical { margin-left: 20%; margin-right: 12%; }
+}

@@ -13,6 +13,28 @@
     "TEXTAREA", "SELECT", "OPTION", "SVG", "MATH", "META", "LINK"
   ]);
 
+  // Screenplay block classes. The sanitizer strips every other class, so
+  // script formatting survives save/load only through this allowlist.
+  var SCREENPLAY_CLASSES = new Set([
+    "sp-scene",
+    "sp-action",
+    "sp-character",
+    "sp-dialogue",
+    "sp-parenthetical",
+    "sp-transition"
+  ]);
+
+  // Tags allowed to carry screenplay classes.
+  var SCREENPLAY_CLASS_TAGS = new Set(["P", "DIV"]);
+
+  // @-mention classes allowed on links. The data-mention-* attributes are
+  // handled in the A-tag branch of sanitize().
+  var MENTION_CLASSES = new Set([
+    "mention",
+    "mention-character",
+    "mention-world"
+  ]);
+
   var FONT_FAMILIES = new Set([
     "Newsreader",
     "Inter",
@@ -161,6 +183,15 @@
         var style = cleanStyle(original.style || "");
         if (style && tag !== "IMG") node.setAttribute("style", style);
 
+        if (SCREENPLAY_CLASS_TAGS.has(tag)) {
+          var spClasses = String(original["class"] || "")
+            .split(/\s+/)
+            .filter(function (c) {
+              return SCREENPLAY_CLASSES.has(c);
+            });
+          if (spClasses.length) node.setAttribute("class", spClasses.join(" "));
+        }
+
         if (tag === "FONT") {
           var face = String(original.face || "").replace(/["']/g, "").split(",")[0].trim();
           if (FONT_FAMILIES.has(face)) node.setAttribute("face", face);
@@ -176,6 +207,26 @@
             if (/^https?:\/\//i.test(href)) {
               node.setAttribute("target", "_blank");
               node.setAttribute("rel", "noopener noreferrer");
+            }
+          }
+
+          // @-mentions: keep the reference so the reader can open the
+          // character/world dialog. Anything else is stripped.
+          var mentionType = String(original["data-mention-type"] || "");
+          var mentionId = String(original["data-mention-id"] || "").slice(0, 120);
+          if (
+            (mentionType === "character" || mentionType === "world") &&
+            mentionId
+          ) {
+            var mentionClasses = String(original["class"] || "")
+              .split(/\s+/)
+              .filter(function (c) {
+                return MENTION_CLASSES.has(c);
+              });
+            node.setAttribute("data-mention-type", mentionType);
+            node.setAttribute("data-mention-id", mentionId);
+            if (mentionClasses.length) {
+              node.setAttribute("class", mentionClasses.join(" "));
             }
           }
         }
