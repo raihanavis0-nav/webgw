@@ -9,12 +9,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Lora:wght@400;500;600;700&family=Merriweather:wght@400;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Lora:wght@400;500;600;700&family=Merriweather:wght@400;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/thoughts.css" />
     <link rel="stylesheet" href="css/thoughts-character-groups.css" />
     <link rel="stylesheet" href="css/thoughts-admin.css" />
+    <link rel="stylesheet" href="css/thoughts-screenplay.css" />
     <link rel="stylesheet" href="css/subseries-theme-admin.css" />
     <link rel="stylesheet" href="css/editorial-admin.css" />
     <link rel="stylesheet" href="css/thoughts-appearance.css" />
@@ -266,6 +267,15 @@
                 <option value="1.75">1.75</option>
                 <option value="2">2.0</option>
               </select>
+            </div>
+
+            <div class="toolbar-group screenplay-tools" id="screenplayToolbarGroup" hidden>
+              <button type="button" data-editor-action="sp-block" data-sp-class="sp-scene" title="Scene heading">Scene</button>
+              <button type="button" data-editor-action="sp-block" data-sp-class="sp-action" title="Action">Action</button>
+              <button type="button" data-editor-action="sp-block" data-sp-class="sp-character" title="Character">Character</button>
+              <button type="button" data-editor-action="sp-block" data-sp-class="sp-dialogue" title="Dialogue">Dialogue</button>
+              <button type="button" data-editor-action="sp-block" data-sp-class="sp-parenthetical" title="Parenthetical">(…)</button>
+              <button type="button" data-editor-action="sp-block" data-sp-class="sp-transition" title="Transition">Trans.</button>
             </div>
 
             <div class="toolbar-group">
@@ -540,6 +550,14 @@
         <div class="dialog-head"><div><p class="eyebrow">Story</p><h2>Actions</h2></div><button class="icon-action" id="closeStoryActionsBtn" type="button" aria-label="Close">×</button></div>
         <div class="dialog-field"><label for="storySlugInput">Slug</label><input id="storySlugInput" type="text" autocomplete="off" /></div>
         <div class="dialog-field"><label for="storyOrderInput">Story order</label><input id="storyOrderInput" type="number" min="0" step="1" value="0" /></div>
+        <div class="dialog-field">
+          <label for="storyFormatInput">Format</label>
+          <select id="storyFormatInput">
+            <option value="prose">Prose</option>
+            <option value="screenplay">Screenplay</option>
+          </select>
+        </div>
+        <p class="portrait-help">Screenplay enables script block styles (scene, character, dialogue) in the editor and a screenplay layout in the reader.</p>
 
         <div class="dialog-section-divider">
           <div class="dialog-field checkbox-field">
