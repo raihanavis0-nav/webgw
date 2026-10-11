@@ -18,7 +18,7 @@
       bio: bio ? bio.textContent.trim() : "",
       imageSrc: image ? image.currentSrc || image.src : "",
       imageAlt: image ? image.alt || "" : "",
-      initials: placeholder ? placeholder.textContent.trim() : "",
+      initials: placeholder ? ((placeholder.querySelector(".character-portrait-monogram") || placeholder).textContent.trim()) : "",
     };
   }
 
