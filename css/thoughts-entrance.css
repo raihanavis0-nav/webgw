@@ -1,0 +1,159 @@
+/* Reader entrance: one persistent GIF, delayed ENTER, then passcode or Library.
+   The artwork element is never replaced when the loading indicator changes. */
+body.reader-entrance-active { overflow: hidden; }
+.reader-entrance[hidden] { display: none !important; }
+.reader-entrance {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  padding: max(26px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
+    max(30px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.reader-entrance-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(100%, 510px);
+  min-width: 0;
+  margin: auto;
+  text-align: center;
+}
+.reader-entrance-kicker {
+  margin: 0 0 24px;
+  color: var(--muted);
+  font: 600 11px/1.5 var(--reader-ui,Inter,sans-serif);
+  letter-spacing: .21em;
+}
+.reader-entrance .reader-entrance-artwork {
+  flex: none;
+  width: min(100%, 420px);
+  max-width: 100%;
+  margin: 0 0 20px;
+  border-radius: 13px;
+  border: 1px solid var(--line);
+  background: var(--soft);
+  box-shadow: 0 13px 34px #00000013;
+}
+/* Fallback if no artwork is configured. */
+.reader-entrance-placeholder {
+  display: grid;
+  place-items: center;
+  width: min(100%, 420px);
+  aspect-ratio: 4 / 3;
+  margin-bottom: 20px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  color: var(--muted);
+  background: linear-gradient(145deg,var(--soft),var(--paper));
+}
+.reader-entrance-placeholder span {
+  font: 400 clamp(85px,13vw,140px)/1 var(--reader-display,"Newsreader",Georgia,serif);
+  opacity: .6;
+}
+.reader-entrance-artwork:not([hidden]) + .reader-entrance-placeholder {
+  display: none;
+}
+.reader-entrance-title {
+  margin: 0;
+  max-width: 100%;
+  font: 450 clamp(34px,6vw,50px)/1.1 var(--reader-display,"Newsreader",Georgia,serif);
+  letter-spacing: -.04em;
+  overflow-wrap: anywhere;
+}
+.reader-entrance-actions {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  min-height: 83px;
+  padding-top: 24px;
+}
+.reader-entrance-wait {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font: 500 11px/1.3 var(--reader-ui,Inter,sans-serif);
+  letter-spacing: .08em;
+}
+.reader-entrance-wait[hidden],
+.reader-entrance-enter[hidden] { display: none !important; }
+.reader-entrance .reader-dot-shift { min-width: 65px; }
+.reader-entrance-enter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  min-width: 175px;
+  min-height: 46px;
+  padding: 11px 18px;
+  border: 1px solid var(--ink);
+  border-radius: 9px;
+  background: var(--ink);
+  color: var(--paper);
+  font: 650 12px/1.2 var(--reader-ui,Inter,sans-serif);
+  letter-spacing: .16em;
+  transition: opacity 260ms ease, transform 200ms ease, background 180ms ease;
+  animation: entrance-button-reveal 340ms both;
+}
+.reader-entrance-enter span {
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+}
+.reader-entrance-enter:hover { transform: translateY(-2px); }
+.reader-entrance-enter:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+@keyframes entrance-button-reveal {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* The existing access form joins the same scene without remounting the GIF. */
+.reader-entrance:not(.is-gate) #accessGate { display: none !important; }
+.reader-entrance.is-gate .reader-entrance-title,
+.reader-entrance.is-gate .reader-entrance-actions { display: none !important; }
+.reader-entrance.is-gate #accessGate {
+  display: block;
+  width: min(100%, 420px);
+  max-width: 100%;
+  padding: 0;
+  margin: 0 auto;
+}
+.reader-entrance.is-gate #accessGate[hidden] { display: none !important; }
+.reader-entrance .reader-gate-card {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  box-shadow: none !important;
+  background: transparent;
+}
+.reader-entrance .reader-gate-logo { display: none !important; }
+.reader-entrance .reader-gate-card h1 {
+  margin: 0 0 7px;
+  font: 450 clamp(30px,5vw,42px)/1.1 var(--reader-display,"Newsreader",Georgia,serif);
+}
+.reader-entrance .reader-gate-card .eyebrow { display: none; }
+.reader-entrance .reader-gate-card .gate-desc { margin: 0 0 18px; }
+.reader-entrance .gate-form { text-align: left; }
+.reader-entrance .gate-status { text-align: left; }
+@media(max-width:540px) {
+  .reader-entrance { padding-inline: max(16px,env(safe-area-inset-left)) max(16px,env(safe-area-inset-right)); }
+  .reader-entrance-inner { max-width: 420px; }
+  .reader-entrance-kicker { margin-bottom: 17px; }
+  .reader-entrance .reader-entrance-artwork,
+  .reader-entrance-placeholder { margin-bottom: 18px; border-radius: 9px; }
+  .reader-entrance-actions { padding-top: 21px; min-height: 78px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .reader-entrance-enter { animation: none; transition: none; }
+  .reader-entrance-enter:hover { transform: none; }
+}
