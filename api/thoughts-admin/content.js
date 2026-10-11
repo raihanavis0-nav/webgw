@@ -192,9 +192,12 @@ function validateData(data) {
       if (!item.uiTheme || typeof item.uiTheme !== "object" || Array.isArray(item.uiTheme)) return "Invalid Sub-series UI theme.";
       if (item.uiTheme.background != null && (!isString(item.uiTheme.background) || !/^#[a-fA-F0-9]{6}$/.test(item.uiTheme.background))) return "Invalid Sub-series UI background.";
       if (item.uiTheme.font != null && (!isString(item.uiTheme.font) || item.uiTheme.font.length > 70 || (item.uiTheme.font && !/^[a-zA-Z0-9][a-zA-Z0-9 +&.'-]*$/.test(item.uiTheme.font)))) return "Invalid Sub-series UI font.";
+      if (item.uiTheme.accent != null && (!isString(item.uiTheme.accent) || !/^#[a-fA-F0-9]{6}$/.test(item.uiTheme.accent))) return "Invalid Sub-series link accent.";
     }
     if (item.paperTheme != null) {
       if (!item.paperTheme || typeof item.paperTheme !== "object" || Array.isArray(item.paperTheme) || !isString(item.paperTheme.background) || !/^#[a-fA-F0-9]{6}$/.test(item.paperTheme.background)) return "Invalid Sub-series paper color.";
+      if (item.paperTheme.width != null && !["narrow", "standard", "wide"].includes(item.paperTheme.width)) return "Invalid Sub-series paper width.";
+      if (item.paperTheme.radius != null && !["square", "soft", "rounded"].includes(item.paperTheme.radius)) return "Invalid Sub-series paper corners.";
     }
     const endingSongError = validateEndingSong(item.endingSong, "Sub-series");
     if (endingSongError) return endingSongError;
