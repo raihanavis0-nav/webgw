@@ -37,6 +37,7 @@
     <link rel="stylesheet" href="css/thoughts-discovery.css?v=20261011f" />
     <link rel="stylesheet" href="css/thoughts-mentions.css?v=20261011f" />
     <link rel="stylesheet" href="css/ui-refresh.css?v=20261011j" />
+    <link rel="stylesheet" href="css/thoughts-motion.css?v=20261011k" />
   </head>
   <body class="is-locked">
     <div class="page-shell">
@@ -62,7 +63,7 @@
       </header>
 
       <main id="thoughtsApp" aria-live="polite">
-        <p id="readerAuthLoading" class="reader-auth-loading" role="status">Opening library…</p>
+        <p id="readerAuthLoading" class="reader-auth-loading" role="status" hidden>Opening library…</p>
         <section class="access-gate" id="accessGate" hidden>
           <div class="reader-gate-card">
             <img class="reader-gate-logo" id="readerGateLogo" src="assets/img/logo-railnavis.png" alt="Railnavis" />
@@ -211,8 +212,10 @@
 
     <script src="js/thoughts-rich-content.js?v=20261011f" defer></script>
     <script src="js/thoughts-series-posters-reader.js?v=20261011f" defer></script>
+    <script src="js/thoughts-series-books-reader.js?v=20261011k" defer></script>
+    <script src="js/thoughts-motion-loader.js?v=20261011k" defer></script>
     <script src="js/subseries-theme.js?v=20261011h" defer></script>
-    <script src="js/thoughts.js?v=20261011f" defer></script>
+    <script src="js/thoughts.js?v=20261011k" defer></script>
     <script src="js/thoughts-appearance-reader.js?v=20261011j" defer></script>
     <script src="js/thoughts-ending-song.js?v=20261011f" defer></script>
     <script src="js/thoughts-character-groups.js?v=20261011f" defer></script>
