@@ -914,7 +914,7 @@
       "published": true,
       "characterIds": [],
       "body": "",
-      "timelineEnabled": false,
+      "timelineEnabled": true,
       "timelineYear": 2020,
       "timelineMonth": 3,
       "timelineDay": 15,
