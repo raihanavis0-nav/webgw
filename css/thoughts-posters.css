@@ -205,3 +205,9 @@ body:not(.is-locked) .timeline-entry {
 }
 body:not(.is-locked) .world-category-card { border-radius: 4px; }
 body:not(.is-locked) .timeline-entry { margin-top: 10px; }
+
+
+/* Large, borderless chevrons; rounded outlined X removes posters. */
+.reader-series-next-button {width:38px;height:38px;font-size:29px;border:0;}
+.series-poster-row-actions button[aria-label="Remove poster"] {display:inline-grid;place-items:center;min-width:36px;min-height:36px;padding:0;margin:2px 4px;border:1px solid var(--line);border-radius:9px;font-size:24px;line-height:1;}
+.series-poster-row-actions button[aria-label="Remove poster"]:hover,.series-poster-row-actions button[aria-label="Remove poster"]:focus-visible{border-color:var(--ink);}
