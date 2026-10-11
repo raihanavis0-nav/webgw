@@ -1656,7 +1656,10 @@
     $("lockButton").hidden = true;
     $("gateStatus").textContent = message || "";
     $("accessCodeInput").value = "";
-    $("accessCodeInput").focus();
+    if (window.ReaderEntrance) window.ReaderEntrance.setDestination("gate");
+    if (!window.ReaderEntrance || !window.ReaderEntrance.isBlocking()) {
+      $("accessCodeInput").focus();
+    }
     document.title = "Stories";
   }
 
@@ -1667,6 +1670,7 @@
     $("libraryApp").hidden = false;
     $("lockButton").hidden = false;
     $("gateStatus").textContent = "";
+    if (window.ReaderEntrance) window.ReaderEntrance.setDestination("library");
   }
 
   function normalizeReaderData(data) {
@@ -1807,7 +1811,8 @@
       .catch(function () {
         showGate("Could not check access right now.");
       });
-    if (window.ReaderMotionLoader) window.ReaderMotionLoader.track(sessionTask, "Opening library…");
+    // The entrance owns initial loading, preventing a second spinner overlay.
+    return sessionTask;
   }
 
   // Internal chapter links and Back navigation keep the loaded authenticated app alive.
