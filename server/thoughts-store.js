@@ -1,6 +1,6 @@
 const OWNER = "raihanavis0-nav";
-const REPO = "webgw";
-const DATA_BRANCH = "thoughts-data";
+const REPO = process.env.THOUGHTS_STORAGE_REPO || "webgw";
+const DATA_BRANCH = process.env.THOUGHTS_STORAGE_BRANCH || "thoughts-data";
 const DATA_PATH = "content/thoughts.json";
 
 const API_ROOT = "https://api.github.com/repos/" + OWNER + "/" + REPO;
@@ -182,10 +182,19 @@ async function getRawFile(path) {
   throw error;
 }
 
+// Short shared-instance cache removes repeated GitHub Contents API calls during Reader navigation.
+const PUBLIC_CACHE_MS = 12 * 1000;
+let publicCache = null;
+let publicFetch = null;
 async function readPublicLibrary() {
-  // The mutable raw.githubusercontent.com branch URL can serve cached older JSON.
-  // The Contents API resolves the current thoughts-data commit instead.
-  return readLibrary();
+  const now = Date.now();
+  if (publicCache && now < publicCache.until) return publicCache.library;
+  if (publicFetch) return publicFetch;
+  publicFetch = readLibrary().then(library => {
+    publicCache = { library, until: Date.now() + PUBLIC_CACHE_MS };
+    return library;
+  }).finally(() => { publicFetch = null; });
+  return publicFetch;
 }
 
 async function readLibrary() {
@@ -216,7 +225,7 @@ async function writeLibrary(data, message, expectedSha) {
     "utf8"
   ).toString("base64");
 
-  return writeJson(contentUrl(DATA_PATH), {
+  const result = await writeJson(contentUrl(DATA_PATH), {
     method: "PUT",
     body: JSON.stringify({
       message: String(message || "stories: update library")
@@ -227,6 +236,8 @@ async function writeLibrary(data, message, expectedSha) {
       sha: latest.sha,
     }),
   });
+  publicCache = null;
+  return result;
 }
 
 async function writeMedia(path, base64Content, message) {
