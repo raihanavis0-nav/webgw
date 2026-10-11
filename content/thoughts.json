@@ -851,7 +851,13 @@
       },
       "synopsis": "Mercy's practicing with their last song for the Summer Album. Cherline has a feeling to a boy she met earlier during Year Opening Concert, that also in a band called WXRLDSEND, Taylor Johannson. Amelie arranged something but things unexpected happen.",
       "banner": "",
-      "bannerPosition": "center"
+      "bannerPosition": "center",
+      "timelineEnabled": true,
+      "timelineYear": 2020,
+      "timelineMonth": 3,
+      "timelineDay": 12,
+      "timelineSeason": "",
+      "timelinePrecision": "day"
     },
     {
       "id": "story-1790178733318",
@@ -871,7 +877,13 @@
       },
       "synopsis": "William comeback to London at early morning, finding out the Garage was full of mess. Cherline had struggle with her feelings entire night.",
       "banner": "",
-      "bannerPosition": "center"
+      "bannerPosition": "center",
+      "timelineEnabled": true,
+      "timelineYear": 2020,
+      "timelineMonth": 3,
+      "timelineDay": 13,
+      "timelineSeason": "",
+      "timelinePrecision": "day"
     },
     {
       "id": "story-1790178749976",
