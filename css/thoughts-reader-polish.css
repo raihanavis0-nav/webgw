@@ -144,6 +144,12 @@
   .character-detail-credit { margin-top: 10px; padding-top: 10px; }
 }
 
+/* Programmatic focus after ENTER is for screen reader context, not a giant ring.
+   Only the non-tabbable document heading is suppressed; controls keep :focus-visible. */
+#readerArchiveTitle[tabindex="-1"]:focus {
+  outline: none;
+}
+
 /* Context trail: navigable ancestors, clear current chapter, no extra back buttons. */
 .reader-breadcrumb[hidden] { display: none!important; }
 .reader-breadcrumb {
