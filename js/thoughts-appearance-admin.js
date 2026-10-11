@@ -6,7 +6,7 @@
     accent: "#92785b",
     login: { image: "", ratio: "4:3", x: 50, y: 50, zoom: 100 },
     hero: { image: "", ratio: "3:1", x: 50, y: 50, zoom: 100 },
-    interface: { displayFont: "Inter", bodyFont: "Inter", logo: "", layoutWidth: "standard", cardStyle: "soft" }
+    interface: { displayFont: "Inter", bodyFont: "Inter", logo: "", layoutWidth: "standard", cardStyle: "soft", showHero: false }
   };
   var FONT_CHOICES = ["Inter", "Newsreader", "Space Grotesk", "Instrument Serif", "Archivo"];
   function validFont(name) {
@@ -39,6 +39,7 @@
     next.interface.logo = typeof iface.logo === "string" ? iface.logo : "";
     next.interface.layoutWidth = ["narrow", "standard", "wide"].includes(iface.layoutWidth) ? iface.layoutWidth : "standard";
     next.interface.cardStyle = ["square", "soft", "rounded"].includes(iface.cardStyle) ? iface.cardStyle : "soft";
+    next.interface.showHero = !!iface.showHero;
     return next;
   }
   function showStatus(message, error) {
@@ -127,6 +128,7 @@
     $("appearancePreviewSubtitle").textContent = draft.subtitle || "";
     $("appearanceLoginTitle").textContent = draft.title || "Archive";
     $("appearanceLivePreview").style.setProperty("--reader-accent", draft.accent);
+    $("appearanceHeroFrame").hidden = !draft.interface.showHero;
     $("appearanceLivePreview").style.setProperty("--reader-card-radius", ({ square: "0px", soft: "14px", rounded: "22px" })[draft.interface.cardStyle] || "14px");
     $("appearanceLivePreview").style.setProperty("--appearance-demo-width", ({ narrow: "340px", standard: "400px", wide: "480px" })[draft.interface.layoutWidth] || "400px");
     updateSlot("login");
@@ -141,6 +143,7 @@
     draft.interface.bodyFont = validFont($("appearanceBodyFont").value);
     draft.interface.layoutWidth = $("appearanceLayoutWidth").value;
     draft.interface.cardStyle = $("appearanceCardStyle").value;
+    draft.interface.showHero = $("appearanceShowHero").checked;
     ["login", "hero"].forEach(function (key) {
       var id = slotName(key);
       draft[key].ratio = $(id + "Ratio").value;
@@ -162,6 +165,7 @@
     $("appearanceBodyFont").value = validFont(draft.interface.bodyFont);
     $("appearanceLayoutWidth").value = draft.interface.layoutWidth;
     $("appearanceCardStyle").value = draft.interface.cardStyle;
+    $("appearanceShowHero").checked = !!draft.interface.showHero;
     updateLogoPreview();
     ["login", "hero"].forEach(function (name) {
       var id = slotName(name);
@@ -262,7 +266,7 @@
     ["appearanceTitle", "appearanceSubtitle", "appearanceAccent"].forEach(function (id) {
       $(id).addEventListener("input", readForm);
     });
-    ["appearanceDisplayFont", "appearanceBodyFont", "appearanceLayoutWidth", "appearanceCardStyle"].forEach(function (id) {
+    ["appearanceDisplayFont", "appearanceBodyFont", "appearanceLayoutWidth", "appearanceCardStyle", "appearanceShowHero"].forEach(function (id) {
       $(id).addEventListener("change", readForm);
     });
     $("appearanceLogoUpload").addEventListener("change", function () {
