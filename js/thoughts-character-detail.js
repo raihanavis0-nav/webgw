@@ -38,7 +38,7 @@
       '<h2 id="characterDetailName"></h2>' +
       '<p class="character-detail-meta" id="characterDetailMeta"></p>' +
       '<div class="character-detail-rule" aria-hidden="true"></div>' +
-      '<p class="character-detail-bio" id="characterDetailBio"></p>' +
+      '<div class="character-detail-bio" id="characterDetailBio"></div>' +
       "</div>" +
       "</div>";
 
@@ -80,7 +80,30 @@
     name.textContent = info.name;
     meta.textContent = info.meta;
     meta.hidden = !info.meta;
-    bio.textContent = info.bio || "No description yet.";
+    // Label/value lines become tidy card rows; freeform bios remain readable prose.
+    bio.replaceChildren();
+    var lines = (info.bio || "No description yet.").split(/\n/).map(function (line) {
+      return line.trim();
+    }).filter(Boolean);
+    lines.forEach(function (line) {
+      var match = /^([^:\n]{1,32})\s*:\s*(.+)$/.exec(line);
+      if (match) {
+        var row = document.createElement("div");
+        row.className = "character-detail-fact";
+        var label = document.createElement("dt");
+        var value = document.createElement("dd");
+        label.textContent = match[1].trim();
+        value.textContent = match[2].trim();
+        row.appendChild(label);
+        row.appendChild(value);
+        bio.appendChild(row);
+      } else {
+        var paragraph = document.createElement("p");
+        paragraph.className = "character-detail-paragraph";
+        paragraph.textContent = line;
+        bio.appendChild(paragraph);
+      }
+    });
 
     if (!dialog.open) dialog.showModal();
   }
