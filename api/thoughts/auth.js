@@ -44,6 +44,14 @@ async function appearanceHandler(req, res) {
         accent: /^#[0-9a-fA-F]{6}$/.test(source.accent || "") ? source.accent : "#92785b",
         login: cleanSlot(source.login, "4:3"),
         hero: cleanSlot(source.hero, "3:1"),
+        interface: {
+          displayFont: ["Inter","Newsreader","Space Grotesk","Instrument Serif","Archivo"].includes(source.interface && source.interface.displayFont) ? source.interface.displayFont : "Inter",
+          bodyFont: ["Inter","Newsreader","Space Grotesk","Instrument Serif","Archivo"].includes(source.interface && source.interface.bodyFont) ? source.interface.bodyFont : "Inter",
+          logo: source.interface && typeof source.interface.logo === "string" ? source.interface.logo : "",
+          layoutWidth: ["narrow","standard","wide"].includes(source.interface && source.interface.layoutWidth) ? source.interface.layoutWidth : "standard",
+          cardStyle: ["square","soft","rounded"].includes(source.interface && source.interface.cardStyle) ? source.interface.cardStyle : "soft",
+          showHero: !!(source.interface && source.interface.showHero),
+        },
       }
     });
   } catch (error) {
