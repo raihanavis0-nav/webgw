@@ -1,0 +1,179 @@
+/* Reader Sub-series gallery: optional compact list without altering poster data or rotations. */
+.reader-poster-layout-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 11px;
+  margin: -10px 0 23px;
+  min-width: 0;
+}
+.reader-poster-layout-label {
+  color: var(--muted);
+  font: 600 10px/1.3 var(--reader-ui, Inter, system-ui, sans-serif);
+  letter-spacing: .11em;
+}
+.reader-poster-layout-switch {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--soft) 45%, var(--paper));
+}
+.reader-poster-layout-button {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.reader-poster-layout-button svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+.reader-poster-layout-button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+.reader-poster-layout-button:not([aria-pressed="true"]):hover {
+  background: var(--soft);
+  color: var(--ink);
+}
+.reader-poster-layout-button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* Scoped only to the selected Series' Sub-series posters.
+   Grid remains the default; all existing cards and click handlers are retained. */
+#seriesList .reader-books-grid.is-list-view {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  width: 100%;
+  max-width: 940px;
+  padding: 0 0 clamp(48px,7vw,92px);
+}
+#seriesList .reader-books-grid.is-list-view > .reader-series-card {
+  width: 100%;
+  min-width: 0;
+  border-top: 1px solid var(--line);
+  padding: 13px 0;
+}
+#seriesList .reader-books-grid.is-list-view > .reader-series-card:last-child {
+  border-bottom: 1px solid var(--line);
+}
+#seriesList .reader-books-grid.is-list-view .reader-series-open {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: clamp(14px, 2.4vw, 24px);
+  align-items: center;
+  width: 100%;
+  min-height: 108px;
+  padding: 0 94px 0 0;
+  border-radius: 4px;
+  text-align: left;
+}
+#seriesList .reader-books-grid.is-list-view .reader-series-frame {
+  width: 72px;
+  max-width: 100%;
+  aspect-ratio: var(--poster-ratio);
+  align-self: center;
+  border-radius: 4px;
+  box-shadow: none;
+}
+#seriesList .reader-books-grid.is-list-view .reader-series-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 0;
+}
+#seriesList .reader-books-grid.is-list-view .reader-series-copy strong {
+  font: 450 clamp(22px,3vw,31px)/1.14 var(--subseries-ui-font,var(--reader-display));
+  letter-spacing: -.035em;
+  overflow-wrap: anywhere;
+}
+#seriesList .reader-books-grid.is-list-view .reader-series-copy > span {
+  font: 500 10px/1.5 var(--reader-ui,Inter,sans-serif);
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+#seriesList .reader-books-grid.is-list-view .reader-series-open:hover .reader-series-frame {
+  transform: none;
+  box-shadow: none;
+}
+#seriesList .reader-books-grid.is-list-view .reader-series-card:hover {
+  background: color-mix(in srgb,var(--soft) 26%,transparent);
+}
+#seriesList .reader-books-grid.is-list-view .reader-series-poster-controls {
+  top: 50%;
+  right: 9px;
+  transform: translateY(-50%);
+  transform-origin: center;
+}
+#seriesList .reader-books-grid.is-list-view .reader-series-open:focus-visible {
+  outline-offset: -2px;
+}
+
+/* The thumbnail + text should remain legible even on smaller screens. */
+@media (max-width: 600px) {
+  .reader-poster-layout-bar {
+    margin: -5px 0 19px;
+  }
+  #seriesList .reader-books-grid.is-list-view > .reader-series-card {
+    padding: 11px 0;
+  }
+  #seriesList .reader-books-grid.is-list-view .reader-series-open {
+    grid-template-columns: 61px minmax(0, 1fr);
+    gap: 13px;
+    min-height: 94px;
+    padding-right: 75px;
+  }
+  #seriesList .reader-books-grid.is-list-view .reader-series-frame {
+    width: 61px;
+  }
+  #seriesList .reader-books-grid.is-list-view .reader-series-copy strong {
+    font-size: clamp(19px, 4.5vw, 24px);
+  }
+  #seriesList .reader-books-grid.is-list-view .reader-series-poster-controls {
+    right: 4px;
+    transform: translateY(-50%) scale(.88);
+  }
+}
+@media (max-width: 390px) {
+  #seriesList .reader-books-grid.is-list-view .reader-series-open {
+    grid-template-columns: 54px minmax(0, 1fr);
+    gap: 11px;
+    min-height: 81px;
+    padding-right: 65px;
+  }
+  #seriesList .reader-books-grid.is-list-view .reader-series-frame {
+    width: 54px;
+  }
+  #seriesList .reader-books-grid.is-list-view .reader-series-copy strong {
+    font-size: 18px;
+  }
+  #seriesList .reader-books-grid.is-list-view .reader-series-poster-controls {
+    transform: translateY(-50%) scale(.76);
+    right: 1px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reader-poster-layout-button { transition: none; }
+}
