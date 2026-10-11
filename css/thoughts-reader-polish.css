@@ -85,10 +85,14 @@
   display: grid;
   justify-items: start;
   gap: 5px;
-  margin-top: 20px;
-  padding-top: 15px;
+  margin-top: 12px;
+  padding-top: 12px;
   border-top: 1px solid color-mix(in srgb,var(--ink) 15%,transparent);
   min-width: 0;
+}
+/* The last fact and casting footer must share ONE separator, not two. */
+.character-detail-bio:has(+ .character-detail-credit:not([hidden])) > .character-detail-fact:last-child {
+  border-bottom: 0;
 }
 .character-detail-credit-label {
   color: var(--ink);
@@ -97,8 +101,25 @@
   letter-spacing: .08em;
 }
 .character-detail-credit-name {
+  display: inline-flex;
+  gap: 6px;
+  align-items: baseline;
+  color: var(--ink);
   font: 500 14px/1.5 Inter,system-ui,sans-serif;
+  text-decoration: none;
+  text-underline-offset: 4px;
   overflow-wrap: anywhere;
+}
+.character-detail-credit-name::after {
+  content: "↗";
+  font: 500 12px/1 Inter,system-ui,sans-serif;
+  opacity: .55;
+}
+.character-detail-credit-name:hover { text-decoration: underline; }
+.character-detail-credit-name:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+  border-radius: 2px;
 }
 .character-detail-placeholder {
   position: relative;
@@ -120,7 +141,7 @@
   border-radius: 6px;
 }
 @media(max-width:620px) {
-  .character-detail-credit { margin-top: 16px; padding-top: 12px; }
+  .character-detail-credit { margin-top: 10px; padding-top: 10px; }
 }
 
 /* Context trail: navigable ancestors, clear current chapter, no extra back buttons. */
