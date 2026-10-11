@@ -68,6 +68,7 @@
     if ($("readerArchiveTitle")) $("readerArchiveTitle").textContent = a.title || "Archive";
     if ($("readerArchiveSubtitle")) $("readerArchiveSubtitle").textContent = a.subtitle || "Choose a series and discover its world.";
     if ($("readerLoginTitle")) $("readerLoginTitle").textContent = a.title || "Archive";
+    if (window.ReaderEntrance) window.ReaderEntrance.setTitle(a.title || "Archive");
     if (a.accent && /^#[a-fA-F0-9]{6}$/.test(a.accent)) document.documentElement.style.setProperty("--reader-accent", a.accent);
     applyFrame("readerLogin", a.login, "4:3");
     // The old Library hero banner is paused while posters take priority.
@@ -80,7 +81,10 @@
     fetch("/api/thoughts/auth?appearance=1", { credentials: "same-origin", headers: { Accept: "application/json" } })
       .then(function (r) { if (!r.ok) throw new Error("Appearance unavailable"); return r.json(); })
       .then(function (r) { apply(r.appearance); })
-      .catch(function () { /* Keep the archive usable with default appearance. */ });
+      .catch(function () { /* Keep the archive usable with default appearance. */ })
+      .finally(function () {
+        if (window.ReaderEntrance) window.ReaderEntrance.setAppearanceReady();
+      });
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", load);
   else load();
