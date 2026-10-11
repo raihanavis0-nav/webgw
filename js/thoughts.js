@@ -952,7 +952,6 @@
   }
 
   var activeWorldCategory = "";
-  var galleryAlbums = [];
 
   function archiveViewFromUrl() {
     var view = new URLSearchParams(window.location.search).get("view") || "stories";
@@ -1327,255 +1326,6 @@
     section.dataset.hasContent = stories.length ? "true" : "false";
   }
 
-  function galleryMedia(path, label, kind, shape, caption) {
-    return {
-      path: path || "",
-      label: label || "Untitled",
-      kind: kind || "Archive",
-      shape: shape || "wide",
-      caption: caption || "",
-    };
-  }
-
-  function uniqueGalleryMedia(items) {
-    var seen = new Set();
-    return items.filter(function (item) {
-      if (!item.path || seen.has(item.path)) return false;
-      seen.add(item.path);
-      return true;
-    });
-  }
-
-  function buildGalleryAlbums() {
-    var albums = [];
-
-    var covers = [];
-    state.data.series.forEach(function (series) {
-      if (series.cover) {
-        covers.push(
-          galleryMedia(series.cover, series.name, "Series cover", "portrait", "")
-        );
-      }
-    });
-    state.data.subseries.forEach(function (subseries) {
-      if (subseries.cover) {
-        covers.push(
-          galleryMedia(
-            subseries.cover,
-            subseries.name,
-            "Sub-series cover",
-            "portrait",
-            ""
-          )
-        );
-      }
-    });
-    covers = uniqueGalleryMedia(covers);
-    if (covers.length) {
-      albums.push({ id: "covers", title: "Covers", type: "Archive", items: covers });
-    }
-
-    var banners = [];
-    state.data.series.forEach(function (series) {
-      if (series.banner) {
-        banners.push(
-          galleryMedia(series.banner, series.name, "Series banner", "wide", "")
-        );
-      }
-    });
-    state.data.subseries.forEach(function (subseries) {
-      if (subseries.banner) {
-        banners.push(
-          galleryMedia(
-            subseries.banner,
-            subseries.name,
-            "Sub-series banner",
-            "wide",
-            ""
-          )
-        );
-      }
-    });
-    state.data.stories.forEach(function (story) {
-      if (story.banner) {
-        banners.push(
-          galleryMedia(story.banner, story.title, "Story header", "wide", "")
-        );
-      }
-    });
-    state.data.galleryItems
-      .filter(function (item) {
-        return item.category === "banner";
-      })
-      .sort(function (a, b) {
-        return Number(a.order || 0) - Number(b.order || 0);
-      })
-      .forEach(function (item) {
-        banners.push(
-          galleryMedia(
-            item.image,
-            item.title || "Banner",
-            "Banner",
-            "wide",
-            item.caption || ""
-          )
-        );
-      });
-    banners = uniqueGalleryMedia(banners);
-    // Legacy banner gallery is hidden for now; stored artwork is untouched.
-
-    ["poster", "artwork"].forEach(function (category) {
-      var items = state.data.galleryItems
-        .filter(function (item) {
-          return item.category === category;
-        })
-        .slice()
-        .sort(function (a, b) {
-          return Number(a.order || 0) - Number(b.order || 0);
-        })
-        .map(function (item) {
-          return galleryMedia(
-            item.image,
-            item.title || (category === "poster" ? "Poster" : "Artwork"),
-            category === "poster" ? "Poster" : "Artwork",
-            category === "poster" ? "poster" : "wide",
-            item.caption || ""
-          );
-        });
-
-      items = uniqueGalleryMedia(items);
-      if (items.length) {
-        albums.push({
-          id: category === "poster" ? "posters" : "artwork",
-          title: category === "poster" ? "Posters" : "Artwork",
-          type: "Archive",
-          items: items,
-        });
-      }
-    });
-
-    return albums;
-  }
-
-  function renderGalleryItem(item) {
-    var figure = document.createElement("figure");
-    figure.className = "gallery-item";
-    figure.dataset.shape = item.shape || "wide";
-
-    var link = document.createElement("a");
-    link.href = mediaUrl(item.path);
-    link.target = "_blank";
-    link.rel = "noopener";
-
-    var image = document.createElement("img");
-    image.src = mediaUrl(item.path);
-    image.alt = item.label || item.kind || "Archive image";
-    image.loading = "lazy";
-    link.appendChild(image);
-
-    var caption = document.createElement("figcaption");
-
-    var title = document.createElement("span");
-    title.textContent = item.label || "Untitled";
-
-    var meta = document.createElement("span");
-    meta.textContent = item.kind || "Archive";
-
-    caption.appendChild(title);
-    caption.appendChild(meta);
-
-    if (item.caption) {
-      var note = document.createElement("p");
-      note.className = "gallery-item-caption";
-      note.textContent = item.caption;
-      figure.appendChild(link);
-      figure.appendChild(caption);
-      figure.appendChild(note);
-      return figure;
-    }
-
-    figure.appendChild(link);
-    figure.appendChild(caption);
-    return figure;
-  }
-
-  function openGalleryAlbum(albumId) {
-    var album = galleryAlbums.find(function (item) {
-      return item.id === albumId;
-    });
-    if (!album) return;
-
-    var host = $("galleryGrid");
-    host.innerHTML = "";
-
-    album.items.forEach(function (item) {
-      host.appendChild(renderGalleryItem(item));
-    });
-
-    $("galleryAlbumTitle").textContent = album.title;
-    $("galleryAlbumGrid").hidden = true;
-    $("galleryAlbumView").hidden = false;
-  }
-
-  function showGalleryAlbums() {
-    $("galleryAlbumGrid").hidden = false;
-    $("galleryAlbumView").hidden = true;
-  }
-
-  function renderGallery() {
-    var section = $("gallerySection");
-    var host = $("galleryAlbumGrid");
-    host.innerHTML = "";
-    galleryAlbums = buildGalleryAlbums();
-
-    galleryAlbums.forEach(function (album) {
-      var button = document.createElement("button");
-      button.type = "button";
-      button.className = "gallery-album-card";
-      button.dataset.shape =
-        album.id === "posters"
-          ? "poster"
-          : album.items[0] && album.items[0].shape
-            ? album.items[0].shape
-            : "wide";
-
-      var media = document.createElement("span");
-      media.className = "gallery-album-cover";
-
-      var image = document.createElement("img");
-      image.src = mediaUrl(album.items[0].path);
-      image.alt = "";
-      image.loading = "lazy";
-      media.appendChild(image);
-
-      var copy = document.createElement("span");
-      copy.className = "gallery-album-copy";
-
-      var title = document.createElement("strong");
-      title.textContent = album.title;
-
-      var meta = document.createElement("span");
-      meta.textContent =
-        album.type +
-        " · " +
-        album.items.length +
-        (album.items.length === 1 ? " image" : " images");
-
-      copy.appendChild(title);
-      copy.appendChild(meta);
-
-      button.appendChild(media);
-      button.appendChild(copy);
-      button.addEventListener("click", function () {
-        openGalleryAlbum(album.id);
-      });
-
-      host.appendChild(button);
-    });
-
-    showGalleryAlbums();
-    section.dataset.hasContent = galleryAlbums.length ? "true" : "false";
-  }
 
   function renderHome() {
     $("libraryHome").hidden = false;
@@ -1589,7 +1339,7 @@
     });
     document.body.dataset.readerScope = chosenBook ? "book" : hasSeries ? "series" : "selector";
     var tab = document.querySelector('[data-archive-view="stories"]');
-    if (tab) tab.textContent = chosenBook ? "Chapters" : "Seasons";
+    if (tab) tab.textContent = chosenBook ? "Chapters" : "Series";
     $("archiveSectionNav").hidden = !hasSeries;
 
     renderSeries();
@@ -1713,6 +1463,20 @@
     var mins = readingMinutes(story);
     $("storyDate").textContent =
       (dateText ? dateText + " · " : "") + mins + " min read";
+
+    // Content warning, when the author set one.
+    var cwHost = $("storyContentWarning");
+    if (cwHost) {
+      var cwText = String(story.contentWarning || "").trim();
+      cwHost.hidden = !cwText;
+      if (cwText) {
+        cwHost.innerHTML = "";
+        var cwLabel = document.createElement("strong");
+        cwLabel.textContent = "Content warning: ";
+        cwHost.appendChild(cwLabel);
+        cwHost.appendChild(document.createTextNode(cwText));
+      }
+    }
 
     // Banners are temporarily removed from the reader. Keep old uploads and metadata.
     var storyBanner = $("storyBanner");
@@ -1968,7 +1732,6 @@
     }
 
     $("worldBackButton").addEventListener("click", showWorldCategories);
-    $("galleryBackButton").addEventListener("click", showGalleryAlbums);
 
     window.addEventListener("popstate", function () {
       renderLibrary();
@@ -1995,4 +1758,17 @@
   }
 
   document.addEventListener("DOMContentLoaded", wire);
+
+  // Public read API for companion modules (e.g. the @-mention dialog).
+  window.ThoughtsReader = {
+    characterById: characterById,
+    worldEntryById: function (id) {
+      return (state.data.worldEntries || []).find(function (item) {
+        return String(item.id) === String(id);
+      });
+    },
+    seriesById: seriesById,
+    subseriesById: subseriesById,
+    mediaUrl: mediaUrl
+  };
 })();
