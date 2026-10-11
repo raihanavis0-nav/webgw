@@ -75,10 +75,12 @@
     if (window.ReaderEntrance) window.ReaderEntrance.setTitle(a.title || "Archive");
     if (a.accent && /^#[a-fA-F0-9]{6}$/.test(a.accent)) document.documentElement.style.setProperty("--reader-accent", a.accent);
     applyFrame("readerLogin", a.login, "4:3");
-    // The old Library hero banner is paused while posters take priority.
-    var hero = $("readerHeroMedia"), heroImg = $("readerHeroImage");
-    if (hero) hero.hidden = true;
-    if (heroImg) heroImg.removeAttribute("src");
+    if (a.interface && a.interface.showHero) applyFrame("readerHero", a.hero, "3:1");
+    else {
+      var hero = $("readerHeroMedia"), heroImg = $("readerHeroImage");
+      if (hero) hero.hidden = true;
+      if (heroImg) heroImg.removeAttribute("src");
+    }
     applyInterface(a);
   }
   function load() {
