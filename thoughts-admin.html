@@ -159,6 +159,7 @@
 <label for="appearanceLayoutWidth">Reader content width<select id="appearanceLayoutWidth"><option value="narrow">Narrow</option><option value="standard" selected>Standard</option><option value="wide">Wide</option></select></label>
 <label for="appearanceCardStyle">Reader card corners<select id="appearanceCardStyle"><option value="square">Square</option><option value="soft" selected>Soft</option><option value="rounded">Rounded</option></select></label>
 </div>
+<label class="appearance-hero-toggle" for="appearanceShowHero"><input type="checkbox" id="appearanceShowHero" /> Show library hero banner above Series</label>
 <label for="appearanceLogoUpload">Logo<input id="appearanceLogoUpload" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" /></label>
 <div class="appearance-logo-preview"><img id="appearanceLogoPreview" alt="Logo preview" hidden /><span id="appearanceLogoEmpty">No logo uploaded — using the default Railnavis logo.</span></div>
 <div><button class="quiet-action" type="button" id="appearanceLogoRemove">Remove logo</button>
@@ -176,7 +177,7 @@
 <label for="appearanceLoginX">Focus X<input id="appearanceLoginX" type="range" min="0" max="100" value="50" step="1" /></label>
 <label for="appearanceLoginY">Focus Y<input id="appearanceLoginY" type="range" min="0" max="100" value="50" step="1" /></label>
 </div><button class="quiet-action" type="button" id="appearanceLoginRemove">Remove artwork</button><span class="appearance-position-note" id="appearanceLoginPositionText"></span></section>
-<section class="appearance-group" id="appearanceHeroSettings" hidden><h3>Library hero banner (paused)</h3><p>Supports GIF, PNG, JPEG, WebP. GIF stays animated. Drag the preview to reposition artwork.</p>
+<section class="appearance-group" id="appearanceHeroSettings"><h3>Library hero banner (optional)</h3><p>Supports GIF, PNG, JPEG, WebP. GIF stays animated. Drag the preview to reposition artwork.</p>
 <label for="appearanceHeroUpload">Image / GIF<input id="appearanceHeroUpload" type="file" accept="image/gif,image/png,image/jpeg,image/webp" /></label>
 <div class="appearance-controls-grid">
 <label for="appearanceHeroRatio">Display ratio<select id="appearanceHeroRatio">
