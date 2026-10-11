@@ -29,6 +29,10 @@
     var rootStyle = document.documentElement.style;
     rootStyle.setProperty("--reader-display", '"' + displayFont + '", system-ui, sans-serif');
     rootStyle.setProperty("--reader-body-font", '"' + bodyFont + '", system-ui, sans-serif');
+    var widths = { narrow: "760px", standard: "820px", wide: "1060px" };
+    var corners = { square: "0px", soft: "14px", rounded: "22px" };
+    rootStyle.setProperty("--max", widths[iface.layoutWidth] || widths.standard);
+    rootStyle.setProperty("--reader-card-radius", corners[iface.cardStyle] || corners.soft);
     var gateLogo = $("readerGateLogo");
     if (gateLogo) {
       var logo = safeLogo(iface.logo);
