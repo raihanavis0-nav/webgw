@@ -65,10 +65,26 @@
 
       <main id="thoughtsApp" aria-live="polite">
         <p id="readerAuthLoading" class="reader-auth-loading" role="status" hidden>Opening library…</p>
-        <section class="access-gate" id="accessGate" hidden>
-          <div class="reader-gate-card">
-            <img class="reader-gate-logo" id="readerGateLogo" src="assets/img/logo-railnavis.png" alt="Railnavis" />
-            <div class="archive-visual reader-login-media" id="readerLoginMedia" hidden><img id="readerLoginImage" alt="Archive artwork" /></div>
+        <section class="reader-entrance" id="readerEntrance" aria-label="Archive entrance">
+          <div class="reader-entrance-inner">
+            <p class="reader-entrance-kicker">A FICTION ARCHIVE</p>
+            <div class="archive-visual reader-login-media reader-entrance-artwork" id="readerLoginMedia" hidden>
+              <img id="readerLoginImage" alt="Archive artwork" />
+            </div>
+            <div class="reader-entrance-placeholder" aria-hidden="true"><span>A</span></div>
+            <h1 class="reader-entrance-title" id="readerEntranceTitle">Archive</h1>
+            <div class="reader-entrance-actions" id="readerEntranceActions">
+              <div class="reader-entrance-wait" id="readerEntranceWait" role="status">
+                <span class="reader-dot-shift" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span>Opening library…</span>
+              </div>
+              <button class="reader-entrance-enter" id="readerEntranceEnter" type="button" hidden>
+                ENTER <span aria-hidden="true">→</span>
+              </button>
+            </div>
+            <section class="access-gate" id="accessGate" hidden>
+              <div class="reader-gate-card">
+                <img class="reader-gate-logo" id="readerGateLogo" src="assets/img/logo-railnavis.png" alt="Railnavis" />
             <p class="eyebrow">Private fiction library</p>
             <h1 id="readerLoginTitle">Archive</h1>
             <p class="gate-desc">Enter the archive.</p>
@@ -83,6 +99,8 @@
             <button id="unlockButton" type="button">Enter</button>
           </div>
           <p class="gate-status" id="gateStatus" role="status"></p>
+              </div>
+            </section>
           </div>
         </section>
 
