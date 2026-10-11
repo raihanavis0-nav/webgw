@@ -61,7 +61,11 @@
     img.style.objectPosition = x + "% " + y + "%";
     img.style.transformOrigin = x + "% " + y + "%";
     img.style.transform = "scale(" + (zoom / 100) + ")";
-    img.src = url;
+    img.onerror = function () {
+      if (img.getAttribute("src") === url) frame.hidden = true;
+    };
+    // Never reassign the same GIF URL, which would restart its animation.
+    if (img.getAttribute("src") !== url) img.src = url;
   }
   function apply(appearance) {
     var a = appearance || {};
