@@ -100,3 +100,9 @@
  .character-detail-fact{grid-template-columns:85px minmax(0,1fr);}
 }
 @media(prefers-reduced-motion:reduce){.character-detail-trigger{transition:none;}}
+
+/* Persisted per-book reader layout controls and accent. */
+body.subseries-ui-themed{--link:var(--subseries-ui-accent,var(--subseries-ui-ink));}
+body.subseries-ui-themed #seriesList a:hover,
+body.subseries-ui-themed .archive-hierarchy-chapters a:hover{color:var(--subseries-ui-accent,var(--subseries-ui-ink));}
+#storyView .chapter-paper,#storyWorkspace .chapter-editor-page{max-width:var(--chapter-paper-max-width,800px);border-radius:var(--chapter-paper-radius,2px);}
