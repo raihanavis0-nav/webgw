@@ -102,3 +102,21 @@
     margin-left: 0;
   }
 }
+
+/* Content warning notice at the top of a story. */
+.story-content-warning {
+  margin: 14px 0 0;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--ink);
+  font: 400 0.82rem/1.6 var(--reader-ui);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 3%, transparent);
+}
+
+.story-content-warning strong {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
