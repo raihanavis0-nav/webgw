@@ -6,7 +6,7 @@
     accent: "#92785b",
     login: { image: "", ratio: "4:3", x: 50, y: 50, zoom: 100 },
     hero: { image: "", ratio: "3:1", x: 50, y: 50, zoom: 100 },
-    interface: { displayFont: "Inter", bodyFont: "Inter", logo: "" }
+    interface: { displayFont: "Inter", bodyFont: "Inter", logo: "", layoutWidth: "standard", cardStyle: "soft" }
   };
   var FONT_CHOICES = ["Inter", "Newsreader", "Space Grotesk", "Instrument Serif", "Archivo"];
   function validFont(name) {
@@ -37,6 +37,8 @@
     next.interface.displayFont = validFont(iface.displayFont);
     next.interface.bodyFont = validFont(iface.bodyFont);
     next.interface.logo = typeof iface.logo === "string" ? iface.logo : "";
+    next.interface.layoutWidth = ["narrow", "standard", "wide"].includes(iface.layoutWidth) ? iface.layoutWidth : "standard";
+    next.interface.cardStyle = ["square", "soft", "rounded"].includes(iface.cardStyle) ? iface.cardStyle : "soft";
     return next;
   }
   function showStatus(message, error) {
@@ -125,6 +127,8 @@
     $("appearancePreviewSubtitle").textContent = draft.subtitle || "";
     $("appearanceLoginTitle").textContent = draft.title || "Archive";
     $("appearanceLivePreview").style.setProperty("--reader-accent", draft.accent);
+    $("appearanceLivePreview").style.setProperty("--reader-card-radius", ({ square: "0px", soft: "14px", rounded: "22px" })[draft.interface.cardStyle] || "14px");
+    $("appearanceLivePreview").style.setProperty("--appearance-demo-width", ({ narrow: "340px", standard: "400px", wide: "480px" })[draft.interface.layoutWidth] || "400px");
     updateSlot("login");
     updateSlot("hero");
     updateLogoPreview();
@@ -135,6 +139,8 @@
     draft.accent = $("appearanceAccent").value;
     draft.interface.displayFont = validFont($("appearanceDisplayFont").value);
     draft.interface.bodyFont = validFont($("appearanceBodyFont").value);
+    draft.interface.layoutWidth = $("appearanceLayoutWidth").value;
+    draft.interface.cardStyle = $("appearanceCardStyle").value;
     ["login", "hero"].forEach(function (key) {
       var id = slotName(key);
       draft[key].ratio = $(id + "Ratio").value;
@@ -154,6 +160,8 @@
     $("appearanceAccent").value = /^#[\da-f]{6}$/i.test(draft.accent) ? draft.accent : defaults.accent;
     $("appearanceDisplayFont").value = validFont(draft.interface.displayFont);
     $("appearanceBodyFont").value = validFont(draft.interface.bodyFont);
+    $("appearanceLayoutWidth").value = draft.interface.layoutWidth;
+    $("appearanceCardStyle").value = draft.interface.cardStyle;
     updateLogoPreview();
     ["login", "hero"].forEach(function (name) {
       var id = slotName(name);
@@ -254,7 +262,7 @@
     ["appearanceTitle", "appearanceSubtitle", "appearanceAccent"].forEach(function (id) {
       $(id).addEventListener("input", readForm);
     });
-    ["appearanceDisplayFont", "appearanceBodyFont"].forEach(function (id) {
+    ["appearanceDisplayFont", "appearanceBodyFont", "appearanceLayoutWidth", "appearanceCardStyle"].forEach(function (id) {
       $(id).addEventListener("change", readForm);
     });
     $("appearanceLogoUpload").addEventListener("change", function () {
