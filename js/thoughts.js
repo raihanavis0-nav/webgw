@@ -463,12 +463,6 @@
       var meta = document.createElement("p");
       meta.className = "story-meta";
 
-      var badge = document.createElement("span");
-      var format = storyFormat(story);
-      badge.className = "format-badge format-" + format;
-      badge.textContent = format === "screenplay" ? "Script" : "Prose";
-      meta.appendChild(badge);
-
       var minutes = document.createElement("span");
       minutes.className = "story-reading-time";
       minutes.textContent = readingMinutes(story) + " min read";
@@ -505,7 +499,9 @@
     return list;
   }
 
-  // Story discovery: search + format filter + random, wrapping a story list.
+  // Story discovery: search + random, wrapping a story list.
+  // The format filter was removed: each book/series is uniformly one
+  // format, so a per-list filter could never match anything.
   function createStoryDiscovery(stories) {
     var wrapper = document.createElement("div");
     wrapper.className = "story-discovery";
@@ -520,21 +516,19 @@
     search.setAttribute("aria-label", "Search stories");
     search.autocomplete = "off";
 
-    var filters = document.createElement("div");
-    filters.className = "discovery-filters";
-    filters.setAttribute("role", "group");
-    filters.setAttribute("aria-label", "Filter by format");
+    // Single format label for the whole list (uniform per book/series).
+    var seenFormats = {};
+    (stories || []).forEach(function (story) {
+      seenFormats[storyFormat(story)] = true;
+    });
+    var formatKeys = Object.keys(seenFormats);
+    var listFormat = formatKeys.length === 1 ? formatKeys[0] : "";
 
     var listHost = document.createElement("div");
-
-    var activeFormat = "all";
 
     function currentFiltered() {
       var q = search.value.trim().toLowerCase();
       return (stories || []).filter(function (story) {
-        if (activeFormat !== "all" && storyFormat(story) !== activeFormat) {
-          return false;
-        }
         if (!q) return true;
         var hay = (
           String(story.title || "") +
@@ -558,28 +552,6 @@
       listHost.appendChild(createStoryList(filtered));
     }
 
-    [
-      ["all", "All"],
-      ["prose", "Prose"],
-      ["screenplay", "Script"]
-    ].forEach(function (pair) {
-      var btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "discovery-filter-btn";
-      btn.textContent = pair[1];
-      btn.setAttribute("aria-pressed", pair[0] === "all" ? "true" : "false");
-      btn.addEventListener("click", function () {
-        activeFormat = pair[0];
-        filters
-          .querySelectorAll(".discovery-filter-btn")
-          .forEach(function (b) {
-            b.setAttribute("aria-pressed", b === btn ? "true" : "false");
-          });
-        render();
-      });
-      filters.appendChild(btn);
-    });
-
     var random = document.createElement("button");
     random.type = "button";
     random.className = "discovery-random-btn";
@@ -595,7 +567,12 @@
     search.addEventListener("input", render);
 
     toolbar.appendChild(search);
-    toolbar.appendChild(filters);
+    if (listFormat) {
+      var formatLabel = document.createElement("span");
+      formatLabel.className = "discovery-format-label";
+      formatLabel.textContent = listFormat === "screenplay" ? "Script" : "Prose";
+      toolbar.appendChild(formatLabel);
+    }
     toolbar.appendChild(random);
     wrapper.appendChild(toolbar);
     wrapper.appendChild(listHost);
@@ -796,6 +773,51 @@
     }
     host.appendChild(wrap);
   }
+
+  // Universal "back to all series" + series context for the
+  // Characters / World / Timeline panels. The stories panel renders its
+  // own hierarchy heading; these panels had no way back at all.
+  function syncPanelContext(sectionId) {
+    var section = $(sectionId);
+    if (!section) return;
+    var heading = section.querySelector(".section-heading");
+    if (!heading) return;
+
+    var context = seriesContext();
+    var back = heading.querySelector(".archive-panel-back");
+    var ctx = heading.querySelector(".archive-panel-context");
+
+    if (!context.seriesId) {
+      if (back) back.remove();
+      if (ctx) ctx.remove();
+      return;
+    }
+
+    var view = section.getAttribute("data-archive-panel") || "stories";
+    if (!back) {
+      back = document.createElement("button");
+      back.type = "button";
+      back.className = "archive-panel-back";
+      back.addEventListener("click", function () {
+        goToCollection("", "", back.getAttribute("data-view"));
+      });
+      heading.insertBefore(back, heading.firstChild);
+    }
+    back.setAttribute("data-view", view);
+    back.textContent = "← All series";
+
+    var series = seriesById(context.seriesId);
+    var book = context.bookId ? subseriesById(context.bookId) : null;
+    var ctxText = series ? series.name || "" : "";
+    if (book && book.name) ctxText += (ctxText ? " / " : "") + book.name;
+    if (!ctx) {
+      ctx = document.createElement("p");
+      ctx.className = "archive-panel-context";
+      heading.appendChild(ctx);
+    }
+    ctx.textContent = ctxText;
+    ctx.hidden = !ctxText;
+  }
   function collectionCard(item, type, count, onClick) {
     var card = document.createElement("button");
     card.type = "button";
@@ -831,6 +853,10 @@
     var context = seriesContext();
     var series = state.data.series.find(function (s) { return String(s.id) === context.seriesId; });
     var stories = state.data.stories || [];
+    // The static "Discover Worlds" heading is redundant once drilled into
+    // a series — the hierarchy heading below already carries the title.
+    var staticHeading = document.querySelector("#seriesSection > .section-heading");
+    if (staticHeading) staticHeading.hidden = Boolean(series);
     if (!series) {
       var seriesGrid = document.createElement("div");
       seriesGrid.className = "reader-series-grid";
@@ -895,6 +921,7 @@
   }
 
   function renderCharacters() {
+    syncPanelContext("charactersSection");
     var section = $("charactersSection");
     var grid = $("characterGrid");
     grid.innerHTML = "";
@@ -1184,6 +1211,7 @@
   }
 
   function renderWorld() {
+    syncPanelContext("worldSection");
     var section = $("worldSection");
     var host = $("worldCategoryGrid");
     host.innerHTML = "";
@@ -1252,6 +1280,7 @@
   }
 
   function renderTimeline() {
+    syncPanelContext("timelineSection");
     var section = $("timelineSection");
     var host = $("timelineList");
     host.innerHTML = "";

@@ -55,6 +55,7 @@ body[data-reader-scope="selector"] .library-intro{padding-top:clamp(16px,3vw,48p
   padding:10px 0 12px!important;
   border:0!important;border-bottom:1.5px solid transparent!important;
   background:transparent!important;color:var(--muted);
+  text-decoration:none!important;
   transition:color .18s ease,border-color .18s ease;
 }
 .archive-section-nav button[aria-pressed="true"]{
