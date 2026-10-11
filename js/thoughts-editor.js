@@ -143,6 +143,84 @@
     markChanged();
   }
 
+  var SP_BLOCK_CLASSES = [
+    "sp-scene",
+    "sp-action",
+    "sp-character",
+    "sp-dialogue",
+    "sp-parenthetical",
+    "sp-transition"
+  ];
+
+  // After Enter, screenwriting apps advance to the next logical block.
+  var SP_ENTER_NEXT = {
+    "sp-scene": "sp-action",
+    "sp-action": "sp-action",
+    "sp-character": "sp-dialogue",
+    "sp-dialogue": "sp-character",
+    "sp-parenthetical": "sp-dialogue",
+    "sp-transition": "sp-scene"
+  };
+
+  function screenplayBlockOf(block) {
+    if (!block || block === editor) return "";
+    for (var i = 0; i < SP_BLOCK_CLASSES.length; i++) {
+      if (block.classList.contains(SP_BLOCK_CLASSES[i])) return SP_BLOCK_CLASSES[i];
+    }
+    return "";
+  }
+
+  function applyScreenplayBlock(cls) {
+    restoreSelection();
+    var block = currentBlock();
+    if (!block || block === editor) return;
+    SP_BLOCK_CLASSES.forEach(function (c) {
+      block.classList.remove(c);
+    });
+    if (cls) block.classList.add(cls);
+    markChanged();
+  }
+
+  function screenplayEnter(event) {
+    var block = currentBlock();
+    if (!block || block === editor) return false;
+    var current = screenplayBlockOf(block);
+    var text = block.textContent.replace(/\u200b/g, "").trim();
+
+    // Empty block + Enter: drop the script style, behave like a normal break.
+    if (!text) {
+      SP_BLOCK_CLASSES.forEach(function (c) {
+        block.classList.remove(c);
+      });
+      return false;
+    }
+
+    var next = SP_ENTER_NEXT[current];
+    if (!next) return false;
+
+    event.preventDefault();
+    var selection = window.getSelection();
+    var range = selection.getRangeAt(0);
+
+    // Split the block at the caret; the tail becomes the new block.
+    var tail = range.extractContents();
+    var newBlock = document.createElement("p");
+    newBlock.className = next;
+    newBlock.appendChild(tail);
+    if (!newBlock.textContent.replace(/\u200b/g, "").trim()) {
+      newBlock.innerHTML = "<br>";
+    }
+    block.parentNode.insertBefore(newBlock, block.nextSibling);
+
+    var newRange = document.createRange();
+    newRange.setStart(newBlock, 0);
+    newRange.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(newRange);
+    markChanged();
+    return true;
+  }
+
   function syncButtons() {
     if (!toolbar) return;
     [
@@ -190,6 +268,7 @@
       if (action === "unlink") exec("unlink");
       if (action === "image" && typeof config.onImage === "function") config.onImage();
       if (action === "table") insertTable();
+      if (action === "sp-block") applyScreenplayBlock(button.getAttribute("data-sp-class"));
     });
 
     var block = $("editorBlockSelect");
@@ -292,6 +371,18 @@
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") {
         event.preventDefault();
         if (typeof config.onSave === "function") config.onSave();
+        return;
+      }
+      // Screenplay mode: Enter advances to the next logical script block.
+      if (
+        event.key === "Enter" &&
+        !event.shiftKey &&
+        !event.ctrlKey &&
+        !event.metaKey &&
+        !event.altKey &&
+        editor.classList.contains("is-screenplay")
+      ) {
+        screenplayEnter(event);
       }
     });
   }
