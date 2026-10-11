@@ -1440,7 +1440,13 @@
       "published": true,
       "characterIds": [],
       "body": "",
-      "synopsis": ""
+      "synopsis": "",
+      "timelineEnabled": false,
+      "timelineYear": 2020,
+      "timelineMonth": 3,
+      "timelineDay": 14,
+      "timelineSeason": "",
+      "timelinePrecision": "day"
     },
     {
       "id": "story-1790827343630",
