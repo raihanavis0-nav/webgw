@@ -58,14 +58,13 @@
         <div class="admin-header-inner">
           <button class="admin-brand" id="homeButton" type="button" aria-label="Stories admin home"><img class="admin-logo" id="adminLogo" src="assets/img/logo-railnavis.png" alt="Railnavis" /></button>
           <div class="admin-header-actions">
-            <span class="save-indicator" id="saveIndicator">Saved</span>
+            <span class="save-indicator" id="saveIndicator" role="status" aria-live="polite"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Saved</span></span>
             <div class="theme-switch" role="group" aria-label="Color theme">
-              <button type="button" data-theme-choice="light">Light</button>
-              <span aria-hidden="true">/</span>
-              <button type="button" data-theme-choice="dark">Dark</button>
+              <button type="button" data-theme-choice="light" title="Light theme" aria-label="Light theme"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg></button>
+              <button type="button" data-theme-choice="dark" title="Dark theme" aria-label="Dark theme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.9 13a9 9 0 0 1-9.9-9.9 9 9 0 1 0 9.9 9.9Z"/></svg></button>
             </div>
-            <a href="read" target="_blank" rel="noopener">Open reader ↗</a>
-            <button class="quiet-action" id="logoutBtn" type="button">Logout</button>
+            <a class="admin-utility-link" href="read" target="_blank" rel="noopener" title="Open reader"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2v-3M13 3h8v8m0-8-11 11"/></svg><span>Reader</span></a>
+            <button class="quiet-action admin-utility-logout" id="logoutBtn" type="button" title="Logout" aria-label="Logout"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/></svg></button>
           </div>
         </div>
       </header>
@@ -393,6 +392,9 @@
           <div class="theme-field-grid">
             <label for="subseriesUiColor">UI background <input id="subseriesUiColor" type="color" value="#262D37" /></label>
             <label for="subseriesPaperColor">Paper background <input id="subseriesPaperColor" type="color" value="#FFFDF7" /></label>
+            <label for="subseriesAccentColor">Link accent <input id="subseriesAccentColor" type="color" value="#E6BC78" /></label>
+            <label for="subseriesPaperWidth">Reading width <select id="subseriesPaperWidth"><option value="narrow">Narrow</option><option value="standard" selected>Standard</option><option value="wide">Wide</option></select></label>
+            <label for="subseriesPaperRadius">Paper corners <select id="subseriesPaperRadius"><option value="square" selected>Square</option><option value="soft">Soft</option><option value="rounded">Rounded</option></select></label>
           </div>
           <label class="theme-font-field" for="subseriesUiFont">Google Fonts family
             <input id="subseriesUiFont" type="text" list="subseriesUiFontSuggestions" maxlength="70" placeholder="Search or type a Google Fonts name" autocomplete="off" />
@@ -424,28 +426,32 @@
             </div>
           </div>
           <input id="seriesPosterFiles" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden />
-          <div class="series-poster-ratio">
-            <span>Poster frame ratio</span>
-            <label for="seriesPosterWidth">Width <input id="seriesPosterWidth" type="number" min="1" max="10" step="0.5" value="2" /></label>
-            <span aria-hidden="true">:</span>
-            <label for="seriesPosterHeight">Height <input id="seriesPosterHeight" type="number" min="1" max="10" step="0.5" value="3" /></label>
-          </div>
           <div class="series-posters-editor">
-            <div class="series-poster-list" id="seriesPosterList" aria-label="Series poster order"></div>
-            <div class="series-poster-details">
-              <p class="series-poster-details-label">Live crop preview</p>
-              <div class="series-poster-crop-frame" id="seriesPosterFrame"><img id="seriesPosterImage" alt="Selected poster preview" /><span id="seriesPosterPlaceholder">Select a poster to adjust its framing.</span></div>
-              <p class="series-poster-crop-note">Drag artwork to reposition. Crop and ratio are saved per Series or Sub-series.</p>
+            <section class="poster-manager-card" aria-label="Poster setup">
+              <div class="poster-card-heading"><span class="poster-card-kicker">SETUP</span><h4>Poster library</h4></div>
+              <div class="series-poster-ratio">
+                <span>Frame ratio</span>
+                <label for="seriesPosterWidth">Width <input id="seriesPosterWidth" type="number" min="1" max="10" step="0.5" value="2" /></label>
+                <span class="ratio-divider" aria-hidden="true">:</span>
+                <label for="seriesPosterHeight">Height <input id="seriesPosterHeight" type="number" min="1" max="10" step="0.5" value="3" /></label>
+              </div>
+              <div class="poster-card-list-title">POSTERS <span id="seriesPosterCount">0</span></div>
+              <div class="series-poster-list" id="seriesPosterList" aria-label="Series poster order"></div>
+            </section>
+            <section class="series-poster-details poster-preview-card" aria-label="Crop preview">
+              <div class="poster-card-heading"><span class="poster-card-kicker">PREVIEW</span><h4>Crop &amp; position</h4></div>
+              <div class="series-poster-crop-frame" id="seriesPosterFrame"><img id="seriesPosterImage" alt="Selected poster preview" /><span id="seriesPosterPlaceholder">Choose or upload a poster to preview its crop.</span></div>
               <div class="series-poster-sliders" id="seriesPosterControls">
                 <label>Horizontal <input id="seriesPosterX" type="range" min="0" max="100" step="1" value="50" /></label>
                 <label>Vertical <input id="seriesPosterY" type="range" min="0" max="100" step="1" value="50" /></label>
                 <label>Zoom <input id="seriesPosterZoom" type="range" min="100" max="250" step="5" value="100" /></label>
               </div>
               <span id="seriesPosterCropValues" class="series-poster-crop-note"></span>
-            </div>
+              <p class="series-poster-crop-note">Drag the image to adjust framing.</p>
+            </section>
           </div>
           <p class="series-poster-status" id="seriesPosterStatus" role="status"></p>
-          <p class="portrait-help">Posters rotate every 5 seconds only while hovered or keyboard-focused. On touchscreens, readers can browse them manually. Static images are recommended for performance.</p>
+          <p class="portrait-help poster-footer-hint">Posters rotate on hover or keyboard focus. On touchscreens, readers navigate manually.</p>
         </section>
         <div class="dialog-field cover-field" id="entityCoverField" hidden>
           <label>Book cover <span class="optional">(optional)</span></label>
@@ -612,6 +618,7 @@
     <input id="richStoryImageInput" type="file" accept="image/*" hidden />
     <div class="admin-toast" id="adminToast" role="status" hidden></div>
 
+    <link rel="stylesheet" href="css/ui-refresh.css?v=20261011h" />
     <script src="js/thoughts-rich-content.js?v=20261011f" defer></script>
     <script src="js/thoughts-editor.js?v=20261011f" defer></script>
     <script src="js/thoughts-mention-editor.js?v=20261011f" defer></script>
