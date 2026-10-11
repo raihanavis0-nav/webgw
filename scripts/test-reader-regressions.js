@@ -129,3 +129,34 @@ test("Reader scripts retain conflict recovery and lightweight preview logic", ()
   assert.match(reader,/readerLoadRetry/);
   assert.match(reader,/createPosterLayoutSwitch/);
 });
+
+test("Chunked audio seeking reads only overlapping files", async () => {
+  const media = require("../server/thoughts-media");
+  const files = new Map([
+    ["assets/thoughts/audio/chunks/a.part", Buffer.from("AAAA")],
+    ["assets/thoughts/audio/chunks/b.part", Buffer.from("BBBB")],
+    ["assets/thoughts/audio/chunks/c.part", Buffer.from("CCCC")],
+  ]);
+  const manifest = { kind:"chunked-audio", extension:"mp3", totalSize:12,
+    chunks:Array.from(files, ([path, buffer]) => ({path,size:buffer.length})) };
+  const calls = [];
+  const fakeStore = {
+    async getRawFile(path) {
+      calls.push(path);
+      if (path.endsWith(".chunks.json"))
+        return { buffer:Buffer.from(JSON.stringify(manifest)) };
+      return { buffer: files.get(path) };
+    }
+  };
+  const range = await media.loadChunkedRange(
+    fakeStore, "assets/thoughts/audio/track.chunks.json", "bytes=5-6"
+  );
+  assert.equal(range.buffer.toString(), "BB");
+  assert.equal(range.start, 5);
+  assert.equal(range.end, 6);
+  assert.equal(range.total, 12);
+  assert.deepEqual(calls, [
+    "assets/thoughts/audio/track.chunks.json",
+    "assets/thoughts/audio/chunks/b.part"
+  ]);
+});
