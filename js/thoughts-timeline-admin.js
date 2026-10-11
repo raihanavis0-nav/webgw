@@ -217,5 +217,5 @@
       pending.clear();expanded="";$("timelineManagerMessage").textContent="";render();
     });
   }
-  window.ArchiveTimelineAdmin={init:init,render:render};
+  window.ArchiveTimelineAdmin={init:init,render:render,hasPending:function(){return pending.size>0;}};
 })();
