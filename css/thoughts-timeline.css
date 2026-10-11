@@ -1,0 +1,64 @@
+/* Chronological Reader: compact horizontal snake tracks, clear year anchors. */
+#timelineSection .section-heading {margin-bottom:22px}
+.archive-timeline:has(.timeline-wave-toolbar){max-width:1160px}
+.timeline-wave-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:0 0 34px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.timeline-wave-count{font:500 12px/1.5 var(--reader-ui,Inter,sans-serif);color:var(--muted)}
+.timeline-wave-controls{display:flex;align-items:center;gap:8px}
+.timeline-wave-select,.timeline-wave-sort{appearance:none;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font:500 12px/1.4 var(--reader-ui,Inter,sans-serif);min-height:38px;padding:8px 11px;cursor:pointer}
+.timeline-wave-select{min-width:118px}
+.timeline-wave-sort:hover,.timeline-wave-select:hover{border-color:var(--muted)}
+.timeline-wave-sort:focus-visible,.timeline-wave-select:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.timeline-wave-year{display:grid;grid-template-columns:minmax(105px,155px) minmax(0,1fr);column-gap:clamp(20px,4vw,56px);padding:0 0 38px;margin:0 0 28px;border-bottom:1px solid var(--line)}
+.timeline-wave-year:last-child{border-bottom:0}
+.timeline-wave-year-head{display:flex;flex-direction:column;gap:8px;cursor:pointer;list-style:none;align-self:start;position:sticky;top:24px;grid-column:1;grid-row:1;min-width:0}
+.timeline-wave-year-head::-webkit-details-marker{display:none}
+.timeline-wave-year-label{color:var(--ink);font:450 clamp(32px,4.5vw,53px)/1 var(--reader-display,Georgia,serif);letter-spacing:-.065em}
+.timeline-wave-year-count{font:500 11px/1.5 var(--reader-ui,Inter,sans-serif);color:var(--muted)}
+.timeline-wave-chevron{font:400 21px/1 var(--reader-ui,Inter,sans-serif);color:var(--muted);transition:transform .2s}
+.timeline-wave-year:not([open]) .timeline-wave-chevron{transform:rotate(-90deg)}
+.timeline-wave-year-head:focus-visible{outline:2px solid var(--ink);outline-offset:5px}
+.timeline-wave-year-body{grid-column:2;grid-row:1;min-width:0}
+.timeline-wave-period{min-width:0;margin:0 0 26px}
+.timeline-wave-period:last-child{margin-bottom:0}
+.timeline-wave-period-title{margin:0 0 10px;color:var(--muted);font:650 11px/1.4 var(--reader-ui,Inter,sans-serif);text-transform:uppercase;letter-spacing:.14em}
+.timeline-wave-lane{--lane-gap:16px;display:flex;gap:var(--lane-gap);position:relative;isolation:isolate;min-width:0;margin:0 0 25px;padding:0;list-style:none}
+.timeline-wave-lane:last-child{margin-bottom:0}
+.timeline-wave-lane.is-reverse{flex-direction:row-reverse}
+.timeline-wave-lane::before{content:"";position:absolute;z-index:-1;top:11px;left:12px;right:12px;height:1px;background:color-mix(in srgb,var(--ink) 24%,var(--paper))}
+.timeline-wave-lane.has-next::after{content:"";position:absolute;z-index:-1;top:11px;width:22px;height:calc(100% + 24px);border:1px solid color-mix(in srgb,var(--ink) 24%,var(--paper));border-left:0;border-radius:0 22px 22px 0;right:-9px;pointer-events:none}
+.timeline-wave-lane.has-next.is-reverse::after{right:auto;left:-9px;transform:scaleX(-1)}
+.timeline-wave-cell{position:relative;min-width:0;flex:0 0 calc((100% - (var(--lane-columns) - 1)*var(--lane-gap))/var(--lane-columns))}
+.timeline-wave-cell::before{content:"";position:absolute;z-index:2;top:6px;left:15px;width:11px;height:11px;border-radius:50%;border:3px solid var(--paper);background:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.timeline-wave-card{display:flex;flex-direction:column;align-items:start;gap:7px;min-width:0;height:100%;padding:30px 14px 14px;margin:0;border:1px solid transparent;border-radius:10px;color:var(--ink);text-decoration:none;background:color-mix(in srgb,var(--soft) 55%,transparent);transition:background .16s,border-color .16s,transform .16s}
+.timeline-wave-card:hover{background:var(--soft);border-color:var(--line);transform:translateY(-2px)}
+.timeline-wave-card:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.timeline-wave-card-top{display:flex;justify-content:space-between;gap:8px;width:100%;align-items:start}
+.timeline-wave-card-date{font:650 10px/1.4 var(--reader-ui,Inter,sans-serif);color:var(--muted);letter-spacing:.055em;text-transform:uppercase}
+.timeline-wave-card-number{font:500 9px/1.4 var(--reader-ui,Inter,sans-serif);color:var(--muted);white-space:nowrap}
+.timeline-wave-card-name{font:500 clamp(15px,1.8vw,20px)/1.2 var(--reader-display,Georgia,serif);letter-spacing:-.018em;overflow-wrap:anywhere}
+.timeline-wave-card-meta{font:500 10px/1.5 var(--reader-ui,Inter,sans-serif);color:var(--muted);overflow-wrap:anywhere}
+.timeline-wave-card-description{font:400 12px/1.45 var(--reader-ui,Inter,sans-serif);color:var(--muted);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere}
+.timeline-wave-card-arrow{font:600 10px/1.5 var(--reader-ui,Inter,sans-serif);color:var(--ink);margin-top:auto;padding-top:4px}
+@media(max-width:1080px){
+  .timeline-wave-year{grid-template-columns:minmax(85px,112px) minmax(0,1fr);column-gap:24px}
+  .timeline-wave-lane{--lane-gap:12px}
+}
+@media(max-width:699px){
+  .timeline-wave-toolbar{align-items:flex-start;margin-bottom:22px}
+  .timeline-wave-year{display:block;margin-bottom:22px;padding-bottom:24px}
+  .timeline-wave-year-head{position:static;flex-direction:row;align-items:baseline;gap:15px;margin-bottom:18px}
+  .timeline-wave-year-label{font-size:34px}
+  .timeline-wave-chevron{margin-left:auto}
+  .timeline-wave-period{margin-bottom:20px}
+  .timeline-wave-period-title{margin-bottom:10px}
+  .timeline-wave-lane,.timeline-wave-lane.is-reverse{display:flex;flex-direction:column;gap:0;margin:0}
+  .timeline-wave-lane::before{top:8px;bottom:0;left:12px;right:auto;width:1px;height:auto}
+  .timeline-wave-lane.has-next::after{display:none}
+  .timeline-wave-cell{flex:none;width:100%;padding-left:31px;padding-bottom:11px}
+  .timeline-wave-cell::before{left:7px;top:12px;width:11px;height:11px}
+  .timeline-wave-card{padding:12px 13px;gap:5px;border:1px solid var(--line)}
+  .timeline-wave-card-name{font-size:18px}
+  .timeline-wave-card-description{font-size:11px}
+  .timeline-wave-sort,.timeline-wave-select{min-height:36px}
+}
+@media(prefers-reduced-motion:reduce){.timeline-wave-card,.timeline-wave-chevron{transition:none}.timeline-wave-card:hover{transform:none}}
