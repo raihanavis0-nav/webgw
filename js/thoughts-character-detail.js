@@ -29,6 +29,7 @@
     var dialog = document.createElement("dialog");
     dialog.id = "characterDetailDialog";
     dialog.className = "character-detail-dialog";
+    dialog.setAttribute("aria-labelledby", "characterDetailName");
     dialog.innerHTML =
       '<div class="character-detail-shell">' +
       '<button class="character-detail-close" type="button" aria-label="Close character details">×</button>' +
@@ -65,16 +66,23 @@
 
     portrait.innerHTML = "";
 
-    if (info.imageSrc) {
-      var image = document.createElement("img");
-      image.src = info.imageSrc;
-      image.alt = info.imageAlt || info.name + " portrait";
-      portrait.appendChild(image);
-    } else {
+    function showPortraitPlaceholder() {
       var placeholder = document.createElement("div");
       placeholder.className = "character-detail-placeholder";
       placeholder.textContent = info.initials || info.name.slice(0, 2).toUpperCase();
-      portrait.appendChild(placeholder);
+      portrait.replaceChildren(placeholder);
+    }
+    if (info.imageSrc) {
+      var image = document.createElement("img");
+      image.alt = info.imageAlt || info.name + " portrait";
+      image.addEventListener("error", function () {
+        // A failed thumbnail must not replace the portrait of another open character.
+        if (image.parentNode === portrait) showPortraitPlaceholder();
+      });
+      portrait.appendChild(image);
+      image.src = info.imageSrc;
+    } else {
+      showPortraitPlaceholder();
     }
 
     name.textContent = info.name;
