@@ -4,7 +4,7 @@
   function $(id) { return document.getElementById(id); }
   function safeImage(path) {
     return /^assets\/thoughts\/[a-zA-Z0-9._/-]+\.(gif|png|jpg|jpeg|webp)$/i.test(String(path || "")) && !String(path).includes("..")
-      ? RAW + String(path).split("/").map(encodeURIComponent).join("/") : "";
+      ? "/api/thoughts/appearance-media?path=" + encodeURIComponent(String(path)) : "";
   }
   // Interface settings: fonts + logo. Brand assets live on the main
   // branch, so they resolve as site-relative paths (not the data branch).
