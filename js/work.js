@@ -3,6 +3,8 @@
   "use strict";
 
   let lightboxState = { items: [], index: 0 };
+  let collectionOpener = null;
+  let lightboxOpener = null;
 
   function init() {
     if (typeof siteData === "undefined" || !window.SiteCore) return;
@@ -21,6 +23,40 @@
         project.images.length > 0
       );
     }
+
+    function accessibleArtwork(item, label, action) {
+      item.setAttribute("role", "button");
+      item.setAttribute("tabindex", "0");
+      item.setAttribute("aria-label", label);
+      item.addEventListener("click", function () { item.focus({ preventScroll: true }); action(); });
+      item.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          action();
+        }
+      });
+    }
+
+    function trapFocus(root, event) {
+      if (event.key !== "Tab" || !root || !root.classList.contains("open")) return;
+      const nodes = Array.from(root.querySelectorAll(
+        'button:not([disabled]),a[href],input:not([disabled]),[tabindex="0"]'
+      )).filter(node => node.offsetParent !== null);
+      if (!nodes.length) { event.preventDefault(); return; }
+      const first = nodes[0], last = nodes[nodes.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault(); last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault(); first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key !== "Tab") return;
+      const lightbox = $("#lightbox"), collection = $("#collection");
+      if (lightbox && lightbox.classList.contains("open")) trapFocus(lightbox, event);
+      else if (collection && collection.classList.contains("open")) trapFocus(collection, event);
+    });
 
     function filterProjects(category) {
       $$("#projectGrid .album-item").forEach((item) => {
@@ -69,6 +105,7 @@
     function openCollection(data) {
       const collection = $("#collection");
       if (!collection) return;
+      collectionOpener = document.activeElement;
 
       setText("#colKicker", data.category || "Collection");
       setText("#colTitle", data.title || "Album");
@@ -103,7 +140,7 @@
           : "";
         item.style.cursor = "zoom-in";
         item.setAttribute("data-cursor", "");
-        item.addEventListener("click", () => openLightbox(item));
+        accessibleArtwork(item, "Open " + item.dataset.title, function () { openLightbox(item); });
 
         collectionGrid.appendChild(item);
       });
@@ -111,7 +148,10 @@
       collection.scrollTop = 0;
       collection.classList.add("open");
       collection.setAttribute("aria-hidden", "false");
+      collection.setAttribute("role", "dialog");
+      collection.setAttribute("aria-modal", "true");
       refreshScrollLock();
+      $("#colClose").focus({ preventScroll: true });
     }
 
     function closeCollection() {
@@ -121,6 +161,7 @@
       collection.classList.remove("open");
       collection.setAttribute("aria-hidden", "true");
       refreshScrollLock();
+      if (collectionOpener && collectionOpener.isConnected) collectionOpener.focus({ preventScroll: true });
     }
 
     function initLightbox() {
@@ -166,6 +207,7 @@
         ? Array.from(container.querySelectorAll(".album-item"))
         : $$(".album-item");
 
+      lightboxOpener = document.activeElement;
       lightboxState.items = pool.filter(
         (item) =>
           item.dataset.src && item.style.display !== "none"
@@ -178,7 +220,10 @@
       paintLightbox();
       lightbox.classList.add("open");
       lightbox.setAttribute("aria-hidden", "false");
+      lightbox.setAttribute("role", "dialog");
+      lightbox.setAttribute("aria-modal", "true");
       refreshScrollLock();
+      $("#lbClose").focus({ preventScroll: true });
     }
 
     function paintLightbox() {
@@ -218,6 +263,7 @@
       lightbox.classList.remove("open");
       lightbox.setAttribute("aria-hidden", "true");
       refreshScrollLock();
+      if (lightboxOpener && lightboxOpener.isConnected) lightboxOpener.focus({ preventScroll: true });
     }
 
     function buildAlbum(looseFiles) {
@@ -314,9 +360,9 @@
           );
 
           item.appendChild(badge);
-          item.addEventListener("click", () =>
-            openCollection(project)
-          );
+          accessibleArtwork(item, "Open album " + (project.title || "Collection"), function () {
+            openCollection(project);
+          });
         } else {
           const image = el("img");
           image.src = project.image;
@@ -328,9 +374,9 @@
           item.dataset.title = project.title || "";
           item.style.cursor = "zoom-in";
           item.setAttribute("data-cursor", "");
-          item.addEventListener("click", () =>
-            openLightbox(item)
-          );
+          accessibleArtwork(item, "Open artwork " + (project.title || "Image"), function () {
+            openLightbox(item);
+          });
         }
 
         if (project.title || project.category) {
