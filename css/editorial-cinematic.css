@@ -2,8 +2,9 @@
    The original data model and viewer behavior remain authoritative. */
 :root{
   --max:1180px;
-  --reader-display:"Newsreader","Iowan Old Style",Georgia,serif;
+  --reader-display:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   --reader-ui:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --reader-body-font:var(--reader-display);
   --reader-ease:cubic-bezier(.22,1,.36,1);
 }
 html[data-theme="dark"]{
@@ -247,7 +248,7 @@ body[data-reader-scope="chapter"] .story-view{max-width:100%;padding-bottom:48px
 }
 #storyView .chapter-paper .story-date{font:400 11px/1.3 var(--reader-ui);letter-spacing:.06em;opacity:.7;}
 #storyView .chapter-paper .post-body{
-  font:400 var(--reading-font-size,18px)/1.82 var(--reader-display);
+  font:400 var(--reading-font-size,18px)/1.82 var(--reader-body-font,var(--reader-display));
   letter-spacing:0;max-width:100%;overflow-wrap:break-word;
 }
 #storyView .chapter-paper .post-body p{margin:0 0 1.35em;}
@@ -342,4 +343,13 @@ body.subseries-ui-themed .archive-section-nav button[aria-pressed="true"]{
 body.subseries-ui-themed .reader-reading-tools button{
   color:var(--subseries-ui-ink);
   border-color:color-mix(in srgb,var(--subseries-ui-ink) 22%,transparent);
+}
+
+/* Brand logo on the reader login gate. */
+.reader-gate-logo {
+  height: 46px;
+  width: auto;
+  max-width: 230px;
+  object-fit: contain;
+  margin-bottom: 20px;
 }
