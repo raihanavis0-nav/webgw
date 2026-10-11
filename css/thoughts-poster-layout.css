@@ -177,3 +177,19 @@
 @media (prefers-reduced-motion: reduce) {
   .reader-poster-layout-button { transition: none; }
 }
+
+/* Artwork-free Sub-series keep a branded placeholder rather than a blank rectangle. */
+#seriesList .reader-books-grid .reader-series-placeholder {
+  display:grid;place-items:center;position:relative;
+  background:linear-gradient(145deg,color-mix(in srgb,var(--soft) 86%,var(--paper)),var(--soft));
+  border:1px solid var(--line);border-radius:4px;
+  font:400 clamp(56px,7vw,94px)/1 var(--reader-display,Georgia,serif);
+  letter-spacing:-.065em;
+}
+#seriesList .reader-books-grid .reader-series-placeholder::after {
+  content:"SUB-SERIES";position:absolute;bottom:10px;left:12px;right:12px;
+  text-align:center;font:650 8px/1.5 var(--reader-ui,Inter,sans-serif);
+  letter-spacing:.15em;opacity:.52;
+}
+#seriesList .reader-books-grid.is-list-view .reader-series-placeholder {font-size:32px;}
+#seriesList .reader-books-grid.is-list-view .reader-series-placeholder::after {content:"";display:none;}
