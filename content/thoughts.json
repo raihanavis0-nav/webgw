@@ -341,6 +341,18 @@
       "cover": "",
       "posters": [],
       "posterRatio": "2:3"
+    },
+    {
+      "id": "subseries-1791728836510",
+      "seriesId": "series-1790083460918",
+      "name": "Spin Off : Jakovic",
+      "slug": "spin-off-jakovic",
+      "order": 9,
+      "description": "",
+      "banner": "",
+      "cover": "",
+      "posters": [],
+      "posterRatio": "2:3"
     }
   ],
   "characters": [
