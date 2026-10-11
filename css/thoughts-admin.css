@@ -1890,3 +1890,71 @@ body {
 .dialog-shell {
   padding: 30px 30px 26px;
 }
+
+/* =============================================================
+   ADMIN DIALOGS — authoritative reset (2026-10-11).
+   One clean block beats the patchwork of competing rules above.
+   ============================================================= */
+.editor-dialog {
+  margin: auto !important;
+  width: min(calc(100% - 48px), 560px) !important;
+  max-height: min(86vh, 780px);
+  padding: 0 !important;
+  border: 1px solid var(--line) !important;
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35) !important;
+}
+
+.editor-dialog.small-dialog {
+  width: min(calc(100% - 48px), 440px) !important;
+}
+
+.editor-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.45) !important;
+}
+
+.editor-dialog .dialog-shell {
+  box-sizing: border-box !important;
+  max-height: inherit;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 30px !important;
+}
+
+.editor-dialog .dialog-head {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+  gap: 18px;
+  margin-bottom: 22px !important;
+}
+
+.editor-dialog .dialog-head h2 {
+  font-family: Inter, system-ui, sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em;
+  margin: 4px 0 0 !important;
+  font-size: 1.7rem !important;
+}
+
+.editor-dialog .dialog-close {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 44px !important;
+  height: 44px !important;
+  flex: none !important;
+  font-size: 26px !important;
+  line-height: 1 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  background: transparent !important;
+  color: var(--ink) !important;
+  cursor: pointer !important;
+}
+
+.editor-dialog .dialog-close:hover {
+  background: color-mix(in srgb, var(--ink) 10%, transparent) !important;
+}
