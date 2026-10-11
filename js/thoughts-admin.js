@@ -3251,6 +3251,9 @@
     $("closeWorldDialogBtn").addEventListener("click", function () {
       $("worldDialog").close();
     });
+    $("closeEntityDialogBtn").addEventListener("click", function () {
+      $("entityDialog").close();
+    });
     $("cancelWorldBtn").addEventListener("click", function () {
       $("worldDialog").close();
     });
