@@ -1713,6 +1713,7 @@
     $("lockButton").hidden = true;
     $("gateStatus").textContent = message || "";
     $("accessCodeInput").value = "";
+    $("readerLoadRetry").hidden = true;
     if (window.ReaderEntrance) window.ReaderEntrance.setDestination("gate");
     if (!window.ReaderEntrance || !window.ReaderEntrance.isBlocking()) {
       $("accessCodeInput").focus();
@@ -1727,6 +1728,7 @@
     $("libraryApp").hidden = false;
     $("lockButton").hidden = false;
     $("gateStatus").textContent = "";
+    $("readerLoadRetry").hidden = true;
     if (window.ReaderEntrance) window.ReaderEntrance.setDestination("library");
   }
 
@@ -1792,7 +1794,8 @@
           return;
         }
 
-        showGate("The private archive could not be loaded right now.");
+        showGate("Could not load archive data. Your login is still valid — retry without entering a password.");
+        $("readerLoadRetry").hidden = false;
       });
   }
 
@@ -1866,7 +1869,8 @@
         return loadLibrary();
       })
       .catch(function () {
-        showGate("Could not check access right now.");
+        showGate("Could not check access. Please retry.");
+        $("readerLoadRetry").hidden = false;
       });
     // The entrance owns initial loading, preventing a second spinner overlay.
     return sessionTask;
@@ -1903,6 +1907,7 @@
     document.addEventListener("click", handleArchiveLink);
 
     $("unlockButton").addEventListener("click", unlock);
+    $("readerLoadRetry").addEventListener("click", function () { $("readerLoadRetry").hidden = true; checkSession(); });
     $("accessCodeInput").addEventListener("keydown", function (event) {
       if (event.key === "Enter") unlock();
     });
