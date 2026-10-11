@@ -3520,7 +3520,7 @@
     $("duplicateStoryBtn").addEventListener("click", duplicateStory);
 
     window.addEventListener("beforeunload", function (event) {
-      if (!state.dirty) return;
+      if (!state.dirty && !(window.ArchiveTimelineAdmin && window.ArchiveTimelineAdmin.hasPending())) return;
       event.preventDefault();
       event.returnValue = "";
     });
