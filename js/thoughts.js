@@ -935,6 +935,36 @@
     return parts.join(" / ");
   }
 
+  function characterPortraitPlaceholder(character) {
+    var name = (character && character.name) || "Unnamed";
+    var placeholder = document.createElement("div");
+    placeholder.className = "character-portrait-placeholder character-portrait-editorial";
+    placeholder.setAttribute("aria-label", name + " portrait unavailable");
+    var seed = 0;
+    for (var i = 0; i < name.length; i++) seed = (seed * 31 + name.charCodeAt(i)) % 997;
+    placeholder.dataset.tone = String(seed % 4);
+
+    var top = document.createElement("span");
+    top.className = "character-portrait-topline";
+    top.textContent = "CHARACTER ARCHIVE";
+    top.setAttribute("aria-hidden", "true");
+
+    var initials = document.createElement("span");
+    initials.className = "character-portrait-monogram";
+    initials.textContent = characterInitials(name);
+    initials.setAttribute("aria-hidden", "true");
+
+    var bottom = document.createElement("span");
+    bottom.className = "character-portrait-bottomline";
+    bottom.textContent = "PORTRAIT NOT AVAILABLE";
+    bottom.setAttribute("aria-hidden", "true");
+
+    placeholder.appendChild(top);
+    placeholder.appendChild(initials);
+    placeholder.appendChild(bottom);
+    return placeholder;
+  }
+
   function renderCharacters() {
     syncPanelContext("charactersSection");
     var section = $("charactersSection");
@@ -956,16 +986,19 @@
       if (character.portrait) {
         var image = document.createElement("img");
         image.className = "character-portrait";
-        image.src = mediaUrl(character.portrait);
         image.alt = (character.name || "Character") + " portrait";
         image.loading = "lazy";
+        image.addEventListener("error", function () {
+          if (image.parentNode !== card) return;
+          // The detail interaction was bound to the original portrait element.
+          // Allow the observer to attach it again to the replacement.
+          card.dataset.characterDetailReady = "false";
+          image.replaceWith(characterPortraitPlaceholder(character));
+        });
         card.appendChild(image);
+        image.src = mediaUrl(character.portrait);
       } else {
-        var placeholder = document.createElement("div");
-        placeholder.className = "character-portrait-placeholder";
-        placeholder.textContent = characterInitials(character.name);
-        placeholder.setAttribute("aria-label", "No portrait uploaded");
-        card.appendChild(placeholder);
+        card.appendChild(characterPortraitPlaceholder(character));
       }
 
       var name = document.createElement("h3");
