@@ -207,12 +207,14 @@
     {
       "id": "subseries-1790510502303",
       "seriesId": "series-1790083460918",
-      "name": "WHAT Spin-off : Douglas",
+      "name": "Spin-off : Douglas",
       "slug": "lights-douglas-after-story",
       "order": 5,
       "description": "",
       "banner": "",
-      "cover": ""
+      "cover": "",
+      "posters": [],
+      "posterRatio": "2:3"
     },
     {
       "id": "subseries-1790510739521",
