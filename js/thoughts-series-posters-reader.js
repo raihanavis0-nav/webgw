@@ -19,7 +19,7 @@
     node.style.transform = "scale(" + (poster.zoom == null ? 100 : clamp(Number(poster.zoom),100,250)) / 100 + ")";
   }
   function posterCard(series, count, onOpen, mediaUrl, kind) {
-    kind = kind === "Book" ? "Book" : "Series";
+    kind = kind === "Sub-series" || kind === "Book" ? "Sub-series" : "Series";
     var posters = Array.isArray(series.posters) ? series.posters.filter(isPoster) : [];
     if (!posters.length && series.cover) posters = [{ path: series.cover, x: 50, y: 50, zoom: 100 }];
     var entry = document.createElement("article");
