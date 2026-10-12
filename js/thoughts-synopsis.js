@@ -94,6 +94,14 @@
     return matches.length === 1 ? matches[0] : null;
   }
 
+  // Make the synopsis expand to its full content instead of showing a
+  // scrollbar or a browser resize handle beside the prose.
+  function fitAdminSynopsis(input) {
+    if (!input || !input.isConnected || !input.getClientRects().length) return;
+    input.style.height = "auto";
+    input.style.height = Math.max(56, input.scrollHeight) + "px";
+  }
+
   function syncAdminSynopsis() {
     var input = $("storySynopsisInput");
     var workspace = $("storyWorkspace");
@@ -103,6 +111,7 @@
     if (!story) {
       input.value = "";
       input.dataset.storyId = "";
+      fitAdminSynopsis(input);
       return;
     }
 
@@ -111,6 +120,7 @@
     input.value = synopsisCache.has(id)
       ? synopsisCache.get(id)
       : String(story.synopsis || "");
+    fitAdminSynopsis(input);
   }
 
   function markAdminDirty() {
@@ -131,7 +141,13 @@
     input.setAttribute("aria-label", "Story synopsis");
     input.setAttribute("spellcheck", "true");
     title.insertAdjacentElement("afterend", input);
-    input.addEventListener("input", markAdminDirty);
+    input.addEventListener("input", function () {
+      fitAdminSynopsis(input);
+      markAdminDirty();
+    });
+    window.addEventListener("resize", function () {
+      fitAdminSynopsis(input);
+    });
 
     var workspace = $("storyWorkspace");
     if (workspace) {
