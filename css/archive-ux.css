@@ -46,6 +46,16 @@
   color: var(--muted) !important;
   font-size: 11px !important;
 }
+.thoughts-admin-body .archive-story-nav-chapter {
+  padding-left: 33px !important;
+  color: var(--muted) !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
+}
+.thoughts-admin-body .archive-story-nav-chapter.is-direct {
+  padding-left: 19px !important;
+}
+
 .thoughts-admin-body .archive-story-library-shell :is(.admin-series-block,.subseries-block) {
   scroll-margin-top: 124px;
 }
@@ -364,6 +374,8 @@
     white-space:nowrap;
   }
   .thoughts-admin-body .archive-story-nav-sub { padding-left:10px!important; }
+  /* Long chapter lists belong in the page on narrow screens, not horizontal nav. */
+  .thoughts-admin-body .archive-story-nav-chapter { display:none; }
 }
 @media(max-width:600px) {
   .thoughts-admin-body .workspace-actions .archive-preview-action,
