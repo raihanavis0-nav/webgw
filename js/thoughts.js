@@ -965,7 +965,7 @@
       var seriesGrid = document.createElement("div");
       seriesGrid.className = "reader-series-grid reader-library-books";
       state.data.series.slice().sort(sortByOrderName).forEach(function (item) {
-        var chapterList = stories.filter(function (story) { return story.seriesId === item.id; });
+        var chapterList = stories.filter(function (story) { return String(story.seriesId) === String(item.id); });
         var count = chapterList.length;
         var books = state.data.subseries
           .filter(function (subseries) { return subseries.seriesId === item.id; })
@@ -974,14 +974,24 @@
             return {
               id: subseries.id,
               name: subseries.name,
-              chapterCount: chapterList.filter(function (story) { return story.subseriesId === subseries.id; }).length
+              chapterCount: chapterList.filter(function (story) { return String(story.subseriesId) === String(subseries.id); }).length
             };
           });
-        var directCount = chapterList.filter(function (story) { return !story.subseriesId; }).length;
+        var directStories = chapterList.filter(function (story) {
+          return !story.subseriesId;
+        }).sort(sortStories).map(function (story) {
+          return { slug: story.slug, title: story.title };
+        });
         seriesGrid.appendChild(window.ArchiveSeriesBooksReader.create(
-          item, count, books, directCount,
+          item, count, books, directStories,
           function () { goToCollection(item.id, "", "stories"); },
           function (subseriesId) { goToCollection(item.id, subseriesId, "stories"); },
+          function (slug) {
+            if (!slug) return;
+            history.pushState({}, "", storyUrl(slug));
+            renderLibrary();
+            window.scrollTo(0, 0);
+          },
           mediaUrl
         ));
       });
