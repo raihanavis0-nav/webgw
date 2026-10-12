@@ -259,12 +259,14 @@
 #readerLibrarySearchBtn { margin-top: 18px; }
 #archiveSectionNav #readerCollectionSearchBtn {
   margin-left: auto;
-  padding-inline: 12px;
-  min-height: 32px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  text-transform: none;
-  letter-spacing: normal;
+  padding: 8px 12px !important;
+  min-height: 34px;
+  border: 1px solid var(--line) !important;
+  border-radius: 7px;
+  background: var(--soft) !important;
+  color: var(--ink);
+  text-transform: none !important;
+  letter-spacing: normal !important;
   font-size: 12px;
 }
 .archive-reader-search-dialog {
