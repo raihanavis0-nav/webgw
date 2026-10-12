@@ -7,6 +7,9 @@
   var timer = 0;
   var restoring = false;
   var filter = "all";
+  var libraryData = null;
+  var recoveredOpen = null;
+  var pendingRecovery = false;
 
   function $(id) { return document.getElementById(id); }
   function el(tag, cls, content) {
@@ -35,7 +38,7 @@
   }
   function backupNow() {
     clearTimeout(timer);
-    if (!current || restoring || !$("storyWorkspace") || $("storyWorkspace").hidden) return;
+    if (!current || restoring || pendingRecovery || !$("storyWorkspace") || $("storyWorkspace").hidden) return;
     try {
       var draft = current.getDraft();
       if (window.ThoughtsEditor) draft.body = window.ThoughtsEditor.getContent();
@@ -53,7 +56,7 @@
     }
   }
   function scheduleBackup() {
-    if (!current || restoring) return;
+    if (!current || restoring || pendingRecovery) return;
     clearTimeout(timer);
     timer = setTimeout(backupNow, 700);
   }
@@ -63,12 +66,14 @@
   }
   function onOpen(options) {
     current = options;
+    pendingRecovery = false;
     hideRecovery();
     var note = $("archiveLocalDraftStatus");
     if (note) note.hidden = true;
     if (restoring) return;
     var saved = read(options.draft.id);
     if (!saved) return;
+    pendingRecovery = true;
     var bar = $("archiveRecoveryBanner");
     if (!bar) return;
     var details = bar.querySelector(".archive-recovery-description");
@@ -91,13 +96,31 @@
           synopsis.dispatchEvent(new Event("input", { bubbles: true }));
         }
       } finally { restoring = false; }
+      pendingRecovery = false;
       hideRecovery();
-      scheduleBackup();
+      // Synopsis sync may run on the next frame when the workspace first opens.
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          var synopsis = $("storySynopsisInput");
+          if (synopsis) {
+            synopsis.value = saved.synopsis || "";
+            synopsis.dispatchEvent(new Event("input", { bubbles: true }));
+          }
+          scheduleBackup();
+        });
+      });
       if ($("storyBodyEditor")) $("storyBodyEditor").focus();
     };
-    discard.onclick = function () { clear(options.draft.id); hideRecovery(); };
+    discard.onclick = function () {
+      clear(options.draft.id);
+      pendingRecovery = false;
+      hideRecovery();
+      scheduleBackup();
+    };
   }
   function onSaved(id) {
+    clearTimeout(timer);
+    pendingRecovery = false;
     clear(id);
     hideRecovery();
     var note = $("archiveLocalDraftStatus");
@@ -108,6 +131,7 @@
     clearTimeout(timer);
     if (current) clear(current.draft.id); // Confirmed discard in the original editor.
     hideRecovery();
+    pendingRecovery = false;
     current = null;
   }
 
@@ -142,12 +166,19 @@
       return '<span class="preview-character">' + escape(v.name) + '</span>';
     }).join("");
     // Styles are the very same stylesheets used by /read; iframe executes no scripts.
+    var appearance = data.appearance && data.appearance.interface ? data.appearance.interface : {};
+    var allowedFonts = ["Inter","Newsreader","Space Grotesk","Instrument Serif","Archivo"];
+    var displayFont = allowedFonts.includes(appearance.displayFont) ? appearance.displayFont : "Inter";
+    var bodyFont = allowedFonts.includes(appearance.bodyFont) ? appearance.bodyFont : "Inter";
     var markup = '<!doctype html><html lang="en"><head><meta charset="utf-8">' +
       '<meta name="viewport" content="width=device-width,initial-scale=1">' +
       '<link rel="stylesheet" href="/css/thoughts.css">' +
       '<link rel="stylesheet" href="/css/subseries-theme.css">' +
       '<link rel="stylesheet" href="/css/thoughts-screenplay.css">' +
-      '<style>body{background:#e7e2d8;margin:0}#storyView .chapter-paper{margin:16px auto 48px}' +
+      '<link rel="stylesheet" href="/css/thoughts-appearance.css">' +
+      '<style>:root{--reader-display:"' + displayFont + '",system-ui,sans-serif;' +
+      '--reader-body-font:"' + bodyFont + '",system-ui,sans-serif}' +
+      'body{background:#e7e2d8;margin:0}#storyView .chapter-paper{margin:16px auto 48px}' +
       '.preview-character{display:inline-block;margin:0 6px 8px 0;padding:5px 9px;border:1px solid currentColor;border-radius:99px;font:12px Inter,sans-serif}' +
       '.preview-characters{margin:20px 0}.story-synopsis{white-space:pre-line;color:#77736a;margin:16px 0}' +
       '</style></head><body><article id="storyView" class="story-view">' +
@@ -239,7 +270,9 @@
     });
   }
 
-  function renderLibrary(data) {
+  function renderLibrary(data, callbacks) {
+    libraryData = data;
+    recoveredOpen = callbacks && callbacks.openRecoveredDraft;
     var host = $("adminSeriesList");
     if (!host || !data) return;
     var shell = $("archiveStoryLibraryShell");
@@ -252,7 +285,7 @@
       host.parentNode.insertBefore(shell, host);
       shell.appendChild(sidebar); shell.appendChild(host);
       var search = $("adminStorySearch");
-      if (search) search.addEventListener("input", function () { applyFilters(data); });
+      if (search) search.addEventListener("input", function () { applyFilters(libraryData); });
     }
     var tree = $("archiveStoryTree");
     tree.replaceChildren();
@@ -292,10 +325,48 @@
           var option = el("option", "", pair[1]); option.value = pair[0];
           select.appendChild(option);
         });
-      select.addEventListener("change", function () { filter = select.value; applyFilters(data); });
+      select.addEventListener("change", function () { filter = select.value; applyFilters(libraryData); });
       parent.appendChild(select);
     }
+    renderRecoveryList();
     applyFilters(data);
+  }
+  function renderRecoveryList() {
+    var host = $("archiveStoryLibraryShell");
+    if (!host) return;
+    var panel = $("archiveDraftsInLibrary");
+    if (!panel) {
+      panel = el("section", "archive-local-recovery-list");
+      panel.id = "archiveDraftsInLibrary";
+      host.insertAdjacentElement("beforebegin", panel);
+    }
+    panel.replaceChildren();
+    var items = [];
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var name = localStorage.key(i);
+        if (!name || name.indexOf(PREFIX) !== 0) continue;
+        var id = decodeURIComponent(name.slice(PREFIX.length));
+        var snapshot = read(id);
+        if (snapshot) items.push(snapshot);
+        else localStorage.removeItem(name);
+      }
+    } catch (_) {}
+    items.sort(function (a,b) { return b.at - a.at; });
+    if (!items.length) { panel.hidden = true; return; }
+    panel.hidden = false;
+    panel.appendChild(el("strong", "", "Unsaved drafts on this device"));
+    panel.appendChild(el("p", "", "These backups are stored in this browser, not published or saved to the server. Clear them on shared devices."));
+    var actions = el("div", "archive-local-recovery-links");
+    items.slice(0, 8).forEach(function (snapshot) {
+      var button = el("button", "", "Recover: " + (snapshot.draft.title || "Untitled"));
+      button.type = "button";
+      button.addEventListener("click", function () {
+        if (typeof recoveredOpen === "function") recoveredOpen(snapshot.draft);
+      });
+      actions.appendChild(button);
+    });
+    panel.appendChild(actions);
   }
   function applyFilters(data) {
     var host = $("adminSeriesList"); if (!host) return;
@@ -319,7 +390,12 @@
       block.hidden = !!(q || filter !== "all") && !block.querySelector(".admin-story-row:not([hidden])");
     });
   }
-  function init() { enhanceEditor(); }
+  function init() {
+    enhanceEditor();
+    window.addEventListener("pagehide", function () {
+      if (timer) backupNow();
+    });
+  }
   window.ArchiveAdminExperience = {
     onOpen: onOpen, onSaved: onSaved, onExit: onExit,
     scheduleBackup: scheduleBackup, renderLibrary: renderLibrary
