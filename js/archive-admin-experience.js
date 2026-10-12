@@ -175,8 +175,22 @@
     var names = (draft.characterIds || []).map(function (id) {
       return (data.characters || []).find(function (v) { return String(v.id) === String(id); });
     }).filter(Boolean).map(function (v) {
-      return '<span class="preview-character">' + escape(v.name) + '</span>';
+      var avatar = String(v.portrait || "");
+      var valid = /^assets\/thoughts\/[a-z0-9._/-]+$/i.test(avatar) && !avatar.includes("..");
+      var image = valid
+        ? '<img src="/api/thoughts-admin/media?path=' + encodeURIComponent(avatar) + '" alt="" loading="lazy">'
+        : '<span class="avatar-placeholder">' + escape(String(v.name || "?").charAt(0).toUpperCase()) + '</span>';
+      return '<div class="story-character-chip">' + image +
+        '<span>' + escape(v.name || "Unnamed") + '</span></div>';
     }).join("");
+    var wordText = String(draft.body || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+    var words = wordText ? wordText.split(" ").length : 0;
+    var minutes = Math.max(1, Math.round(words / 200));
+    var parsedDate = new Date(String(draft.date || "") + "T12:00:00");
+    var formattedDate = !Number.isNaN(parsedDate.getTime())
+      ? new Intl.DateTimeFormat("en-GB", { day:"numeric", month:"long", year:"numeric" }).format(parsedDate)
+      : String(draft.date || "");
+    var dateLine = (formattedDate ? formattedDate + " · " : "") + minutes + " min read";
     // Styles are the very same stylesheets used by /read; iframe executes no scripts.
     var appearance = data.appearance && data.appearance.interface ? data.appearance.interface : {};
     var allowedFonts = ["Inter","Newsreader","Space Grotesk","Instrument Serif","Archivo"];
@@ -191,15 +205,16 @@
       '<style>:root{--reader-display:"' + displayFont + '",system-ui,sans-serif;' +
       '--reader-body-font:"' + bodyFont + '",system-ui,sans-serif}' +
       'body{background:#e7e2d8;margin:0}#storyView .chapter-paper{margin:16px auto 48px}' +
-      '.preview-character{display:inline-block;margin:0 6px 8px 0;padding:5px 9px;border:1px solid currentColor;border-radius:99px;font:12px Inter,sans-serif}' +
-      '.preview-characters{margin:20px 0}.story-synopsis{white-space:pre-line;color:#77736a;margin:16px 0}' +
+      '.story-synopsis{white-space:pre-line;color:#77736a;margin:16px 0}' +
       '</style></head><body><article id="storyView" class="story-view">' +
       '<div class="chapter-paper" id="chapterPaper">' +
       '<header class="story-header"><p class="story-path">' + escape(path) +
       '</p><h1>' + escape(draft.title || "Untitled") + '</h1>' +
-      '<p class="story-date">' + escape(draft.date || "") + '</p>' +
       (synopsis ? '<p class="story-synopsis">' + escape(synopsis) + '</p>' : '') +
-      '</header>' + (names ? '<section class="preview-characters">' + names + '</section>' : '') +
+      '<p class="story-date">' + escape(dateLine) + '</p>' +
+      (draft.contentWarning ? '<p class="story-content-warning"><strong>Content warning: </strong>' +
+        escape(draft.contentWarning) + '</p>' : '') +
+      '</header>' + (names ? '<section class="story-characters">' + names + '</section>' : '') +
       '<div class="post-body' + (draft.format === "screenplay" ? ' is-screenplay' : '') +
       '">' + content + '</div></div></article></body></html>';
     // Apply the active Sub-series background/accent/font without changing the
