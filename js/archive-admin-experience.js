@@ -139,7 +139,9 @@
     clearTimeout(timer);
     timer = 0;
     dirtyLocal = false;
-    if (current) clear(current.draft.id); // Confirmed discard in the original editor.
+    // Preserve an unreviewed recovery snapshot when the editor is closed.
+    // Only the user's explicit Discard or a successful server save clears it.
+    if (current && !pendingRecovery) clear(current.draft.id);
     hideRecovery();
     pendingRecovery = false;
     current = null;
