@@ -73,7 +73,7 @@
     if (typeof callback === "function") callback();
   }
 
-  function openBook(series, cover, count, books, directCount, onSeries, onSubseries, mediaUrl, trigger) {
+  function openBook(series, cover, count, books, directStories, onSeries, onSubseries, onStory, mediaUrl, trigger) {
     var modal = ensureDialog();
     if (modal.open) modal.close();
     opener = trigger;
@@ -94,14 +94,14 @@
     left.appendChild(el("h2", "reader-book-inside-title", series.name || "Untitled"));
     if (series.description) left.appendChild(el("p", "reader-book-inside-description", series.description));
     var total = el("p", "reader-book-inside-meta", count + (count === 1 ? " chapter" : " chapters") +
-      " · " + books.length + (books.length === 1 ? " sub-series" : " sub-series"));
+      (books.length ? " · " + books.length + (books.length === 1 ? " sub-series" : " sub-series") : ""));
     left.appendChild(total);
 
     var right = el("section", "reader-book-inside reader-book-right");
     right.appendChild(el("span", "reader-book-chapter-mark", "CONTENTS"));
     right.appendChild(el("h3", "reader-book-contents-title", "Inside this series"));
     var contents = el("nav", "reader-book-contents");
-    contents.setAttribute("aria-label", "Sub-series in " + (series.name || "Series"));
+    contents.setAttribute("aria-label", "Sub-series and chapters in " + (series.name || "Series"));
     books.forEach(function (book, index) {
       var link = el("button", "reader-book-toc-row");
       link.type = "button";
@@ -116,19 +116,24 @@
       link.addEventListener("click", function () { continueTo(function () { onSubseries(book.id); }); });
       contents.appendChild(link);
     });
-    if (directCount) {
+    // A story can belong directly to a series without a sub-series.
+    // Display each as a real chapter instead of hiding it behind a grouping link.
+    directStories.forEach(function (story, index) {
       var direct = el("button", "reader-book-toc-row");
       direct.type = "button";
-      direct.appendChild(el("span", "reader-book-toc-index", "↗"));
+      direct.setAttribute("aria-label", "Read " + (story.title || "Untitled chapter"));
+      direct.appendChild(el("span", "reader-book-toc-index", String(books.length + index + 1).padStart(2, "0")));
       var directCopy = el("span", "reader-book-toc-copy");
-      directCopy.appendChild(el("strong", "", "Standalone chapters"));
-      directCopy.appendChild(el("small", "", directCount + (directCount === 1 ? " chapter" : " chapters")));
+      directCopy.appendChild(el("strong", "", story.title || "Untitled chapter"));
+      directCopy.appendChild(el("small", "", "Chapter"));
       direct.appendChild(directCopy);
       direct.appendChild(el("span", "reader-book-toc-arrow", "›"));
-      direct.addEventListener("click", function () { continueTo(onSeries); });
+      direct.addEventListener("click", function () {
+        continueTo(function () { onStory(story.slug); });
+      });
       contents.appendChild(direct);
-    }
-    if (!books.length && !directCount) {
+    });
+    if (!books.length && !directStories.length) {
       contents.appendChild(el("p", "reader-book-no-chapters", "Chapters will appear here as this story grows."));
     }
     right.appendChild(contents);
@@ -164,7 +169,7 @@
     });
   }
 
-  function create(series, count, books, directCount, onSeries, onSubseries, mediaUrl) {
+  function create(series, count, books, directStories, onSeries, onSubseries, onStory, mediaUrl) {
     var posters = Array.isArray(series.posters) ? series.posters.filter(validPoster).slice(0, 5) : [];
     var cover = getCover(series, posters);
     var card = el("article", "reader-series-card reader-book-card");
@@ -209,7 +214,7 @@
       (posters.length > 1 ? " · " + posters.length + " posters" : "")));
     trigger.appendChild(copy);
     trigger.addEventListener("click", function () {
-      openBook(series, cover, count, books, directCount, onSeries, onSubseries, mediaUrl, trigger);
+      openBook(series, cover, count, books, directStories, onSeries, onSubseries, onStory, mediaUrl, trigger);
     });
     card.appendChild(trigger);
     return card;
