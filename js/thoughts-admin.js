@@ -177,6 +177,7 @@
   function markDirty() {
     state.dirty = true;
     setSaveIndicator("Unsaved");
+    if (window.ArchiveAdminExperience) window.ArchiveAdminExperience.scheduleBackup();
   }
 
   function handleAuthError(error) {
@@ -1046,6 +1047,7 @@
     if (window.ArchiveTimelineAdmin) window.ArchiveTimelineAdmin.render();
     if (window.ArchiveAppearanceAdmin) window.ArchiveAppearanceAdmin.render(state.data.appearance);
     setAdminLibraryView(state.libraryView, false);
+    if (window.ArchiveAdminExperience) window.ArchiveAdminExperience.renderLibrary(state.data);
   }
 
   // Small stats strip in the admin library header.
@@ -1106,6 +1108,7 @@
     }
 
     var wasEditingStory = Boolean(state.currentStoryId || state.storyDraft);
+    if (wasEditingStory && window.ArchiveAdminExperience) window.ArchiveAdminExperience.onExit();
     state.currentStoryId = "";
     state.storyDraft = null;
     state.storyIsNew = false;
@@ -2153,6 +2156,19 @@
     setEditorMode("write");
     state.dirty = false;
     setSaveIndicator(state.storyIsNew ? "New story" : "Saved");
+    if (window.ArchiveAdminExperience) {
+      window.ArchiveAdminExperience.onOpen({
+        draft: clone(draft),
+        getDraft: collectStoryDraft,
+        getData: function () { return state.data; },
+        restoreDraft: function (restored) {
+          state.storyDraft = clone(restored);
+          populateStoryEditor();
+          state.dirty = true;
+          setSaveIndicator("Unsaved");
+        }
+      });
+    }
 
     window.scrollTo({ top: 0, behavior: "smooth" });
     window.setTimeout(function () {
@@ -2265,6 +2281,7 @@
         state.currentStoryId = draft.id;
         state.storyIsNew = false;
         state.storyDraft = clone(draft);
+        if (window.ArchiveAdminExperience) window.ArchiveAdminExperience.onSaved(draft.id);
         toast("Story saved.");
       })
       .catch(function (error) {
