@@ -221,15 +221,15 @@
           family + '&display=swap"></head>');
       }
     }
-    iframe.srcdoc = markup;
     if (window.SubseriesThemes) {
       var temp = document.createElement("div");
       window.SubseriesThemes.applyPaper(temp, book && book.paperTheme);
       var paperCss = ["--chapter-paper-bg","--chapter-paper-ink","--chapter-paper-max-width","--chapter-paper-radius"]
         .map(function (name) { return name + ":" + temp.style.getPropertyValue(name); }).join(";");
-      iframe.srcdoc = markup.replace('<div class="chapter-paper" id="chapterPaper">',
+      markup = markup.replace('<div class="chapter-paper" id="chapterPaper">',
         '<div class="chapter-paper" id="chapterPaper" style="' + paperCss + '">');
     }
+    iframe.srcdoc = markup;
     dialog.showModal();
   }
 
