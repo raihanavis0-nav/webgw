@@ -42,6 +42,7 @@
     <link rel="stylesheet" href="css/thoughts-entrance.css?v=20261011p" />
     <link rel="stylesheet" href="css/thoughts-poster-layout.css?v=20261011w" />
     <link rel="stylesheet" href="css/thoughts-timeline.css?v=20261011tl2" />
+    <link rel="stylesheet" href="css/archive-ux.css?v=20261012a" />
   </head>
   <body class="is-locked">
     <div class="page-shell">
@@ -113,6 +114,7 @@
               <p class="eyebrow">THE COLLECTION / FICTION</p>
               <h1 id="readerArchiveTitle" class="reader-archive-home-title">Archive</h1>
               <p id="readerArchiveSubtitle" class="reader-archive-home-desc">Choose a series and discover its world.</p>
+              <button class="reader-global-search-button" id="readerLibrarySearchBtn" type="button">⌕ Search all chapters</button>
               <a class="reader-continue" id="readerContinue" href="read" hidden>
                 <span class="reader-continue-icon" aria-hidden="true">↗</span>
                 <span><small>CONTINUE READING</small><strong id="readerContinueTitle"></strong></span>
@@ -128,6 +130,7 @@
               <button type="button" data-archive-view="characters" aria-pressed="false">Characters</button>
               <button type="button" data-archive-view="world" aria-pressed="false">World</button>
               <button type="button" data-archive-view="timeline" aria-pressed="false">Timeline</button>
+              <button class="reader-global-search-button" id="readerCollectionSearchBtn" type="button">⌕ Search chapters</button>
             </nav>
 
             <section class="library-section archive-panel" id="seriesSection" data-archive-panel="stories">
@@ -237,19 +240,20 @@
 
     <script src="js/thoughts-rich-content.js?v=20261011f" defer></script>
     <script src="js/thoughts-series-posters-reader.js?v=20261011w" defer></script>
-    <script src="js/thoughts-series-books-reader.js?v=20261012d" defer></script>
+    <script src="js/thoughts-series-books-reader.js?v=20261012e" defer></script>
     <script src="js/thoughts-motion-loader.js?v=20261011k" defer></script>
     <script src="js/thoughts-entrance.js?v=20261012a" defer></script>
     <script src="js/subseries-theme.js?v=20261011h" defer></script>
     <script src="js/thoughts-timeline-core.js?v=20261011tl2" defer></script>
     <script src="js/thoughts-timeline-reader.js?v=20261011tl2" defer></script>
-    <script src="js/thoughts.js?v=20261012c" defer></script>
+    <script src="js/thoughts.js?v=20261012e" defer></script>
     <script src="js/thoughts-synopsis.js?v=20261012b" defer></script>
     <script src="js/thoughts-appearance-reader.js?v=20261011w" defer></script>
     <script src="js/thoughts-ending-song.js?v=20261011f" defer></script>
     <script src="js/thoughts-character-groups.js?v=20261011f" defer></script>
     <script src="js/thoughts-character-detail.js?v=20261012a" defer></script>
     <script src="js/thoughts-mention.js?v=20261011f" defer></script>
-    <script src="js/editorial-reader.js?v=20261011f" defer></script>
+    <script src="js/editorial-reader.js?v=20261012e" defer></script>
+    <script src="js/archive-reader-experience.js?v=20261012a" defer></script>
   </body>
 </html>
