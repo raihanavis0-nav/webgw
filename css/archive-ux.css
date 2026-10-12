@@ -65,6 +65,46 @@
   outline: 2px solid var(--ink);
   outline-offset: 2px;
 }
+/* A recoverable new story must be visible even when it has never been saved. */
+.thoughts-admin-body .archive-local-recovery-list {
+  display:grid;
+  gap:9px;
+  margin:0 0 22px;
+  padding:14px 16px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:var(--soft);
+}
+.thoughts-admin-body .archive-local-recovery-list > strong {
+  font:650 13px/1.4 Inter,sans-serif;
+  color:var(--ink);
+}
+.thoughts-admin-body .archive-local-recovery-list > p {
+  max-width:65ch;
+  margin:0;
+  font:400 11px/1.5 Inter,sans-serif;
+  color:var(--muted);
+}
+.thoughts-admin-body .archive-local-recovery-links {
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+.thoughts-admin-body .archive-local-recovery-links button {
+  max-width:100%;
+  padding:8px 11px;
+  border:1px solid var(--line);
+  border-radius:7px;
+  background:var(--paper);
+  color:var(--ink);
+  text-overflow:ellipsis;
+  overflow:hidden;
+  white-space:nowrap;
+  font:600 11px/1.3 Inter,sans-serif;
+}
+.thoughts-admin-body .archive-local-recovery-links button:hover {
+  border-color:var(--ink);
+}
 /* Editor actions, recovery and real reader preview. */
 .thoughts-admin-body .workspace-actions { flex-wrap: wrap; }
 .thoughts-admin-body .archive-preview-action {
