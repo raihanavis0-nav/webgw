@@ -22,10 +22,10 @@
   }
 
   function loadStyles() {
-    if (document.querySelector('link[href="css/thoughts-synopsis.css"]')) return;
+    if (document.querySelector('link[href^="css/thoughts-synopsis.css"]')) return;
     var link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "css/thoughts-synopsis.css";
+    link.href = "css/thoughts-synopsis.css?v=20261012b";
     document.head.appendChild(link);
   }
 
