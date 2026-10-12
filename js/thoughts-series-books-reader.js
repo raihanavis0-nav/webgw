@@ -134,7 +134,7 @@
       contents.appendChild(direct);
     });
     if (!books.length && !directStories.length) {
-      contents.appendChild(el("p", "reader-book-no-chapters", "Chapters will appear here as this story grows."));
+      contents.appendChild(el("p", "reader-book-no-chapters", "No published chapters yet."));
     }
     right.appendChild(contents);
     var explore = el("button", "reader-book-explore", "Explore full series  →");
