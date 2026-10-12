@@ -15,7 +15,9 @@
   padding: 0;
   border: 0;
   outline: none;
-  resize: vertical;
+  resize: none;
+  overflow: hidden;
+  scrollbar-width: none;
   background: transparent;
   color: var(--muted);
   font-family: var(--font-editorial);
@@ -190,4 +192,18 @@
     font-size: 0.72rem;
     line-height: 1.35;
   }
+}
+
+/* A full-height editor field: no native scrollbar / resize arrows. */
+.thoughts-admin-body .story-synopsis-input {
+  height: auto;
+  min-height: 3.1em;
+  max-height: none;
+  overflow: hidden;
+  resize: none;
+  scrollbar-width: none;
+  overflow-wrap: anywhere;
+}
+.thoughts-admin-body .story-synopsis-input::-webkit-scrollbar {
+  display: none;
 }
