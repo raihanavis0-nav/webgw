@@ -9,6 +9,7 @@
   var filter = "all";
   var libraryData = null;
   var recoveredOpen = null;
+  var openTreeStory = null;
   var pendingRecovery = false;
   var dirtyLocal = false;
 
@@ -282,6 +283,7 @@
   function renderLibrary(data, callbacks) {
     libraryData = data;
     recoveredOpen = callbacks && callbacks.openRecoveredDraft;
+    openTreeStory = callbacks && callbacks.openStoryFromTree;
     var host = $("adminSeriesList");
     if (!host || !data) return;
     var shell = $("archiveStoryLibraryShell");
@@ -311,7 +313,22 @@
         block.scrollIntoView({ behavior: "smooth", block: "start" });
       });
       tree.appendChild(link);
+      function addChapter(chapter, direct) {
+        var button = el("button", "archive-story-nav-chapter" +
+          (direct ? " is-direct" : ""), chapter.title || "Untitled");
+        button.type = "button";
+        button.title = chapter.title || "Untitled chapter";
+        button.addEventListener("click", function () {
+          if (typeof openTreeStory === "function") openTreeStory(chapter.id);
+        });
+        tree.appendChild(button);
+      }
+      (data.stories || []).filter(function (story) {
+        return String(story.seriesId) === String(series.id) && !story.subseriesId;
+      }).sort(function (a,b) { return Number(a.order || 0) - Number(b.order || 0); })
+        .forEach(function (story) { addChapter(story, true); });
       (data.subseries || []).filter(function (v) { return String(v.seriesId) === String(series.id); })
+        .sort(function (a,b) { return Number(a.order || 0) - Number(b.order || 0); })
         .forEach(function (sub) {
           var sublink = el("button", "archive-story-nav-sub", sub.name || "Untitled");
           sublink.type = "button";
@@ -322,6 +339,11 @@
             if (item) item.scrollIntoView({ behavior: "smooth", block: "start" });
           });
           tree.appendChild(sublink);
+          (data.stories || []).filter(function (story) {
+            return String(story.seriesId) === String(series.id) &&
+              String(story.subseriesId) === String(sub.id);
+          }).sort(function (a,b) { return Number(a.order || 0) - Number(b.order || 0); })
+            .forEach(function (story) { addChapter(story, false); });
         });
     });
     var parent = $("adminStorySearch") && $("adminStorySearch").parentElement;
