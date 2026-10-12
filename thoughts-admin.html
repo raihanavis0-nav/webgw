@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="css/thoughts-posters.css?v=20261011g" />
     <link rel="stylesheet" href="css/ui-refresh.css?v=20261011w" />
     <link rel="stylesheet" href="css/thoughts-timeline-admin.css?v=20261011tl2" />
+    <link rel="stylesheet" href="css/thoughts-editor-polish.css?v=20261012a" />
   </head>
   <body class="thoughts-admin-body">
     <section class="admin-login" id="loginView">
@@ -270,18 +271,19 @@
           <input class="story-title-input" id="storyTitleInput" type="text" placeholder="Untitled" autocomplete="off" />
 
           <div class="story-character-editor" id="storyCharacterEditor">
+            <span class="story-character-label">Characters</span>
             <div class="story-character-chips" id="storyCharacterChips"></div>
-            <button class="inline-add compact" id="chooseCharactersBtn" type="button">+ Characters</button>
+            <button class="inline-add compact" id="chooseCharactersBtn" type="button" aria-label="Add or edit story characters">+ Add</button>
           </div>
 
           <div class="writer-toolbar" id="writerToolbar" role="toolbar" aria-label="Story formatting">
-            <div class="toolbar-group">
-              <button type="button" data-editor-command="undo" title="Undo" aria-label="Undo">↶</button>
-              <button type="button" data-editor-command="redo" title="Redo" aria-label="Redo">↷</button>
-            </div>
-
-            <div class="toolbar-group toolbar-selects">
-              <select id="editorBlockSelect" aria-label="Paragraph style" title="Paragraph style">
+            <div class="toolbar-primary">
+              <div class="toolbar-group toolbar-history">
+                <button type="button" data-editor-command="undo" title="Undo" aria-label="Undo">↶</button>
+                <button type="button" data-editor-command="redo" title="Redo" aria-label="Redo">↷</button>
+              </div>
+              <div class="toolbar-group toolbar-selects">
+                <select id="editorBlockSelect" aria-label="Paragraph style" title="Paragraph style">
                 <option value="">Style</option>
                 <option value="p">Normal</option>
                 <option value="h2">Heading 2</option>
@@ -289,7 +291,35 @@
                 <option value="blockquote">Quote</option>
                 <option value="pre">Code block</option>
               </select>
-              <select id="editorFontSelect" aria-label="Font" title="Font">
+              </div>
+              <div class="toolbar-group toolbar-text-tools">
+                <button type="button" data-editor-command="bold" title="Bold" aria-label="Bold"><strong>B</strong></button>
+                <button type="button" data-editor-command="italic" title="Italic" aria-label="Italic"><em>I</em></button>
+                <button type="button" data-editor-command="underline" title="Underline" aria-label="Underline"><u>U</u></button>
+              </div>
+              <div class="toolbar-group toolbar-list-tools">
+                <button type="button" data-editor-command="insertUnorderedList" title="Bullets">• List</button>
+                <button type="button" data-editor-command="insertOrderedList" title="Numbered list">1. List</button>
+              </div>
+              <div class="toolbar-group toolbar-media-tools">
+                <button type="button" data-editor-action="link" title="Insert link">Link</button>
+                <button type="button" data-editor-action="image" id="richInsertImageBtn" title="Insert image">Image</button>
+              </div>
+              <div class="toolbar-group screenplay-tools" id="screenplayToolbarGroup" hidden>
+              <button type="button" data-editor-action="sp-block" data-sp-class="sp-scene" title="Scene heading">Scene</button>
+              <button type="button" data-editor-action="sp-block" data-sp-class="sp-action" title="Action">Action</button>
+              <button type="button" data-editor-action="sp-block" data-sp-class="sp-character" title="Character">Character</button>
+              <button type="button" data-editor-action="sp-block" data-sp-class="sp-dialogue" title="Dialogue">Dialogue</button>
+              <button type="button" data-editor-action="sp-block" data-sp-class="sp-parenthetical" title="Parenthetical">(…)</button>
+              <button type="button" data-editor-action="sp-block" data-sp-class="sp-transition" title="Transition">Trans.</button>
+            </div>
+            </div>
+            <details class="toolbar-overflow" id="editorMoreTools">
+              <summary aria-label="More formatting options">More <span class="toolbar-overflow-chevron" aria-hidden="true">⌄</span></summary>
+              <div class="toolbar-overflow-panel">
+                <p class="toolbar-overflow-heading">Text settings</p>
+                <div class="toolbar-overflow-fields">
+                  <label>Font <select id="editorFontSelect" aria-label="Font" title="Font">
                 <option value="">Font</option>
                 <option value="Newsreader">Newsreader</option>
                 <option value="EB Garamond">EB Garamond</option>
@@ -301,8 +331,8 @@
                 <option value="Georgia">Georgia</option>
                 <option value="Arial">Arial</option>
                 <option value="Times New Roman">Times New Roman</option>
-              </select>
-              <select id="editorFontSizeSelect" aria-label="Font size" title="Font size">
+              </select></label>
+                  <label>Size <select id="editorFontSizeSelect" aria-label="Font size" title="Font size">
                 <option value="">Size</option>
                 <option value="2">12</option>
                 <option value="3">16</option>
@@ -310,63 +340,47 @@
                 <option value="5">24</option>
                 <option value="6">32</option>
                 <option value="7">48</option>
-              </select>
-              <select id="editorLineHeightSelect" aria-label="Line spacing" title="Line spacing">
+              </select></label>
+                  <label>Spacing <select id="editorLineHeightSelect" aria-label="Line spacing" title="Line spacing">
                 <option value="">Spacing</option>
                 <option value="1">1.0</option>
                 <option value="1.2">1.2</option>
                 <option value="1.5">1.5</option>
                 <option value="1.75">1.75</option>
                 <option value="2">2.0</option>
-              </select>
-            </div>
-
-            <div class="toolbar-group screenplay-tools" id="screenplayToolbarGroup" hidden>
-              <button type="button" data-editor-action="sp-block" data-sp-class="sp-scene" title="Scene heading">Scene</button>
-              <button type="button" data-editor-action="sp-block" data-sp-class="sp-action" title="Action">Action</button>
-              <button type="button" data-editor-action="sp-block" data-sp-class="sp-character" title="Character">Character</button>
-              <button type="button" data-editor-action="sp-block" data-sp-class="sp-dialogue" title="Dialogue">Dialogue</button>
-              <button type="button" data-editor-action="sp-block" data-sp-class="sp-parenthetical" title="Parenthetical">(…)</button>
-              <button type="button" data-editor-action="sp-block" data-sp-class="sp-transition" title="Transition">Trans.</button>
-            </div>
-
-            <div class="toolbar-group">
-              <button type="button" data-editor-command="bold" title="Bold" aria-label="Bold"><strong>B</strong></button>
-              <button type="button" data-editor-command="italic" title="Italic" aria-label="Italic"><em>I</em></button>
-              <button type="button" data-editor-command="underline" title="Underline" aria-label="Underline"><u>U</u></button>
-              <button type="button" data-editor-command="strikeThrough" title="Strikethrough" aria-label="Strikethrough"><s>S</s></button>
-              <button type="button" data-editor-command="subscript" title="Subscript" aria-label="Subscript">x₂</button>
-              <button type="button" data-editor-command="superscript" title="Superscript" aria-label="Superscript">x²</button>
-            </div>
-
-            <div class="toolbar-group color-tools">
-              <label title="Text color"><span>A</span><input id="editorTextColor" type="color" value="#111111" aria-label="Text color" /></label>
-              <label title="Highlight color"><span>▰</span><input id="editorHighlightColor" type="color" value="#fff2a8" aria-label="Highlight color" /></label>
-            </div>
-
-            <div class="toolbar-group alignment-tools">
-              <button type="button" data-editor-command="justifyLeft" title="Align left" aria-label="Align left">L</button>
-              <button type="button" data-editor-command="justifyCenter" title="Align center" aria-label="Align center">C</button>
-              <button type="button" data-editor-command="justifyRight" title="Align right" aria-label="Align right">R</button>
-              <button type="button" data-editor-command="justifyFull" title="Justify" aria-label="Justify">J</button>
-            </div>
-
-            <div class="toolbar-group">
-              <button type="button" data-editor-command="insertUnorderedList" title="Bullets">• List</button>
-              <button type="button" data-editor-command="insertOrderedList" title="Numbered list">1. List</button>
-              <button type="button" data-editor-command="outdent" title="Decrease indent">⇤</button>
-              <button type="button" data-editor-command="indent" title="Increase indent">⇥</button>
-            </div>
-
-            <div class="toolbar-group">
-              <button type="button" data-editor-action="link" title="Insert link">Link</button>
-              <button type="button" data-editor-action="unlink" title="Remove link">Unlink</button>
-              <button type="button" data-editor-command="insertHorizontalRule" title="Horizontal rule">―</button>
-              <button type="button" data-editor-command="removeFormat" title="Clear formatting">Clear</button>
-              <button type="button" data-editor-action="image" id="richInsertImageBtn" title="Insert image">Image</button>
-              <button type="button" data-editor-action="table" title="Insert a 2 by 2 table" aria-label="Insert table">Table</button>
-              <button type="button" id="storyPropertiesBtn" title="More properties">Properties</button>
-            </div>
+              </select></label>
+                </div>
+                <p class="toolbar-overflow-heading">More formatting</p>
+                <div class="toolbar-overflow-actions">
+                  <div class="toolbar-group">
+                    <button type="button" data-editor-command="strikeThrough" title="Strikethrough" aria-label="Strikethrough"><s>S</s></button>
+                    <button type="button" data-editor-command="subscript" title="Subscript" aria-label="Subscript">x₂</button>
+                    <button type="button" data-editor-command="superscript" title="Superscript" aria-label="Superscript">x²</button>
+                  </div>
+                  <div class="toolbar-group color-tools">
+                    <label title="Text color"><span>A</span><input id="editorTextColor" type="color" value="#111111" aria-label="Text color" /></label>
+                    <label title="Highlight color"><span>▰</span><input id="editorHighlightColor" type="color" value="#fff2a8" aria-label="Highlight color" /></label>
+                  </div>
+                  <div class="toolbar-group alignment-tools">
+                    <button type="button" data-editor-command="justifyLeft" title="Align left" aria-label="Align left">L</button>
+                    <button type="button" data-editor-command="justifyCenter" title="Align center" aria-label="Align center">C</button>
+                    <button type="button" data-editor-command="justifyRight" title="Align right" aria-label="Align right">R</button>
+                    <button type="button" data-editor-command="justifyFull" title="Justify" aria-label="Justify">J</button>
+                  </div>
+                  <div class="toolbar-group">
+                    <button type="button" data-editor-command="outdent" title="Decrease indent">⇤</button>
+                    <button type="button" data-editor-command="indent" title="Increase indent">⇥</button>
+                  </div>
+                  <div class="toolbar-group">
+                    <button type="button" data-editor-action="unlink" title="Remove link">Unlink</button>
+                    <button type="button" data-editor-command="insertHorizontalRule" title="Horizontal rule">―</button>
+                    <button type="button" data-editor-command="removeFormat" title="Clear formatting">Clear</button>
+                    <button type="button" data-editor-action="table" title="Insert a 2 by 2 table" aria-label="Insert table">Table</button>
+                    <button type="button" id="storyPropertiesBtn" title="More properties">Properties</button>
+                  </div>
+                </div>
+              </div>
+            </details>
           </div>
 
           <div class="story-body-editor post-body" id="storyBodyEditor" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="Start writing…" spellcheck="true"></div>
