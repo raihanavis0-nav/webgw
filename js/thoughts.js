@@ -1667,6 +1667,7 @@
   }
 
   function renderLibrary() {
+    if (window.ArchiveReaderExperience) window.ArchiveReaderExperience.setData(state.data);
     var params = new URLSearchParams(window.location.search);
     var slug = params.get("story");
 
