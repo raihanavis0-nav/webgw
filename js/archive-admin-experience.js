@@ -225,7 +225,7 @@
     save.insertAdjacentElement("afterend", publish);
     publish.addEventListener("click", function () {
       var checkbox = $("storyPublishedInput");
-      if (!current || !checkbox) return;
+      if (!current || !checkbox || save.disabled) return;
       if (checkbox.checked &&
         !window.confirm("Unpublish this chapter and move it back to draft?")) return;
       checkbox.checked = !checkbox.checked;
@@ -357,7 +357,9 @@
           select.appendChild(option);
         });
       select.addEventListener("change", function () { filter = select.value; applyFilters(libraryData); });
-      parent.appendChild(select);
+      var addSeries = $("addSeriesBtn");
+      if (addSeries && addSeries.parentElement === parent) parent.insertBefore(select, addSeries);
+      else parent.appendChild(select);
     }
     renderRecoveryList();
     applyFilters(data);
