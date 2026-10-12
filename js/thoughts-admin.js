@@ -1057,7 +1057,8 @@
         state.storyIsNew = !existing;
         state.storyDraft = clone(draft);
         populateStoryEditor();
-      }
+      },
+      openStoryFromTree: function (storyId) { openStory(storyId); }
     });
   }
 
