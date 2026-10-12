@@ -1,0 +1,349 @@
+/* Shared archive UX improvements. Scoped: no styling changes to the portfolio. */
+/* Story admin: section navigation and searchable status filter. */
+.thoughts-admin-body .archive-story-library-shell {
+  display: grid;
+  grid-template-columns: minmax(175px,220px) minmax(0,1fr);
+  align-items: start;
+  gap: clamp(22px,3.5vw,42px);
+}
+.thoughts-admin-body #adminSeriesList { min-width:0; }
+.thoughts-admin-body .archive-story-nav {
+  position: sticky;
+  top: 118px;
+  display: grid;
+  align-content: start;
+  gap: 3px;
+  max-height: calc(100dvh - 150px);
+  overflow-y: auto;
+  padding: 12px 12px 12px 0;
+  border-right: 1px solid var(--line);
+}
+.thoughts-admin-body .archive-story-nav-kicker {
+  margin: 0 0 9px;
+  color: var(--muted);
+  font: 700 10px/1.3 Inter, sans-serif;
+  letter-spacing: .11em;
+}
+.thoughts-admin-body .archive-story-nav button {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  font: 500 12px/1.4 Inter, sans-serif;
+  overflow-wrap: anywhere;
+}
+.thoughts-admin-body .archive-story-nav button:hover,
+.thoughts-admin-body .archive-story-nav button:focus-visible {
+  background: var(--soft);
+}
+.thoughts-admin-body .archive-story-nav-sub {
+  padding-left: 22px !important;
+  color: var(--muted) !important;
+  font-size: 11px !important;
+}
+.thoughts-admin-body .archive-story-library-shell :is(.admin-series-block,.subseries-block) {
+  scroll-margin-top: 124px;
+}
+.thoughts-admin-body .archive-story-status-filter {
+  width: auto;
+  min-width: 118px;
+  min-height: 38px;
+  padding: 8px 9px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--paper);
+  color: var(--ink);
+  font: 500 12px Inter,sans-serif;
+}
+.thoughts-admin-body .archive-story-status-filter:focus-visible,
+.thoughts-admin-body .archive-story-nav button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+/* Editor actions, recovery and real reader preview. */
+.thoughts-admin-body .workspace-actions { flex-wrap: wrap; }
+.thoughts-admin-body .archive-preview-action {
+  min-height: 36px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font: 600 12px/1.3 Inter,sans-serif;
+}
+.thoughts-admin-body .archive-publish-action {
+  min-height: 36px;
+  padding: 8px 13px;
+  border-radius: 7px;
+  font: 600 12px/1.3 Inter,sans-serif;
+}
+.thoughts-admin-body .archive-publish-action.is-unpublish {
+  border: 1px solid var(--line);
+  color: var(--ink);
+  background: transparent;
+}
+.thoughts-admin-body .archive-preview-action:hover,
+.thoughts-admin-body .archive-publish-action.is-unpublish:hover {
+  background: var(--soft);
+}
+.thoughts-admin-body .archive-local-draft-status {
+  max-width: 800px;
+  margin: -12px auto 13px;
+  color: var(--muted);
+  font: 500 11px/1.5 Inter,sans-serif;
+  text-align: right;
+}
+.thoughts-admin-body .archive-recovery-banner {
+  max-width: 800px;
+  margin: 0 auto 18px;
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--soft);
+  color: var(--ink);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.thoughts-admin-body .archive-recovery-banner strong {
+  font: 650 13px/1.4 Inter,sans-serif;
+}
+.thoughts-admin-body .archive-recovery-description {
+  max-width: 550px;
+  margin: 5px 0 0;
+  font: 400 12px/1.5 Inter,sans-serif;
+  color: var(--muted);
+}
+.thoughts-admin-body .archive-recovery-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.thoughts-admin-body .archive-recovery-actions button {
+  min-height: 36px;
+  padding: 8px 13px;
+  border-radius: 6px;
+  font: 600 12px Inter,sans-serif;
+}
+.thoughts-admin-body .archive-preview-dialog {
+  position: fixed;
+  inset: 0;
+  width: min(1040px,calc(100% - 32px));
+  height: min(90dvh,920px);
+  max-height: 90dvh;
+  max-width: none;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 24px 80px #0005;
+  overflow: hidden;
+}
+.thoughts-admin-body .archive-preview-dialog::backdrop { background:#0009; }
+.thoughts-admin-body .archive-preview-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  min-height: 56px;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--line);
+  font: 500 12px Inter,sans-serif;
+}
+.thoughts-admin-body .archive-preview-header strong { font-weight:650; }
+.thoughts-admin-body .archive-preview-header span { color: var(--muted); }
+.thoughts-admin-body .archive-preview-header button { margin-left: auto; font:600 12px Inter,sans-serif; }
+.thoughts-admin-body .archive-preview-frame {
+  display: block;
+  width: 100%;
+  height: calc(100% - 56px);
+  border: 0;
+  background: #e7e2d8;
+}
+/* Reader: chapter browsing is immediate, animation is a secondary action. */
+.reader-book-card .reader-book-preview-action {
+  display: inline-flex;
+  align-items: center;
+  margin: 8px 0 0;
+  padding: 6px 2px;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  text-align: left;
+  font: 600 11px/1.4 Inter,sans-serif;
+  cursor: pointer;
+}
+.reader-book-card .reader-book-preview-action:hover {
+  color: var(--ink);
+}
+.reader-book-card .reader-book-preview-action:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+.reader-global-search-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--ink);
+  background: transparent;
+  cursor: pointer;
+  font: 600 12px/1.35 Inter,sans-serif;
+}
+.reader-global-search-button:hover { background: var(--soft); }
+.reader-global-search-button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+#readerLibrarySearchBtn { margin-top: 18px; }
+#archiveSectionNav #readerCollectionSearchBtn {
+  margin-left: auto;
+  padding-inline: 12px;
+  min-height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: 12px;
+}
+.archive-reader-search-dialog {
+  position: fixed;
+  inset: 0;
+  width: min(610px,calc(100% - 28px));
+  max-width: none;
+  max-height: min(85dvh,710px);
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 24px 75px #0005;
+}
+.archive-reader-search-dialog::backdrop { background: #0009; backdrop-filter:blur(2px); }
+.archive-reader-search-shell { padding: clamp(14px,2.5vw,24px); }
+.archive-reader-search-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 17px;
+  font: 650 15px/1.3 Inter,sans-serif;
+}
+.archive-reader-search-close {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font: 500 12px Inter,sans-serif;
+}
+.archive-reader-search-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--soft);
+}
+.archive-reader-search-field:focus-within { border-color: var(--ink); }
+.archive-reader-search-field > span { font-size: 23px; line-height: 1; }
+.archive-reader-search-field input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font: 400 14px/1.4 Inter,sans-serif;
+}
+.archive-reader-search-results {
+  display: grid;
+  align-content: start;
+  max-height: min(49dvh,420px);
+  overflow-y: auto;
+  margin: 14px 0 4px;
+}
+.archive-reader-search-count {
+  margin: 7px 0 8px;
+  font: 650 10px/1.4 Inter,sans-serif;
+  color: var(--muted);
+  letter-spacing: .08em;
+}
+.archive-reader-search-result {
+  display: grid;
+  gap: 5px;
+  padding: 12px 8px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+}
+.archive-reader-search-result:hover,
+.archive-reader-search-result:focus-visible { background: var(--soft); }
+.archive-reader-search-result strong { font: 600 14px/1.4 Inter,sans-serif; }
+.archive-reader-search-result small { font: 500 11px Inter,sans-serif; color: var(--muted); }
+.archive-reader-search-result span {
+  font: 400 12px/1.55 Inter,sans-serif;
+  color: var(--muted);
+}
+.archive-reader-search-empty { padding: 28px 6px; color:var(--muted); font:13px Inter,sans-serif; }
+.archive-reader-search-hint { margin:14px 0 0;color:var(--muted);font:11px/1.4 Inter,sans-serif; }
+@media(max-width:850px) {
+  .thoughts-admin-body .archive-story-library-shell { grid-template-columns:minmax(0,1fr); gap: 14px; }
+  .thoughts-admin-body .archive-story-nav {
+    position: static;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    max-width: 100%;
+    padding: 5px 0;
+    overflow: auto;
+    white-space: nowrap;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    scrollbar-width: thin;
+  }
+  .thoughts-admin-body .archive-story-nav-kicker { margin:0 12px 0 0; }
+  .thoughts-admin-body .archive-story-nav button {
+    flex:0 0 auto;
+    width:auto;
+    max-width:200px;
+    padding:7px 10px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .thoughts-admin-body .archive-story-nav-sub { padding-left:10px!important; }
+}
+@media(max-width:600px) {
+  .thoughts-admin-body .workspace-actions .archive-preview-action,
+  .thoughts-admin-body .workspace-actions .archive-publish-action {
+    padding:8px 10px;
+    font-size:11px;
+  }
+  .thoughts-admin-body .archive-preview-dialog {
+    width:calc(100% - 12px);
+    height:calc(100dvh - 12px);
+    max-height:calc(100dvh - 12px);
+  }
+  .thoughts-admin-body .archive-preview-header { gap:6px; }
+  .thoughts-admin-body .archive-preview-header span { display:none; }
+  #archiveSectionNav #readerCollectionSearchBtn { margin-left:0; }
+  .archive-reader-search-dialog {
+    width:calc(100% - 16px);
+    max-height:calc(100dvh - 24px);
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .reader-book-card .reader-book-preview-action { transition:none; }
+}
