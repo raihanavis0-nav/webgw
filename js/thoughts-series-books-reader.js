@@ -175,8 +175,7 @@
     var card = el("article", "reader-series-card reader-book-card");
     var trigger = el("button", "reader-book-trigger");
     trigger.type = "button";
-    trigger.setAttribute("aria-haspopup", "dialog");
-    trigger.setAttribute("aria-label", "Open 3D book for " + (series.name || "Untitled"));
+    trigger.setAttribute("aria-label", "Browse chapters in " + (series.name || "Untitled"));
 
     var visual = el("span", "reader-book-visual");
     var fan = el("span", "reader-book-fan");
@@ -213,10 +212,18 @@
     copy.appendChild(el("span", "", count + (count === 1 ? " chapter" : " chapters") +
       (posters.length > 1 ? " · " + posters.length + " posters" : "")));
     trigger.appendChild(copy);
-    trigger.addEventListener("click", function () {
-      openBook(series, cover, count, books, directStories, onSeries, onSubseries, onStory, mediaUrl, trigger);
-    });
+    trigger.addEventListener("click", function () { onSeries(); });
     card.appendChild(trigger);
+
+    // The book animation remains optional, never a compulsory navigation step.
+    var openPreview = el("button", "reader-book-preview-action", "Open book ↗");
+    openPreview.type = "button";
+    openPreview.setAttribute("aria-haspopup", "dialog");
+    openPreview.setAttribute("aria-label", "Open animated book preview for " + (series.name || "Untitled"));
+    openPreview.addEventListener("click", function () {
+      openBook(series, cover, count, books, directStories, onSeries, onSubseries, onStory, mediaUrl, openPreview);
+    });
+    card.appendChild(openPreview);
     return card;
   }
 
