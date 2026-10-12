@@ -1047,7 +1047,18 @@
     if (window.ArchiveTimelineAdmin) window.ArchiveTimelineAdmin.render();
     if (window.ArchiveAppearanceAdmin) window.ArchiveAppearanceAdmin.render(state.data.appearance);
     setAdminLibraryView(state.libraryView, false);
-    if (window.ArchiveAdminExperience) window.ArchiveAdminExperience.renderLibrary(state.data);
+    if (window.ArchiveAdminExperience) window.ArchiveAdminExperience.renderLibrary(state.data, {
+      openRecoveredDraft: function (draft) {
+        if (!draft || !draft.id) return;
+        var existing = state.data.stories.some(function (story) {
+          return String(story.id) === String(draft.id);
+        });
+        state.currentStoryId = existing ? draft.id : "";
+        state.storyIsNew = !existing;
+        state.storyDraft = clone(draft);
+        populateStoryEditor();
+      }
+    });
   }
 
   // Small stats strip in the admin library header.
