@@ -202,6 +202,25 @@
       '</header>' + (names ? '<section class="preview-characters">' + names + '</section>' : '') +
       '<div class="post-body' + (draft.format === "screenplay" ? ' is-screenplay' : '') +
       '">' + content + '</div></div></article></body></html>';
+    // Apply the active Sub-series background/accent/font without changing the
+    // admin page. The Reader uses these same SubseriesThemes CSS variables.
+    if (window.SubseriesThemes && book && book.uiTheme) {
+      var uiProxy = document.createElement("div");
+      window.SubseriesThemes.applyUi(uiProxy, book.uiTheme);
+      if (uiProxy.classList.contains("subseries-ui-themed")) {
+        var uiCss = ["--subseries-ui-bg","--subseries-ui-ink",
+          "--subseries-ui-font","--subseries-ui-accent"].map(function (name) {
+          return name + ":" + uiProxy.style.getPropertyValue(name);
+        }).join(";");
+        markup = markup.replace("<body><article",
+          '<body class="subseries-ui-themed" style="' + uiCss + '"><article');
+      }
+      if (book.uiTheme.font && window.SubseriesThemes.validFont(book.uiTheme.font)) {
+        var family = encodeURIComponent(book.uiTheme.font).replace(/%20/g, "+");
+        markup = markup.replace("</head>", '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=' +
+          family + '&display=swap"></head>');
+      }
+    }
     iframe.srcdoc = markup;
     if (window.SubseriesThemes) {
       var temp = document.createElement("div");
