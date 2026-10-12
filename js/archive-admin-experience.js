@@ -10,6 +10,7 @@
   var libraryData = null;
   var recoveredOpen = null;
   var pendingRecovery = false;
+  var dirtyLocal = false;
 
   function $(id) { return document.getElementById(id); }
   function el(tag, cls, content) {
@@ -38,7 +39,9 @@
   }
   function backupNow() {
     clearTimeout(timer);
-    if (!current || restoring || pendingRecovery || !$("storyWorkspace") || $("storyWorkspace").hidden) return;
+    timer = 0;
+    if (!dirtyLocal || !current || restoring || pendingRecovery ||
+        !$("storyWorkspace") || $("storyWorkspace").hidden) return;
     try {
       var draft = current.getDraft();
       if (window.ThoughtsEditor) draft.body = window.ThoughtsEditor.getContent();
@@ -57,6 +60,7 @@
   }
   function scheduleBackup() {
     if (!current || restoring || pendingRecovery) return;
+    dirtyLocal = true;
     clearTimeout(timer);
     timer = setTimeout(backupNow, 700);
   }
@@ -67,6 +71,7 @@
   function onOpen(options) {
     current = options;
     pendingRecovery = false;
+    dirtyLocal = false;
     hideRecovery();
     var note = $("archiveLocalDraftStatus");
     if (note) note.hidden = true;
@@ -120,6 +125,8 @@
   }
   function onSaved(id) {
     clearTimeout(timer);
+    timer = 0;
+    dirtyLocal = false;
     pendingRecovery = false;
     clear(id);
     hideRecovery();
@@ -129,6 +136,8 @@
   }
   function onExit() {
     clearTimeout(timer);
+    timer = 0;
+    dirtyLocal = false;
     if (current) clear(current.draft.id); // Confirmed discard in the original editor.
     hideRecovery();
     pendingRecovery = false;
@@ -393,7 +402,7 @@
   function init() {
     enhanceEditor();
     window.addEventListener("pagehide", function () {
-      if (timer) backupNow();
+      if (dirtyLocal) backupNow();
     });
   }
   window.ArchiveAdminExperience = {
