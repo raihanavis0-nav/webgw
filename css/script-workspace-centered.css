@@ -294,3 +294,25 @@
     }
   }
 }
+
+
+/* Drafts stay visually clean. Hollywood pagination starts numbering at page 2.
+   Scene numbers are optional production marks, never an automatic distraction. */
+@media screen {
+  .script-workspace .plotwell-editor-wrap .ProseMirror::before {
+    display: none !important;
+  }
+  .script-workspace .pw-scene-number,
+  .script-workspace.is-empty-script .pw-scene-number,
+  .script-workspace .pm-scene-heading.script-heading-empty .pw-scene-number {
+    display: none !important;
+  }
+  .script-workspace.script-show-scene-numbers:not(.is-empty-script)
+    .pm-scene-heading:not(.script-heading-empty) .pw-scene-number {
+    display: inline-block !important;
+  }
+  .script-workspace .script-file-menu-body button[aria-pressed="true"] {
+    color: #eadfce;
+    background: #45484f;
+  }
+}

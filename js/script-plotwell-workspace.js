@@ -36,11 +36,31 @@ function updateWelcome(){
  ui.welcome.hidden=written;
  ui.shell.classList.toggle("is-empty-script",!written);
 }
+function markEmptySceneHeadings(){
+ if(!W)return;
+ W.view.state.doc.forEach(function(node, offset){
+  if(node.type.name!=="sceneHeading")return;
+  var element=W.view.nodeDOM(offset);
+  if(element && element.classList){
+   element.classList.toggle("script-heading-empty",!node.textContent.trim());
+  }
+ });
+}
+function showSceneNumbers(enabled){
+ var visible=Boolean(enabled);
+ ui.shell.classList.toggle("script-show-scene-numbers",visible);
+ if(ui.sceneNumbersToggle){
+  ui.sceneNumbersToggle.textContent=visible?"✓ Show Scene Numbers":"Show Scene Numbers";
+  ui.sceneNumbersToggle.setAttribute("aria-pressed",String(visible));
+ }
+ try { localStorage.setItem("archive_script_scene_numbers",String(visible)); } catch(_){}
+ markEmptySceneHeadings();
+}
 function refreshStats(){
  if(!W)return;
  var stat=W.getStats();
  ui.position.textContent=stat.sceneCount+" scenes  ·  "+stat.pageCount+" pages  ·  "+stat.wordCount+" words";
- updateElementLabel();updateWelcome();
+ updateElementLabel();updateWelcome();markEmptySceneHeadings();
 }
 function refreshOutline(){
  if(!W)return;
@@ -120,6 +140,9 @@ function openWorkspace(opts){
  ui.shell.hidden=false;document.body.classList.add("script-workspace-open");
  ui.title.value=$("storyTitleInput").value||"";
  ui.navPanel.hidden=true;ui.compose.hidden=true;
+ var sceneNumberPref=false;
+ try { sceneNumberPref=localStorage.getItem("archive_script_scene_numbers")==="true"; } catch(_){}
+ showSceneNumbers(sceneNumberPref);
  if(ui.outlineToggle)ui.outlineToggle.setAttribute("aria-expanded","false");
  var draft=options.getDraft?options.getDraft():{body:$("storyBodyInput").value};
  var source=api.fromStory(draft);
@@ -200,6 +223,12 @@ function setup(){
    fileMenu.open=false;
    if(W)W.toPDF({title:scriptTitle()||"Screenplay"});
  }));
+ var sceneNumberToggle=btn("Show Scene Numbers",function(){
+  showSceneNumbers(!ui.shell.classList.contains("script-show-scene-numbers"));
+ });
+ sceneNumberToggle.setAttribute("aria-pressed","false");
+ ui.sceneNumbersToggle=sceneNumberToggle;
+ menuBody.appendChild(sceneNumberToggle);
  menuBody.appendChild(btn("Download Fountain",function(){
   if(!W)return;fileMenu.open=false;
   var blob=new Blob([W.toFountain()],{type:"text/plain;charset=utf-8"});
