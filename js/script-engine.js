@@ -56,7 +56,8 @@
     el.className = "script-block sp-" + kind(piece.kind);
     el.dataset.scriptSource = String(piece.source);
     if (piece.part) el.dataset.scriptPart = String(piece.part);
-    if (piece.kind === "scene" && piece.sceneNumber) {
+    // Do not number an empty scene heading before the writer has created a scene.
+    if (piece.kind === "scene" && piece.sceneNumber && String(piece.text || "").trim()) {
       el.dataset.sceneNumber = String(piece.sceneNumber);
     }
     el.textContent = piece.text || "";
@@ -66,7 +67,18 @@
       el.setAttribute("role", "textbox");
       el.setAttribute("aria-label", label(piece.kind) + " screenplay element");
     }
-    if (!piece.text && editable) el.appendChild(root.document.createElement("br"));
+    if (editable) {
+      var hints = {
+        scene: "INT. / EXT. LOCATION - TIME",
+        action: "Describe what happens…",
+        character: "CHARACTER NAME",
+        dialogue: "Write the dialogue…",
+        parenthetical: "(action or emotion)",
+        transition: "CUT TO:"
+      };
+      el.dataset.placeholder = hints[piece.kind] || "Start writing…";
+      if (!piece.text) el.appendChild(root.document.createElement("br"));
+    }
     return el;
   }
   function newPage() { return { fragments: [], used: 0 }; }
