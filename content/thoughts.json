@@ -894,6 +894,15 @@
       "order": 4,
       "bio": "",
       "portrait": ""
+    },
+    {
+      "id": "character-1792390048377",
+      "name": "Tomek",
+      "seriesId": "series-1791729416326",
+      "subseriesId": "",
+      "order": 5,
+      "bio": "",
+      "portrait": ""
     }
   ],
   "stories": [
