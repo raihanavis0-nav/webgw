@@ -39,6 +39,9 @@ jobs:
       - name: Test dedicated Script mode
         run: node --test scripts/test-script-mode.js
 
+      - name: Test Script page-break layout regression
+        run: node --test scripts/test-plotwell-page-separator.js
+
       - name: Test Plotwell document adapter
         run: node --test scripts/test-script-plotwell-bridge.js
 

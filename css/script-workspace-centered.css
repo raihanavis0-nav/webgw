@@ -316,3 +316,44 @@
     background: #45484f;
   }
 }
+
+
+/*
+ * Plotwell pagination inserts a virtual gap between Letter pages.
+ * Its stock 1016px separator intentionally overhangs the 816px sheet by 100px
+ * on each side, producing gray stripes outside our centered paper column.
+ * Constrain the widget and both paper margins to the sheet width, preserving
+ * its 96px + 12px + 96px height so pagination calculations remain unchanged.
+ */
+@media screen {
+  .script-workspace .plotwell-editor-wrap .pw-page-separator {
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    width: var(--pw-page-w, 816px);
+    min-width: var(--pw-page-w, 816px);
+    max-width: var(--pw-page-w, 816px);
+    margin-left: calc(-1 * var(--pw-margin-left, 144px));
+    margin-right: 0;
+    height: calc(var(--pw-margin-bottom, 96px) + 12px + var(--pw-margin-top, 96px));
+    padding: 0;
+    background: #222327;
+    pointer-events: none;
+    user-select: none;
+  }
+  .script-workspace .plotwell-editor-wrap .pw-page-margin-bottom,
+  .script-workspace .plotwell-editor-wrap .pw-page-margin-top {
+    box-sizing: border-box;
+    left: 0;
+    width: 100%;
+    background: #fff;
+  }
+  .script-workspace .plotwell-editor-wrap .pw-page-margin-bottom {
+    top: 0;
+    height: var(--pw-margin-bottom, 96px);
+  }
+  .script-workspace .plotwell-editor-wrap .pw-page-margin-top {
+    bottom: 0;
+    height: var(--pw-margin-top, 96px);
+  }
+}
