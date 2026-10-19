@@ -36,3 +36,11 @@ test("Screensplay cues are never invented from plain lowercase lines",()=>{
  assert.equal(b.length,1);
  assert.equal(b[0].kind,"action");
 });
+
+
+test("Safe inline Word formatting and heading semantic survives Prose import",()=>{
+ const b=imp.linesToBlocks([{text:"Chapter one",html:"<strong>Chapter one</strong>",paragraph:true,heading:true},
+  {text:"A marked word",html:"A <em>marked</em> word",paragraph:true}],"prose");
+ const html=imp.toHtml(b,"prose");
+ assert.equal(html,"<h2><strong>Chapter one</strong></h2>\n<p>A <em>marked</em> word</p>");
+});
