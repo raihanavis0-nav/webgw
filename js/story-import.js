@@ -30,7 +30,12 @@ function linesToBlocks(lines,mode){
   var x=typeof line==="string"?null:Number(line.x);
   var scene=isHeading(t),transition=isTransition(t);
   var cue=isCharacter(t)&&(!Number.isFinite(x)||lastX===null||x>lastX+35||expectDialogue===false);
-  if(!screenplay){add("action",t);return;}
+  if(!screenplay){
+   if((typeof line==="object"&&line.paragraph)||gap>18||!out.length){
+    out.push({kind:"action",text:t});
+   }else add("action",t);
+   return;
+  }
   if(scene){out.push({kind:"scene",text:t.toUpperCase()});expectDialogue=false;}
   else if(transition){out.push({kind:"transition",text:t.toUpperCase()});expectDialogue=false;}
   else if(cue&&!(expectDialogue&&x!==null&&lastX!==null&&x<lastX+25)){
@@ -76,20 +81,18 @@ function docxParagraphs(html){
  var doc=new DOMParser().parseFromString(String(html||""),"text/html");
  var paragraphs=Array.from(doc.body.querySelectorAll("p,h1,h2,h3,li,blockquote,pre"));
  return paragraphs.map(function(node){
-  return {text:normalized(node.textContent),x:null,gap:0};
+  return {text:normalized(node.textContent),x:null,gap:0,paragraph:true};
  }).filter(function(x){return x.text;});
 }
 async function importDocx(file){
  if(!root.mammoth||typeof root.mammoth.convertToHtml!=="function")
    throw new Error("Word importer belum dimuat. Coba refresh halaman.");
- var result=await root.mammoth.convertToHtml({arrayBuffer:await file.arrayBuffer()},{
-  convertImage:{imgElement:function(){return {value:"",messages:[]};}}
- });
+ var result=await root.mammoth.convertToHtml({arrayBuffer:await file.arrayBuffer()});
  var lines=docxParagraphs(result.value);
  return {lines:lines,warnings:(result.messages||[]).slice(0,5).map(function(m){return String(m.message||m);})};
 }
 async function importPdf(file){
- var pdfjs=await import("./vendor/document-import/pdf.mjs");
+ var pdfjs=await import("/js/vendor/document-import/pdf.mjs");
  pdfjs.GlobalWorkerOptions.workerSrc=new URL("/js/vendor/document-import/pdf.worker.mjs",root.location.href).href;
  var bytes=new Uint8Array(await file.arrayBuffer());
  var pdf=await pdfjs.getDocument({data:bytes,useSystemFonts:true}).promise;

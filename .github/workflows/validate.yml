@@ -48,6 +48,9 @@ jobs:
       - name: Test dialogue speaker spacing
         run: node --test scripts/test-script-dialogue-spacing.js
 
+      - name: Test PDF and Word Story imports
+        run: node --test scripts/test-story-import.js
+
       - name: Test Plotwell document adapter
         run: node --test scripts/test-script-plotwell-bridge.js
 

@@ -3284,7 +3284,29 @@
   }
 
   // Read-only reference for Script Workspace character suggestions.
-  window.ScriptAdminData = { getData: function () { return state.data; }, getDraft: function () { return collectStoryDraft(); } };
+  function applyImportedScript(blocks){
+    if (!state.storyDraft) return;
+    var map={scene:"sceneHeading",action:"action",character:"character",
+      dialogue:"dialogue",parenthetical:"parenthetical",transition:"transition"};
+    var doc={type:"doc",content:(blocks||[]).map(function(block){
+      var type=map[block.kind]||"action";
+      var value=String(block.text||"");
+      if(type==="parenthetical") value=value.replace(/^\s*\(([\s\S]*)\)\s*$/,"$1");
+      return {type:type,content:value?[{type:"text",text:value}]:[]};
+    })};
+    if(!doc.content.length)doc.content=[{type:"action"}];
+    state.storyDraft.scriptDoc=doc;
+    var body=window.ScriptPlotwellBridge.toLegacy(doc);
+    $("storyBodyInput").value=body;
+    $("storyBodyInput").dispatchEvent(new Event("input",{bubbles:true}));
+    if(window.ThoughtsEditor) window.ThoughtsEditor.setContent(body);
+    markDirty();
+  }
+  window.ScriptAdminData = {
+    getData: function () { return state.data; },
+    getDraft: function () { return collectStoryDraft(); },
+    applyImportedScript: applyImportedScript
+  };
 
   function wire() {
     localStorage.removeItem("thoughts_gh_token");

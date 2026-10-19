@@ -254,6 +254,10 @@ function setup(){
   }).catch(function(e){status("Import failed: "+e.message,true);});
   this.value="";
  });
+ menuBody.appendChild(btn("Import PDF / Word",function(){
+  fileMenu.open=false;
+  if(window.StoryImportUI)window.StoryImportUI.pick();
+ }));
  menuBody.appendChild(btn("Import Fountain / FDX",function(){fileMenu.open=false;importInput.click();}));
  menuBody.appendChild(importInput);
  fileMenu.appendChild(menuBody);toolbar.appendChild(fileMenu);
@@ -295,6 +299,14 @@ window.ScriptWorkspace={
  close:closeWorkspace,isOpen:function(){return!!W;},
  getDoc:function(){return W?W.toJSON():doc;},
  getDirty:function(){return dirty;},
+ replaceImported:function(result){
+  if(!W||!result||!result.fountain)return false;
+  W.importFountain(result.fountain);
+  clearTimeout(syncTimer);
+  persist();refreshOutline();refreshStats();
+  dirty=true;status("Imported · unsaved, review then Save");
+  return true;
+ },
 };
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setup);else setup();
 })();
