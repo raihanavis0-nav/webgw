@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="css/script-mode.css?v=20261019c" />
     <link rel="stylesheet" href="css/vendor/plotwell.css?v=0.2.0" />
     <link rel="stylesheet" href="css/script-workspace-centered.css?v=20261019d" />
+    <link rel="stylesheet" href="css/story-export.css?v=20261019a" />
     <link rel="stylesheet" href="css/thoughts-mentions.css?v=20261011f" />
     <link rel="stylesheet" href="css/subseries-theme-admin.css?v=20261011f" />
     <link rel="stylesheet" href="css/editorial-admin.css?v=20261011m" />
@@ -234,6 +235,10 @@
             <button class="quiet-action" id="backToLibraryBtn" type="button">← Library</button>
             <div class="workspace-actions">
               <span class="wysiwyg-label">Live document</span>
+              <div class="story-export-actions" id="adminExportActions" role="group" aria-label="Download this story">
+                <button type="button" id="adminExportPdf" title="Export this Story as printable PDF">↓ PDF</button>
+                <button type="button" id="adminExportWord" title="Download an editable Word document">↓ Word</button>
+              </div>
               <button class="primary-action" id="saveStoryBtn" type="button">Save</button>
               <button class="icon-action" id="storyMoreBtn" type="button" aria-label="Story actions">•••</button>
             </div>
@@ -259,6 +264,7 @@
                 <input id="storyPublishedInput" type="checkbox" />
                 <span>Published</span>
               </label>
+              <span class="story-publish-status" id="storyPublishStatus" role="status">Draft — not visible in Reader until Published is checked and saved.</span>
             </div>
           </div>
 
@@ -710,7 +716,7 @@
 
     <script src="js/vendor/plotwell.bundle.js?v=0.2.0" defer></script>
     <script src="js/script-plotwell-bridge.js?v=20261019c" defer></script>
-    <script src="js/script-plotwell-workspace.js?v=20261019f" defer></script>
+    <script src="js/script-plotwell-workspace.js?v=20261019g" defer></script>
     <script src="js/thoughts-rich-content.js?v=20261011f" defer></script>
     <script src="js/thoughts-editor.js?v=20261011f" defer></script>
     <script src="js/thoughts-mention-editor.js?v=20261011f" defer></script>
@@ -720,7 +726,8 @@
     <script src="js/subseries-theme-admin.js?v=20261011h" defer></script>
     <script src="js/thoughts-timeline-core.js?v=20261011tl2" defer></script>
     <script src="js/thoughts-timeline-admin.js?v=20261011tl2" defer></script>
-    <script src="js/thoughts-admin.js?v=20261012ux1" defer></script>
+    <script src="js/story-export.js?v=20261019a" defer></script>
+    <script src="js/thoughts-admin.js?v=20261019exports1" defer></script>
     <script src="js/thoughts-synopsis.js?v=20261012b" defer></script>
     <script src="js/editorial-admin.js?v=20261011f" defer></script>
     <script src="js/thoughts-editor-bridge.js?v=20261011f" defer></script>

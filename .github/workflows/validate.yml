@@ -42,6 +42,9 @@ jobs:
       - name: Test Script page-break layout regression
         run: node --test scripts/test-plotwell-page-separator.js
 
+      - name: Test PDF and Word document exports
+        run: node --test scripts/test-story-export.js
+
       - name: Test Plotwell document adapter
         run: node --test scripts/test-script-plotwell-bridge.js
 

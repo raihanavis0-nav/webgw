@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="css/editorial-cinematic.css?v=20261011w" />
     <link rel="stylesheet" href="css/thoughts-screenplay.css?v=20261011f" />
     <link rel="stylesheet" href="css/script-mode.css?v=20261019a" />
+    <link rel="stylesheet" href="css/story-export.css?v=20261019a" />
     <link rel="stylesheet" href="css/thoughts-discovery.css?v=20261011f" />
     <link rel="stylesheet" href="css/thoughts-mentions.css?v=20261011f" />
     <link rel="stylesheet" href="css/ui-refresh.css?v=20261011w" />
@@ -191,6 +192,10 @@
             </div>
             <nav class="reader-breadcrumb reader-story-breadcrumb" id="readerStoryBreadcrumb" aria-label="Reading location" hidden></nav>
             <a class="back-link" id="readerStoryBack" href="read">← Back to chapters</a>
+            <div class="story-export-actions reader-export-actions" id="readerStoryExports" role="group" aria-label="Download story" hidden>
+              <button type="button" id="readerExportPdf">↓ PDF</button>
+              <button type="button" id="readerExportWord">↓ Word</button>
+            </div>
 
             <img class="story-banner" id="storyBanner" alt="" hidden />
 
@@ -251,7 +256,8 @@
     <script src="js/subseries-theme.js?v=20261011h" defer></script>
     <script src="js/thoughts-timeline-core.js?v=20261011tl2" defer></script>
     <script src="js/thoughts-timeline-reader.js?v=20261011tl2" defer></script>
-    <script src="js/thoughts.js?v=20261012e" defer></script>
+    <script src="js/story-export.js?v=20261019a" defer></script>
+    <script src="js/thoughts.js?v=20261019exports1" defer></script>
     <script src="js/thoughts-synopsis.js?v=20261012b" defer></script>
     <script src="js/thoughts-appearance-reader.js?v=20261011w" defer></script>
     <script src="js/thoughts-ending-song.js?v=20261011f" defer></script>

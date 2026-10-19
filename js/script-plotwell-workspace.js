@@ -223,6 +223,14 @@ function setup(){
    fileMenu.open=false;
    if(W)W.toPDF({title:scriptTitle()||"Screenplay"});
  }));
+ menuBody.appendChild(btn("Export Word (.docx)",function(){
+   fileMenu.open=false;
+   if(W&&window.StoryExport&&window.ScriptAdminData&&window.ScriptAdminData.getDraft) {
+     // Export the active editor state, not a previously saved snapshot.
+     persist();
+     window.StoryExport.exportWord(window.ScriptAdminData.getDraft());
+   }
+ }));
  var sceneNumberToggle=btn("Show Scene Numbers",function(){
   showSceneNumbers(!ui.shell.classList.contains("script-show-scene-numbers"));
  });

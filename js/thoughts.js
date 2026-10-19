@@ -577,7 +577,7 @@
     if (listFormat) {
       var formatLabel = document.createElement("span");
       formatLabel.className = "discovery-format-label";
-      formatLabel.textContent = listFormat === "screenplay" ? "Script" : "Prose";
+      formatLabel.textContent = listFormat === "script" ? "Script" : listFormat === "screenplay" ? "Screenplay" : "Prose";
       toolbar.appendChild(formatLabel);
     }
     toolbar.appendChild(random);
@@ -1022,6 +1022,9 @@
       if (books.length) host.appendChild(createPosterLayoutSwitch(bookGrid));
       host.appendChild(bookGrid);
       var standalones = stories.filter(function (story) { return story.seriesId === series.id && !story.subseriesId; });
+      if (!books.length && !standalones.length) {
+        archiveHeading(host, "", "No published chapters yet", "Stories saved as drafts in Admin do not appear here until they are published.");
+      }
       if (standalones.length) {
         archiveHeading(host, "", "Standalone chapters", "");
         host.appendChild(createStoryDiscovery(standalones));
@@ -1482,6 +1485,7 @@
   function renderHome() {
     $("libraryHome").hidden = false;
     $("storyView").hidden = true;
+    if ($("readerStoryExports")) $("readerStoryExports").hidden = true;
     if (window.ArchiveSeriesPostersReader) window.ArchiveSeriesPostersReader.stopAll();
     if (window.ArchiveSeriesBooksReader) window.ArchiveSeriesBooksReader.stopAll();
     var context = seriesContext();
@@ -1667,6 +1671,17 @@
 
     $("libraryHome").hidden = true;
     $("storyView").hidden = false;
+    var exportTools = $("readerStoryExports");
+    if (exportTools) {
+      exportTools.hidden = false;
+      [["readerExportPdf","exportPdf"],["readerExportWord","exportWord"]].forEach(function (config) {
+        var button = $(config[0]);
+        if (!button) return;
+        button.onclick = function () {
+          if (window.StoryExport) window.StoryExport[config[1]](story);
+        };
+      });
+    }
     if (window.EditorialReading) window.EditorialReading.renderStory(story);
     document.title = (story.title || "Story") + " — Stories";
   }

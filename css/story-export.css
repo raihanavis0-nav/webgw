@@ -1,0 +1,20 @@
+/* Reader and Admin share predictable, accessible Story export controls. */
+.story-export-actions {display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.story-export-actions button {
+  appearance:none;border:1px solid var(--line,rgba(128,128,128,.35));
+  border-radius:7px;background:transparent;color:inherit;
+  padding:9px 13px;min-height:35px;cursor:pointer;
+  font:600 12px/1.25 Inter,system-ui,sans-serif;
+}
+.story-export-actions button:hover,.story-export-actions button:focus-visible {
+  background:rgba(150,150,150,.12);outline:2px solid var(--ink,currentColor);outline-offset:2px;
+}
+.story-export-actions[hidden] {display:none!important;}
+.reader-export-actions {justify-content:flex-end;margin:10px 0 18px;width:100%;}
+.story-publish-status {display:block;color:#b79c70;font:500 11px/1.5 Inter,system-ui,sans-serif;max-width:320px;}
+.story-publish-status.is-published {color:#79a69b;}
+@media(max-width:767px){
+  .story-export-actions button {padding:9px 11px;}
+  .reader-export-actions {justify-content:flex-start;}
+  .story-publish-status {max-width:none;}
+}
