@@ -1,0 +1,13 @@
+{
+  "name": "webgw-document-import-assets",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Pinned browser-only PDF and Word import libraries",
+  "scripts": {
+    "build": "mkdir -p ../../js/vendor/document-import && cp node_modules/mammoth/mammoth.browser.js ../../js/vendor/document-import/mammoth.browser.js && cp node_modules/pdfjs-dist/build/pdf.mjs ../../js/vendor/document-import/pdf.mjs && cp node_modules/pdfjs-dist/build/pdf.worker.mjs ../../js/vendor/document-import/pdf.worker.mjs && cp node_modules/mammoth/LICENSE ../../js/vendor/document-import/LICENSE-mammoth.txt && cp node_modules/pdfjs-dist/LICENSE ../../js/vendor/document-import/LICENSE-pdfjs.txt"
+  },
+  "dependencies": {
+    "mammoth": "1.10.0",
+    "pdfjs-dist": "4.10.38"
+  }
+}

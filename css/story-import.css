@@ -1,0 +1,26 @@
+/* PDF/DOCX story-import preview stays inside Admin (client-only). */
+.story-import-dialog {
+  width:min(650px,calc(100vw - 24px));max-height:min(84vh,790px);
+  border:1px solid #7775;border-radius:12px;
+  padding:clamp(16px,3vw,28px);background:#292b30;color:#f5f4f0;
+  box-shadow:0 30px 85px #0008;font:13px/1.5 Inter,system-ui,sans-serif;
+}
+.story-import-dialog::backdrop{background:#000a;backdrop-filter:blur(2px);}
+.story-import-dialog h2{margin:0 0 9px;font-size:21px;letter-spacing:-.025em;}
+.story-import-filename{color:#dfd7c9;font-weight:700;margin:0 0 8px;overflow-wrap:anywhere;}
+.story-import-warning{color:#bfc1c7;margin:0 0 16px;}
+.story-import-preview {
+ display:block;max-height:45vh;overflow:auto;white-space:pre-wrap;
+ background:#1d1f23;color:#e7e6e2;border:1px solid #474950;
+ padding:16px;border-radius:7px;font:13px/1.6 "Courier New",monospace;
+}
+.story-import-error{color:#ff9d92;margin:8px 0;}
+.story-import-error:empty{display:none;}
+.story-import-actions{display:flex;justify-content:flex-end;gap:9px;flex-wrap:wrap;}
+.story-import-actions button {
+ border:1px solid #777;border-radius:7px;background:transparent;color:#f5f4f0;
+ padding:10px 16px;min-height:39px;cursor:pointer;
+}
+.story-import-actions .story-import-confirm{background:#eae2d5;border-color:#eae2d5;color:#222;font-weight:700;}
+.story-import-actions button:focus-visible{outline:2px solid #eae2d5;outline-offset:2px;}
+.story-export-actions .story-import-button {background:rgba(215,194,160,.15);}

@@ -1,0 +1,48 @@
+name: Build Word and PDF import libraries
+
+on:
+  push:
+    branches:
+      - feature/import-pdf-word-stories-20261019
+    paths:
+      - 'tools/document-import-build/**'
+      - '.github/workflows/build-document-import.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned browser parser libraries
+        working-directory: tools/document-import-build
+        run: npm install --no-audit --no-fund
+      - name: Copy local browser-only assets
+        working-directory: tools/document-import-build
+        run: npm run build
+      - name: Verify generated assets
+        run: |
+          test -s js/vendor/document-import/mammoth.browser.js
+          test -s js/vendor/document-import/pdf.mjs
+          test -s js/vendor/document-import/pdf.worker.mjs
+          test -s js/vendor/document-import/LICENSE-mammoth.txt
+          test -s js/vendor/document-import/LICENSE-pdfjs.txt
+          node --check js/vendor/document-import/mammoth.browser.js
+          node --check js/vendor/document-import/pdf.mjs
+      - name: Commit assets and lockfile
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add js/vendor/document-import tools/document-import-build/package-lock.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'build(import): bundle pinned browser PDF and Word parsers'
+            git push origin HEAD:feature/import-pdf-word-stories-20261019
+          fi
