@@ -22,8 +22,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: npm
-          cache-dependency-path: tools/plotwell-build/package-lock.json
       - name: Install pinned editor dependencies
         working-directory: tools/plotwell-build
         run: npm install --no-audit --no-fund
