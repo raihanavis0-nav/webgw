@@ -220,7 +220,7 @@ function exportPdf(story){
  try{win.setTimeout(function(){win.print();},350);}catch(_){}
  return true;
 }
-var API={createDocx:createDocx,blocksFor:blocksFor,exportWord:exportWord,exportPdf:exportPdf,format:format};
+var API={createDocx:createDocx,blocksFor:blocksFor,printHtml:pdfHtml,exportWord:exportWord,exportPdf:exportPdf,format:format};
 root.StoryExport=API;
 if(typeof module!=="undefined"&&module.exports)module.exports=API;
 })(typeof window!=="undefined"?window:globalThis);
