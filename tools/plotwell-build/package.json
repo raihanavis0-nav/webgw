@@ -1,0 +1,15 @@
+{
+  "name": "webgw-plotwell-bundle",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Build pinned Plotwell editor assets without changing Vercel static-site build",
+  "scripts": {
+    "bundle": "esbuild entry.js --bundle --format=iife --target=es2020 --minify --outfile=../../js/vendor/plotwell.bundle.js"
+  },
+  "dependencies": {
+    "@plotwell/editor": "0.2.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12"
+  }
+}
