@@ -2214,6 +2214,13 @@
     draft.format = normalizeStoryFormat($("storyFormatInput").value);
     draft.contentWarning = $("storyContentWarningInput").value.trim();
     draft.body = $("storyBodyInput").value.replace(/\s+$/, "");
+    if (draft.format === "script" && window.ScriptWorkspace && window.ScriptWorkspace.isOpen()) {
+      var scriptDoc = window.ScriptWorkspace.getDoc();
+      if (window.ScriptPlotwellBridge && window.ScriptPlotwellBridge.hasDoc(scriptDoc)) {
+        draft.scriptDoc = scriptDoc;
+        draft.body = window.ScriptPlotwellBridge.toLegacy(scriptDoc);
+      }
+    }
     draft.slug = slugify($("storySlugInput").value || draft.title);
     draft.order = numberValue($("storyOrderInput").value);
     draft.banner = $("storyBannerPathInput").value || "";
@@ -3266,7 +3273,7 @@
   }
 
   // Read-only reference for Script Workspace character suggestions.
-  window.ScriptAdminData = { getData: function () { return state.data; } };
+  window.ScriptAdminData = { getData: function () { return state.data; }, getDraft: function () { return collectStoryDraft(); } };
 
   function wire() {
     localStorage.removeItem("thoughts_gh_token");
