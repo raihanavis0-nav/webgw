@@ -32,7 +32,8 @@ function linesToBlocks(lines,mode){
   var cue=isCharacter(t)&&(!Number.isFinite(x)||lastX===null||x>lastX+35||expectDialogue===false);
   if(!screenplay){
    if((typeof line==="object"&&line.paragraph)||gap>18||!out.length){
-    out.push({kind:"action",text:t});
+    out.push({kind:typeof line==="object"&&line.heading?"heading":"action",
+      text:t,html:typeof line==="object"?line.html:null});
    }else add("action",t);
    return;
   }
@@ -59,7 +60,10 @@ function linesToBlocks(lines,mode){
 function toHtml(blocks,mode){
  return blocks.map(function(b){
   var kind=SCRIPT_KINDS.includes(b.kind)?b.kind:"action";
-  if(mode==="prose")return "<p>"+esc(b.text)+"</p>";
+  if(mode==="prose"){
+   var tag=b.kind==="heading"?"h2":"p";
+   return "<"+tag+">"+(b.html||esc(b.text))+"</"+tag+">";
+  }
   return '<p class="sp-'+kind+'">'+esc(b.text)+"</p>";
  }).join("\n");
 }
@@ -76,12 +80,23 @@ function toFountain(blocks){
  return lines.join("\n").replace(/\n{4,}/g,"\n\n\n").trim();
 }
 function docxParagraphs(html){
- // Mammoth HTML is *untrusted input*; extract ONLY text from paragraph-like nodes.
- // No HTML, attributes, links, images, SVG or scripts from the file reach the editor.
+ // Mammoth HTML is UNTRUSTED. Recreate only a tiny safe inline markup subset.
+ // Never copy attributes/URLs/scripts/embedded images to the Story editor.
  var doc=new DOMParser().parseFromString(String(html||""),"text/html");
+ function safe(node){
+  if(node.nodeType===3)return esc(node.nodeValue);
+  if(node.nodeType!==1)return "";
+  var tag=node.tagName.toLowerCase();
+  if(["script","style","svg","iframe","object","img","form"].includes(tag))return "";
+  if(tag==="br")return "<br>";
+  var children=Array.from(node.childNodes).map(safe).join("");
+  var name={b:"strong",strong:"strong",i:"em",em:"em",u:"u",s:"s"}[tag];
+  return name?"<"+name+">"+children+"</"+name+">":children;
+ }
  var paragraphs=Array.from(doc.body.querySelectorAll("p,h1,h2,h3,li,blockquote,pre"));
  return paragraphs.map(function(node){
-  return {text:normalized(node.textContent),x:null,gap:0,paragraph:true};
+  return {text:normalized(node.textContent),html:Array.from(node.childNodes).map(safe).join(""),
+    heading:/^H[1-3]$/.test(node.tagName),x:null,gap:0,paragraph:true};
  }).filter(function(x){return x.text;});
 }
 async function importDocx(file){
