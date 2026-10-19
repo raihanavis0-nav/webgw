@@ -326,62 +326,11 @@
     if (!shell) {
       shell = el("div", "archive-story-library-shell");
       shell.id = "archiveStoryLibraryShell";
-      var sidebar = el("nav", "archive-story-nav");
-      sidebar.id = "archiveStoryTree";
-      sidebar.setAttribute("aria-label", "Series and sub-series navigation");
       host.parentNode.insertBefore(shell, host);
-      shell.appendChild(sidebar); shell.appendChild(host);
+      shell.appendChild(host);
       var search = $("adminStorySearch");
       if (search) search.addEventListener("input", function () { applyFilters(libraryData); });
     }
-    var tree = $("archiveStoryTree");
-    tree.replaceChildren();
-    tree.appendChild(el("span", "archive-story-nav-kicker", "CONTENTS"));
-    (data.series || []).slice().sort(function (a,b) {
-      return Number(a.order || 0) - Number(b.order || 0);
-    }).forEach(function (series) {
-      var block = Array.from(host.querySelectorAll(".admin-series-block"))
-        .find(function (node) { return node.dataset.sortId === String(series.id); });
-      var link = el("button", "archive-story-nav-series", series.name || "Untitled");
-      link.type = "button"; link.title = series.name || "Untitled";
-      link.addEventListener("click", function () {
-        if (!block) return;
-        block.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-      tree.appendChild(link);
-      function addChapter(chapter, direct) {
-        var button = el("button", "archive-story-nav-chapter" +
-          (direct ? " is-direct" : ""), chapter.title || "Untitled");
-        button.type = "button";
-        button.title = chapter.title || "Untitled chapter";
-        button.addEventListener("click", function () {
-          if (typeof openTreeStory === "function") openTreeStory(chapter.id);
-        });
-        tree.appendChild(button);
-      }
-      (data.stories || []).filter(function (story) {
-        return String(story.seriesId) === String(series.id) && !story.subseriesId;
-      }).sort(function (a,b) { return Number(a.order || 0) - Number(b.order || 0); })
-        .forEach(function (story) { addChapter(story, true); });
-      (data.subseries || []).filter(function (v) { return String(v.seriesId) === String(series.id); })
-        .sort(function (a,b) { return Number(a.order || 0) - Number(b.order || 0); })
-        .forEach(function (sub) {
-          var sublink = el("button", "archive-story-nav-sub", sub.name || "Untitled");
-          sublink.type = "button";
-          sublink.addEventListener("click", function () {
-            if (!block) return;
-            var item = Array.from(block.querySelectorAll(".subseries-block"))
-              .find(function (node) { return node.dataset.sortId === String(sub.id); });
-            if (item) item.scrollIntoView({ behavior: "smooth", block: "start" });
-          });
-          tree.appendChild(sublink);
-          (data.stories || []).filter(function (story) {
-            return String(story.seriesId) === String(series.id) &&
-              String(story.subseriesId) === String(sub.id);
-          }).sort(function (a,b) { return Number(a.order || 0) - Number(b.order || 0); })
-            .forEach(function (story) { addChapter(story, false); });
-        });
-    });
     var parent = $("adminStorySearch") && $("adminStorySearch").parentElement;
     if (parent && !$("archiveStoryStatusFilter")) {
       var select = el("select", "archive-story-status-filter");

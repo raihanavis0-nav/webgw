@@ -124,3 +124,11 @@ Dates are **in-story dates**, separate from the publishing date:
 
 Run regression tests: `node --test scripts/test-timeline.js` (also in CI). No additional Serverless Functions are added, preserving the Vercel Hobby API budget.
 
+
+## Community book ratings
+
+The Reader Series shelf lets authenticated readers rate each Series/book from 1 to 5 stars. It shows the shared average and number of votes. A browser can change its own rating without adding another count; a random anonymous per-book ID is stored in localStorage. Clearing browser storage or using a new browser allows another identity, so this is basic duplicate protection, **not** one-person-one-vote verification.
+
+Ratings use the **existing optional Upstash Redis** environment variables (\`UPSTASH_REDIS_REST_URL\`, \`UPSTASH_REDIS_REST_TOKEN\`). No SQL schema, new serverless function, or browser-exposed secret is needed. Shared counts require this service: if it is not configured or offline, rating controls are disabled and no fabricated averages appear.
+
+The authenticated \`GET /api/thoughts/content?ratings=1\` reads summary scores, while same-origin \`POST /api/thoughts/content\` submits a rating. The server only accepts existing Series IDs and uses an atomic Redis Lua script to update the vote and aggregate, with a coarse hourly write limit. Ratings are kept in Redis, separate from the GitHub-hosted fiction content.
