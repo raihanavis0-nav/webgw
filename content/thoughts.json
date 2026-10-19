@@ -876,6 +876,15 @@
       "order": 2,
       "bio": "",
       "portrait": ""
+    },
+    {
+      "id": "character-1792390030378",
+      "name": "Diana",
+      "seriesId": "series-1791729416326",
+      "subseriesId": "",
+      "order": 3,
+      "bio": "",
+      "portrait": ""
     }
   ],
   "stories": [
