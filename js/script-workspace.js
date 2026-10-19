@@ -7,6 +7,7 @@
   var model = [], selected = 0, config = null, open = false;
   var ui = {}, reflowTimer = null, statusTimer = null, pages = [];
   var sceneOpen = false, revision = 0;
+  var zoom = 1;
 
   function $(id) { return document.getElementById(id); }
   function create(tag, className, label) {
@@ -38,6 +39,7 @@
         return !person.seriesId || String(person.seriesId) === String(seriesId);
       }).map(function (person) { return person.name || ""; }).filter(Boolean);
       var previous = ui.character.value;
+      // Keep native character suggestions available without flooding the main toolbar.
       ui.character.replaceChildren();
       var blank = create("option", "", "Character…");
       blank.value = "";
@@ -52,8 +54,8 @@
   function updateToolbar() {
     if (!ui.element) return;
     ui.element.value = model[selected] ? E.kind(model[selected].kind) : "action";
-    ui.position.textContent = "Element: " + ui.element.value.toUpperCase() +
-      " · " + model.length + " blocks · " + pages.length + " pages";
+    ui.position.textContent = "WRITING " + ui.element.value.toUpperCase() +
+      "  ·  " + model.length + (model.length === 1 ? " element" : " elements");
     updatePicker();
   }
 
@@ -127,15 +129,44 @@
     if (legacy.value === html) return;
     legacy.value = html;
     legacy.dispatchEvent(new Event("input", { bubbles: true }));
-    status("Unsaved · local draft backup active");
+    status("Unsaved changes · draft kept in this browser");
   }
   function reflow(bookmark) {
     if (!open || !ui.pages) return;
     pages = E.render(ui.pages, model, { editable: true });
     ui.pageCount.textContent = pages.length + (pages.length === 1 ? " page" : " pages");
     drawNavigator();
+    showEmptyGuide();
     updateToolbar();
     if (bookmark) focusAt(bookmark.source, bookmark.offset);
+  }
+  function showEmptyGuide() {
+    if (model.some(function (block) { return String(block.text || "").trim(); })) return;
+    var page = ui.pages.querySelector(".script-page-content");
+    if (!page) return;
+    var guide = create("div", "script-empty-guide");
+    guide.setAttribute("aria-label", "Start writing a screenplay");
+    guide.appendChild(create("span", "script-empty-kicker", "YOUR FIRST SCENE"));
+    guide.appendChild(create("strong", "", "Every story begins somewhere."));
+    guide.appendChild(create("p", "", "Set a location and time, or jump straight into the action."));
+    var actions = create("div", "script-empty-actions");
+    var scene = button("Create scene heading ↗");
+    scene.className = "script-start-primary";
+    scene.addEventListener("click", function () {
+      ui.sceneCompose.hidden = false;
+      ui.sceneLocation.focus();
+    });
+    var action = button("Write an action instead");
+    action.addEventListener("click", function () {
+      model[0] = { kind: "action", text: "" };
+      selected = 0;
+      reflow({ source:0, offset:0 });
+    });
+    actions.appendChild(scene);
+    actions.appendChild(action);
+    guide.appendChild(actions);
+    guide.appendChild(create("small", "", "TIP  Enter → next block  ·  Tab → change element"));
+    page.appendChild(guide);
   }
   function scheduleReflow(bookmark) {
     clearTimeout(reflowTimer);
@@ -161,16 +192,23 @@
       item.addEventListener("click", function () { focusAt(index, 0); });
       ui.nav.appendChild(item);
     });
-    if (!scenes) ui.nav.appendChild(create("small", "", "Add a scene using the Scene button."));
+    if (!scenes) {
+      var empty = create("div", "script-outline-empty");
+      empty.appendChild(create("span", "", "No scenes yet"));
+      empty.appendChild(create("small", "", "Your scenes will appear here as you write."));
+      ui.nav.appendChild(empty);
+    }
   }
 
   function applyKind(next) {
     if (!model.length) model.push({ kind: "action", text: "" });
     syncBlocks();
     var at = selected, target = E.kind(next);
+    var currentNode = blockNodes(at)[0];
+    var offset = currentNode ? bookmarkFor(currentNode).offset : 0;
     model[at].kind = target;
     saveToDraft();
-    reflow({ source: at, offset: 0 });
+    reflow({ source: at, offset: offset });
   }
   function handleEnter(event, node) {
     if (event.shiftKey || event.ctrlKey || event.metaKey || event.altKey) return;
@@ -194,7 +232,13 @@
     else model[selected] = { kind:"scene", text:text };
     saveToDraft(); reflow({ source:selected, offset:text.length });
     ui.sceneLocation.value = "";
+    updateScenePreview();
     ui.sceneCompose.hidden = true;
+  }
+  function updateScenePreview() {
+    if (!ui.scenePreview) return;
+    ui.scenePreview.textContent = E.sceneHeading(
+      ui.sceneType.value, ui.sceneTime.value, ui.sceneLocation.value);
   }
   function handleKeydown(event) {
     var node = event.target.closest && event.target.closest(".script-block[contenteditable]");
@@ -223,6 +267,11 @@
     clearTimeout(reflowTimer);
     syncBlocks();
     saveToDraft();
+    if (!$("storyTitleInput").value.trim()) {
+      status("Add a script title at the top before saving.", true);
+      ui.title.focus();
+      return;
+    }
     status("Saving to archive…");
     $("saveStoryBtn").click();
   }
@@ -236,12 +285,22 @@
     revision++;
     open = true;
     ui.shell.hidden = false;
-    ui.title.textContent = $("storyTitleInput").value.trim() || "Untitled script";
+    ui.title.value = $("storyTitleInput").value || "";
     document.body.classList.add("script-workspace-open");
-    ui.sceneCompose.hidden = true;
+    var firstRun = model.every(function (item) { return !String(item.text || "").trim(); });
+    ui.sceneCompose.hidden = !firstRun;
     ui.navPanel.hidden = false;
-    reflow({ source:0, offset:0 });
-    status("Local draft · click Save to publish changes");
+    ui.navToggle.setAttribute("aria-pressed", "true");
+    ui.shell.classList.remove("is-focus");
+    ui.focusToggle.setAttribute("aria-pressed", "false");
+    reflow(firstRun ? null : { source:0, offset:0 });
+    if (firstRun) {
+      updateScenePreview();
+      ui.sceneLocation.focus({ preventScroll:true });
+      status("Start with a scene heading, or click the paper to type.");
+    } else {
+      status("Ready to write · Ctrl+S saves to the archive.");
+    }
   }
   function closeWorkspace() {
     if (!open) return;
@@ -278,17 +337,45 @@
     var close = button("← Back", "Return to story properties");
     close.addEventListener("click", closeWorkspace);
     toolbar.appendChild(close);
-    var heading = create("div", "script-toolbar-title");
-    heading.appendChild(create("strong", "", "Untitled script"));
-    heading.appendChild(create("small", "", "Script / Write on Paper"));
-    ui.title = heading.firstChild;
+    var heading = create("label", "script-toolbar-title");
+    heading.appendChild(create("span", "", "SCRIPT TITLE"));
+    var titleInput = create("input");
+    titleInput.type = "text";
+    titleInput.maxLength = 160;
+    titleInput.placeholder = "Untitled script";
+    titleInput.setAttribute("aria-label", "Script title");
+    titleInput.addEventListener("input", function () {
+      var input = $("storyTitleInput");
+      input.value = titleInput.value;
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      status("Unsaved changes · draft kept in this browser");
+    });
+    heading.appendChild(titleInput);
+    ui.title = titleInput;
     toolbar.appendChild(heading);
-    var toggleNav = button("Scenes");
+    var toggleNav = button("Outline");
+    toggleNav.className = "script-outline-toggle";
+    toggleNav.title = "Show or hide scene navigator";
+    toggleNav.setAttribute("aria-pressed", "true");
     toggleNav.addEventListener("click", function () {
       ui.navPanel.hidden = !ui.navPanel.hidden;
       toggleNav.setAttribute("aria-pressed", String(!ui.navPanel.hidden));
     });
+    ui.navToggle = toggleNav;
     toolbar.appendChild(toggleNav);
+    var focusToggle = button("Focus");
+    focusToggle.title = "Minimize distractions";
+    focusToggle.setAttribute("aria-pressed", "false");
+    focusToggle.addEventListener("click", function () {
+      var active = ui.shell.classList.toggle("is-focus");
+      focusToggle.setAttribute("aria-pressed", String(active));
+      if (active) {
+        ui.navPanel.hidden = true;
+        ui.navToggle.setAttribute("aria-pressed", "false");
+      }
+    });
+    ui.focusToggle = focusToggle;
+    toolbar.appendChild(focusToggle);
     var element = create("select");
     element.setAttribute("aria-label", "Current screenplay element");
     E.KINDS.forEach(function (kind) {
@@ -296,7 +383,10 @@
       opt.value = kind; element.appendChild(opt);
     });
     element.addEventListener("change", function () { applyKind(element.value); });
-    toolbar.appendChild(element);
+    var picker = create("label", "script-element-picker");
+    picker.appendChild(create("span", "", "ELEMENT"));
+    picker.appendChild(element);
+    toolbar.appendChild(picker);
     ui.element = element;
     var character = create("select");
     character.setAttribute("aria-label", "Insert existing story character");
@@ -306,25 +396,46 @@
       saveToDraft(); reflow({ source:selected, offset:model[selected].text.length });
     });
     toolbar.appendChild(character); ui.character = character;
-    var addScene = button("+ Scene", "Build a scene heading");
+    var addScene = button("+ New Scene", "Choose INT./EXT., location and time");
+    addScene.className = "script-new-scene";
     addScene.addEventListener("click", function () {
       ui.sceneCompose.hidden = !ui.sceneCompose.hidden;
       if (!ui.sceneCompose.hidden) ui.sceneLocation.focus();
     });
     toolbar.appendChild(addScene);
-    var print = button("PDF / Print", "Print Letter pages or Save as PDF");
+    var print = button("Export PDF", "Browser print dialog → Save as PDF");
     print.addEventListener("click", function () {
       clearTimeout(reflowTimer); syncBlocks(); saveToDraft(); reflow();
       window.print();
     });
     toolbar.appendChild(print);
-    var save = button("Save", "Save draft to server");
+    var zoomer = create("div", "script-zoom");
+    var zoomOut = button("−", "Zoom out");
+    var zoomLabel = create("span", "", "100%");
+    var zoomIn = button("+", "Zoom in");
+    function setZoom(value) {
+      zoom = Math.max(.75, Math.min(1.25, value));
+      zoomLabel.textContent = Math.round(zoom * 100) + "%";
+      ui.pages.style.zoom = String(zoom);
+      zoomOut.disabled = zoom <= .75;
+      zoomIn.disabled = zoom >= 1.25;
+    }
+    zoomOut.addEventListener("click", function () { setZoom(zoom - .1); });
+    zoomIn.addEventListener("click", function () { setZoom(zoom + .1); });
+    zoomer.appendChild(zoomOut); zoomer.appendChild(zoomLabel); zoomer.appendChild(zoomIn);
+    toolbar.appendChild(zoomer);
+    var save = button("Save changes", "Save draft to archive");
     save.id = "scriptSave"; save.addEventListener("click", doSave);
     toolbar.appendChild(save);
     shell.appendChild(toolbar);
+    var helpbar = create("div", "script-helpbar");
+    helpbar.appendChild(create("span", "", "WRITE ON PAPER"));
+    helpbar.appendChild(create("p", "", "Enter  next element    ·    Tab  change type    ·    Shift+Enter  line break    ·    Ctrl+S  save"));
+    shell.appendChild(helpbar);
     var composer = create("section", "script-scene-compose");
     composer.hidden = true;
     ui.sceneCompose = composer;
+    composer.appendChild(create("strong", "script-scene-title", "NEW SCENE"));
     var type = create("select"); type.setAttribute("aria-label","Scene type");
     ["INT.", "EXT.", "INT./EXT.", "EXT./INT.", "EST."].forEach(function (value) {
       var opt = create("option", "", value); opt.value = value; type.appendChild(opt);
@@ -335,13 +446,22 @@
     ["DAY","NIGHT","MORNING","AFTERNOON","EVENING","DAWN","DUSK","CONTINUOUS","LATER"].forEach(function (name) {
       var opt = create("option", "", name); opt.value = name; time.appendChild(opt);
     }); ui.sceneTime = time; composer.appendChild(time);
-    var insert = button("Insert heading"); insert.addEventListener("click", insertScene);
+    var preview = create("span", "script-scene-preview", "");
+    ui.scenePreview = preview;
+    composer.appendChild(preview);
+    [type,time].forEach(function (field) { field.addEventListener("change", updateScenePreview); });
+    location.addEventListener("input", updateScenePreview);
+    var insert = button("Insert scene →"); insert.className = "script-scene-insert";
+    insert.addEventListener("click", insertScene);
     composer.appendChild(insert);
+    var cancel = button("Cancel"); cancel.className = "script-scene-cancel";
+    cancel.addEventListener("click", function () { composer.hidden = true; });
+    composer.appendChild(cancel);
     location.addEventListener("keydown", function (event) { if (event.key === "Enter") { event.preventDefault(); insertScene(); } });
     shell.appendChild(composer);
     var main = create("div", "script-main");
     var side = create("aside", "script-sidebar");
-    side.appendChild(create("p", "script-sidebar-label", "Scene Navigator"));
+    side.appendChild(create("p", "script-sidebar-label", "STORY OUTLINE"));
     ui.nav = create("nav"); ui.nav.setAttribute("aria-label","Scenes");
     side.appendChild(ui.nav); main.appendChild(side); ui.navPanel = side;
     var stage = create("main", "script-stage");
@@ -374,14 +494,22 @@
       if (open) { clearTimeout(reflowTimer); syncBlocks(); saveToDraft(); reflow(); }
     });
     document.addEventListener("keydown", function (event) {
-      if (open && event.key === "Escape") { event.preventDefault(); closeWorkspace(); }
+      if (!open) return;
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s" && !event.defaultPrevented) {
+        event.preventDefault(); doSave(); return;
+      }
+      if (event.key === "Escape") {
+        event.preventDefault();
+        if (!ui.sceneCompose.hidden) ui.sceneCompose.hidden = true;
+        else closeWorkspace();
+      }
     });
     var indicator = $("saveIndicator");
     if (indicator) new MutationObserver(function () {
       if (!open) return;
       var message = indicator.getAttribute("aria-label") || "";
       if (message === "Saved") status("Saved to archive");
-      else if (message === "Unsaved") status("Unsaved · local draft backup active");
+      else if (message === "Unsaved") status("Unsaved changes · draft kept in this browser");
     }).observe(indicator, { attributes:true, attributeFilter:["aria-label"] });
   }
   window.ScriptWorkspace = {
