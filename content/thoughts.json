@@ -1540,6 +1540,181 @@
       "timelineGroup": "",
       "timelineOrder": 0,
       "synopsis": ""
+    },
+    {
+      "id": "story-1792398561499",
+      "title": "Script",
+      "date": "2026-10-19",
+      "slug": "script",
+      "seriesId": "series-1791729416326",
+      "subseriesId": "",
+      "order": 1,
+      "published": false,
+      "characterIds": [],
+      "body": "<p class=\"sp-scene\">INT. HOSPITAL - DAY</p>\n<p class=\"sp-action\">The waiting area is fairly crowded. Some people are looking at their phones, others are watching the numbers change on a small screen above the pharmacy counter. AMIR, a man in his early thirties, sits among them, holding a queue ticket. He looks around occasionally, then back at the ticket.</p>\n<p class=\"sp-action\">A woman's voice comes through the overhead speaker.</p>\n<p class=\"sp-character\">PHARMACY STAFF (V.O.)</p>\n<p class=\"sp-dialogue\">A-thirty-seven, please proceed to counter two. A-thirty-seven.</p>\n<p class=\"sp-action\">AMIR looks at his ticket. He gets up and makes his way toward the counter, where a PHARMACIST is sorting through several packets of medication.As Abbas approaches, the pharmacist looks up and begins explaining the prescriptions to him.</p>\n<p class=\"sp-character\">Pharmacist</p>\n<p class=\"sp-dialogue\">Okay,so this one you take twice a day, i recommend you to take this before meals and before your dinner. And this one three times a day.</p>\n<p class=\"sp-character\">Amir froushan</p>\n<p class=\"sp-dialogue\">Oh, sorry. Which one's twice?</p>\n<p class=\"sp-character\">Pharmacist</p>\n<p class=\"sp-dialogue\"></p>\n<p class=\"sp-scene\">Int. HOspital - Pharmacy counter - day</p>\n<p class=\"sp-action\">The Pharmacist hands him a bag containing several pills medication.</p>\n<p class=\"sp-character\">Pharmacist</p>\n<p class=\"sp-dialogue\">Here are your medication, sir.</p>",
+      "format": "script",
+      "contentWarning": "",
+      "banner": "",
+      "bannerPosition": "center",
+      "timelineEnabled": false,
+      "timelineLabel": "",
+      "timelineGroup": "",
+      "timelineOrder": 0,
+      "timelineYear": 0,
+      "timelineMonth": 0,
+      "timelineDay": 0,
+      "timelineSeason": "",
+      "timelinePrecision": "day",
+      "scriptDoc": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "sceneHeading",
+            "attrs": {
+              "id": null
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "INT. HOSPITAL - DAY"
+              }
+            ]
+          },
+          {
+            "type": "action",
+            "content": [
+              {
+                "type": "text",
+                "text": "The waiting area is fairly crowded. Some people are looking at their phones, others are watching the numbers change on a small screen above the pharmacy counter. AMIR, a man in his early thirties, sits among them, holding a queue ticket. He looks around occasionally, then back at the ticket."
+              }
+            ]
+          },
+          {
+            "type": "action",
+            "content": [
+              {
+                "type": "text",
+                "text": "A woman's voice comes through the overhead speaker."
+              }
+            ]
+          },
+          {
+            "type": "character",
+            "content": [
+              {
+                "type": "text",
+                "text": "PHARMACY STAFF (V.O.)"
+              }
+            ]
+          },
+          {
+            "type": "dialogue",
+            "content": [
+              {
+                "type": "text",
+                "text": "A-thirty-seven, please proceed to counter two. A-thirty-seven."
+              }
+            ]
+          },
+          {
+            "type": "action",
+            "content": [
+              {
+                "type": "text",
+                "text": "AMIR looks at his ticket. He gets up and makes his way toward the counter, where a PHARMACIST is sorting through several packets of medication. As Abbas approaches, the pharmacist looks up and begins explaining the prescriptions to him."
+              }
+            ]
+          },
+          {
+            "type": "character",
+            "content": [
+              {
+                "type": "text",
+                "text": "Pharmacist"
+              }
+            ]
+          },
+          {
+            "type": "dialogue",
+            "content": [
+              {
+                "type": "text",
+                "text": "Okay,so this one you take twice a day, i recommend you to take this before meals and before your dinner. And this one three times a day."
+              }
+            ]
+          },
+          {
+            "type": "character",
+            "content": [
+              {
+                "type": "text",
+                "text": "Amir froushan"
+              }
+            ]
+          },
+          {
+            "type": "dialogue",
+            "content": [
+              {
+                "type": "text",
+                "text": "Oh, sorry. Which one's twice?"
+              }
+            ]
+          },
+          {
+            "type": "character",
+            "content": [
+              {
+                "type": "text",
+                "text": "Pharmacist"
+              }
+            ]
+          },
+          {
+            "type": "dialogue"
+          },
+          {
+            "type": "sceneHeading",
+            "attrs": {
+              "id": null
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": "Int. HOspital - Pharmacy counter - day"
+              }
+            ]
+          },
+          {
+            "type": "action",
+            "content": [
+              {
+                "type": "text",
+                "text": "The Pharmacist hands him a bag containing several pills medication."
+              }
+            ]
+          },
+          {
+            "type": "character",
+            "content": [
+              {
+                "type": "text",
+                "text": "Pharmacist"
+              }
+            ]
+          },
+          {
+            "type": "dialogue",
+            "content": [
+              {
+                "type": "text",
+                "text": "Here are your medication, sir."
+              }
+            ]
+          }
+        ]
+      },
+      "synopsis": ""
     }
   ],
   "worldEntries": [],
