@@ -1,7 +1,7 @@
 /* Plotwell workspace: ProseMirror editing, legacy-compatible save, draft recovery. */
 (function(){
 "use strict";
-var W=null,api=null,doc=null,dirty=false,syncTimer=0,saveTimer=0,session=0,options=null,ui={};
+var W=null,api=null,doc=null,dirty=false,syncTimer=0,session=0,options=null,ui={};
 function $(id){return document.getElementById(id);}
 function el(tag,cls,text){var n=document.createElement(tag);if(cls)n.className=cls;if(text!=null)n.textContent=text;return n;}
 function btn(label,fn,cls){var b=el("button",cls,label);b.type="button";b.addEventListener("click",fn);return b;}
@@ -23,16 +23,30 @@ function onChange(){
  clearTimeout(syncTimer);
  syncTimer=setTimeout(function(){persist();status("Unsaved · backup active");refreshOutline();refreshStats();},170);
 }
+function updateElementLabel(){
+ if(!W||!ui.element)return;
+ var name=W.view.state.selection.$from.parent.type.name;
+ var kinds={sceneHeading:"scene",action:"action",character:"character",dialogue:"dialogue",parenthetical:"parenthetical",transition:"transition"};
+ ui.element.value=kinds[name]||"action";
+}
+function updateWelcome(){
+ if(!W||!ui.welcome)return;
+ var blocks=W.toJSON().content||[];
+ var written=blocks.some(function(b){return(b.content||[]).some(function(t){return String(t.text||"").trim();});});
+ ui.welcome.hidden=written;
+ ui.shell.classList.toggle("is-empty-script",!written);
+}
 function refreshStats(){
  if(!W)return;
  var stat=W.getStats();
  ui.position.textContent=stat.sceneCount+" scenes  ·  "+stat.pageCount+" pages  ·  "+stat.wordCount+" words";
+ updateElementLabel();updateWelcome();
 }
 function refreshOutline(){
  if(!W)return;
  var content=W.toJSON().content||[];
  ui.nav.replaceChildren();
- var offset=1,scenes=0;
+ var offset=0,scenes=0;
  content.forEach(function(n){
   var len=2+(n.content||[]).reduce(function(t,v){return t+(v.text||"").length;},0);
   if(n.type==="sceneHeading"){
@@ -71,13 +85,23 @@ function updateKind(kind){
 function insertScene(){
  if(!W)return;
  var prefix=ui.sceneType.value,place=ui.location.value.trim(),time=ui.time.value;
- if(!place){status("Enter a scene location first.",true);ui.location.focus();return;}
+ if(!place){status("Isi lokasi adegan dulu.",true);ui.location.focus();return;}
  var heading=window.ScriptEngine.sceneHeading(prefix,time,place);
- var view=W.view,state=view.state;
- var at=state.selection.$from.before(1);
+ var view=W.view,state=view.state,at=state.selection.$from.before(1);
+ var current=state.doc.nodeAt(at);
  var node=state.schema.nodes.sceneHeading.create(null,state.schema.text(heading));
- view.dispatch(state.tr.insert(at,node));
- view.focus();ui.compose.hidden=true;ui.location.value="";
+ var action=state.schema.nodes.action.create();
+ // Replace the first empty placeholder instead of creating phantom scene number "1".
+ var replace=!!current&&current.content.size===0;
+ var tr=replace
+  ?state.tr.replaceWith(at,at+current.nodeSize,[node,action])
+  :state.tr.insert(at,[node,action]);
+ var cursor=at+node.nodeSize+1;
+ tr=tr.setSelection(window.PlotwellEmbed.TextSelection.near(tr.doc.resolve(cursor),1));
+ view.dispatch(tr.scrollIntoView());view.focus();
+ ui.compose.hidden=true;ui.location.value="";
+ updateWelcome();refreshStats();refreshOutline();
+ status("Adegan dibuat. Langsung ketik aksinya.");
 }
 function doSave(){
  if(!W)return;
@@ -89,29 +113,39 @@ function doSave(){
 function openWorkspace(opts){
  options=opts||{};
  if(!window.PlotwellEmbed||!window.PlotwellEmbed.PlotwellEditor){
-  status("Plotwell bundle is missing. Run the bundling workflow before using this editor.",true);
-  if(ui.openError)ui.openError.hidden=false;
+  window.alert("Editor belum berhasil dimuat. Refresh halaman lalu coba lagi.");
   return;
  }
  if(W)closeWorkspace();
  ui.shell.hidden=false;document.body.classList.add("script-workspace-open");
  ui.title.value=$("storyTitleInput").value||"";
- ui.navPanel.hidden=false;ui.compose.hidden=true;
+ ui.navPanel.hidden=true;ui.compose.hidden=true;
+ if(ui.outlineToggle)ui.outlineToggle.setAttribute("aria-expanded","false");
  var draft=options.getDraft?options.getDraft():{body:$("storyBodyInput").value};
  var source=api.fromStory(draft);
- if(!source.content.length)source={type:"doc",content:[{type:"sceneHeading"}]};
+ if(!source.content.length||(source.content.length===1&&!(source.content[0].content||[]).some(function(t){return String(t.text||"").trim();}))){
+   source={type:"doc",content:[{type:"action"}]};
+ }
  ui.page.replaceChildren();
+ var welcome=el("div","script-welcome");
+ welcome.appendChild(el("div","script-welcome-kicker","MULAI MENULIS"));
+ welcome.appendChild(el("strong","", "Naskah pertama lo dimulai di sini."));
+ welcome.appendChild(el("p","", "Buat heading adegan otomatis, atau klik langsung di kertas untuk menulis aksi."));
+ var begin=btn("＋ Buat adegan pertama",function(){ui.compose.hidden=false;ui.location.focus();},"script-welcome-primary");
+ welcome.appendChild(begin);
+ welcome.appendChild(btn("Langsung menulis aksi",function(){if(W)W.view.focus();},"script-welcome-secondary"));
+ ui.page.appendChild(welcome);ui.welcome=welcome;
  var mount=el("div","plotwell-editor-wrap");
  var inner=el("div","script-plotwell-mount");mount.appendChild(inner);ui.page.appendChild(mount);
  try{
-  W=new window.PlotwellEmbed.PlotwellEditor({container:inner,doc:source,onChange:onChange,bubbleMenu:true,typeBadge:true,attribution:true});
+  W=new window.PlotwellEmbed.PlotwellEditor({container:inner,doc:source,onChange:onChange,bubbleMenu:true,typeBadge:false,attribution:true});
  }catch(err){
   W=null;ui.shell.hidden=true;document.body.classList.remove("script-workspace-open");
   window.alert("Could not initialize Plotwell: "+err.message);return;
  }
  session++;dirty=false;doc=W.toJSON();refreshStats();refreshOutline();
- status("Ready · Enter continues a block · Tab changes element · Ctrl+S saves");
- if(W&&W.view)W.view.focus();
+ status("Enter: baris berikut · Tab: ganti format · Ctrl+S: simpan");
+ if(W&&W.view&&!ui.shell.classList.contains("is-empty-script"))W.view.focus();
 }
 function closeWorkspace(){
  if(!W)return;
@@ -146,17 +180,32 @@ function setup(){
    $("storyTitleInput").dispatchEvent(new Event("input",{bubbles:true}));
  });
  title.appendChild(ui.title);toolbar.appendChild(title);
- toolbar.appendChild(btn("Scenes",function(){ui.navPanel.hidden=!ui.navPanel.hidden;}));
+ var scenes=btn("☷ Outline",function(){
+  ui.navPanel.hidden=!ui.navPanel.hidden;
+  scenes.setAttribute("aria-expanded",String(!ui.navPanel.hidden));
+ });
+ scenes.className="script-outline-toggle";scenes.setAttribute("aria-expanded","false");
+ ui.outlineToggle=scenes;toolbar.appendChild(scenes);
  var elem=el("select");elem.setAttribute("aria-label","Screenplay element");
  ["scene","action","character","dialogue","parenthetical","transition"].forEach(function(k){var o=el("option","",k[0].toUpperCase()+k.slice(1));o.value=k;elem.appendChild(o);});
  elem.addEventListener("change",function(){updateKind(elem.value);});
- var picker=el("label","script-element-picker");picker.appendChild(el("span","", "ELEMENT"));picker.appendChild(elem);toolbar.appendChild(picker);
- toolbar.appendChild(btn("+ Scene",function(){ui.compose.hidden=!ui.compose.hidden;ui.location.focus();},"script-new-scene"));
- toolbar.appendChild(btn("Export PDF",function(){if(W)W.toPDF({title:scriptTitle()||"Screenplay"});}));
- toolbar.appendChild(btn("Fountain ↓",function(){
-  if(!W)return;
+ var picker=el("label","script-element-picker");picker.appendChild(el("span","", "FORMAT"));picker.appendChild(elem);toolbar.appendChild(picker);
+ ui.element=elem;
+ toolbar.appendChild(btn("＋ Scene",function(){ui.compose.hidden=!ui.compose.hidden;if(!ui.compose.hidden)ui.location.focus();},"script-new-scene"));
+ var fileMenu=el("details","script-file-menu");
+ var menuLabel=el("summary","", "⋯ File");
+ menuLabel.setAttribute("aria-label","Import and export options");fileMenu.appendChild(menuLabel);
+ var menuBody=el("div","script-file-menu-body");
+ menuBody.appendChild(btn("Export PDF",function(){
+   fileMenu.open=false;
+   if(W)W.toPDF({title:scriptTitle()||"Screenplay"});
+ }));
+ menuBody.appendChild(btn("Download Fountain",function(){
+  if(!W)return;fileMenu.open=false;
   var blob=new Blob([W.toFountain()],{type:"text/plain;charset=utf-8"});
-  var url=URL.createObjectURL(blob);var a=el("a");a.href=url;a.download=(scriptTitle()||"screenplay").replace(/[^\w-]+/g,"-")+".fountain";a.click();setTimeout(function(){URL.revokeObjectURL(url);},1500);
+  var url=URL.createObjectURL(blob);var a=el("a");a.href=url;
+  a.download=(scriptTitle()||"screenplay").replace(/[^\w-]+/g,"-")+".fountain";
+  a.click();setTimeout(function(){URL.revokeObjectURL(url);},1500);
  }));
  var importInput=el("input");importInput.type="file";importInput.accept=".fountain,.txt,.fdx";importInput.hidden=true;
  importInput.addEventListener("change",function(){
@@ -168,9 +217,12 @@ function setup(){
   }).catch(function(e){status("Import failed: "+e.message,true);});
   this.value="";
  });
- toolbar.appendChild(btn("Import",function(){importInput.click();}));
- toolbar.appendChild(importInput);
- toolbar.appendChild(btn("Save",doSave,"script-main-save"));shell.appendChild(toolbar);
+ menuBody.appendChild(btn("Import Fountain / FDX",function(){fileMenu.open=false;importInput.click();}));
+ menuBody.appendChild(importInput);
+ fileMenu.appendChild(menuBody);toolbar.appendChild(fileMenu);
+ toolbar.appendChild(btn("Simpan",doSave,"script-main-save"));shell.appendChild(toolbar);
+ var helper=el("div","script-mini-help","Nulis langsung di kertas  ·  Enter: lanjut  ·  Tab: ubah format  ·  Ctrl+S: simpan");
+ shell.appendChild(helper);
  var compose=el("div","script-scene-compose");compose.hidden=true;ui.compose=compose;
  compose.appendChild(el("strong","script-scene-title","NEW SCENE"));
  ui.sceneType=el("select");["INT.","EXT.","INT./EXT.","EST."].forEach(function(t){var o=el("option","",t);o.value=t;ui.sceneType.appendChild(o);});compose.appendChild(ui.sceneType);
@@ -178,11 +230,15 @@ function setup(){
  ui.time=el("select");["DAY","NIGHT","MORNING","AFTERNOON","DUSK","DAWN","CONTINUOUS"].forEach(function(t){var o=el("option","",t);o.value=t;ui.time.appendChild(o);});compose.appendChild(ui.time);
  compose.appendChild(btn("Insert scene",insertScene));shell.appendChild(compose);
  var main=el("div","script-main"),aside=el("aside","script-sidebar");aside.appendChild(el("p","script-sidebar-label","SCENE NAVIGATOR"));ui.nav=el("nav");aside.appendChild(ui.nav);ui.navPanel=aside;main.appendChild(aside);
- var stageBox=el("main","script-stage");ui.page=el("div","script-plotwell-stage");stageBox.appendChild(ui.page);main.appendChild(stageBox);shell.appendChild(main);
+ var stageBox=el("main","script-stage");ui.page=el("div","script-plotwell-stage");
+ stageBox.appendChild(ui.page);main.appendChild(stageBox);shell.appendChild(main);
  var footer=el("footer","script-footer");ui.position=el("span","", "0 scenes");ui.status=el("span","script-save-state","");footer.appendChild(ui.position);footer.appendChild(ui.status);shell.appendChild(footer);
  document.body.appendChild(shell);
  btnOpen.textContent="Open Script Editor ↗";
  btnOpen.addEventListener("click",function(ev){ev.preventDefault();openWorkspace({getDraft:function(){return window.ScriptAdminData && window.ScriptAdminData.getDraft?window.ScriptAdminData.getDraft():{body:$("storyBodyInput").value};}});});
+ document.addEventListener("selectionchange",function(){
+  if(W&&W.view&&W.view.hasFocus())updateElementLabel();
+ });
  document.addEventListener("keydown",function(event){
   if(!W)return;
   if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==="s"){event.preventDefault();doSave();}

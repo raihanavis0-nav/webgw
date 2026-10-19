@@ -341,24 +341,3 @@ body[data-story-format="script"] #storyBody { max-width:none; }
 @media print {
   .script-helpbar, .script-empty-guide { display:none!important; }
 }
-
-/* Plotwell / ProseMirror editor integration: scoped so Reader and Prose remain unchanged. */
-.script-workspace .script-stage { overflow:auto; padding:22px 16px 80px; }
-.script-workspace .script-plotwell-stage { width:100%; min-width:0; }
-.script-workspace .plotwell-editor-wrap { background:transparent; min-height:0; padding:14px 0 90px; overflow:visible; }
-.script-workspace .ProseMirror { box-shadow:0 12px 44px #0004; }
-.script-workspace .script-plotwell-mount { width:100%; }
-.script-workspace .plotwell-attribution { color:#9b9ea5; font:11px Inter,system-ui,sans-serif; }
-.script-workspace .script-main-save {
-  background:#ebe6dc!important;color:#222!important;border-color:#ebe6dc!important;
-}
-.script-workspace .script-scene-link { line-height:1.5; padding:10px; white-space:normal; }
-.script-workspace .script-plotwell-mount .ProseMirror:focus-visible { outline:none; }
-@media(max-width:950px) {
- .script-workspace .script-sidebar { display:none; }
- .script-workspace .script-stage { padding:12px 0 60px; }
- .script-workspace .script-plotwell-stage { overflow-x:auto; }
-}
-@media print {
- .script-workspace .plotwell-attribution { display:none!important; }
-}
