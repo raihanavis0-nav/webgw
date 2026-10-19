@@ -17,7 +17,7 @@ function mockResponse() {
 const valid = { seriesId: "series-01", voterId: "0123456789abcdef0123456789abcdef", rating: 5 };
 
 test("book vote validation accepts only a real 1–5 integer and anonymous browser ID", () => {
-  assert.deepEqual(ratings.parseVote(valid), { ...valid, score: 5 });
+  assert.deepEqual(ratings.parseVote(valid), { seriesId: valid.seriesId, voterId: valid.voterId, score: 5 });
   for (const value of [0, 6, 3.5, "4", null, NaN]) {
     assert.equal(ratings.parseVote({ ...valid, rating: value }), null);
   }
