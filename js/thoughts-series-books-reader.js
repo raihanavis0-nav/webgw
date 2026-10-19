@@ -96,6 +96,9 @@
     var total = el("p", "reader-book-inside-meta", count + (count === 1 ? " chapter" : " chapters") +
       (books.length ? " · " + books.length + (books.length === 1 ? " sub-series" : " sub-series") : ""));
     left.appendChild(total);
+    if (window.ArchiveBookRatings) {
+      window.ArchiveBookRatings.mount(left, String(series.id || ""), series.name || "Untitled");
+    }
 
     var right = el("section", "reader-book-inside reader-book-right");
     right.appendChild(el("span", "reader-book-chapter-mark", "CONTENTS"));
@@ -224,6 +227,9 @@
       openBook(series, cover, count, books, directStories, onSeries, onSubseries, onStory, mediaUrl, openPreview);
     });
     card.appendChild(openPreview);
+    if (window.ArchiveBookRatings) {
+      window.ArchiveBookRatings.mount(card, String(series.id || ""), series.name || "Untitled");
+    }
     return card;
   }
 

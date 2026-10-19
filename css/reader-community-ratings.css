@@ -1,0 +1,66 @@
+/* Wide Series shelf on desktops; preserve the two-column phone layout. */
+@media (min-width: 1024px) {
+  body[data-reader-scope="selector"] { --max: 1560px; }
+  body[data-reader-scope="selector"] #seriesList > .reader-library-books {
+    width: 100%;
+    max-width: 1420px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 50px clamp(22px, 3vw, 40px);
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  body[data-reader-scope="selector"] #seriesList > .reader-library-books {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 34px 22px;
+  }
+}
+@media (max-width: 767px) {
+  body[data-reader-scope="selector"] #seriesList > .reader-library-books {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+/* The rating is its own control, not nested in the cover-opening button. */
+.reader-community-rating {
+  min-width: 0;
+  padding: 11px 0 3px;
+  color: var(--ink);
+  font-family: var(--reader-ui, Inter, sans-serif);
+}
+.reader-rating-summary {
+  margin: 0 0 7px;
+  color: var(--muted);
+  font: 600 11px/1.5 var(--reader-ui, Inter, sans-serif);
+  font-variant-numeric: tabular-nums;
+}
+.reader-rating-stars { display: flex; align-items: center; gap: 3px; }
+.reader-rating-star {
+  width: 32px;
+  height: 35px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: 26px/1 Georgia, serif;
+  cursor: pointer;
+  transition: transform .12s ease, color .12s ease;
+}
+.reader-rating-star.is-selected { color: #d7a33a; }
+.reader-rating-star:not(:disabled):hover { color: #d7a33a; transform: scale(1.12); }
+.reader-rating-star:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.reader-rating-star:disabled { cursor: default; opacity: .55; }
+.reader-rating-hint, .reader-rating-error {
+  margin: 5px 0 0;
+  font: 400 10px/1.5 var(--reader-ui, Inter, sans-serif);
+  color: var(--muted);
+}
+.reader-rating-error { color: #c06552; }
+.reader-rating-error:empty { display: none; }
+.reader-book-left .reader-community-rating { margin-top: 17px; }
+@media (max-width: 767px) {
+  .reader-rating-star { width: 25px; height: 30px; font-size: 23px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reader-rating-star { transition: none; }
+}
