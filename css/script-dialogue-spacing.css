@@ -1,0 +1,33 @@
+/*
+ * Dialogue-turn breathing room.
+ * Add space ONLY between speakers, without separating a character cue from
+ * the dialogue belonging to that same speaker.
+ *
+ * Plotwell 0.2.0 ships .pm-dialogue + .pm-character with half a line
+ * (8px). Bring this to 1.25 screenplay lines (20px at default Courier 12pt).
+ * Scoped to Script Workspace to avoid modifying other website pages.
+ */
+.script-workspace .plotwell-editor-wrap .ProseMirror
+  p.pm-dialogue + p.pm-character,
+.script-workspace .plotwell-editor-wrap .ProseMirror
+  p.pm-parenthetical + p.pm-character {
+  margin-top: calc(var(--pw-line-h, 16px) * 1.25) !important;
+}
+
+/* Exact Page Reader: a new speaker begins after a modest extra pause. */
+body[data-story-format="script"] .script-page .sp-dialogue + .sp-character,
+body[data-story-format="script"] .script-page .sp-parenthetical + .sp-character {
+  margin-top: 1.45em;
+}
+
+/* Adapted Reader, where a larger line height is used on small screens. */
+body[data-story-format="script"] .script-adaptive-content .sp-dialogue + .sp-character,
+body[data-story-format="script"] .script-adaptive-content .sp-parenthetical + .sp-character {
+  margin-top: 1.6em;
+}
+
+/* Existing Screenplay (non-Plotwell) mode follows the same visual rhythm. */
+.is-screenplay .sp-dialogue + .sp-character,
+.is-screenplay .sp-parenthetical + .sp-character {
+  margin-top: 1.5em;
+}
