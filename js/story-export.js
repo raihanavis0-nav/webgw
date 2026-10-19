@@ -44,7 +44,14 @@ function runsFor(element){
  return runs;
 }
 function blocksFromHtml(html,mode){
- if(typeof DOMParser==="undefined")return [{kind:"action",runs:[{text:String(html||"").replace(/<[^>]*>/g,"")}]}];
+ if(typeof DOMParser==="undefined"){
+  var plain=String(html||"").replace(/<br\\s*\\/?>/gi,"\\n").replace(/<[^>]*>/g,"");
+  var names={amp:"&",lt:"<",gt:">",quot:'"',apos:"'",nbsp:" "};
+  plain=plain.replace(/&(amp|lt|gt|quot|apos|nbsp|#39);/g,function(all,entity){
+   return entity==="#39"?"'":names[entity];
+  });
+  return [{kind:"action",runs:[{text:plain}]}];
+ }
  var doc=new DOMParser().parseFromString(String(html||""),"text/html"),blocks=[];
  var valid="p div h1 h2 h3 h4 blockquote pre li".split(" ");
  function descend(node){
