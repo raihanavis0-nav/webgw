@@ -858,6 +858,15 @@
       "order": 12,
       "bio": "Name : Alexei Drugovich\nAge : 23\nBorn : Minsk, Belarus\nHeight : 170\nRace : British-Belarussian\n\nPotrayed by Tom Glynn-Carney",
       "portrait": "assets/thoughts/1791780981492-146cf4-chibi-blond-avatar-in-mustard-sweater.webp"
+    },
+    {
+      "id": "character-1792390012782",
+      "name": "Abbas",
+      "seriesId": "series-1791729416326",
+      "subseriesId": "",
+      "order": 1,
+      "bio": "",
+      "portrait": ""
     }
   ],
   "stories": [
