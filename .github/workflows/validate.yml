@@ -45,6 +45,9 @@ jobs:
       - name: Test PDF and Word document exports
         run: node --test scripts/test-story-export.js
 
+      - name: Test dialogue speaker spacing
+        run: node --test scripts/test-script-dialogue-spacing.js
+
       - name: Test Plotwell document adapter
         run: node --test scripts/test-script-plotwell-bridge.js
 

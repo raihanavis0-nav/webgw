@@ -100,8 +100,9 @@ function wRun(run){
     '<w:t xml:space="preserve">'+xml(chunk)+"</w:t></w:r>":"");
  }).join("");
 }
-function wParagraph(block,mode){
+function wParagraph(block,mode,next){
  var k=block.kind||"action",script=mode!=="prose",runs=block.runs||[{text:block.text||""}];
+ var nextCharacter=script&&next&&next.kind==="character"&&(k==="dialogue"||k==="parenthetical");
  var style="Normal",indent="",align="",bold=false;
  if(script){
   style="ScriptText";
@@ -113,7 +114,7 @@ function wParagraph(block,mode){
  }else if(k==="heading"){style="Heading1";bold=true;}
  else if(k==="quote")indent='<w:ind w:left="720" w:right="720"/>';
  var ppr='<w:pPr><w:pStyle w:val="'+style+'"/>'+indent+align+
-  '<w:spacing w:after="'+(k==="character"||k==="parenthetical"?0:script?150:180)+'" w:line="'+(script?240:320)+'" w:lineRule="auto"/></w:pPr>';
+  '<w:spacing w:after="'+(nextCharacter?300:k==="character"||k==="parenthetical"?0:script?150:180)+'" w:line="'+(script?240:320)+'" w:lineRule="auto"/></w:pPr>';
  return "<w:p>"+ppr+(bold?'<w:r><w:rPr><w:b/></w:rPr><w:t xml:space="preserve">'+xml(plain(block))+"</w:t></w:r>":runs.map(wRun).join(""))+"</w:p>";
 }
 function stylesXml(){
@@ -132,7 +133,7 @@ function wordXml(story,blocks){
  var title='<w:p><w:pPr><w:pStyle w:val="Normal"/><w:spacing w:after="360"/><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="'+(script?24:32)+'"/></w:rPr><w:t>'+xml(name(story))+'</w:t></w:r></w:p>';
  return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
  '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'+
- '<w:body>'+title+blocks.map(function(b){return wParagraph(b,mode);}).join("")+
+ '<w:body>'+title+blocks.map(function(b,i){return wParagraph(b,mode,blocks[i+1]);}).join("")+
  '<w:sectPr>'+size+margins+'</w:sectPr></w:body></w:document>';
 }
 var crcTable=null;
@@ -203,6 +204,7 @@ function pdfHtml(story){
  'p{margin:0 0 1em;overflow-wrap:anywhere;white-space:pre-wrap;break-inside:avoid}'+
  '.scene{font-weight:bold;text-transform:uppercase;margin-top:1.2em}.character{text-transform:uppercase;margin:1em 0 0 36%}'+
  '.dialogue{margin:0 18% 1em 17%}.parenthetical{margin:0 26% 0 27%}.transition{text-align:right;text-transform:uppercase}'+
+ '.dialogue+.character,.parenthetical+.character{margin-top:1.45em}'+
  '.heading{font-size:15pt;font-weight:bold}.quote{margin-left:2em}.list{margin-left:2em}'+
  '@media screen{body{max-width:800px;padding:60px;margin:0 auto}#printBtn{position:fixed;right:20px;top:15px;padding:10px 15px;cursor:pointer;background:#222;color:white;border:0;border-radius:6px}}'+
  '@media print{#printBtn{display:none}}';
