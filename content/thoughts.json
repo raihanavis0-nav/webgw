@@ -903,6 +903,15 @@
       "order": 5,
       "bio": "",
       "portrait": ""
+    },
+    {
+      "id": "character-1792390073742",
+      "name": "Lois",
+      "seriesId": "series-1791729416326",
+      "subseriesId": "",
+      "order": 6,
+      "bio": "",
+      "portrait": ""
     }
   ],
   "stories": [
