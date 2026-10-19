@@ -2153,6 +2153,7 @@
 
     $("storyDateInput").value = draft.date || today();
     $("storyPublishedInput").checked = draft.published !== false;
+    updateStoryPublishStatus();
     $("storyTitleInput").value = draft.title || "";
     $("storyFormatInput").value = normalizeStoryFormat(draft.format);
     $("storyContentWarningInput").value = draft.contentWarning || "";
@@ -2187,6 +2188,16 @@
     window.setTimeout(function () {
       $("storyTitleInput").focus();
     }, 120);
+  }
+
+  function updateStoryPublishStatus() {
+    var label = $("storyPublishStatus");
+    if (!label) return;
+    var published = $("storyPublishedInput").checked;
+    label.textContent = published
+      ? "Published when saved — visible to readers with the access code."
+      : "Draft — hidden from Reader until Published is checked and saved.";
+    label.classList.toggle("is-published", published);
   }
 
   // Screenplay mode: toggles the script block toolbar and the
@@ -3486,6 +3497,15 @@
       if (window.SubseriesThemeAdmin) window.SubseriesThemeAdmin.editorPaper(this.value, state.data.subseries);
     });
     $("saveStoryBtn").addEventListener("click", saveStory);
+    $("storyPublishedInput").addEventListener("change", updateStoryPublishStatus);
+    [["adminExportPdf","exportPdf"],["adminExportWord","exportWord"]].forEach(function (config) {
+      var button=$(config[0]);
+      if (!button) return;
+      button.addEventListener("click", function () {
+        if (!window.StoryExport) return;
+        window.StoryExport[config[1]](collectStoryDraft());
+      });
+    });
     $("writeModeBtn").addEventListener("click", function () {
       setEditorMode("write");
     });
