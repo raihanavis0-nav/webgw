@@ -138,7 +138,7 @@ function openWorkspace(opts){
  var mount=el("div","plotwell-editor-wrap");
  var inner=el("div","script-plotwell-mount");mount.appendChild(inner);ui.page.appendChild(mount);
  try{
-  W=new window.PlotwellEmbed.PlotwellEditor({container:inner,doc:source,onChange:onChange,bubbleMenu:true,typeBadge:false,attribution:true});
+  W=new window.PlotwellEmbed.PlotwellEditor({container:inner,doc:source,onChange:onChange,bubbleMenu:true,typeBadge:false,attribution:false});
  }catch(err){
   W=null;ui.shell.hidden=true;document.body.classList.remove("script-workspace-open");
   window.alert("Could not initialize Plotwell: "+err.message);return;

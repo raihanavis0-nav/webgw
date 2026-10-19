@@ -106,3 +106,191 @@
   .script-workspace .plotwell-editor-wrap {padding:0!important;}
   .script-workspace .plotwell-editor-wrap .ProseMirror {box-shadow:none!important;}
 }
+
+
+/*
+ * Plotwell alignment corrections
+ * The sheet, welcome panel, and paper container share ONE centered 816px column.
+ * Scene navigator is an overlay, so opening it never moves the writing surface.
+ */
+@media screen {
+  .script-workspace .script-main {
+    position: relative;
+    display: block;
+    flex: 1 1 auto;
+    min-height: 0;
+    min-width: 0;
+    width: 100%;
+  }
+  .script-workspace .script-sidebar,
+  .script-workspace .script-sidebar:not([hidden]) {
+    position: absolute;
+    inset: 0 auto 0 0;
+    z-index: 9;
+    width: 225px;
+    max-width: calc(100vw - 32px);
+    height: 100%;
+    flex: none;
+    border-right: 1px solid #41454c;
+    box-shadow: 12px 0 25px rgba(0, 0, 0, .15);
+  }
+  .script-workspace .script-sidebar[hidden] { display: none !important; }
+  .script-workspace .script-stage {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    overflow: auto;
+    padding: 26px clamp(20px, 3vw, 48px) 90px;
+    box-sizing: border-box;
+  }
+  .script-workspace .script-plotwell-stage {
+    /* The min-width only takes effect when the viewport is narrower than Letter. */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: max(100%, 816px);
+    min-width: 816px;
+    max-width: none;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  .script-workspace .script-welcome,
+  .script-workspace .plotwell-editor-wrap,
+  .script-workspace .script-plotwell-mount,
+  .script-workspace .plotwell-editor-wrap .ProseMirror {
+    box-sizing: border-box;
+    flex: none;
+    width: 816px;
+    min-width: 816px;
+    max-width: 816px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .script-workspace .script-welcome {
+    align-self: center;
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+  .script-workspace .plotwell-editor-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 0;
+    padding: 0 0 56px;
+    background: transparent;
+    overflow: visible;
+  }
+  .script-workspace .script-plotwell-mount {
+    display: block;
+    padding: 0;
+  }
+  .script-workspace .plotwell-editor-wrap .ProseMirror {
+    display: block;
+    box-shadow: 0 14px 55px rgba(0,0,0,.31);
+  }
+  /* Older cached JS may still request attribution; it must not displace paper. */
+  .script-workspace .plotwell-attribution { display: none !important; }
+
+  /*
+   * The title and FORMAT selector have captions, while buttons do not.
+   * Align all controls by their bottom edge, not the row center.
+   */
+  .script-workspace .script-toolbar {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    column-gap: 12px;
+    row-gap: 12px;
+    min-height: 82px;
+    padding: 14px clamp(18px, 2vw, 30px);
+    box-sizing: border-box;
+  }
+  .script-workspace .script-toolbar > button,
+  .script-workspace .script-element-picker select,
+  .script-workspace .script-file-menu summary {
+    box-sizing: border-box;
+    height: 42px;
+    min-height: 42px;
+    line-height: 20px;
+    margin: 0;
+  }
+  .script-workspace .script-toolbar > button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    padding: 0 14px;
+  }
+  .script-workspace .script-toolbar > button:first-child { margin-right: 10px; }
+  .script-workspace .script-toolbar-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 5px;
+    min-width: 215px;
+    flex: 1 1 250px;
+    padding: 0 0 0 12px;
+    margin-right: auto;
+    margin-bottom: 0;
+    box-sizing: border-box;
+  }
+  .script-workspace .script-toolbar-title span {
+    display: block;
+    margin: 0;
+    line-height: 12px;
+  }
+  .script-workspace .script-toolbar-title input {
+    display: block;
+    width: min(100%, 360px);
+    height: 42px;
+    min-height: 42px;
+    padding: 6px 2px;
+    margin: 0;
+    font-size: 17px;
+    line-height: 24px;
+    box-sizing: border-box;
+  }
+  .script-workspace .script-element-picker {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-self: flex-end;
+    gap: 5px;
+    min-width: 128px;
+    margin: 0;
+    padding: 0;
+  }
+  .script-workspace .script-element-picker > span {
+    display: block;
+    margin: 0;
+    line-height: 12px;
+  }
+  .script-workspace .script-element-picker select {
+    width: 100%;
+    padding: 0 28px 0 12px;
+  }
+  .script-workspace .script-file-menu {
+    align-self: flex-end;
+    margin: 0;
+  }
+  .script-workspace .script-file-menu summary {
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+  }
+  @media (max-width: 900px) {
+    .script-workspace .script-plotwell-stage {
+      align-items: center;
+      width: max(100%, 816px);
+    }
+    .script-workspace .script-stage {
+      padding: 16px 12px 60px;
+    }
+    .script-workspace .script-toolbar-title {
+      flex: 1 1 220px;
+      padding-left: 10px;
+    }
+  }
+}
