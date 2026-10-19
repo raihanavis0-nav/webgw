@@ -45,7 +45,7 @@ function runsFor(element){
 }
 function blocksFromHtml(html,mode){
  if(typeof DOMParser==="undefined"){
-  var plain=String(html||"").replace(/<br\\s*\\/?>/gi,"\\n").replace(/<[^>]*>/g,"");
+  var plain=String(html||"").replace(/<br[^>]*>/gi,"\n").replace(/<[^>]*>/g,"");
   var names={amp:"&",lt:"<",gt:">",quot:'"',apos:"'",nbsp:" "};
   plain=plain.replace(/&(amp|lt|gt|quot|apos|nbsp|#39);/g,function(all,entity){
    return entity==="#39"?"'":names[entity];
