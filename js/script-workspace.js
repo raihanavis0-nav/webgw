@@ -229,6 +229,7 @@
   function openWorkspace(options) {
     config = options || {};
     var source = $("storyBodyInput").value || "";
+    if (window.ThoughtsEditor && !source) source = window.ThoughtsEditor.getContent();
     model = E.parse(source);
     if (!model.length) model = [{ kind:"scene", text:"" }];
     selected = 0;
@@ -247,6 +248,8 @@
     clearTimeout(reflowTimer);
     syncBlocks();
     saveToDraft();
+    // Keep the classic editor bridge from overwriting the script draft when returning.
+    if (window.ThoughtsEditor) window.ThoughtsEditor.setContent(E.serialize(model));
     open = false;
     ui.shell.hidden = true;
     document.body.classList.remove("script-workspace-open");
