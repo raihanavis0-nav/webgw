@@ -39,6 +39,9 @@ jobs:
       - name: Test dedicated Script mode
         run: node --test scripts/test-script-mode.js
 
+      - name: Test Plotwell document adapter
+        run: node --test scripts/test-script-plotwell-bridge.js
+
       - name: Guard Vercel Hobby Function budget and auth routing
         run: node --test scripts/test-function-budget.js
 
