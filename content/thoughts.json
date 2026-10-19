@@ -354,23 +354,11 @@
       "cover": "assets/thoughts/1791453253030-7deb92-artboard-1-copy-5.webp"
     },
     {
-      "id": "subseries-1791728824749",
-      "seriesId": "series-1790083460918",
-      "name": "Spin-Off : Amelie",
-      "slug": "spin-off-amelie",
-      "order": 5,
-      "description": "Amelie, one of the band's founding members, how she managed to hold everything together, and everything that happened afterwards.",
-      "banner": "",
-      "cover": "",
-      "posters": [],
-      "posterRatio": "2:3"
-    },
-    {
       "id": "subseries-1791728836510",
       "seriesId": "series-1790083460918",
       "name": "Spin Off : Jakovic",
       "slug": "spin-off-jakovic",
-      "order": 6,
+      "order": 5,
       "description": "",
       "banner": "",
       "cover": "",
@@ -382,7 +370,7 @@
       "seriesId": "series-1790083460918",
       "name": "Spin-Off : Cherline",
       "slug": "spin-off-cherline",
-      "order": 7,
+      "order": 6,
       "description": "",
       "banner": "",
       "cover": "",
