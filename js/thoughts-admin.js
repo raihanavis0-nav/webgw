@@ -3265,6 +3265,9 @@
       });
   }
 
+  // Read-only reference for Script Workspace character suggestions.
+  window.ScriptAdminData = { getData: function () { return state.data; } };
+
   function wire() {
     localStorage.removeItem("thoughts_gh_token");
     sessionStorage.removeItem("thoughts_gh_token");
