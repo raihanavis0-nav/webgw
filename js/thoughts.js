@@ -426,7 +426,7 @@
   }
 
   function storyFormat(story) {
-    return story && story.format === "screenplay" ? "screenplay" : "prose";
+    return story && (story.format === "screenplay" || story.format === "script") ? story.format : "prose";
   }
 
   function readingMinutes(story) {
@@ -1648,14 +1648,19 @@
       storyBanner.removeAttribute("src");
     }
 
-    renderStoryBody(story.body || "");
+    if (story.format === "script" && window.ScriptReader) {
+      window.ScriptReader.render($("storyBody"), story.body || "");
+    } else {
+      if (window.ScriptReader) window.ScriptReader.reset();
+      renderStoryBody(story.body || "");
+    }
 
     // Screenplay stories get script typography (see css/thoughts-screenplay.css).
     // Stories without a format field default to prose.
     var isScreenplay = story.format === "screenplay";
     var bodyHost = $("storyBody");
     if (bodyHost) bodyHost.classList.toggle("is-screenplay", isScreenplay);
-    document.body.dataset.storyFormat = isScreenplay ? "screenplay" : "prose";
+    document.body.dataset.storyFormat = storyFormat(story);
 
     renderStoryCharacters(story);
     renderStoryNav(story);
@@ -1672,6 +1677,8 @@
     var slug = params.get("story");
 
     if (!slug) {
+      if (window.ScriptReader) window.ScriptReader.reset();
+      document.body.dataset.storyFormat = "prose";
       renderHome();
       return;
     }

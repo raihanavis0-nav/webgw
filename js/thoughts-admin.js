@@ -1756,7 +1756,7 @@
       : "";
     if (isSeries) {
       $("entityDefaultFormatInput").value =
-        item && item.defaultFormat === "screenplay" ? "screenplay" : "prose";
+        normalizeStoryFormat(item && item.defaultFormat);
     }
 
     if (isSeries && window.ArchiveSeriesPosters) window.ArchiveSeriesPosters.open(item, "Series");
@@ -1839,9 +1839,7 @@
       series.order = numberValue($("entityOrderInput").value);
       series.description = $("entityDescriptionInput").value.trim();
       series.defaultFormat =
-        $("entityDefaultFormatInput").value === "screenplay"
-          ? "screenplay"
-          : "prose";
+        normalizeStoryFormat($("entityDefaultFormatInput").value);
       series.banner = $("entityBannerPathInput").value || "";
       series.cover = $("entityCoverPathInput").value || "";
       if (window.ArchiveSeriesPosters) {
@@ -2076,6 +2074,8 @@
       });
   }
 
+  function normalizeStoryFormat(value) { return value === "screenplay" || value === "script" ? value : "prose"; }
+
   function openNewStory(seriesId, subseriesId) {
     if (!state.data.series.length) {
       openEntity("series", "");
@@ -2088,7 +2088,7 @@
 
     var series = seriesById(selectedSeries);
     var defaultFormat =
-      series && series.defaultFormat === "screenplay" ? "screenplay" : "prose";
+      normalizeStoryFormat(series && series.defaultFormat);
 
     state.currentStoryId = "";
     state.storyIsNew = true;
@@ -2135,6 +2135,7 @@
     var draft = state.storyDraft;
     if (!draft) return;
 
+    if (window.ScriptWorkspace) window.ScriptWorkspace.close();
     $("libraryView").hidden = true;
     $("storyWorkspace").hidden = false;
 
@@ -2153,7 +2154,7 @@
     $("storyDateInput").value = draft.date || today();
     $("storyPublishedInput").checked = draft.published !== false;
     $("storyTitleInput").value = draft.title || "";
-    $("storyFormatInput").value = draft.format === "screenplay" ? "screenplay" : "prose";
+    $("storyFormatInput").value = normalizeStoryFormat(draft.format);
     $("storyContentWarningInput").value = draft.contentWarning || "";
     applyStoryFormatUI();
     if (window.SubseriesThemeAdmin) window.SubseriesThemeAdmin.editorPaper(draft.subseriesId, state.data.subseries);
@@ -2193,14 +2194,14 @@
   function applyStoryFormatUI() {
     var draft = state.storyDraft || {};
     var isScreenplay =
-      $("storyFormatInput").value === "screenplay" ||
-      draft.format === "screenplay";
+      normalizeStoryFormat($("storyFormatInput").value) === "screenplay";
 
     var group = $("screenplayToolbarGroup");
     if (group) group.hidden = !isScreenplay;
 
     var editor = $("storyBodyEditor");
     if (editor) editor.classList.toggle("is-screenplay", isScreenplay);
+    if (window.ScriptWorkspace) window.ScriptWorkspace.refreshMode(normalizeStoryFormat($("storyFormatInput").value) === "script");
   }
 
   function collectStoryDraft() {
@@ -2210,7 +2211,7 @@
     draft.seriesId = $("storySeriesInput").value;
     draft.subseriesId = $("storySubseriesInput").value || "";
     draft.published = $("storyPublishedInput").checked;
-    draft.format = $("storyFormatInput").value === "screenplay" ? "screenplay" : "prose";
+    draft.format = normalizeStoryFormat($("storyFormatInput").value);
     draft.contentWarning = $("storyContentWarningInput").value.trim();
     draft.body = $("storyBodyInput").value.replace(/\s+$/, "");
     draft.slug = slugify($("storySlugInput").value || draft.title);
@@ -2529,7 +2530,7 @@
     var draft = collectStoryDraft();
     $("storySlugInput").value = draft.slug || slugify(draft.title);
     $("storyOrderInput").value = String(draft.order || 0);
-    $("storyFormatInput").value = draft.format === "screenplay" ? "screenplay" : "prose";
+    $("storyFormatInput").value = normalizeStoryFormat(draft.format);
     $("storyContentWarningInput").value = draft.contentWarning || "";
     var date=window.ArchiveTimeline.read(draft);
     $("storyTimelineEnabledInput").checked = date.enabled;
@@ -2550,7 +2551,7 @@
     );
     state.storyDraft.order = numberValue($("storyOrderInput").value);
     state.storyDraft.format =
-      $("storyFormatInput").value === "screenplay" ? "screenplay" : "prose";
+      normalizeStoryFormat($("storyFormatInput").value);
     state.storyDraft.contentWarning = $("storyContentWarningInput").value.trim();
     applyStoryFormatUI();
     var T=window.ArchiveTimeline;
@@ -3264,6 +3265,9 @@
       });
   }
 
+  // Read-only reference for Script Workspace character suggestions.
+  window.ScriptAdminData = { getData: function () { return state.data; } };
+
   function wire() {
     localStorage.removeItem("thoughts_gh_token");
     sessionStorage.removeItem("thoughts_gh_token");
@@ -3538,7 +3542,7 @@
     $("storyFormatInput").addEventListener("change", function () {
       if (!state.storyDraft) return;
       state.storyDraft.format =
-        $("storyFormatInput").value === "screenplay" ? "screenplay" : "prose";
+        normalizeStoryFormat($("storyFormatInput").value);
       applyStoryFormatUI();
       markDirty();
     });

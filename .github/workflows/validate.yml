@@ -36,6 +36,9 @@ jobs:
       - name: Test community book ratings
         run: node --test scripts/test-book-ratings.js
 
+      - name: Test dedicated Script mode
+        run: node --test scripts/test-script-mode.js
+
       - name: Guard Vercel Hobby Function budget and auth routing
         run: node --test scripts/test-function-budget.js
 

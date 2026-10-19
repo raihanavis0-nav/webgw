@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="css/thoughts-character-groups.css?v=20261011g" />
     <link rel="stylesheet" href="css/thoughts-admin.css?v=20261011g" />
     <link rel="stylesheet" href="css/thoughts-screenplay.css?v=20261011f" />
+    <link rel="stylesheet" href="css/script-mode.css?v=20261019a" />
     <link rel="stylesheet" href="css/thoughts-mentions.css?v=20261011f" />
     <link rel="stylesheet" href="css/subseries-theme-admin.css?v=20261011f" />
     <link rel="stylesheet" href="css/editorial-admin.css?v=20261011m" />
@@ -434,6 +435,7 @@
           <select id="entityDefaultFormatInput">
             <option value="prose">Prose</option>
             <option value="screenplay">Screenplay</option>
+            <option value="script">Script — Write on Paper</option>
           </select>
         </div>
         </div>
@@ -647,13 +649,14 @@
           <select id="storyFormatInput">
             <option value="prose">Prose</option>
             <option value="screenplay">Screenplay</option>
+            <option value="script">Script — Write on Paper</option>
           </select>
         </div>
         <div class="dialog-field">
           <label for="storyContentWarningInput">Content warning <span class="optional">(optional)</span></label>
           <input id="storyContentWarningInput" type="text" autocomplete="off" placeholder="e.g. Violence, strong language" />
         </div>
-        <p class="portrait-help">Screenplay enables script block styles (scene, character, dialogue) in the editor and a screenplay layout in the reader.</p>
+        <p class="portrait-help">Screenplay keeps the classic web editor. Script opens a dedicated page-based writing workspace, with scene builder and automatic formatting.</p>
 
         <div class="dialog-section-divider story-timeline-properties">
           <div class="dialog-field checkbox-field">
@@ -701,6 +704,8 @@
     <input id="richStoryImageInput" type="file" accept="image/*" hidden />
     <div class="admin-toast" id="adminToast" role="status" hidden></div>
 
+    <script src="js/script-engine.js?v=20261019a" defer></script>
+    <script src="js/script-workspace.js?v=20261019a" defer></script>
     <script src="js/thoughts-rich-content.js?v=20261011f" defer></script>
     <script src="js/thoughts-editor.js?v=20261011f" defer></script>
     <script src="js/thoughts-mention-editor.js?v=20261011f" defer></script>
