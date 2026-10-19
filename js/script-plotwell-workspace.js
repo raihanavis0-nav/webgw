@@ -122,9 +122,18 @@ function closeWorkspace(){
 }
 function setup(){
  api=window.ScriptPlotwellBridge;
- var old=$("scriptLaunchRow"),btnOpen=$("scriptOpenBtn");
- if(!old||!btnOpen)return;
  var stage=$("storyBodyEditor");
+ if(!stage)return;
+ var old=$("scriptLaunchRow");
+ if(!old){
+   old=el("div","script-launch");old.id="scriptLaunchRow";
+   var intro=el("div");intro.appendChild(el("strong","", "Screenplay Editor"));
+   intro.appendChild(el("p","", "Professional formatting, scene navigation and PDF export."));
+   old.appendChild(intro);
+   stage.insertAdjacentElement("afterend",old);
+ }
+ var btnOpen=$("scriptOpenBtn");
+ if(!btnOpen){btnOpen=btn("Open Script Editor ↗",function(){});btnOpen.id="scriptOpenBtn";old.appendChild(btnOpen);}
  var shell=$("scriptWorkspace");
  if(shell)shell.remove();
  shell=el("section","script-workspace");shell.id="scriptWorkspace";shell.hidden=true;ui.shell=shell;
@@ -173,7 +182,7 @@ function setup(){
  var footer=el("footer","script-footer");ui.position=el("span","", "0 scenes");ui.status=el("span","script-save-state","");footer.appendChild(ui.position);footer.appendChild(ui.status);shell.appendChild(footer);
  document.body.appendChild(shell);
  btnOpen.textContent="Open Script Editor ↗";
- btnOpen.addEventListener("click",function(ev){ev.preventDefault();ev.stopImmediatePropagation();openWorkspace({getDraft:function(){return window.ScriptAdminData && window.ScriptAdminData.getDraft?window.ScriptAdminData.getDraft():{body:$("storyBodyInput").value};}});},true);
+ btnOpen.addEventListener("click",function(ev){ev.preventDefault();openWorkspace({getDraft:function(){return window.ScriptAdminData && window.ScriptAdminData.getDraft?window.ScriptAdminData.getDraft():{body:$("storyBodyInput").value};}});});
  document.addEventListener("keydown",function(event){
   if(!W)return;
   if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==="s"){event.preventDefault();doSave();}
