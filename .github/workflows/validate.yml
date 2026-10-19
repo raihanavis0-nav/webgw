@@ -33,6 +33,9 @@ jobs:
       - name: Test Reader appearance, auth and publishing
         run: node --test scripts/test-reader-regressions.js
 
+      - name: Test community book ratings
+        run: node --test scripts/test-book-ratings.js
+
       - name: Guard Vercel Hobby Function budget and auth routing
         run: node --test scripts/test-function-budget.js
 
