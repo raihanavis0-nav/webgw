@@ -867,6 +867,15 @@
       "order": 1,
       "bio": "",
       "portrait": ""
+    },
+    {
+      "id": "character-1792390023134",
+      "name": "Sheila",
+      "seriesId": "series-1791729416326",
+      "subseriesId": "",
+      "order": 2,
+      "bio": "",
+      "portrait": ""
     }
   ],
   "stories": [
