@@ -17,6 +17,7 @@ function applyActivity(incoming,previous,now){
  const stamp=typeof now==="string"?now:new Date().toISOString();
  for(const story of data.stories||[]){
   const prior=oldStories.get(story.id),changed=!prior||JSON.stringify(comparable(prior))!==JSON.stringify(comparable(story));
+  const requestedHide=story.publicFeedEnabled===false;
   const announce=story.announceOnSave===true, note=String(story.announcementNote||"").trim().slice(0,240);
   const type=story.announcementType==="revised"?"revised":"new";
   delete story.announceOnSave;delete story.announcementNote;delete story.announcementType;
@@ -28,7 +29,7 @@ function applyActivity(incoming,previous,now){
     for(const key of ["lastPublicUpdateAt","publicUpdateNote","publicUpdateType","publicFeedEnabled"]){
       if(prior[key]!==undefined)story[key]=prior[key];else delete story[key];
     }
-    if(prior.publicFeedEnabled&&incoming.stories.find(s=>s.id===story.id)?.publicFeedEnabled===false)story.publicFeedEnabled=false;
+    if(prior.publicFeedEnabled&&requestedHide)story.publicFeedEnabled=false;
   }else{
     story.createdAt=stamp;
     for(const key of ["updatedAt","publishedAt","lastPublicUpdateAt","publicUpdateNote","publicUpdateType","publicFeedEnabled"])delete story[key];

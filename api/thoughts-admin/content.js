@@ -1,5 +1,6 @@
 const admin = require("../../server/thoughts-admin");
 const store = require("../../server/thoughts-store");
+const activity = require("../../server/story-activity");
 
 function bodyObject(req) {
   if (req.body && typeof req.body === "object") return req.body;
@@ -639,6 +640,9 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ error: error });
       }
 
+      const previous = (await store.readLibrary()).data || {};
+      activity.applyActivity(data, previous);
+
       const result = await store.writeLibrary(
         data,
         message,
@@ -651,6 +655,12 @@ module.exports = async function handler(req, res) {
           result && result.content && result.content.sha
             ? result.content.sha
             : null,
+        activity: (data.stories || []).map(function(s) {
+          return { id:s.id, createdAt:s.createdAt || "", updatedAt:s.updatedAt || "",
+            publishedAt:s.publishedAt || "", lastPublicUpdateAt:s.lastPublicUpdateAt || "",
+            publicFeedEnabled:s.publicFeedEnabled === true,
+            publicUpdateNote:s.publicUpdateNote || "", publicUpdateType:s.publicUpdateType || "" };
+        }),
       });
     }
 
