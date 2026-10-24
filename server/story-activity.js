@@ -18,6 +18,7 @@ function applyActivity(incoming,previous,now){
  for(const story of data.stories||[]){
   const prior=oldStories.get(story.id),changed=!prior||JSON.stringify(comparable(prior))!==JSON.stringify(comparable(story));
   const requestedHide=story.publicFeedEnabled===false;
+  const requestedPublic=story.publicFeedEnabled===true;
   const announce=story.announceOnSave===true, note=String(story.announcementNote||"").trim().slice(0,240);
   const type=story.announcementType==="revised"?"revised":"new";
   delete story.announceOnSave;delete story.announcementNote;delete story.announcementType;
@@ -38,7 +39,7 @@ function applyActivity(incoming,previous,now){
   if(story.published!==false&&hasContent(story)&&(!prior||prior.published===false)&&!story.publishedAt)story.publishedAt=stamp;
   if(announce&&story.published!==false&&hasContent(story)){
     story.lastPublicUpdateAt=stamp;story.publicUpdateNote=note;
-    story.publicUpdateType=type;story.publicFeedEnabled=true;
+    story.publicUpdateType=type;story.publicFeedEnabled=requestedPublic;
   }
   if(story.published===false)story.publicFeedEnabled=false;
  }

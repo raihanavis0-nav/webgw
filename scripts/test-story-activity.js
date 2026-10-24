@@ -13,7 +13,7 @@ test("A regular save updates timestamps but does not reveal a draft or publish a
 });
 test("A writer explicitly announces a non-empty published chapter",()=>{
  const old=dataset({...story});
- const next=A.applyActivity(dataset({...story,published:true,announceOnSave:true,announcementNote:"New scene",announcementType:"new"}),old,stamp);
+ const next=A.applyActivity(dataset({...story,published:true,publicFeedEnabled:true,announceOnSave:true,announcementNote:"New scene",announcementType:"new"}),old,stamp);
  assert.equal(next.stories[0].publishedAt,stamp);
  assert.equal(next.stories[0].lastPublicUpdateAt,stamp);
  assert.equal(next.stories[0].announceOnSave,undefined);
@@ -32,5 +32,13 @@ test("Drafts and blank placeholders can never leak to public feed",()=>{
   {...story,id:"empty",published:true,body:"",announceOnSave:true},
   {...story,id:"draft",published:false,announceOnSave:true}
  ]},old,stamp);
+ assert.equal(A.feed(next).length,0);
+});
+
+test("Explicit announcement without public opt-in stays off homepage",()=>{
+ const candidate=dataset({...story,published:true,announceOnSave:true,publicFeedEnabled:false});
+ const next=A.applyActivity(candidate,{stories:[]},stamp);
+ assert.equal(next.stories[0].lastPublicUpdateAt,stamp);
+ assert.equal(next.stories[0].publicFeedEnabled,false);
  assert.equal(A.feed(next).length,0);
 });
