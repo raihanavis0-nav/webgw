@@ -1967,3 +1967,22 @@ body {
 .editor-dialog .dialog-head > .icon-action:focus-visible {outline:2px solid var(--ink);outline-offset:2px;}
 .gallery-bulk-remove {width:40px;height:40px;display:grid;place-items:center;padding:0;border:1px solid var(--line);border-radius:10px;font-size:25px;line-height:1;}
 .gallery-bulk-remove:hover {border-color:var(--ink);}
+
+/* Writer activity controls: editorial announcement independent of Save. */
+.story-announce-panel {
+  display:grid;grid-template-columns:minmax(170px,1fr) minmax(110px,auto);
+  gap:9px 12px;align-items:center;flex:1 1 100%;width:100%;
+  padding:14px 16px;margin:4px 0 8px;
+  background:rgba(126,126,126,.075);border:1px solid rgba(130,130,130,.22);border-radius:10px;
+}
+.story-announce-panel .story-announce-opt{
+  display:flex;align-items:center;gap:9px;font:600 12px/1.4 Inter,system-ui,sans-serif;
+}
+.story-announce-panel input[type="text"],.story-announce-panel select {
+  min-width:0;width:100%;padding:9px 11px;border:1px solid rgba(130,130,130,.4);
+  border-radius:6px;background:transparent;color:inherit;font:12px Inter,system-ui,sans-serif;
+}
+.story-announce-panel #storyAnnouncementNote {grid-column:1 / -1;}
+.story-announce-panel .story-show-public {grid-column:1 / -1;}
+.story-announce-panel small {grid-column:1 / -1;opacity:.72;font-size:11px;line-height:1.5;}
+@media(max-width:700px){.story-announce-panel{grid-template-columns:1fr;}.story-announce-panel>*{grid-column:1!important;}}

@@ -224,6 +224,20 @@
     })
       .then(function (result) {
         state.data = candidate;
+        if (Array.isArray(result.activity)) {
+          var activities = new Map(result.activity.map(function(a){ return [a.id,a]; }));
+          state.data.stories.forEach(function(story){
+            var item = activities.get(story.id);
+            if (!item) return;
+            ["createdAt","updatedAt","publishedAt","lastPublicUpdateAt","publicUpdateNote","publicUpdateType"].forEach(function(key){
+              if(item[key])story[key]=item[key];else delete story[key];
+            });
+            story.publicFeedEnabled=item.publicFeedEnabled;
+            delete story.announceOnSave;
+            delete story.announcementType;
+            delete story.announcementNote;
+          });
+        }
         state.revision = String(result.revision || state.revision);
         state.dirty = false;
         setSaveIndicator("Saved");
@@ -2153,7 +2167,12 @@
 
     $("storyDateInput").value = draft.date || today();
     $("storyPublishedInput").checked = draft.published !== false;
+    $("storyAnnounceInput").checked = false;
+    $("storyAnnouncementType").value = "new";
+    $("storyAnnouncementNote").value = "";
+    $("storyPublicFeedInput").checked = draft.publicFeedEnabled === true;
     updateStoryPublishStatus();
+    updateStoryActivityHistory(draft);
     $("storyTitleInput").value = draft.title || "";
     $("storyFormatInput").value = normalizeStoryFormat(draft.format);
     $("storyContentWarningInput").value = draft.contentWarning || "";
@@ -2190,6 +2209,17 @@
     }, 120);
   }
 
+  function updateStoryActivityHistory(story) {
+    var host=$("storyActivityHistory");
+    if(!host)return;
+    var parts=[];
+    if(story.createdAt)parts.push("Created: "+new Date(story.createdAt).toLocaleString());
+    if(story.updatedAt)parts.push("Last saved: "+new Date(story.updatedAt).toLocaleString());
+    if(story.publishedAt)parts.push("First published: "+new Date(story.publishedAt).toLocaleString());
+    if(story.lastPublicUpdateAt)parts.push("Last announced: "+new Date(story.lastPublicUpdateAt).toLocaleString());
+    host.textContent=parts.join("  ·  ")||"Timestamps will appear after the next save.";
+  }
+
   function updateStoryPublishStatus() {
     var label = $("storyPublishStatus");
     if (!label) return;
@@ -2222,6 +2252,10 @@
     draft.seriesId = $("storySeriesInput").value;
     draft.subseriesId = $("storySubseriesInput").value || "";
     draft.published = $("storyPublishedInput").checked;
+    draft.announceOnSave = $("storyAnnounceInput").checked;
+    draft.announcementType = $("storyAnnouncementType").value;
+    draft.announcementNote = $("storyAnnouncementNote").value.trim().slice(0,240);
+    draft.publicFeedEnabled = $("storyPublicFeedInput").checked;
     draft.format = normalizeStoryFormat($("storyFormatInput").value);
     draft.contentWarning = $("storyContentWarningInput").value.trim();
     draft.body = $("storyBodyInput").value.replace(/\s+$/, "");
@@ -2261,6 +2295,10 @@
       return;
     }
 
+    if (draft.announceOnSave && (!draft.published || !String(draft.body || "").replace(/<[^>]*>/g, "").trim())) {
+      toast("Publish a chapter with content before announcing it.", true);
+      return;
+    }
     if (!draft.title) {
       toast("Story title is required.", true);
       $("storyTitleInput").focus();
@@ -2311,7 +2349,11 @@
       .then(function () {
         state.currentStoryId = draft.id;
         state.storyIsNew = false;
-        state.storyDraft = clone(draft);
+        state.storyDraft = clone(state.data.stories.find(function(s){return s.id===draft.id;}) || draft);
+        $("storyAnnounceInput").checked=false;
+        $("storyAnnouncementNote").value="";
+        $("storyPublicFeedInput").checked=state.storyDraft.publicFeedEnabled===true;
+        updateStoryActivityHistory(state.storyDraft);
         if (window.ArchiveAdminExperience) window.ArchiveAdminExperience.onSaved(draft.id);
         toast("Story saved.");
       })

@@ -1517,6 +1517,7 @@
 
     setArchiveView(hasSeries ? archiveViewFromUrl() : "stories", false);
     if (window.EditorialReading) window.EditorialReading.renderHome(state.data);
+    if (window.ReaderActivity) window.ReaderActivity.renderHome(state.data, context);
   }
 
   function renderStoryCharacters(story) {
@@ -1682,6 +1683,7 @@
         };
       });
     }
+    if (window.ReaderActivity) window.ReaderActivity.renderStory(story, state.data);
     if (window.EditorialReading) window.EditorialReading.renderStory(story);
     document.title = (story.title || "Story") + " — Stories";
   }

@@ -132,3 +132,17 @@ The Reader Series shelf lets authenticated readers rate each Series/book from 1 
 Ratings use the **existing optional Upstash Redis** environment variables (\`UPSTASH_REDIS_REST_URL\`, \`UPSTASH_REDIS_REST_TOKEN\`). No SQL schema, new serverless function, or browser-exposed secret is needed. Shared counts require this service: if it is not configured or offline, rating controls are disabled and no fabricated averages appear.
 
 The authenticated \`GET /api/thoughts/content?ratings=1\` reads summary scores, while same-origin \`POST /api/thoughts/content\` submits a rating. The server only accepts existing Series IDs and uses an atomic Redis Lua script to update the vote and aggregate, with a coarse hourly write limit. Ratings are kept in Redis, separate from the GitHub-hosted fiction content.
+
+
+## Reader / Writer activity (2026-10)
+
+Authenticated archive saves record server-side createdAt, updatedAt, and publishedAt when applicable. Old records are NOT assigned synthetic historical dates. An explicit Story Admin announcement sets lastPublicUpdateAt, publicUpdateNote and publicUpdateType. The separate homepage checkbox controls publicFeedEnabled; a routine Save does NOT publish an update publicly.
+
+- Public homepage fetches the latest three opt-in, published, nonempty announcement summaries from /api/thoughts/appearance-media?activity=1 (existing endpoint). It exposes only title, slug, Series/Book name, announcement type, note and time. No manuscript text or draft content.
+- Protected Reader adds What's New, unread badges, local Follow Series. Existing EditorialReading code already provides Continue Reading and reading progress, so it is reused unchanged.
+- Metadata is server-authoritative after a successful save. Unpublish or uncheck public-feed checkbox to hide a previous announcement.
+- Only explicitly announced entries enter the public feed. Past placeholder chapters receive no fabricated update date. Browser preferences do not sync between devices.
+
+### Cleanup audit
+
+The following JS modules are not loaded by current HTML entrypoints: js/thoughts-content-sync.js, js/thoughts-sortable.js, js/thoughts-empty-structure.js, js/thoughts-ending-song-admin.js, js/thoughts-rich-reader.js, js/thoughts-collapse.js (and matching CSS peers). Some are still conditionally referenced; they have NOT been deleted. js/script-workspace.js is a pre-Plotwell writing engine not loaded by current Admin, kept as a rollback safety net. Do not remove modules without checking their dynamic entrypoints and regression tests.

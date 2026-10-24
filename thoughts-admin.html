@@ -14,7 +14,7 @@
     />
     <link rel="stylesheet" href="css/thoughts.css?v=20261011g" />
     <link rel="stylesheet" href="css/thoughts-character-groups.css?v=20261011g" />
-    <link rel="stylesheet" href="css/thoughts-admin.css?v=20261011g" />
+    <link rel="stylesheet" href="css/thoughts-admin.css?v=20261024updates1" />
     <link rel="stylesheet" href="css/thoughts-screenplay.css?v=20261011f" />
     <link rel="stylesheet" href="css/script-mode.css?v=20261019c" />
     <link rel="stylesheet" href="css/vendor/plotwell.css?v=0.2.0" />
@@ -268,6 +268,17 @@
                 <span>Published</span>
               </label>
               <span class="story-publish-status" id="storyPublishStatus" role="status">Draft — not visible in Reader until Published is checked and saved.</span>
+              <div class="story-announce-panel">
+                <label class="story-announce-opt"><input id="storyAnnounceInput" type="checkbox" /> Announce this update to readers</label>
+                <select id="storyAnnouncementType" aria-label="Announcement type">
+                  <option value="new">New chapter</option>
+                  <option value="revised">Revised chapter</option>
+                </select>
+                <input id="storyAnnouncementNote" type="text" maxlength="240" placeholder="Short update note (optional)" aria-label="Writer update note" />
+                <label class="story-announce-opt story-show-public"><input id="storyPublicFeedInput" type="checkbox" /> Show this announcement on public homepage</label>
+                <small>Announcements only appear on the public homepage when enabled. Draft content stays hidden.</small>
+                <small class="story-activity-history" id="storyActivityHistory"></small>
+              </div>
             </div>
           </div>
 
@@ -733,7 +744,7 @@
     <script src="js/story-import.js?v=20261019a" defer></script>
     <script src="js/story-import-admin.js?v=20261019a" defer></script>
     <script src="js/story-export.js?v=20261019a" defer></script>
-    <script src="js/thoughts-admin.js?v=20261019import1" defer></script>
+    <script src="js/thoughts-admin.js?v=20261024updates1" defer></script>
     <script src="js/thoughts-synopsis.js?v=20261012b" defer></script>
     <script src="js/editorial-admin.js?v=20261011f" defer></script>
     <script src="js/thoughts-editor-bridge.js?v=20261011f" defer></script>
