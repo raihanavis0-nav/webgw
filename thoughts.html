@@ -36,6 +36,7 @@
     <link rel="stylesheet" href="css/thoughts-screenplay.css?v=20261011f" />
     <link rel="stylesheet" href="css/script-mode.css?v=20261019a" />
     <link rel="stylesheet" href="css/story-export.css?v=20261019a" />
+    <link rel="stylesheet" href="css/reader-activity.css?v=20261024a" />
     <link rel="stylesheet" href="css/script-dialogue-spacing.css?v=20261019a" />
     <link rel="stylesheet" href="css/thoughts-discovery.css?v=20261011f" />
     <link rel="stylesheet" href="css/thoughts-mentions.css?v=20261011f" />
@@ -127,6 +128,13 @@
               <div class="archive-visual reader-library-hero" id="readerHeroMedia" hidden><img id="readerHeroImage" alt="Library banner" /></div>
             </header>
 
+            <section class="reader-whats-new" id="readerWhatsNew" aria-label="Recent writing updates" hidden>
+              <header class="reader-update-head">
+                <div><p>FROM THE WRITER</p><h2>What’s New</h2></div>
+                <label><input id="readerOnlyFollowing" type="checkbox" /> Following only</label>
+              </header>
+              <div class="reader-update-list" id="readerUpdateList"></div>
+            </section>
             <nav class="reader-breadcrumb" id="readerHierarchyNav" aria-label="Archive location" hidden></nav>
 
             <nav class="archive-section-nav" id="archiveSectionNav" aria-label="Archive sections">
@@ -193,6 +201,10 @@
             </div>
             <nav class="reader-breadcrumb reader-story-breadcrumb" id="readerStoryBreadcrumb" aria-label="Reading location" hidden></nav>
             <a class="back-link" id="readerStoryBack" href="read">← Back to chapters</a>
+            <div class="reader-story-community">
+              <button type="button" id="readerFollowSeries" hidden>Follow this series</button>
+              <span id="readerStoryNewBadge" hidden>NEW SINCE YOUR LAST VISIT</span>
+            </div>
             <div class="story-export-actions reader-export-actions" id="readerStoryExports" role="group" aria-label="Download story" hidden>
               <button type="button" id="readerExportPdf">↓ PDF</button>
               <button type="button" id="readerExportWord">↓ Word</button>
@@ -205,6 +217,7 @@
               <p class="story-path" id="storyPath"></p>
               <h1 id="storyTitle"></h1>
               <p class="story-date" id="storyDate"></p>
+              <p class="reader-writer-note" id="readerWriterNote" hidden></p>
               <p class="story-content-warning" id="storyContentWarning" hidden></p>
             </header>
 
@@ -258,7 +271,8 @@
     <script src="js/thoughts-timeline-core.js?v=20261011tl2" defer></script>
     <script src="js/thoughts-timeline-reader.js?v=20261011tl2" defer></script>
     <script src="js/story-export.js?v=20261019a" defer></script>
-    <script src="js/thoughts.js?v=20261019exports1" defer></script>
+    <script src="js/reader-activity.js?v=20261024a" defer></script>
+    <script src="js/thoughts.js?v=20261024activity1" defer></script>
     <script src="js/thoughts-synopsis.js?v=20261012b" defer></script>
     <script src="js/thoughts-appearance-reader.js?v=20261011w" defer></script>
     <script src="js/thoughts-ending-song.js?v=20261011f" defer></script>

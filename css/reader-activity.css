@@ -1,0 +1,26 @@
+/* Reader additions stay subordinate to the existing archive style. */
+.reader-whats-new[hidden],.reader-story-community [hidden],.reader-writer-note[hidden]{display:none!important;}
+.reader-whats-new{
+ margin:24px 0 32px;padding:25px 27px;border:1px solid rgba(126,126,126,.3);
+ border-radius:12px;background:rgba(126,126,126,.035);
+}
+.reader-update-head{display:flex;align-items:end;justify-content:space-between;flex-wrap:wrap;gap:15px;margin-bottom:19px;}
+.reader-update-head p{font:700 10px Inter,sans-serif;letter-spacing:.17em;opacity:.6;margin:0 0 6px;}
+.reader-update-head h2{font:500 clamp(24px,3vw,32px)/1.2 Newsreader,Georgia,serif;margin:0;}
+.reader-update-head label{display:flex;align-items:center;gap:8px;font:500 12px Inter,sans-serif;cursor:pointer;}
+.reader-update-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+.reader-update-item{
+ display:flex;flex-direction:column;gap:8px;min-width:0;padding:17px;
+ border:1px solid rgba(126,126,126,.25);border-radius:9px;text-decoration:none;color:inherit;
+}
+.reader-update-item:hover,.reader-update-item:focus-visible{border-color:currentColor;outline:0;}
+.reader-update-item strong{font:600 16px/1.3 Inter,sans-serif;overflow-wrap:anywhere;}
+.reader-update-item small{font:400 11px/1.35 Inter,sans-serif;opacity:.65;}
+.reader-update-item p{font:400 12px/1.5 Inter,sans-serif;margin:2px 0 0;opacity:.8;}
+.reader-update-kind{font:700 10px Inter,sans-serif;letter-spacing:.12em;opacity:.8;}
+.reader-update-new{font:700 9px Inter,sans-serif;letter-spacing:.1em;margin-left:8px;border:1px solid currentColor;border-radius:3px;padding:3px 5px;}
+.reader-story-community{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:18px 0;}
+.reader-story-community button{border:1px solid rgba(126,126,126,.45);border-radius:7px;color:inherit;background:transparent;padding:10px 15px;cursor:pointer;font:600 12px Inter,sans-serif;}
+.reader-story-community span{font:700 10px Inter,sans-serif;letter-spacing:.1em;opacity:.75;}
+.reader-writer-note{font:italic 14px/1.6 Georgia,serif;margin:13px 0 0;opacity:.7;}
+@media(max-width:850px){.reader-update-list{grid-template-columns:1fr;}.reader-whats-new{padding:18px;}}
