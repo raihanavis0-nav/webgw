@@ -35,6 +35,9 @@ jobs:
 
       - name: Test community book ratings
         run: node --test scripts/test-book-ratings.js
+      
+      - name: Test Writer/Reader activity and public-feed privacy
+        run: node --test scripts/test-story-activity.js scripts/test-writer-reader-activity.js
 
       - name: Test dedicated Script mode
         run: node --test scripts/test-script-mode.js

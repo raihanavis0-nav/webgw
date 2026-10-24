@@ -2172,6 +2172,7 @@
     $("storyAnnouncementNote").value = "";
     $("storyPublicFeedInput").checked = draft.publicFeedEnabled === true;
     updateStoryPublishStatus();
+    updateStoryActivityHistory(draft);
     $("storyTitleInput").value = draft.title || "";
     $("storyFormatInput").value = normalizeStoryFormat(draft.format);
     $("storyContentWarningInput").value = draft.contentWarning || "";
@@ -2206,6 +2207,17 @@
     window.setTimeout(function () {
       $("storyTitleInput").focus();
     }, 120);
+  }
+
+  function updateStoryActivityHistory(story) {
+    var host=$("storyActivityHistory");
+    if(!host)return;
+    var parts=[];
+    if(story.createdAt)parts.push("Created: "+new Date(story.createdAt).toLocaleString());
+    if(story.updatedAt)parts.push("Last saved: "+new Date(story.updatedAt).toLocaleString());
+    if(story.publishedAt)parts.push("First published: "+new Date(story.publishedAt).toLocaleString());
+    if(story.lastPublicUpdateAt)parts.push("Last announced: "+new Date(story.lastPublicUpdateAt).toLocaleString());
+    host.textContent=parts.join("  ·  ")||"Timestamps will appear after the next save.";
   }
 
   function updateStoryPublishStatus() {
@@ -2341,6 +2353,7 @@
         $("storyAnnounceInput").checked=false;
         $("storyAnnouncementNote").value="";
         $("storyPublicFeedInput").checked=state.storyDraft.publicFeedEnabled===true;
+        updateStoryActivityHistory(state.storyDraft);
         if (window.ArchiveAdminExperience) window.ArchiveAdminExperience.onSaved(draft.id);
         toast("Story saved.");
       })
